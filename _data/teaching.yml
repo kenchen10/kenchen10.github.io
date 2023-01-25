@@ -1,0 +1,22 @@
+- id: icg
+  image: icg.png
+  site: https://github.com/nyu-cs-cy-6533-fall-2021/base
+  title: "Course Assistant"
+  course: "CS-GY 6533 A: Interactive Computer Graphics"
+  year: Fall 2021
+  
+- id: cs184
+  image: cs184.png
+  site: https://cs184.eecs.berkeley.edu/sp21
+  title: "Undergraduate Student Instructor"
+  course: "CS 184: Computer Graphics & Imaging"
+  year: Spring 2021
+  urls:
+    - <a class="links" href="https://drive.google.com/drive/folders/1sjWmTR2wsuL361LpH6zM1STHCGFhDJtH?usp=sharing" target="_blank">Slides</a> 
+
+- id: cs194
+  image: cs194-26.png
+  site: https://inst.eecs.berkeley.edu/~cs194-26/fa20/
+  title: "Tutor"
+  course: "CS 194-26: Intro to Computer Vision and Computational Photography"
+  year: Fall 2020

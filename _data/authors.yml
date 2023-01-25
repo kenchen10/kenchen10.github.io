@@ -1,0 +1,37 @@
+kchen:
+  first_name: Kenneth
+  last_name: Chen
+  website: https://kenchen10.github.io
+  affiliation: NYU
+  is_me: true
+
+bduinkharjav:
+  first_name: Budmonde
+  last_name: Duinkharjav
+  website: https://budmonde.com
+  affiliation: NYU
+
+atyagi:
+  first_name: Abhishek
+  last_name: Tyagi
+  website: https://abhishek-t-naive.github.io/Blog/
+  affiliation: University of Rochester
+
+qsun:
+  first_name: Qi  
+  last_name: Sun
+  website: https://qisun.me
+  affiliation: NYU
+
+yzhu:
+  first_name: Yuhao
+  last_name: Zhu
+  website: http://www.yuhaozhu.com/
+  affiliation: University of Rochester
+
+jhe:
+  first_name: Jiayi
+  last_name: He
+  website: https://www.louisehe.com/
+  affiliation: University of Rochester
+

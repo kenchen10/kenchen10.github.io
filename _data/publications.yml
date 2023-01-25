@@ -1,0 +1,46 @@
+- id: vrenergy
+  title: "Color-Perception-Guided Display Power Reduction for Virtual Reality"
+  venue: SIGGRAPH Asia
+  venue_long: ACM Transactions on Graphics 41(6)
+  year: 2022
+  description: "Our color-perception-guided model preserves visual fidelity while saving up to 24% battery usage of VR displays. We achieve this by subtly shifting the pixel colors in the peripheral vision."
+  project_page: "projects/vrenergy/index.html"
+  github: NYU-ICL/vr-power-saver
+  arxiv: "2209.07610"
+  image: sigasia.mp4
+  bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(255,255,255,1)); z-index: -1;"
+  tag: "LightSkyBlue"
+  paper_image: vrenergy_paper.png
+  teaser_image: sigasia22_teaser.png
+  yt_emb: https://www.youtube.com/embed/bcbG_80TLa0
+  video: https://www.youtube.com/watch?v=bcbG_80TLa0
+  authors:
+    - bduinkharjav
+    - kchen
+    - atyagi
+    - jhe
+    - yzhu 
+    - qsun
+  equal: 
+    - bduinkharjav
+    - kchen
+  bibtex: "```@article{Duinkharjav:2022:VRPowerSaver,
+    title = {Color-Perception-Guided Display Power Reduction for Virtual Reality},
+    author = {Duinkharjav, Budmonde and Chen, Kenneth and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},
+    journal = {ACM Trans. Graph. (Proc. SIGGRAPH Asia)},
+    volume = {41},
+    number = {6},
+    pages = {144:1--144:16},
+    year = {2022}
+  }```"
+  abstract: "Battery life is an increasingly urgent challenge for today's untethered VR and AR devices.
+However, the power efficiency of head-mounted displays is naturally at odds with growing computational requirements driven by better resolution, refresh rate, and dynamic ranges, all of which reduce the sustained usage time of untethered AR/VR devices.
+For instance, Oculus Quest 2, under a fully-charged battery, can sustain only 2 to 3 hours of operation time.
+Prior display power reduction techniques mostly target smartphone displays.
+Directly applying smartphone display power reduction techniques, however, degrades the visual perception in AR/VR with noticeable artifacts.
+For instance, the ``power-saving mode'' on smartphones <em>uniformly</em> lowers the pixel luminance across the display and, as a result, presents an overall darkened visual perception to users if directly applied to VR content.
+<br><br>
+Our key insight is that VR display power reduction must be cognizant of the gaze-contingent nature of high field-of-view VR displays. To that end, we present a gaze-contingent system that, without degrading luminance, minimizes the display power consumption while presenting an indiscriminable visual perception.
+This is enabled by constructing 1) a gaze-contingent color discrimination model through psychophysical studies, and 2) a display power model (with respect to pixel color) through real-device measurements. Critically, due to the careful design decisions made in constructing the two models, our algorithm is cast as a constrained optimization problem with a <em>closed-form</em> solution, which can be implemented as a real-time, image-space shader.
+We evaluate our system using a series of psychophysical studies and large-scale analyses on natural images.
+Experiment results show that our system reduces the display power by as much as 24% (14% on average) with little to no perceptual fidelity degradation."
