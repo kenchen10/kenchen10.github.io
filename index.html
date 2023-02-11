@@ -168,14 +168,18 @@ layout: null
             </td>
           </tr>
         </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+        <table style="width:100%;border:0px;border-spacing:0px 10px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
 					<tr>
             <th style="width:37%"></th>
             <th style="width:63%"></th>
           </tr>
           {% for teaching in site.data.teaching %}
           <tr>
-            <td style="padding:20px;vertical-align:middle"><img style="width:100%;height:100%" src="images/{{ teaching.image }}"></td>
+            <td style="padding:20px;vertical-align:middle">
+              <div class="one">
+                <img src='images/{{ teaching.image }}' width="100%">
+              </div>
+            </td>
             <td valign="center">
               <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>
               <br>

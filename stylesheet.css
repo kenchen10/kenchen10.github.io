@@ -91,6 +91,8 @@ body {
   padding-bottom: 25px;
 }
 
+table{border-collapse:collapse;}
+
 body,
 td,
 th,

@@ -2,3 +2,66 @@
 layout: publication
 id: vrenergy
 ---
+
+<!-- <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3>
+            Method
+        </h3>
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </div>
+</div>
+
+<script>
+    window.onload = startup;
+    var mouseX = 0;
+    var mouseY = 0;
+    var imageObj = new Image();
+    imageObj.src = '../../images/dkl.png';
+
+    function startup() {
+        //`mousemove`, not `mouseover`
+        document.getElementById("canvas").onmousemove = mouseMove;
+        loop();
+    }
+
+    //use `requestAnimationFrame` for the game loop
+    //so you stay sync with the browsers rendering
+    //makes it a smoother animation
+    function loop() {
+        moveBall();
+        requestAnimationFrame(loop);
+    }
+
+    function mouseMove(evt) {
+        mouseX = evt.clientX;
+        mouseY = evt.clientY;
+    }
+
+    function rgb2dkl(p) {
+        var r = 0.14376143*p[0] + 0.16556473*p[1] + 0.00228754*p[2];
+        var g = -0.21244303*p[0] + -0.7142423*p[1] + -0.06559153*p[2];
+        var b = 0.2125915*p[0] + 0.71517139*p[1] + 0.07219711*p[2];
+        return [r,g,b];
+    }
+
+    function normalize(input) {
+        var w = [3.3058*input[0], 152.67*input[1], 1.0*input[2], .028571];
+        return w;
+    }
+
+    function moveBall() {
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var rect = canvas.getBoundingClientRect();
+        var p = ctx.getImageData(mouseX-rect.left, mouseY-rect.top, 1, 1).data; 
+        var dkl = rgb2dkl(p);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(imageObj, 0, 0, 400, 400);
+        ctx.beginPath();
+        ctx.arc(mouseX-rect.left, mouseY-rect.top, 40, 0, 2 * Math.PI);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+    }
+</script> -->
