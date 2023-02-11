@@ -1,9 +1,12 @@
 - id: nyu
   university: New York University
-  degree: Master of Science
+  degree: PhD
   major: Computer Science
   advisor: <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a> 
-  years: September 2021 - May 2023
+  years: September 2023 - Present
+  degree2: Master of Science
+  major2: Computer Science
+  years2: September 2021 - May 2023
   image: nyu.png
 - id: ucb
   university: University of California, Berkeley

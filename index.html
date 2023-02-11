@@ -69,10 +69,16 @@ layout: null
           <td style="padding:20px;vertical-align:middle">
             <papertitle>{{ education.university }}</papertitle>
             <br>
-            {{ education.degree }} in <em>{{ education.major }}</em>
+            <strong>{{ education.degree }}</strong> in <em>{{ education.major }}</em>
             <br>
             <em>{{ education.years }}</em>
             <br>
+            {% if education.advisor != null %}
+            <strong>{{ education.degree2 }}</strong> in <em>{{ education.major2 }}</em>
+            <br>
+            <em>{{ education.years2 }}</em>
+            <br>
+            {% endif %}
             {% if education.advisor != null %}
             Advisor: {{ education.advisor }}
             {% endif %}
