@@ -95,9 +95,7 @@ body {
   #banner-load {
     width: 100%;
   }
-  img {
-    width: 100%;
-  }
+
   thead th:not(:first-child) {
       display: none;
   }

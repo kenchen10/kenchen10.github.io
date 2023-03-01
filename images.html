@@ -1,0 +1,63 @@
+---
+layout: null
+---
+<!DOCTYPE HTML>
+<html lang="en"><head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MEFETL6NEW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-MEFETL6NEW');
+  </script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>{{ site.title }}</title>
+  
+  <meta name="author" content="{{ site.title }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+
+        <!-- 
+          
+          Images
+        
+        -->
+        <br>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+            <td>
+              <heading>Some Pics</heading>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <a style="padding:20px;" class="links" href="/">[Back Home]</a> 
+          {% for item in site.data.images %}
+          <img style="border-radius: 3px;padding:20px;width:100%;vertical-align:middle" src="images/{{item.url}}">
+          {% endfor %}
+
+          
+        </tbody></table>
+
+        
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>
