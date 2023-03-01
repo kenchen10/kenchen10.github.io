@@ -86,9 +86,15 @@ a.links:hover {
 }
 
 body {
-  background-color: #fffef9;
+  background-color: #f9f1f3;
   padding-top: 25px;
   padding-bottom: 25px;
+}
+
+@media only screen and (max-width: 768px) { 
+  #timeline { 
+    display: none; 
+  } 
 }
 
 table{border-collapse:collapse;}

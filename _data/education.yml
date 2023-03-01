@@ -3,14 +3,14 @@
   degree: PhD
   major: Computer Science
   advisor: <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a> 
-  years: September 2023 - Present
-  degree2: Master of Science
+  years: Fall 2023 - Present
+  degree2: MS
   major2: Computer Science
-  years2: September 2021 - May 2023
+  years2: Fall 2021 - Spring 2023
   image: nyu.png
 - id: ucb
   university: University of California, Berkeley
-  degree: Bachelor of Arts
+  degree: BA
   major: Computer Science
-  years: August 2017 - May 2021
+  years: Fall 2017 - Spring 2021
   image: ucb.png

@@ -11,8 +11,7 @@
   title: "Undergraduate Student Instructor"
   course: "CS 184: Computer Graphics & Imaging"
   year: Spring 2021
-  urls:
-    - <a class="links" href="https://drive.google.com/drive/folders/1sjWmTR2wsuL361LpH6zM1STHCGFhDJtH?usp=sharing" target="_blank">Slides</a> 
+  url: <a class="links" href="https://drive.google.com/drive/folders/1sjWmTR2wsuL361LpH6zM1STHCGFhDJtH?usp=sharing" target="_blank">Slides</a> 
 
 - id: cs194
   image: cs194-26.png

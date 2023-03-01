@@ -19,14 +19,22 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Kenny Chen
-image: portrait.jpg
+image: profile0.jpg
 email: kc4906@nyu.edu
 description:
-  Welcome! I am Kenny Chen, an incoming PhD student at NYU. 
-  I am advised by <a class="links" href="https://engineering.nyu.edu/faculty/qi-sun" target="_blank">Prof. Qi Sun</a> 
+  Welcome! I am an incoming Computer Science PhD student at New York University where I am currently 
+  advised by <a class="links" href="https://engineering.nyu.edu/faculty/qi-sun" target="_blank">Prof. Qi Sun</a> 
   in the <a class="links" href="https://www.immersivecomputinglab.org/" target="_blank">Immersive Computing Lab</a>. 
+  My current research interests revolve around computer graphics, VR/AR, human perception, displays, and machine learning.
+  I'm especially interested in applied vision science.
   <br><br>
-  My current research interests are broadly at the intersection of Computer Graphics, VR/AR, and Human Perception.
+  I graduated with a BA in Computer Science from UC Berkeley, where I pursued research in generative art under 
+  <a class="links" href="https://people.eecs.berkeley.edu/~sequin/" target="_blank">Prof. Carlo H. Séquin</a>. 
+  I was also a TA for <a class="links" href="https://cs184.eecs.berkeley.edu/sp21" target="_blank">Computer Graphics & Imaging</a>,
+  and VP of Tech at <a class="links" href="https://www.innovativedesign.club/" target="_blank">Innovative Design</a>.
+  <br><br>
+  Outside of work, I like taking <a class="links" href="https://www.instagram.com/10chenken/" target="_blank">photos</a>, swimming, 
+  and playing video games (mainly Valorant). I also like to <a class="links" href="https://www.instagram.com/kenchenpen/" target="_blank">draw</a> (poorly).
 
 research: Representative papers are <span class="highlight">highlighted</span>.
 baseurl: "" # the subpath of your site, e.g. /blog

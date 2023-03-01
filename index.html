@@ -8,7 +8,8 @@ layout: null
   
   <meta name="author" content="{{ site.title }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
@@ -23,37 +24,77 @@ layout: null
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr style="padding:0px">
             <td style="padding:2.5%;width:67%;vertical-align:middle">
-              <p style="text-align:center">
-                <name>{{ site.title }}</name>
+              <p>
+                <b><name>{{ site.title }}</name></b>
               </p>
               <p>{{ site.description }}</p>
-              <p style="text-align:center">
+              <p>
                 <a class="links" href="mailto:{{ site.email }}">Email</a> &nbsp/&nbsp
                 <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
-                <a class="links" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}">Google Scholar</a> &nbsp/&nbsp
-                <a class="links" href="https://twitter.com/{{ site.twitter_username }}">Twitter</a> &nbsp/&nbsp
-                <a class="links" href="https://github.com/{{ site.github_username }}/">Github</a>
+                <a class="links" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank">Google Scholar</a> &nbsp/&nbsp
+                <a class="links" href="https://twitter.com/{{ site.twitter_username }}" target="_blank">Twitter</a> &nbsp/&nbsp
+                <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a>
               </p>
             </td>
             <td style="padding:2.5%;width:33%;max-width:33%">
-              <img style="width:200px" alt="profile photo" src="images/{{ site.image }}">
+              <div id="banner-load"></div>
             </td>
           </tr>
         </tbody></table>
+        <!-- 
+          
+          Timeline
+        
+        -->
+        <div id="timeline">
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+              <tr>
+              <td>
+                <heading>Timeline</heading>
+              </td>
+            </tr>
+          </tbody></table>
+          <img style="width:100%;vertical-align:middle" src="images/timeline.svg">
+        </div>
 
+        <!-- 
+          
+          News
+        
+        -->
+        <br>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+            <td>
+              <heading>News</heading>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <ul>
+          {% for item in site.data.news limit:5 %}
+          <li>
+            <strong>{{ item.date }}</strong>: <em>{{ item.title }}</em>
+          </li>
+          {% endfor %}
+          <br>
+          <a class="links" href="news.html">[All News]</a> 
+          </ul>
+        </tbody></table>
       <!-- 
           
           Education
         
         -->
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+        <br>
+      <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
           <td>
             <heading>Education</heading>
           </td>
         </tr>
       </tbody></table>
-      <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+      <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       
         <tr>
           <th style="width:37%"></th>
@@ -94,7 +135,7 @@ layout: null
           RESEARCH
         
         -->
-        
+        <br>
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td>
@@ -105,7 +146,7 @@ layout: null
             </td>
           </tr>
         </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px 10px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
 				
           <tr>
             <th style="width:37%"></th>
@@ -115,7 +156,7 @@ layout: null
           <tr>
             <td style="padding:10px;vertical-align:middle">
               <div class="one">
-                <video  width=100% height=100% muted autoplay loop>
+                <video style="border-radius: 3px;" width=100% height=100% muted autoplay loop>
                   <source src="images/{{ publication.image }}" type="video/mp4">
                   Your browser does not support the video tag.
                 </video>
@@ -167,6 +208,7 @@ layout: null
           Teaching
         
         -->
+        <br>
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td>
@@ -174,47 +216,21 @@ layout: null
             </td>
           </tr>
         </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px 10px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
 					<tr>
             <th style="width:37%"></th>
             <th style="width:63%"></th>
           </tr>
+          <ul>
           {% for teaching in site.data.teaching %}
-          <tr>
-            <td style="padding:20px;vertical-align:middle">
-              <div class="one">
-                <img src='images/{{ teaching.image }}' width="100%">
-              </div>
-            </td>
-            <td valign="center">
-              <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>
-              <br>
-              <em>{{ teaching.title }}</em>
-              <br>
-              {{ teaching.year }}
-              <br>
-              {% for url in teaching.urls %}
-              {{ url }}
-              <br>
-              {% endfor %}
-            </td>
-          </tr>
+          <li>
+            <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, <em>{{ teaching.title }}</em>, {{ teaching.year }}, {% if teaching.url != null %}
+            {{ teaching.url }}
+            {% endif %}
+          </li>
           {% endfor %}
-          <!--
-					
+          </ul>
 
-          <tr>
-            <td align="center" style="padding:20px;width:25%;vertical-align:middle">
-							<heading>Basically <br> Blog Posts</heading>
-            </td>
-            <td width="75%" valign="middle">
-              <a href="https://arxiv.org/abs/2112.11687">Squareplus: A Softplus-Like Algebraic Rectifier</a>
-              <br>
-              <a href="https://arxiv.org/abs/2010.09714">A Convenient Generalization of Schlick's Bias and Gain Functions</a>
-              <br>
-              <a href="https://arxiv.org/abs/1704.07483">Continuously Differentiable Exponential Linear Units</a>
-            </td>
-          </tr> -->
         </tbody></table>
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
@@ -224,12 +240,22 @@ layout: null
               <p style="text-align:right;font-size:small;">
                 Template from <a href="https://jonbarron.info/">Jon Barron</a>.
               </p>
+              <div style="text-align:right;font-size:small;" id="timeline">
+                Timeline inspo: <a href="https://johannwentzel.ca/index.html">Johann Wentzel</a>.
+              </div>
             </td>
           </tr>
         </tbody></table>
       </td>
     </tr>
   </table>
+  <script>
+    //Add your images, we'll set the path in the next step
+        var images = ['profile0.jpg', 'profile1.JPG', 'profile2.JPG', 'profile3.JPG', 'profile4.JPG', 'profile5.jpg', 'profile6.jpg', 'profile7.jpg', 'profile8.jpg', 'profile9.jpg', 'profile10.jpg'];
+        
+    //Build the img, then do a bit of maths to randomize load and append to a div. Add a touch off css to fade them badboys in all sexy like.
+        $('<img style="width:250px;border-radius: 3px;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
+    </script>
 </body>
 
 </html>

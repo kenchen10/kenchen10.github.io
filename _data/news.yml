@@ -1,0 +1,27 @@
+- id: nyuphd
+  title: I got into NYU! I'll be starting my PhD in the Fall.
+  date: January 2023
+
+- id: sigasia22_talk
+  title: I traveled to Daegu for my first conference! We gave a talk about our work.
+  date: December 2023
+
+- id: sigasia22
+  title: Our <a class="links" href="https://arxiv.org/pdf/2209.07610.pdf" target="_blank">paper</a> was accepted to SIGGRAPH Asia 2022 as a journal paper!
+  date: August 2022
+
+- id: csm
+  title: I started a research internship at <a class="links" href="https://cesium.com" target="_blank">Cesium</a> in Philly w/ <a class="links" href="https://www.cis.upenn.edu/~badler/" target="_blank">Dr. Norm Badler</a>.
+  date: June 2022
+  
+- id: nv
+  title: I started my internship on the DRIVE Sim team at NVIDIA.
+  date: September 2021
+
+- id: nyustart
+  title: I started my Master's at NYU Tandon!
+  date: September 2021
+
+- id: grad
+  title: I graduated from UC Berkeley. Go Bears! &#128059;
+  date: May 2021
