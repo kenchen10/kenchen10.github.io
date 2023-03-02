@@ -41,6 +41,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://kenchen10.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 10kenchen
 github_username:  kenchen10
+google_analytics: G-MEFETL6NEW
 # cv: cv.pdf
 scholar: QbGH0_AAAAAJ
 
