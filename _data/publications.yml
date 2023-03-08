@@ -8,7 +8,7 @@
   github: NYU-ICL/vr-power-saver
   arxiv: "2209.07610"
   image: sigasia.mp4
-  bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(255,255,255,1)); z-index: -1;"
+  bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(249, 241, 243,1)); z-index: -1;"
   tag: "LightSkyBlue"
   paper_image: vrenergy_paper.png
   teaser_image: sigasia22_teaser.png

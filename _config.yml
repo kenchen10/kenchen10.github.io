@@ -36,7 +36,7 @@ description:
   Outside of work, I like taking <a class="links" href="images.html" target="_blank">photos</a>, swimming, 
   and playing video games (mainly Valorant). I also like to <a class="links" href="https://www.instagram.com/kenchenpen/" target="_blank">draw</a> (poorly).
 
-research: Representative papers are <span class="highlight">highlighted</span>.
+research: representative papers are <span class="highlight">highlighted</span>
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://kenchen10.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 10kenchen
