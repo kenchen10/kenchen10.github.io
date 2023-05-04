@@ -1,27 +1,35 @@
+# - id: meta
+#   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
+#   date: 2023-06
+
+- id: sig23
+  title: One <a class="links" href="projects/emg-energy/index.html" target="_blank">conference paper</a> and an E-Tech demo accepted to SIGGRAPH 2023!
+  date: 2023-05
+
 - id: nyuphd
   title: I got into NYU! I'll be starting my PhD in the Fall.
-  date: January 2023
+  date: 2023-01
 
 - id: sigasia22_talk
   title: I traveled to Daegu for my first conference! We gave a talk about our work.
-  date: December 2023
+  date: 2023-12
 
 - id: sigasia22
-  title: Our <a class="links" href="https://arxiv.org/pdf/2209.07610.pdf" target="_blank">paper</a> was accepted to SIGGRAPH Asia 2022 as a journal paper!
-  date: August 2022
+  title: Our <a class="links" href="https://arxiv.org/pdf/2209.07610.pdf" target="_blank">paper</a> was accepted to SIGGRAPH Asia 2022 journal track!
+  date: 2022-08
 
 - id: csm
   title: I started a research internship at <a class="links" href="https://cesium.com" target="_blank">Cesium</a> in Philly w/ <a class="links" href="https://www.cis.upenn.edu/~badler/" target="_blank">Dr. Norm Badler</a>.
-  date: June 2022
+  date: 2022-06
   
 - id: nv
   title: I started my internship on the DRIVE Sim team at NVIDIA.
-  date: September 2021
+  date: 2021-09
 
 - id: nyustart
   title: I started my Master's at NYU Tandon!
-  date: September 2021
+  date: 2021-09
 
 - id: grad
   title: I graduated from UC Berkeley. Go Bears! &#128059;
-  date: May 2021
+  date: 2021-05

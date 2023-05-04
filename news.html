@@ -18,33 +18,61 @@ layout: null
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
-	<link rel="icon" href="favicon.ico">
+	<link rel="icon" href="./favicon.ico">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/fontin');
+  </style>
 </head>
 
 <body>
   <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
     <tr style="padding:0px">
       <td style="padding:0px">
-
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <a href="images.html"><img style="border-radius: 3px;padding:0px 20px 5px 20px;width:100%;vertical-align:middle" src="images/banner.jpg"></a>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+            <th style="width:37%"></th>
+            <th style="width:63%"></th>
+          </tr>
+          <tr style="padding:0px">
+            <td style="padding:20px;vertical-align:middle">
+              <div id="banner-load"></div>
+            </td>
+            <td style="padding:20px;vertical-align:middle">
+              <p>
+                <b><name>{{ site.title }} &#128075;</name></b>
+              </p>
+              <p>{{ site.description }}</p>
+              <p>
+                <a class="links" href="mailto:{{ site.email }}"><button style="background-color: #9E9E9E;">Email</button></a> |
+                <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
+                <a class="links" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><button style="background-color: #EF9A9A;">Google Scholar</button></a> |
+                <a class="links" href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><button style="background-color: #64B5F6;">Twitter</button></a> |
+                <a class="links" href="./images/cv.pdf" target="_blank"><button style="background-color: #80CBC4;">CV</button></a>
+                <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
         <!-- 
           
           News
         
         -->
-        <br>
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td>
-              <heading>News Archive</heading>
+              <heading>News Archive</heading><a style="padding:20px;" class="links" href="/">[Back Home]</a> 
             </td>
           </tr>
         </tbody></table>
         <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <a style="padding:20px;" class="links" href="/">[Back Home]</a> 
           <ul>
           {% for item in site.data.news %}
           <li>
-            <strong>{{ item.date }}</strong>: <em>{{ item.title }}</em>
+            <strong>[{{ item.date }}]</strong>: {{ item.title }}
           </li>
           {% endfor %}
           
@@ -56,6 +84,13 @@ layout: null
       </td>
     </tr>
   </table>
+  <script>
+    //Add your images, we'll set the path in the next step
+        var images = ['profile1.JPG', 'profile3.JPG', 'profile5.jpg', 'profile7.jpg', 'profile13.JPG', 'profile14.jpg'];
+        
+    //Build the img, then do a bit of maths to randomize load and append to a div. Add a touch off css to fade them badboys in all sexy like.
+        $('<img style="width:100%;border-radius: 3px;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
+    </script>
 </body>
 
 </html>

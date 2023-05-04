@@ -18,7 +18,10 @@ layout: null
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
-	<link rel="icon" href="favicon.ico">
+	<link rel="icon" href="./favicon.ico">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/fontin');
+  </style>
 </head>
 
 <body>
@@ -39,15 +42,16 @@ layout: null
             </td>
             <td style="padding:20px;vertical-align:middle">
               <p>
-                <b><name>{{ site.title }}</name></b>
+                <b><name>{{ site.title }} &#128075;</name></b>
               </p>
               <p>{{ site.description }}</p>
               <p>
-                <a class="links" href="mailto:{{ site.email }}">Email</a> &nbsp/&nbsp
+                <a class="links" href="mailto:{{ site.email }}"><button style="background-color: #9E9E9E;">Email</button></a> |
                 <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
-                <a class="links" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank">Google Scholar</a> &nbsp/&nbsp
-                <a class="links" href="https://twitter.com/{{ site.twitter_username }}" target="_blank">Twitter</a> &nbsp/&nbsp
-                <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a>
+                <a class="links" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><button style="background-color: #EF9A9A;">Google Scholar</button></a> |
+                <a class="links" href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><button style="background-color: #64B5F6;">Twitter</button></a> |
+                <a class="links" href="./images/cv.pdf" target="_blank"><button style="background-color: #80CBC4;">CV</button></a>
+                <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
               </p>
             </td>
           </tr>
@@ -69,11 +73,12 @@ layout: null
           <ul>
           {% for item in site.data.news limit:5 %}
           <li>
-            <strong>{{ item.date }}</strong>: <em>{{ item.title }}</em>
+            <strong>[{{ item.date }}]</strong>: {{ item.title }}
           </li>
           {% endfor %}
-          <br>
-          <a class="links" href="news.html">[All News]</a> 
+          <li>
+            <a class="links" href="news.html">[All News]</a> 
+          </li>
           </ul>
         </tbody></table>
         <br>
@@ -93,55 +98,7 @@ layout: null
           <img style="width:100%;vertical-align:middle" src="images/timeline.svg">
         </div>
         <br>
-      <!-- 
-          
-          Education
-        
-        -->
-        <!-- <br>
-      <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-          <td>
-            <heading>Education</heading>
-          </td>
-        </tr>
-      </tbody></table>
-      <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-      
-        <tr>
-          <th style="width:37%"></th>
-          <th style="width:63%"></th>
-        </tr>
-        {% for education in site.data.education %}
-        <tr>
-          <td style="padding:20px;vertical-align:middle">
-            <div class="one">
-              <img src='images/{{ education.image }}' width="100%">
-            </div>
-          </td>
-          <td style="padding:20px;vertical-align:middle">
-            <papertitle>{{ education.university }}</papertitle>
-            <br>
-            <strong>{{ education.degree }}</strong> in <em>{{ education.major }}</em>
-            <br>
-            <em>{{ education.years }}</em>
-            <br>
-            {% if education.advisor != null %}
-            <strong>{{ education.degree2 }}</strong> in <em>{{ education.major2 }}</em>
-            <br>
-            <em>{{ education.years2 }}</em>
-            <br>
-            {% endif %}
-            {% if education.advisor != null %}
-            Advisor: {{ education.advisor }}
-            {% endif %}
-            <p></p>
-          </td>
-        </tr>		
-        {% endfor %}
-
-      </tbody></table> -->
-
+     
         <!-- 
           
           RESEARCH
@@ -151,7 +108,8 @@ layout: null
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td>
-              <heading>Research &#128104;&#127997;&#8205;&#128300; <p><small>({{ site.research }})</small></p></heading>
+              <heading>Research &#128104;&#127997;&#8205;&#128300;</heading>
+              <p><small>{{ site.research }}</small></p>
             </td>
           </tr>
         </tbody></table>
@@ -165,10 +123,15 @@ layout: null
           <tr style="background-image: {{ publication.bgcolor }};">
             <td style="padding:10px;vertical-align:middle">
               <div class="one">
+                {% if publication.teaser_vid != null %}
                 <video style="border-radius: 3px;" width=100% height=100% muted autoplay loop>
-                  <source src="images/{{ publication.image }}" type="video/mp4">
+                  <source src="images/{{ publication.teaser_vid }}" type="video/mp4">
                   Your browser does not support the video tag.
                 </video>
+                {% endif %}
+                {% if publication.image != null %}
+                  <img style="border-radius: 3px;" width=100% height=100% src="images/{{ publication.image }}">
+                {% endif %}
               </div>
             </td>
             <td style="padding:10px;vertical-align:middle">
@@ -177,33 +140,31 @@ layout: null
               {% for author_id in publication.authors %}
               {% assign author = site.data.authors[author_id] %}
               {% if author.is_me %}
-                <strong>{{ author.first_name }} {{author.middle_name}} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}</strong>
-                {% if forloop.last == false %},
-                {% endif %}
+                <u><strong>{{ author.first_name }} {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}</strong>{% if forloop.last == false %},{% endif %}
                 {% else %}
                 <a class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}</a>{% if forloop.last == false %},{% endif %}
               {% endif %} 
               {% endfor %}
               <br>
-              <pub><venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue> <em>{{ publication.venue_long }}</em></pub>
+              <pub><venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
               <br>
               <p>
                 {{ publication.description }}
               </p>
               {% if publication.project_page != null %}
-              <a class="links" href="{{ publication.project_page }}">[project page]</a>
+              <a class="links" href="{{ publication.project_page }}"><button style="background-color: #6D6E80;">project page</button></a>
               {% endif %}
               {% if publication.arxiv != null %}
-              <a class="links" href="https://arxiv.org/abs/{{ publication.arxiv }}">[arXiv]</a>
+              <a class="links" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><button style="background-color: #a8bfe8;">PDF</button></a>
+              {% endif %}
+              {% if publication.pdf != null %}
+              <a class="links" href="{{publication.pdf}}"><button style="background-color: #a8bfe8;">PDF</button></a>
               {% endif %}
               {% if publication.github != null %}
-              <a class="links" href="https://github.com/{{ publication.github }}">[github]</a>
+              <a class="links" href="https://github.com/{{ publication.github }}"><button style="background-color: #cba2a2;">code</button></a>
               {% endif %}
               {% if publication.video != null %}
-              <a class="links" href="{{ publication.video }}">[video]</a>
-              {% endif %}
-              {% if publication.arxiv != null %}
-              <a class="links" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf">[PDF]</a>
+              <a class="links" href="{{ publication.video }}"><button style="background-color: #ebd1aa;">video</button></a>
               {% endif %}
               <p></p>
             </td>
@@ -233,7 +194,7 @@ layout: null
           <ul>
           {% for teaching in site.data.teaching %}
           <li>
-            <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, <em>{{ teaching.title }}</em>, {{ teaching.year }}, {% if teaching.url != null %}
+            <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, <em>{{ teaching.title }}</em>, {{ teaching.year }}{% if teaching.url != null %},
             {{ teaching.url }}
             {% endif %}
           </li>
@@ -242,16 +203,41 @@ layout: null
 
         </tbody></table>
 
+        <!-- 
+          
+          Teaching
+        
+        -->
+        <!-- <br>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+            <td>
+              <heading>Misc &#127922;</heading>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+					<tr>
+            <th style="width:37%"></th>
+            <th style="width:63%"></th>
+          </tr>
+          <ul>
+          {% for misc in site.data.misc %}
+          <li>
+            <a class="links" href="{{ misc.site }}"><strong>{{ misc.title }}</strong></a>, {{ misc.description }}
+          </li>
+          {% endfor %}
+          </ul>
+
+        </tbody></table> -->
+
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td style="padding:20px">
               <br>
               <p style="text-align:right;font-size:small;">
-                Template from <a style="font-size:small;" href="https://jonbarron.info/">Jon Barron</a>.
+                Template from <a style="font-size:small;" href="https://jonbarron.info/">Jon Barron</a>, <a style="font-size:small;" href="https://johannwentzel.ca/index.html">Johann Wentzel</a>.
               </p>
-              <div style="text-align:right;font-size:small;" id="timeline">
-                Timeline inspo <a style="font-size:small;" href="https://johannwentzel.ca/index.html">Johann Wentzel</a>.
-              </div>
             </td>
           </tr>
         </tbody></table>
@@ -260,7 +246,7 @@ layout: null
   </table>
   <script>
     //Add your images, we'll set the path in the next step
-        var images = ['profile1.JPG', 'profile2.JPG', 'profile3.JPG', 'profile5.jpg', 'profile6.jpg', 'profile7.jpg', 'profile13.JPG', 'profile14.jpg'];
+        var images = ['profile1.JPG', 'profile3.JPG', 'profile5.jpg', 'profile7.jpg', 'profile13.JPG', 'profile14.jpg'];
         
     //Build the img, then do a bit of maths to randomize load and append to a div. Add a touch off css to fade them badboys in all sexy like.
         $('<img style="width:100%;border-radius: 3px;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');

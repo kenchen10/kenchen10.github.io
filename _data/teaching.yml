@@ -1,3 +1,9 @@
+- id: dv
+  site: 
+  title: "Course Assistant"
+  course: "CS-GY 6313: Data Visualization"
+  year: Spring 2023
+
 - id: icg
   image: icg.png
   site: https://github.com/nyu-cs-cy-6533-fall-2021/base
@@ -16,6 +22,6 @@
 - id: cs194
   image: cs194-26.png
   site: https://inst.eecs.berkeley.edu/~cs194-26/fa20/
-  title: "Tutor"
+  title: "Group Tutor & Reader"
   course: "CS 194-26: Intro to Computer Vision and Computational Photography"
   year: Fall 2020

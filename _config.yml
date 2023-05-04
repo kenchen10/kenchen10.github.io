@@ -23,10 +23,8 @@ image: profile0.jpg
 email: kc4906@nyu.edu
 description:
   Welcome! I am an incoming Computer Science PhD student at New York University where I am currently 
-  advised by <a class="links" href="https://engineering.nyu.edu/faculty/qi-sun" target="_blank">Prof. Qi Sun</a> 
+  advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a> 
   in the <a class="links" href="https://www.immersivecomputinglab.org/" target="_blank">Immersive Computing Lab</a>. 
-  My current research interests revolve around computer graphics, VR/AR, human perception, displays, and machine learning.
-  I'm especially interested in applied vision science.
   <br><br>
   I graduated with a BA in Computer Science from UC Berkeley, where I pursued research under 
   <a class="links" href="https://people.eecs.berkeley.edu/~sequin/" target="_blank">Prof. Carlo H. Séquin</a>. 
@@ -34,11 +32,11 @@ description:
   and VP of Tech at <a class="links" href="https://www.innovativedesign.club/" target="_blank">Innovative Design</a>.
   <br><br>
   Outside of work, I like taking <a class="links" href="images.html" target="_blank">photos</a>, swimming, 
-  and playing video games (mainly Valorant). I also like to <a class="links" href="https://www.instagram.com/kenchenpen/" target="_blank">draw</a> (poorly).
+  and playing video games (mainly Valorant). I also like to <a class="links" href="https://www.instagram.com/kenchenpen/" target="_blank">doodle</a>.
   <br><br>
   Feel free to reach out about research or anything else!
 
-research: representative papers are <span class="highlight">highlighted</span>
+research: My current research interests revolve around computer graphics, VR/AR, human perception, computational display, and machine learning. (Representative papers are <span class="highlight">highlighted</span>, <em>*equal contribution</em>)
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://kenchen10.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 10kenchen

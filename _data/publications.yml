@@ -1,3 +1,66 @@
+- id: emg-energy
+  title: "Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction"
+  venue: SIGGRAPH
+  venue_long: Conference Proceedings
+  year: 2023
+  description: "Leveraging EMG devices, we developed a model to predict the neck muscular workload associated with VR/AR experiences before their deployment and demonstrated its potential in reducing users' perceived neck discomfort."
+  project_page: "projects/emg-energy/index.html"
+  github: NYU-ICL/xr-ergonomics-neck-comfort
+  arxiv: 
+  pdf: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/xr-ergonomics-neck-comfort.pdf
+  teaser_vid: 
+  image: emg_neck.png
+  bgcolor: 
+  tag: "#FFCCBC"
+  paper_image: mcl-paper.png
+  teaser_image: teasersig23.png
+  yt_emb: https://www.youtube.com/embed/XO8VR1tJoaI
+  video: https://www.youtube.com/watch?v=XO8VR1tJoaI
+  authors:
+    - yzhang
+    - kchen
+    - qsun
+  bibtex: "@article{Zhang:2023:EMGMCL,
+    title = {Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction},
+    author = {Zhang, Yunxiang and Chen, Kenneth and Sun, Qi},
+    journal = {ACM Trans. Graph. (Proc. SIGGRAPH Asia)},
+    volume = {42},
+    number = {4},
+    pages = {144:1--144:16},
+    year = {2023}
+  }"
+  abstract: "Ergonomic-friendly usage is essential to mass and prolonged adoption of virtual/augmented reality (VR/AR) head-mounted displays (HMDs). Unlike conventional displays, VR/AR HMDs unlock users' wide-range, frequent, and natural head movements for viewing. Although neck comfort is inevitably compromised due to HMDs' hardware weight, we still have little quantitative knowledge of the resulting additional muscular workload.
+<br><br>
+Leveraging electromyography devices, we measure, model, and predict users' neck muscle contraction level while they rotate their heads to interact with surrounding objects in VR. Specifically, learning from the data obtained in our physiological pilot study, we establish a bio-physically inspired model for both stationary and dynamic head status. It 1) models quantified muscle contraction level given a complete head motion trajectory, and 2) predicts potential discomfort before a head movement occurs. We validate our model with a series of objective evaluation and user study. The results demonstrate its prediction accuracy for unseen movements, and capability in reducing muscular efforts and thus discomfort by altering the layout of virtual targets. We hope this research will motivate new ergonomic-centered designs and metrics for VR/AR and interactive computer graphics applications."
+
+- id: vr-energy-etech
+  title: "Imperceptible Color Modulation for Power Saving in VR/AR"
+  venue: SIGGRAPH
+  venue_long: Emerging Technologies
+  year: 2023
+  description: "A demonstration of the display setup and power-saving model from our SIGGRAPH Asia 2022 work!"
+  project_page:
+  github: 
+  arxiv: 
+  teaser_vid: sigasia.mp4
+  bgcolor: 
+  tag: "#FFCCBC"
+  paper_image: 
+  teaser_image: 
+  yt_emb: 
+  video: 
+  authors:
+    - kchen
+    - bduinkharjav
+    - nujjainkar
+    - eshahan
+    - atyagi
+    - jhe
+    - yzhu
+    - qsun
+  bibtex: "``` f```"
+  abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."
+
 - id: vrenergy
   title: "Color-Perception-Guided Display Power Reduction for Virtual Reality"
   venue: SIGGRAPH Asia
@@ -7,9 +70,9 @@
   project_page: "projects/vrenergy/index.html"
   github: NYU-ICL/vr-power-saver
   arxiv: "2209.07610"
-  image: sigasia.mp4
+  teaser_vid: colordisc.mp4
   bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(249, 241, 243,1)); z-index: -1;"
-  tag: "LightSkyBlue"
+  tag: "#BBDEFB"
   paper_image: vrenergy_paper.png
   teaser_image: sigasia22_teaser.png
   yt_emb: https://www.youtube.com/embed/bcbG_80TLa0
@@ -24,7 +87,7 @@
   equal: 
     - bduinkharjav
     - kchen
-  bibtex: "```@article{Duinkharjav:2022:VRPowerSaver,
+  bibtex: "@article{Duinkharjav:2022:VRPowerSaver,
     title = {Color-Perception-Guided Display Power Reduction for Virtual Reality},
     author = {Duinkharjav, Budmonde and Chen, Kenneth and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},
     journal = {ACM Trans. Graph. (Proc. SIGGRAPH Asia)},
@@ -32,7 +95,7 @@
     number = {6},
     pages = {144:1--144:16},
     year = {2022}
-  }```"
+  }"
   abstract: "Battery life is an increasingly urgent challenge for today's untethered VR and AR devices.
 However, the power efficiency of head-mounted displays is naturally at odds with growing computational requirements driven by better resolution, refresh rate, and dynamic ranges, all of which reduce the sustained usage time of untethered AR/VR devices.
 For instance, Oculus Quest 2, under a fully-charged battery, can sustain only 2 to 3 hours of operation time.

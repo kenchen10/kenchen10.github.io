@@ -1,0 +1,9 @@
+- id: jbh
+  link: https://github.com/jbhuang0604/awesome-tips
+  title: "Jia-Bin Huang's curated list of tips on various topics"
+- id: ss
+  link: https://www.silviasellan.com/siggraph_submission_resources.html
+  title: "Silvia Sellán's resources for Blender renderings"
+- id: systems
+  link: http://graphics.stanford.edu/~kayvonf/notes/systemspaper/
+  title: "What Makes a (Graphics) Systems Paper Beautiful"

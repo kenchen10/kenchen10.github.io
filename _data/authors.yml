@@ -5,6 +5,24 @@ kchen:
   affiliation: NYU
   is_me: true
 
+yzhang:
+  first_name: Yunxiang
+  last_name: Zhang
+  website: https://yunxiangzhang.github.io/
+  affiliation: NYU
+
+eshahan:
+  first_name: Ethan
+  last_name: Shahan
+  website: https://www.linkedin.com/in/ethan-shahan-4517b3211
+  affiliation: University of Rochester
+
+nujjainkar:
+  first_name: Nisarg
+  last_name: Ujjainkar
+  website: https://www.linkedin.com/in/nisarg-ujjainkar-ab8a84148/?originalSubdomain=in
+  affiliation: University of Rochester
+
 bduinkharjav:
   first_name: Budmonde
   last_name: Duinkharjav
