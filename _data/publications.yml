@@ -39,13 +39,14 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   venue_long: Emerging Technologies
   year: 2023
   description: "A demonstration of the display setup and power-saving model from our SIGGRAPH Asia 2022 work!"
-  project_page:
+  project_page: "projects/vr-energy-etech/index.html"
   github: 
   arxiv: 
+  pdf: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
   teaser_vid: sigasia.mp4
   bgcolor: 
   tag: "#FFCCBC"
-  paper_image: 
+  paper_image: vr-energy-etech.png
   teaser_image: 
   yt_emb: 
   video: 
@@ -58,7 +59,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
     - jhe
     - yzhu
     - qsun
-  bibtex: "``` f```"
+  bibtex: 
   abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."
 
 - id: vrenergy

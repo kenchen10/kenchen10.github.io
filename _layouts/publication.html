@@ -104,7 +104,9 @@
                 <h3>
                     Abstract
                 </h3>
+                {% if publication.teaser_image != null %}
                 <image src="../../images/{{ publication.teaser_image }}" class="img-responsive" alt="overview"><br>
+                {% endif %}
                 <p class="text-justify">
                     {{ publication.abstract }}
                 </p>
@@ -129,6 +131,7 @@
         </div>
         {% endif %}
 
+        {% if publication.bibtex != null %}
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
@@ -141,7 +144,7 @@
                   
             </div>
         </div>
-
+        {% endif %}
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <p style="text-align:right;font-size:small;">
