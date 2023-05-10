@@ -3,7 +3,7 @@
   venue: SIGGRAPH
   venue_long: Conference Proceedings
   year: 2023
-  description: "Leveraging EMG devices, we developed a model to predict the neck muscular workload associated with VR/AR experiences before their deployment and demonstrated its potential in reducing users' perceived neck discomfort."
+  description: "Leveraging EMG devices, we developed a model to predict the neck muscular workload associated with VR/AR experiences before deployment and demonstrated its potential in reducing neck discomfort."
   project_page: "projects/emg-energy/index.html"
   github: NYU-ICL/xr-ergonomics-neck-comfort
   arxiv: 
