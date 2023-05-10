@@ -43,7 +43,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   github: 
   arxiv: 
   pdf: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
-  teaser_vid: sigasia.mp4
+  image: demonstration.png
   bgcolor: 
   tag: "#FFCCBC"
   paper_image: vr-energy-etech.png
@@ -71,7 +71,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   project_page: "projects/vrenergy/index.html"
   github: NYU-ICL/vr-power-saver
   arxiv: "2209.07610"
-  teaser_vid: colordisc.mp4
+  teaser_vid: sigasia.mp4
   bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(249, 241, 243,1)); z-index: -1;"
   tag: "#BBDEFB"
   paper_image: vrenergy_paper.png
