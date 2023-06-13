@@ -74,6 +74,12 @@ heading {
   font-weight: 700
 }
 
+heading2 {
+  font-family: 'Fontin';
+  font-size: 16px;
+  font-weight: 700
+}
+
 papertitle {
   font-family: 'Fontin';
   font-size: 15px;
@@ -172,3 +178,15 @@ pre {
 #small-caps {
   font-variant-caps: small-caps;
 }  
+
+.news {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.tdnews {
+  border: none;
+  border-style: none none none none;
+  padding: 0px 10px 0px 10px;
+}
+

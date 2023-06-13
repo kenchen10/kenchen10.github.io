@@ -62,6 +62,7 @@ layout: null
           News
         
         -->
+        <div id="timeline">
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td>
@@ -69,19 +70,32 @@ layout: null
             </td>
           </tr>
         </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <ul>
+        <table style="padding-right: 100px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           {% for item in site.data.news limit:5 %}
-          <li>
-            <strong>[{{ item.date }}]</strong>: {{ item.title }}
-          </li>
+          <tr>
+            <td class="tdnews">
+              {{ item.title }}
+            </td>
+            <td class="tdnews">
+              <venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.fill }};margin-left: 0;">{{ item.month }}</venue>
+            </td>
+            <td class="tdnews">
+              <venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.tag }};margin-left: 0;">{{ item.year }}</venue>
+            </td>
+          </tr>
           {% endfor %}
-          <li>
-            <a class="links" href="news.html">[All News]</a> 
-          </li>
-          </ul>
+          <tr>
+            <td class="tdnews">
+              <a class="links" href="news.html">[All]</a> 
+            </td>
+            <td class="tdnews">
+            </td>
+            <td class="tdnews">
+            </td>
+          </tr>
         </tbody></table>
         <br>
+      </div>
          <!-- 
           
           Timeline
@@ -120,6 +134,7 @@ layout: null
             <th style="width:63%"></th>
           </tr>
           {% for publication in site.data.publications %}
+
           <tr style="background-image: {{ publication.bgcolor }};">
             <td style="padding:10px;vertical-align:middle">
               <div class="one">

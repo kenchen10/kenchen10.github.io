@@ -2,34 +2,68 @@
 #   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
 #   date: 2023-06
 
+- id: meta
+  title: I started an internship at Meta in the Applied Perception Science team.
+  date: 2023-06
+  year: 2023
+  month: "06"
+  tag: "#CFD8DC"
+  fill: "#BBDEFB"
+
 - id: sig23
   title: One <a class="links" href="projects/emg-energy/index.html" target="_blank">conference paper</a> and an <a class="links" href="projects/vr-energy-etech/index.html" target="_blank">E-Tech demo</a> accepted to SIGGRAPH 2023!
   date: 2023-05
+  month: "05"
+  fill: "#FFE0B2"
+
+- id: nyumsgrad
+  title: I finished my masters at NYU.
+  date: 2023-05
+  month: "05"
+  fill: "#B2DFDB"
 
 - id: nyuphd
   title: I got into NYU! I'll be starting my PhD in the Fall.
   date: 2023-01
+  month: "01"
+  fill: "#B2DFDB"
 
 - id: sigasia22_talk
   title: I traveled to Daegu for my first conference! We gave a talk about our work.
-  date: 2023-12
+  date: 2022-12
+  year: 2022
+  tag: "#CFD8DC"
+  month: 12
+  fill: "#FFCCBC"
 
 - id: sigasia22
   title: Our <a class="links" href="https://arxiv.org/pdf/2209.07610.pdf" target="_blank">paper</a> was accepted to SIGGRAPH Asia 2022 journal track!
   date: 2022-08
+  month: "08"
+  fill: "#FFE0B2"
 
 - id: csm
   title: I started a research internship at <a class="links" href="https://cesium.com" target="_blank">Cesium</a> in Philly w/ <a class="links" href="https://www.cis.upenn.edu/~badler/" target="_blank">Dr. Norm Badler</a>.
   date: 2022-06
+  month: "06"
+  fill: "#BBDEFB"
   
 - id: nv
   title: I started my internship on the DRIVE Sim team at NVIDIA.
   date: 2021-09
+  tag: "#CFD8DC"
+  year: 2021
+  month: "09"
+  fill: "#BBDEFB"
 
 - id: nyustart
   title: I started my Master's at NYU Tandon!
   date: 2021-09
+  month: "09"
+  fill: "#B2DFDB"
 
 - id: grad
   title: I graduated from UC Berkeley. Go Bears! &#128059;
   date: 2021-05
+  month: "05"
+  fill: "#B2DFDB"

@@ -31,31 +31,7 @@ layout: null
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <a href="images.html"><img style="border-radius: 3px;padding:0px 20px 5px 20px;width:100%;vertical-align:middle" src="images/banner.jpg"></a>
         </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-            <th style="width:37%"></th>
-            <th style="width:63%"></th>
-          </tr>
-          <tr style="padding:0px">
-            <td style="padding:20px;vertical-align:middle">
-              <div id="banner-load"></div>
-            </td>
-            <td style="padding:20px;vertical-align:middle">
-              <p>
-                <b><name>{{ site.title }} &#128075;</name></b>
-              </p>
-              <p>{{ site.description }}</p>
-              <p>
-                <a class="links" href="mailto:{{ site.email }}"><button style="background-color: #9E9E9E;">Email</button></a> |
-                <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
-                <a class="links" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><button style="background-color: #EF9A9A;">Google Scholar</button></a> |
-                <a class="links" href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><button style="background-color: #64B5F6;">Twitter</button></a> |
-                <a class="links" href="./images/cv.pdf" target="_blank"><button style="background-color: #80CBC4;">CV</button></a>
-                <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
-              </p>
-            </td>
-          </tr>
-        </tbody></table>
+       <br>
         <!-- 
           
           News
@@ -69,16 +45,23 @@ layout: null
           </tr>
         </tbody></table>
         <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <ul>
           {% for item in site.data.news %}
-          <li>
-            <strong>[{{ item.date }}]</strong>: {{ item.title }}
-          </li>
+          <tr>
+            <td class="tdnews">
+              {{ item.title }}
+            </td>
+            <td class="tdnews">
+              <venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.fill }};margin-left: 0;">{{ item.month }}</venue>
+            </td>
+            <td class="tdnews">
+              <venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.tag }};margin-left: 0;">{{ item.year }}</venue>
+            </td>
+          </tr>
           {% endfor %}
           
-          </ul>
-          
         </tbody></table>
+
+        
 
         
       </td>
