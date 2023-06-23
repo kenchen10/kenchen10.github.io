@@ -3,6 +3,7 @@
   venue: SIGGRAPH
   venue_long: Conference Proceedings
   year: 2023
+  year2: 2023
   description: "Leveraging EMG devices, we developed a model to predict the neck muscular workload associated with VR/AR experiences before deployment and demonstrated its potential in reducing neck discomfort."
   project_page: "projects/emg-energy/index.html"
   github: NYU-ICL/xr-ergonomics-neck-comfort
@@ -61,19 +62,26 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
     - qsun
   bibtex: 
   abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."
+  hide: True
 
 - id: vrenergy
   title: "Color-Perception-Guided Display Power Reduction for Virtual Reality"
+  venue2: SIGGRAPH
+  venue_long2: Emerging Technologies
+  year2: 2023
   venue: SIGGRAPH Asia
   venue_long: ACM Transactions on Graphics 41(6)
   year: 2022
   description: "Our color-perception-guided model preserves visual fidelity while saving up to 24% battery usage of VR displays. We achieve this by subtly shifting the pixel colors in the peripheral vision."
   project_page: "projects/vrenergy/index.html"
+  project_page2: "projects/vr-energy-etech/index.html"
+  project_page2_name: E-Tech
   github: NYU-ICL/vr-power-saver
   arxiv: "2209.07610"
   teaser_vid: sigasia.mp4
   bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(249, 241, 243,1)); z-index: -1;"
   tag: "#BBDEFB"
+  tag2: "#FFCCBC"
   paper_image: vrenergy_paper.png
   teaser_image: sigasia22_teaser.png
   yt_emb: https://www.youtube.com/embed/bcbG_80TLa0

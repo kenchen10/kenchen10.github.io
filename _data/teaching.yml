@@ -3,6 +3,7 @@
   title: "Course Assistant"
   course: "CS-GY 6313: Data Visualization"
   year: Spring 2023
+  institution: NYU
 
 - id: icg
   image: icg.png
@@ -10,6 +11,7 @@
   title: "Course Assistant"
   course: "CS-GY 6533 A: Interactive Computer Graphics"
   year: Fall 2021
+  institution: NYU
   
 - id: cs184
   image: cs184.png
@@ -18,6 +20,7 @@
   course: "CS 184: Computer Graphics & Imaging"
   year: Spring 2021
   url: <a class="links" href="https://drive.google.com/drive/folders/1sjWmTR2wsuL361LpH6zM1STHCGFhDJtH?usp=sharing" target="_blank">Slides</a> 
+  institution: UC Berkeley
 
 - id: cs194
   image: cs194-26.png
@@ -25,3 +28,4 @@
   title: "Group Tutor & Reader"
   course: "CS 194-26: Intro to Computer Vision and Computational Photography"
   year: Fall 2020
+  institution: UC Berkeley
