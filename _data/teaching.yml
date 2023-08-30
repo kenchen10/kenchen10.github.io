@@ -4,6 +4,7 @@
   course: "CS-GY 6313: Data Visualization"
   year: Spring 2023
   institution: NYU
+  # instructor: Qi Sun
 
 - id: icg
   image: icg.png
@@ -12,6 +13,7 @@
   course: "CS-GY 6533 A: Interactive Computer Graphics"
   year: Fall 2021
   institution: NYU
+  # instructor: Claudio Silva
   
 - id: cs184
   image: cs184.png
@@ -19,8 +21,10 @@
   title: "Undergraduate Student Instructor"
   course: "CS 184: Computer Graphics & Imaging"
   year: Spring 2021
-  url: <a class="links" href="https://drive.google.com/drive/folders/1sjWmTR2wsuL361LpH6zM1STHCGFhDJtH?usp=sharing" target="_blank">Slides</a> 
+  url: https://drive.google.com/drive/folders/1sjWmTR2wsuL361LpH6zM1STHCGFhDJtH?usp=sharing
+  urltitle: slides
   institution: UC Berkeley
+  # instructor: Ren Ng & Angjoo Kanazawa
 
 - id: cs194
   image: cs194-26.png
@@ -29,3 +33,4 @@
   course: "CS 194-26: Intro to Computer Vision and Computational Photography"
   year: Fall 2020
   institution: UC Berkeley
+  # instructor: Alexei Efros

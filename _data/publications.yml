@@ -1,14 +1,58 @@
+- id: asplos24
+  title: "Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality"
+  venue: ASPLOS
+  venue_long: 
+  year: 2024
+  showyear: 2024
+  description: "A DRAM traffic compression scheme using peripheral color modulation."
+  project_page: "projects/asplos24/index.html"
+  github: 
+  arxiv: 
+  papersite: 
+  teaser_vid: 
+  image: asplos24.png
+  bgcolor: 
+  tag: "#E1BEE7"
+  teaser_image: asplos24teaser.png
+  yt_emb: 
+  video: 
+  authors:
+    - nujjainkar
+    - eshahan
+    - kchen
+    - bduinkharjav
+    - qsun
+    - yzhu
+  affiliations:
+    nujjainkar:
+      affiliation: University of Rochester
+    eshahan:
+      affiliation: University of Rochester
+    kchen:
+      affiliation: New York University
+    bduinkharjav:
+      affiliation: New York University
+    qsun:
+      affiliation: New York University
+    yzhu:
+      affiliation: University of Rochester
+  affiliation_images:
+    - uofr.png
+    - nyulogo.png
+  bibtex: ""
+  abstract: "Virtual Reality (VR) has the potential of becoming the next ubiquitous computing platform. Continued progress in the burgeoning field of VR depends critically on an efficient computing substrate. In particular, DRAM access energy is known to contribute to a significant portion of system energy. Today’s framebuffer compression system alleviates the DRAM traffic by using a numerically lossless compression algorithm. We observe that being numerically lossless is unnecessary to preserve perceptual quality for users. This paper proposes a perceptually lossless, but numerically lossy, system to compress DRAM traffics. Our idea builds on top of long-established psychophysical studies that humans cannot discriminate colors that are close to each other. The discrimination ability becomes even weaker (i.e., more colors are perceptually undistinguishable) in our peripheral vision. Leveraging the color discrimination (in)ability, we propose an algorithm that adjusts pixel colors to minimize the bit encoding cost without introducing visible artifacts. The algorithm is coupled with lightweight architectural support that, in real-time, reduces the DRAM traffic by 66.9% and outperforms existing framebuffer compression mechanisms by up to 20.4%. Psychophysical studies on human participants show that our system introduce little to no perceptual fidelity degradation."
+
 - id: emg-energy
   title: "Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction"
   venue: SIGGRAPH
   venue_long: Conference Proceedings
   year: 2023
-  year2: 2023
-  description: "Leveraging EMG devices, we developed a model to predict the neck muscular workload associated with VR/AR experiences before deployment and demonstrated its potential in reducing neck discomfort."
+  showyear: 2023
+  description: "A model to predict neck muscle workload when using VR/AR HMDs."
   project_page: "projects/emg-energy/index.html"
   github: NYU-ICL/xr-ergonomics-neck-comfort
   arxiv: 
-  pdf: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/xr-ergonomics-neck-comfort.pdf
+  papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/xr-ergonomics-neck-comfort.pdf
   teaser_vid: 
   image: emg_neck.png
   bgcolor: 
@@ -21,6 +65,15 @@
     - yzhang
     - kchen
     - qsun
+  affiliations:
+    yzhang:
+      affiliation: New York University
+    kchen:
+      affiliation: New York University
+    qsun:
+      affiliation: New York University
+  affiliation_images:
+    - nyulogo.png
   bibtex: "@article{Zhang:2023:EMGMCL,
     title = {Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction},
     author = {Zhang, Yunxiang and Chen, Kenneth and Sun, Qi},
@@ -34,54 +87,30 @@
 <br><br>
 Leveraging electromyography devices, we measure, model, and predict users' neck muscle contraction level while they rotate their heads to interact with surrounding objects in VR. Specifically, learning from the data obtained in our physiological pilot study, we establish a bio-physically inspired model for both stationary and dynamic head status. It 1) models quantified muscle contraction level given a complete head motion trajectory, and 2) predicts potential discomfort before a head movement occurs. We validate our model with a series of objective evaluation and user study. The results demonstrate its prediction accuracy for unseen movements, and capability in reducing muscular efforts and thus discomfort by altering the layout of virtual targets. We hope this research will motivate new ergonomic-centered designs and metrics for VR/AR and interactive computer graphics applications."
 
-- id: vr-energy-etech
-  title: "Imperceptible Color Modulation for Power Saving in VR/AR"
-  venue: SIGGRAPH
-  venue_long: Emerging Technologies
-  year: 2023
-  description: "A demonstration of the display setup and power-saving model from our SIGGRAPH Asia 2022 work!"
-  project_page: "projects/vr-energy-etech/index.html"
-  github: 
-  arxiv: 
-  pdf: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
-  image: demonstration.png
-  bgcolor: 
-  tag: "#FFCCBC"
-  paper_image: vr-energy-etech.png
-  teaser_image: 
-  yt_emb: 
-  video: 
-  authors:
-    - kchen
-    - bduinkharjav
-    - nujjainkar
-    - eshahan
-    - atyagi
-    - jhe
-    - yzhu
-    - qsun
-  bibtex: 
-  abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."
-  hide: True
-
 - id: vrenergy
   title: "Color-Perception-Guided Display Power Reduction for Virtual Reality"
-  venue2: SIGGRAPH
-  venue_long2: Emerging Technologies
-  year2: 2023
+  # venue2: SIGGRAPH
+  # venue_long2: Emerging Technologies
+  # year2: 2023
+  affiliation_images:
+    - nyulogo.png
+    - uofr.png
   venue: SIGGRAPH Asia
   venue_long: ACM Transactions on Graphics 41(6)
+  showyear: 2022
   year: 2022
-  description: "Our color-perception-guided model preserves visual fidelity while saving up to 24% battery usage of VR displays. We achieve this by subtly shifting the pixel colors in the peripheral vision."
+  description: "A eccentricity- and color-dependent model for optimizing power consumption in OLED VR display by subtly modulating peripheral pixel color."
   project_page: "projects/vrenergy/index.html"
-  project_page2: "projects/vr-energy-etech/index.html"
-  project_page2_name: E-Tech
+  # project_page2: "projects/vr-energy-etech/index.html"
+  # project_page2_name: E-Tech
   github: NYU-ICL/vr-power-saver
-  arxiv: "2209.07610"
-  teaser_vid: sigasia.mp4
+  papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2022/09/vr_energy.pdf
+  # arxiv: "2209.07610"
+  # teaser_vid: sigasia.mp4
+  image: sigasia22.png
   bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(249, 241, 243,1)); z-index: -1;"
   tag: "#BBDEFB"
-  tag2: "#FFCCBC"
+  # tag2: "#FFCCBC"
   paper_image: vrenergy_paper.png
   teaser_image: sigasia22_teaser.png
   yt_emb: https://www.youtube.com/embed/bcbG_80TLa0
@@ -96,6 +125,19 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   equal: 
     - bduinkharjav
     - kchen
+  affiliations:
+    bduinkharjav:
+      affiliation: New York University
+    kchen:
+      affiliation: New York University
+    atyagi:
+      affiliation: University of Rochester
+    jhe:
+      affiliation: University of Rochester
+    yzhu:
+      affiliation: University of Rochester
+    qsun:
+      affiliation: New York University
   bibtex: "@article{Duinkharjav:2022:VRPowerSaver,
     title = {Color-Perception-Guided Display Power Reduction for Virtual Reality},
     author = {Duinkharjav, Budmonde and Chen, Kenneth and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},

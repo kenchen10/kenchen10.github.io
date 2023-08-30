@@ -2,14 +2,14 @@ kchen:
   first_name: Kenneth
   last_name: Chen
   website: https://kenchen10.github.io
-  affiliation: NYU
+  affiliation: New York University
   is_me: true
 
 yzhang:
   first_name: Yunxiang
   last_name: Zhang
   website: https://yunxiangzhang.github.io/
-  affiliation: NYU
+  affiliation: New York University
 
 eshahan:
   first_name: Ethan
@@ -27,7 +27,7 @@ bduinkharjav:
   first_name: Budmonde
   last_name: Duinkharjav
   website: https://budmonde.com
-  affiliation: NYU
+  affiliation: New York University
 
 atyagi:
   first_name: Abhishek
@@ -39,7 +39,7 @@ qsun:
   first_name: Qi  
   last_name: Sun
   website: https://qisun.me
-  affiliation: NYU
+  affiliation: New York University
 
 yzhu:
   first_name: Yuhao
@@ -53,3 +53,8 @@ jhe:
   website: https://www.louisehe.com/
   affiliation: University of Rochester
 
+nbadler:
+  first_name: Norman I.
+  last_name: Badler
+  website: https://www.cis.upenn.edu/~badler/
+  affiliation: Cesium

@@ -28,6 +28,10 @@ layout: null
   <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
     <tr style="padding:0px">
       <td style="padding:0px">
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <a href="images.html"><img style="border-radius: 3px;padding:0px 20px 5px 20px;width:100%;vertical-align:middle" src="images/banner.jpg"></a>
+        </tbody></table>
         
         <!-- 
           
@@ -38,16 +42,18 @@ layout: null
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td>
-              <heading>Some Pics</heading>
+              <heading>Some Pics &#128247;</heading> 
             </td>
           </tr>
         </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <a style="padding:20px;" class="links" href="/">[Back Home]</a> <a style="padding:20px;" class="links" href="https://instagram.com/10chenken">[Insta]</a> 
+        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>  
+          <ul>
           {% for item in site.data.images %}
-          <img style="border-radius: 3px;padding:20px;width:100%;vertical-align:middle" src="images/{{item.url}}">
+            <li>
+              <a class="links" href="photos/{{item.id}}/index.html"><strong>{{ item.title }}</strong></a>{% if item.location != null %}, {{item.location}}{% endif %}{% if item.date != null %}<div style="float: right; margin-right: 10px;">{{item.date}}</div>{% endif %}
+            </li>
           {% endfor %}
-
+          </ul>
           
         </tbody></table>
 

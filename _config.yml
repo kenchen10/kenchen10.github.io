@@ -22,7 +22,7 @@ title: Kenny Chen
 image: profile0.jpg
 email: kc4906@nyu.edu
 description:
-  Welcome! I am an incoming Computer Science PhD student at New York University where I am currently 
+  Welcome! I am a Research Scientist Intern at Meta and an incoming first year Computer Science PhD student at New York University where I am currently 
   advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a> 
   in the <a class="links" href="https://www.immersivecomputinglab.org/" target="_blank">Immersive Computing Lab</a>. 
   <br><br>
@@ -31,12 +31,12 @@ description:
   I was also a TA for <a class="links" href="https://cs184.eecs.berkeley.edu/sp21" target="_blank">Computer Graphics & Imaging</a>,
   and VP of Tech at <a class="links" href="https://www.innovativedesign.club/" target="_blank">Innovative Design</a>.
   <br><br>
-  Outside of work, I like taking <a class="links" href="images.html" target="_blank">photos</a>, swimming, 
-  and playing video games (mainly Valorant). I also like to <a class="links" href="https://www.instagram.com/kenchenpen/" target="_blank">doodle</a>.
+  Outside work, I like taking <a class="links" href="images.html" target="_blank">photos</a>, swimming, 
+  and playing video games.
   <br><br>
   Feel free to reach out about research or anything else!
 
-research: My current research interests revolve around computer graphics, VR/AR, human perception, computational display, and machine learning. (Representative papers are <span class="highlight">highlighted</span>, <em>*equal contribution</em>)
+research: My current research interests intersect computer graphics, VR/AR, applied perception, and displays. <br> (Representative papers are <span class="highlight">highlighted</span>, <em>*=equal contribution</em>)
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://kenchen10.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 10kenchen

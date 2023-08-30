@@ -104,11 +104,12 @@ name {
 venue {
   font-family: 'Fontin';
   border-radius: 0.25rem;
+  font-size: small;
 }
 
 pub {
   margin: 5px 0px 5px 0px;
-  font-size: 12px;
+  font-size: small;
 }
 
 .one {
@@ -163,7 +164,7 @@ button {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: 0.25rem;
+  border-radius: 0.425rem;
   border: none;
 }
 

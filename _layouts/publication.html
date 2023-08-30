@@ -31,7 +31,7 @@
             <h2 class="col-md-12 text-center" style="padding-top: 1em;">
                 {{ publication.title }}<br>
                 <small>
-                    {{ publication.venue }} {{ publication.year }}
+                    <pub style="font-size: 16px;"><venue style="font-size: 16px; border: solid #000; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
                 </small>
             </h2>
         </div>
@@ -43,7 +43,7 @@
                     <li>
                         <a class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}</a>
                     </br>
-                    {{ author.affiliation }}
+                    {{ publication.affiliations[author_id].affiliation }}
                     </li>
                     {% assign remainder = forloop.index | modulo: 4 %}
                     {% if remainder == 0 %}
@@ -52,38 +52,37 @@
                     {% endfor %}
                     
                 </ul>
+                {% for aff_img in publication.affiliation_images %}
+                <!-- <li> -->
+                    <img style="width: 20%;" src="../../images/{{ aff_img }}"> &nbsp;
+                <!-- </br> -->
+                <!-- </li> -->
+                {% endfor %}
+                <br><br>
             </div>
         </div>
 
 
         <div class="row">
-                <div class="col-md-4 col-md-offset-4 text-center">
-                    <ul class="nav nav-pills nav-justified">
-                        <li>
-                            {% if publication.arxiv != null %}
-                            <a href="https://arxiv.org/abs/{{ publication.arxiv }}">
-                            {% endif %}
-                            {% if publication.pdf != null %}
-                            <a href="{{ publication.pdf }}">
-                            {% endif %}
-                            <image src="../../images/{{ publication.paper_image }}" height="60px">
-                                <h4><strong>Paper</strong></h4>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ publication.video }}">
-                            <image src="../../images/youtube_icon.png" height="60px">
-                                <h4><strong>Video</strong></h4>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/{{ publication.github }}">
-                            <image src="../../images/github.png" height="60px">
-                                <h4><strong>Code</strong></h4>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <p>
+                    {% if publication.arxiv != null %}
+                    <a href="https://arxiv.org/abs/{{ publication.arxiv }}"><button style="background-color: #9E9E9E;">Paper</button></a> {% if publication.pdf != null || publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
+                    {% endif %}
+                    {% if publication.pdf != null %}
+                    <a href="../../{{ publication.pdf }}"><button style="background-color: #9E9E9E;">Paper</button></a> {% if publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
+                    {% endif %}
+                    {% if publication.papersite != null %}
+                    <a href="{{ publication.papersite }}"><button style="background-color: #9E9E9E;">Paper</button></a> {% if publication.video != null || publication.github != null || %}|{% endif %}
+                    {% endif %}
+                    {% if publication.video != null %}
+                    <a href="../images/{{ publication.video }}"><button style="background-color: #EF9A9A;">Video</button></a> {% if publication.github != null || %}|{% endif %}
+                    {% endif %}
+                    {% if publication.github != null %}
+                    <a href="https://github.com/{{ publication.github }}"><button style="background-color: #80CBC4;">Code</button></a>
+                    {% endif %}
+                </p>
+            </div>
         </div>
 
         <!-- <div class="row">
@@ -130,6 +129,189 @@
             </div>
         </div>
         {% endif %}
+
+        <!-- {% if publication.yt_emb == null && publication.video != null %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <video style="border-radius: 3px;" width=100% height=100% controls>
+                    <source src="../images/{{ publication.video }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+        {% endif %} -->
+
+        {% if publication.bibtex != null %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                    <pre style="word-wrap: break-word; white-space: pre-wrap;">
+    {{ publication.bibtex }}
+                    </pre>
+                </section>
+                  
+            </div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p style="text-align:right;font-size:small;">
+                    Template from <a style="font-size:small;" href="http://mgharbi.com/">Michaël Gharbi</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endif %} 
+{% endfor %}
+
+{% for publication in site.data.otherpubs %}
+{% assign pub_id = publication.id %}
+            
+<head lang="en">
+    {% if site.google_analytics and jekyll.environment == 'production' %}
+    {% include analytics.html %}
+    {% endif %}
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>{{ publication.id }}</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="../../stylesheet.css">
+    <link rel="icon" href="../../favicon.ico">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/fontin');
+      </style>
+</head>
+{% if pub_id == page.id %}
+<body>
+    <div class="container" id="main">
+        <div class="row">
+            <h2 class="col-md-12 text-center" style="padding-top: 1em;">
+                {{ publication.title }}<br>
+                <small>
+                    <pub style="font-size: 16px;"><venue style="font-size: 16px; border: solid #000; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
+                </small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    {% for author_id in publication.authors %}
+                    {% assign author = site.data.authors[author_id] %}
+                    <li>
+                        <a class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}</a>
+                    </br>
+                    {{ publication.affiliations[author_id].affiliation }}
+                    </li>
+                    {% assign remainder = forloop.index | modulo: 4 %}
+                    {% if remainder == 0 %}
+                    <br>
+                    {% endif %}
+                    {% endfor %}
+                    
+                </ul>
+                {% for aff_img in publication.affiliation_images %}
+                <!-- <li> -->
+                    <img style="width: 20%;" src="../../images/{{ aff_img }}"> &nbsp;
+                <!-- </br> -->
+                <!-- </li> -->
+                {% endfor %}
+                <br><br>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <p>
+                    {% if publication.arxiv != null %}
+                    <a href="https://arxiv.org/abs/{{ publication.arxiv }}"><button style="background-color: #9E9E9E;">Paper</button></a> {% if publication.video != null || publication.github != null || %}|{% endif %}
+                    {% else if publication.pdf != null %}
+                    <a href="../../{{ publication.pdf }}"><button style="background-color: #9E9E9E;">Paper</button></a> {% if publication.video != null || publication.github != null || %}|{% endif %}
+                    {% else if publication.papersite != null %}
+                    <a href="{{ publication.papersite }}"><button style="background-color: #9E9E9E;">Paper</button></a> {% if publication.video != null || publication.github != null || %}|{% endif %}
+                    {% endif %}
+                    {% if publication.video != null %}
+                    <a href="../images/{{ publication.video }}"><button style="background-color: #EF9A9A;">Video</button></a> {% if publication.github != null || %}|{% endif %}
+                    {% endif %}
+                    {% if publication.github != null %}
+                    <a href="https://github.com/{{ publication.github }}"><button style="background-color: #80CBC4;">Code</button></a>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <video id="v0" width="100%" autoplay loop muted controls>
+                  <source src="../../images/sigasia.mp4" type="video/mp4" />
+                </video>
+			</div>
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-center">
+                Rendered images and depths from our model.
+                </p>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                {% if publication.teaser_image != null %}
+                <image src="../../images/{{ publication.teaser_image }}" class="img-responsive" alt="overview"><br>
+                {% endif %}
+                <p class="text-justify">
+                    {{ publication.abstract }}
+                </p>
+            </div>
+        </div>
+
+
+        {{ page.content }}
+
+        {% if publication.yt_emb != null %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="{{ publication.yt_emb }}" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- {% if publication.yt_emb == null && publication.video != null %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <video style="border-radius: 3px;" width=100% height=100% controls>
+                    <source src="../../images/{{ publication.video }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+        {% endif %} -->
 
         {% if publication.bibtex != null %}
         <div class="row">

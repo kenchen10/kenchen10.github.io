@@ -1,17 +1,77 @@
-- id: nicknacks
-  url: nicknacks.jpg
-- id: cyprustreetunnel
-  url: DSC_0079.jpg
-- id: sierra
-  url: DSC_0074.jpg
-- id: nycrain
-  url: nyc-rain.jpg
-- id: berkhills
-  url: berkeleyhills.jpg
-- id: berkhills2
-  url: berkeleyhills2.jpg
-- id: hills
-  url: hills.jpg
-- id: campanile
-  url: campanile.jpg
+- id: byxbee
+  title: Byxbee Park
+  date: July 15, 2023
+  location: California
+  imgs: 
+    - byxbee/DSC_0139.jpg
+    - byxbee/DSC_0146.jpg
+    - byxbee/DSC_0148.jpg
+    - byxbee/DSC_0153.jpg
+- id: alviso
+  title: Alviso Marina County Park
+  date: July 3, 2023
+  location: California
+  imgs: 
+    - alviso/DSC_0118.jpg
+    - alviso/DSC_0124.jpg
+    - alviso/DSC_0130.jpg
+    - alviso/DSC_0131.jpg
+    - alviso/DSC_0133.jpg
 
+- id: paloaltoduckpond
+  title: Palo Alto Duck Pond
+  date: June 29, 2023
+  location: California
+  imgs: 
+    - paloaltoduckpond/DSC_0094.jpg
+    - paloaltoduckpond/DSC_0095.jpg
+    - paloaltoduckpond/DSC_0096.jpg
+    - paloaltoduckpond/DSC_0097.jpg
+    - paloaltoduckpond/DSC_0099.jpg
+    - paloaltoduckpond/DSC_0101.jpg
+    - paloaltoduckpond/DSC_0103.jpg
+    - paloaltoduckpond/DSC_0104.jpg
+    - paloaltoduckpond/DSC_0106.jpg
+    - paloaltoduckpond/DSC_0110.jpg
+    - paloaltoduckpond/DSC_0113.jpg
+    - paloaltoduckpond/DSC_0114.jpg
+- id: cyprustreetunnel
+  title: Cyprus Tree Tunnel
+  date: June 18, 2023
+  location: California
+  imgs: 
+    - DSC_0079.jpg
+- id: sierra
+  title: Sierra Vista Open Space Reserve
+  date: June 12, 2023
+  location: California
+  imgs: 
+    - sierra/DSC_0068.jpg
+    - sierra/DSC_0071.jpg
+    - sierra/DSC_0074.jpg
+    - sierra/DSC_0076.jpg
+- id: nycrain
+  title: New York City Rain
+  date: April 22, 2023
+  location: New York
+  imgs: 
+    - nyc-rain.jpg
+- id: sierra2
+  title: Sierra Vista Open Space Reserve
+  date: July 8, 2019
+  location: California
+  imgs: 
+    - sierra/hills.jpg
+- id: berkeley
+  title: Berkeley
+  location: California
+  date: 2017 - 2021
+  imgs:
+    - campanile.jpg
+    - berkeleyhills2.jpg
+    - berkeleyhills.jpg
+- id: other
+  title: Random Images
+  date: NA
+  imgs:
+    - nicknacks.jpg

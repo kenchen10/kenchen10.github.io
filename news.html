@@ -40,7 +40,13 @@ layout: null
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td>
-              <heading>News Archive</heading><a style="padding:20px;" class="links" href="/">[Back Home]</a> 
+              <heading>News Archive &#128240;</heading>
+              <div style="float: right; line-height: 25px;">
+              <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #B2DFDB;">school</venue> |
+              <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #BBDEFB;">work</venue> |
+              <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFE0B2;">research</venue> |
+              <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFCCBC;">talk</venue>
+              </div>
             </td>
           </tr>
         </tbody></table>
@@ -54,7 +60,9 @@ layout: null
               <venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.fill }};margin-left: 0;">{{ item.month }}</venue>
             </td>
             <td class="tdnews">
-              <venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.tag }};margin-left: 0;">{{ item.year }}</venue>
+              {% if item.year != null %}
+              <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.tag }};margin-left: 0;">{{ item.year }}</venue>
+              {% endif %}
             </td>
           </tr>
           {% endfor %}

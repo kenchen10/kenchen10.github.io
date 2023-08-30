@@ -1,0 +1,79 @@
+- id: sca23
+  title: "Towards Learning and Generating Audience Motion from Video"
+  venue: SCA
+  venue_long: ACM SIGGRAPH/Eurographics Symposium on Computer Animation, Poster
+  year: 2023
+  description: "A dataset of audience videos."
+  project_page: "projects/sca23/index.html"
+  github: 
+  arxiv: 
+  pdf: assets/papers/sca23-4.pdf
+  image: sca23.png
+  bgcolor: 
+  tag: "#C8E6C9"
+  paper_image: 
+  teaser_image: datagenpipeline-1.png
+  yt_emb: 
+  video: 
+  authors:
+    - kchen
+    - nbadler
+  affiliations:
+    kchen:
+      affiliation: Cesium 
+    nbadler:
+      affiliation: Cesium
+  affiliation_images:
+    - cesiumlogo.png
+  bibtex: 
+  abstract: "There has recently been an explosion of interest in creating large-scale shared virtual spaces for multiplayer content. However, rendering player-controllable avatars in real-time creates latency issues when scaling to thousands of players. We introduce a human audience video dataset to support applications in deep learning-based 2D video audience simulation, bypassing the need for background 3D virtual humans. This dataset consists of YouTube videos that depict audiences with diverse lighting conditions, color, dress, and movement patterns. We describe the dataset statistics, our implicit data collection strategy, and audience video extraction pipeline. We apply deep learning tasks on this data based on video prediction techniques, and propose a novel method for 2D audience simulations."
+
+
+- id: vr-energy-etech
+  title: "Imperceptible Color Modulation for Power Saving in VR/AR"
+  venue: SIGGRAPH
+  venue_long: Emerging Technologies
+  year: 2023
+  description: "A demo of the display setup and model from our SIGRAPH Asia '22 paper."
+  project_page: "projects/vr-energy-etech/index.html"
+  github: 
+  arxiv: 
+  papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
+  image: demonstration.png
+  bgcolor: 
+  tag: "#FFCCBC"
+  paper_image: vr-energy-etech.png
+  teaser_image: etech23teaser.png
+  yt_emb: 
+  video: etech-video.mp4
+  authors:
+    - kchen
+    - bduinkharjav
+    - nujjainkar
+    - eshahan
+    - atyagi
+    - jhe
+    - yzhu
+    - qsun
+  affiliations:
+    kchen:
+      affiliation: New York University
+    bduinkharjav:
+      affiliation: New York University
+    nujjainkar:
+      affiliation: University of Rochester
+    eshahan:
+      affiliation: University of Rochester
+    atyagi:
+      affiliation: University of Rochester
+    jhe:
+      affiliation: University of Rochester
+    yzhu:
+      affiliation: University of Rochester
+    qsun:
+      affiliation: New York University
+  affiliation_images:
+    - nyulogo.png
+    - uofr.png
+  bibtex: 
+  abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."

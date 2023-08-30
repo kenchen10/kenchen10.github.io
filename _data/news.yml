@@ -2,10 +2,23 @@
 #   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
 #   date: 2023-06
 
-- id: meta
-  title: I started an internship at Meta in the Applied Perception Science team w/ <a class="links" href="https://achapiro.github.io/" target="_blank">Dr. Alex Chapiro</a>.
-  date: 2023-06
+- id: asplos24
+  title: Our <a class="links" href="projects/asplos24/index.html" target="_blank">collaboration</a> with UofR was accepted to ASPLOS 2024!
+  date: 2023-08
   year: 2023
+  month: "08"
+  tag: "#CFD8DC"
+  fill: "#FFE0B2"
+
+- id: sca23
+  title: Our work during my internship at Cesium was accepted as a <a class="links" href="projects/sca23/index.html">poster</a> to SCA.
+  date: 2023-06
+  month: "06"
+  fill: "#FFE0B2"
+
+- id: meta
+  title: I started an internship at Meta in the Applied Perception Science team w/ <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>.
+  date: 2023-06
   month: "06"
   tag: "#CFD8DC"
   fill: "#BBDEFB"
