@@ -46,12 +46,12 @@ layout: null
               </p>
               <p>{{ site.description }}</p>
               <p>
-                <a class="links" href="mailto:{{ site.email }}"><button style="background-color: #9E9E9E;">Email</button></a> |
+                <a class="links" href="mailto:{{ site.email }}"><button style="background-color: black;">Email</button></a> |
                 <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
-                <a class="links" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><button style="background-color: #EF9A9A;">Google Scholar</button></a> |
-                <a class="links" href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><button style="background-color: #64B5F6;">Twitter</button></a> |
+                <a class="links" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><button style="background-color: black;">Google Scholar</button></a> |
+                <a class="links" href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><button style="background-color: black;">Twitter</button></a> |
                 <!-- <a class="links" href="https://instagram.com/10chenken"><button style="background-color: #E1BEE7;">Instagram</button></a> | -->
-                <a class="links" href="./assets/cv.pdf" target="_blank"><button style="background-color: #80CBC4;">CV</button></a>
+                <a class="links" href="./assets/cv.pdf" target="_blank"><button style="background-color: black;">CV</button></a>
                 <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
               </p>
             </td>
@@ -133,8 +133,8 @@ layout: null
 				
           <tr>
             <!-- <th style="width:2%"></th> -->
-            <th style="width:19%"></th>
-            <th style="width:81%"></th>
+            <th style="width:22%"></th>
+            <th style="width:78%"></th>
           </tr>
           {% for publication in site.data.publications %}
           {% if publication.hide == null %}
@@ -145,6 +145,7 @@ layout: null
               {% endif %}
             </td> -->
             <!-- <td style="padding:10px;vertical-align:top">{% if publication.showyear != null %}{{publication.showyear}}{% endif %}</td> -->
+
             <td style="padding:10px;vertical-align:middle">
               <div class="one">
                 {% if publication.teaser_vid != null %}
@@ -154,7 +155,7 @@ layout: null
                 </video>
                 {% endif %}
                 {% if publication.image != null %}
-                  <img style="border: 1px solid black;" width=100% height=100% src="images/{{ publication.image }}">
+                  <img style="border-radius: 10px;" width=100% height=100% src="images/{{ publication.image }}">
                 {% endif %}
               </div>
             </td>
@@ -174,31 +175,31 @@ layout: null
               <pub><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag2 }};margin-left: 0;">{{ publication.venue2 }} {{ publication.year2 }}</venue>{% if publication.venue_long2 != null %} | <em>{{ publication.venue_long2 }}</em>{% endif %} </pub>
               <br>
               {%endif%}
-              <pub><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
+              <pub><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: #E0F7FA;margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
               <br>
               <p style="font-size: small">
                 {{ publication.description }}
               </p>
               {% if publication.project_page != null %}
-              <a class="links" href="{{ publication.project_page }}"><button style="background-color: #6D6E80;">project page</button></a>
+              <a class="links" href="{{ publication.project_page }}"><button style="background-color: black;">project page</button></a>
               {% endif %}
               {% if publication.arxiv != null %}
-              <a class="links" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><button style="background-color: #a8bfe8;">PDF</button></a>
+              <a class="links" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><button style="background-color: black;">PDF</button></a>
               {% endif %}
               {% if publication.pdf != null %}
-              <a class="links" href="{{publication.pdf}}"><button style="background-color: #a8bfe8;">PDF</button></a>
+              <a class="links" href="{{publication.pdf}}"><button style="background-color: black;">PDF</button></a>
               {% endif %}
               {% if publication.papersite != null %}
-              <a class="links" href="{{publication.papersite}}"><button style="background-color: #a8bfe8;">PDF</button></a>
+              <a class="links" href="{{publication.papersite}}"><button style="background-color: black;">PDF</button></a>
               {% endif %}
               {% if publication.github != null %}
-              <a class="links" href="https://github.com/{{ publication.github }}"><button style="background-color: #cba2a2;">code</button></a>
+              <a class="links" href="https://github.com/{{ publication.github }}"><button style="background-color: black;">code</button></a>
               {% endif %}
               {% if publication.video != null %}
-              <a class="links" href="{{ publication.video }}"><button style="background-color: #ebd1aa;">video</button></a>
+              <a class="links" href="{{ publication.video }}"><button style="background-color: black;">video</button></a>
               {% endif %}
               {% if publication.project_page2 != null %}
-              <a class="links" href="{{ publication.project_page2 }}"><button style="background-color: #B2DFDB;">{{ publication.project_page2_name }}</button></a>
+              <a class="links" href="{{ publication.project_page2 }}"><button style="background-color: black;">{{ publication.project_page2_name }}</button></a>
               {% endif %}
               <p></p>
             </td>
@@ -224,8 +225,8 @@ layout: null
         <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
 				
           <tr>
-            <th style="width:19%"></th>
-            <th style="width:81%"></th>
+            <th style="width:22%"></th>
+            <th style="width:78%"></th>
           </tr>
           {% for publication in site.data.otherpubs %}
           {% if publication.hide == null %}
@@ -244,7 +245,7 @@ layout: null
                 </video>
                 {% endif %}
                 {% if publication.image != null %}
-                  <img style="border: 1px solid black;" width=100% height=100% src="images/{{ publication.image }}">
+                  <img style="border-radius: 10px;" width=100% height=100% src="images/{{ publication.image }}">
                 {% endif %}
               </div>
             </td>
@@ -264,31 +265,31 @@ layout: null
               <pub><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag2 }};margin-left: 0;">{{ publication.venue2 }} {{ publication.year2 }}</venue>{% if publication.venue_long2 != null %} | <em>{{ publication.venue_long2 }}</em>{% endif %} </pub>
               <br>
               {%endif%}
-              <pub><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
+              <pub><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: #E0F7FA;margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
               <br>
               <p style="font-size: small">
                 {{ publication.description }}
               </p>
               {% if publication.project_page != null %}
-              <a class="links" href="{{ publication.project_page }}"><button style="background-color: #6D6E80;">project page</button></a>
+              <a class="links" href="{{ publication.project_page }}"><button style="background-color: black;">project page</button></a>
               {% endif %}
               {% if publication.arxiv != null %}
-              <a class="links" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><button style="background-color: #a8bfe8;">PDF</button></a>
+              <a class="links" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><button style="background-color: black;">PDF</button></a>
               {% endif %}
               {% if publication.pdf != null %}
-              <a class="links" href="{{publication.pdf}}"><button style="background-color: #a8bfe8;">PDF</button></a>
+              <a class="links" href="{{publication.pdf}}"><button style="background-color: black;">PDF</button></a>
               {% endif %}
               {% if publication.papersite != null %}
-              <a class="links" href="{{publication.papersite}}"><button style="background-color: #a8bfe8;">PDF</button></a>
+              <a class="links" href="{{publication.papersite}}"><button style="background-color: black;">PDF</button></a>
               {% endif %}
               {% if publication.github != null %}
-              <a class="links" href="https://github.com/{{ publication.github }}"><button style="background-color: #cba2a2;">code</button></a>
+              <a class="links" href="https://github.com/{{ publication.github }}"><button style="background-color: black;">code</button></a>
               {% endif %}
               {% if publication.video != null %}
-              <a class="links" href="{{ publication.video }}"><button style="background-color: #ebd1aa;">video</button></a>
+              <a class="links" href="{{ publication.video }}"><button style="background-color: black;">video</button></a>
               {% endif %}
               {% if publication.project_page2 != null %}
-              <a class="links" href="{{ publication.project_page2 }}"><button style="background-color: #B2DFDB;">{{ publication.project_page2_name }}</button></a>
+              <a class="links" href="{{ publication.project_page2 }}"><button style="background-color: black;">{{ publication.project_page2_name }}</button></a>
               {% endif %}
               <p></p>
             </td>
@@ -322,7 +323,7 @@ layout: null
               <td class="tdnews">
               <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{ teaching.institution }}{% if teaching.year != null %}<div style="float: right; margin-right: 10px;"><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 2px 5px;background-color: #CFD8DC;margin-left: 0;">{{ teaching.year }}</venue></div>{% endif %}
               <br>
-              <em style="font-size:small;">{{ teaching.title }}</em>{% if teaching.instructor != null %}, <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %}<div style="float: right; margin-right: 10px; font-size:small;"><a class="links" href="{{ teaching.url }}"><button style="background-color: #ebd1aa;padding: 3px 5px 1px 5px;">{{teaching.urltitle}}</button></a>{% endif %}</div>
+              <em style="font-size:small;">{{ teaching.title }}</em>{% if teaching.instructor != null %}, <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %}<div style="float: right; margin-right: 10px; font-size:small;"><a class="links" href="{{ teaching.url }}"><button style="background-color: black;padding: 3px 5px 1px 5px;">{{teaching.urltitle}}</button></a>{% endif %}</div>
               </td>
             </tr>
           {% endfor %}

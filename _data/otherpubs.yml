@@ -34,12 +34,12 @@
   venue: SIGGRAPH
   venue_long: Emerging Technologies
   year: 2023
-  description: "A demo of the display setup and model from our SIGRAPH Asia '22 paper."
+  description: "A demo of the display setup and model from our SIGGRAPH Asia '22 paper."
   project_page: "projects/vr-energy-etech/index.html"
   github: 
   arxiv: 
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
-  image: demonstration.png
+  image: sigasia22.png
   bgcolor: 
   tag: "#FFCCBC"
   paper_image: vr-energy-etech.png
