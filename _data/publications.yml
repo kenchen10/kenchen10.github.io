@@ -74,15 +74,13 @@
       affiliation: New York University
   affiliation_images:
     - nyulogo.png
-  bibtex: "@article{Zhang:2023:EMGMCL,
-    title = {Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction},
-    author = {Zhang, Yunxiang and Chen, Kenneth and Sun, Qi},
-    journal = {ACM Trans. Graph. (Proc. SIGGRAPH Asia)},
-    volume = {42},
-    number = {4},
-    pages = {144:1--144:16},
-    year = {2023}
-  }"
+  bibtex: "@inproceedings{zhang2023toward,
+  title={Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction},
+  author={Zhang, Yunxiang and Chen, Kenneth and Sun, Qi},
+  booktitle={ACM SIGGRAPH 2023 Conference Proceedings},
+  pages={1--12},
+  year={2023}
+}"
   abstract: "Ergonomic-friendly usage is essential to mass and prolonged adoption of virtual/augmented reality (VR/AR) head-mounted displays (HMDs). Unlike conventional displays, VR/AR HMDs unlock users' wide-range, frequent, and natural head movements for viewing. Although neck comfort is inevitably compromised due to HMDs' hardware weight, we still have little quantitative knowledge of the resulting additional muscular workload.
 <br><br>
 Leveraging electromyography devices, we measure, model, and predict users' neck muscle contraction level while they rotate their heads to interact with surrounding objects in VR. Specifically, learning from the data obtained in our physiological pilot study, we establish a bio-physically inspired model for both stationary and dynamic head status. It 1) models quantified muscle contraction level given a complete head motion trajectory, and 2) predicts potential discomfort before a head movement occurs. We validate our model with a series of objective evaluation and user study. The results demonstrate its prediction accuracy for unseen movements, and capability in reducing muscular efforts and thus discomfort by altering the layout of virtual targets. We hope this research will motivate new ergonomic-centered designs and metrics for VR/AR and interactive computer graphics applications."
