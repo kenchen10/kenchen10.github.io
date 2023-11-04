@@ -10,7 +10,7 @@
   arxiv: 
   papersite: https://horizon-lab.org/pubs/asplos24-vr.pdf
   teaser_vid: 
-  image: asplos24.png
+  image: asplos24teaser.png
   bgcolor: 
   tag: "#E1BEE7"
   teaser_image: asplos24teaser.png
@@ -54,7 +54,7 @@
   arxiv: 
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/xr-ergonomics-neck-comfort.pdf
   teaser_vid: 
-  image: emg_neck.png
+  image: teasersig23.png
   bgcolor: 
   tag: "#FFCCBC"
   paper_image: mcl-paper.png
@@ -97,7 +97,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   venue_long: ACM Transactions on Graphics 41(6)
   showyear: 2022
   year: 2022
-  description: "Our color-perception-guided model preserves visual fidelity while saving up to 24% battery usage of OLED VR displays. We achieve this by subtly shifting the pixel colors in the peripheral vision."
+  description: "Our color-perception-guided model preserves visual fidelity while saving up to 24% battery usage of OLED VR displays"
   project_page: "projects/vrenergy/index.html"
   # project_page2: "projects/vr-energy-etech/index.html"
   # project_page2_name: E-Tech
@@ -105,7 +105,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2022/09/vr_energy.pdf
   # arxiv: "2209.07610"
   # teaser_vid: sigasia.mp4
-  image: sigasia22_2.png
+  image: sigasia22_teaser.png
   bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(249, 241, 243,1)); z-index: -1;"
   tag: "#BBDEFB"
   # tag2: "#FFCCBC"

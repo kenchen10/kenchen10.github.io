@@ -1,13 +1,15 @@
-# - id: meta
-#   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
-#   date: 2023-06
+- id: nyuphd
+  title: I started my PhD at NYU!
+  date: 2023-09
+  year: 2023
+  month: "09"
+  tag: "#CFD8DC"
+  fill: "#B2DFDB"
 
 - id: asplos24
   title: Our <a class="links" href="projects/asplos24/index.html" target="_blank">collaboration</a> with UofR was accepted to ASPLOS 2024!
   date: 2023-08
-  year: 2023
   month: "08"
-  tag: "#CFD8DC"
   fill: "#FFE0B2"
 
 - id: sca23

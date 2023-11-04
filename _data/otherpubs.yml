@@ -8,7 +8,7 @@
   github: 
   arxiv: 
   pdf: assets/papers/sca23-4.pdf
-  image: sca23.png
+  image: datagenpipeline-1.png
   bgcolor: 
   tag: "#C8E6C9"
   paper_image: 
@@ -39,7 +39,7 @@
   github: 
   arxiv: 
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
-  image: sigasia22.png
+  image: etech23teaser.png
   bgcolor: 
   tag: "#FFCCBC"
   paper_image: vr-energy-etech.png
