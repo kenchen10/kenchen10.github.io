@@ -67,19 +67,19 @@
             <div class="col-md-4 col-md-offset-4 text-center">
                 <p>
                     {% if publication.arxiv != null %}
-                    <a href="https://arxiv.org/abs/{{ publication.arxiv }}"><button style="background-color: black;">Paper</button></a> {% if publication.pdf != null || publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
+                    <a class="links2" href="https://arxiv.org/abs/{{ publication.arxiv }}">Paper</a> {% if publication.pdf != null || publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
                     {% endif %}
                     {% if publication.pdf != null %}
-                    <a href="../../{{ publication.pdf }}"><button style="background-color: black;">Paper</button></a> {% if publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
+                    <a class="links2" href="../../{{ publication.pdf }}">Paper</a> {% if publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
                     {% endif %}
                     {% if publication.papersite != null %}
-                    <a href="{{ publication.papersite }}"><button style="background-color: black;">Paper</button></a> {% if publication.video != null || publication.github != null || %}|{% endif %}
+                    <a class="links2" href="{{ publication.papersite }}">Paper</a> {% if publication.video != null || publication.github != null || %}|{% endif %}
                     {% endif %}
                     {% if publication.video != null %}
-                    <a href="../images/{{ publication.video }}"><button style="background-color: black;">Video</button></a> {% if publication.github != null || %}|{% endif %}
+                    <a class="links2" href="../images/{{ publication.video }}">Video</a> {% if publication.github != null || %}|{% endif %}
                     {% endif %}
                     {% if publication.github != null %}
-                    <a href="https://github.com/{{ publication.github }}"><button style="background-color: black;">Code</button></a>
+                    <a class="links2" href="https://github.com/{{ publication.github }}">Code</a>
                     {% endif %}
                 </p>
             </div>
