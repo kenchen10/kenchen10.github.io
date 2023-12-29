@@ -1,3 +1,21 @@
+- id: marrakesh
+  title: Marrakesh
+  date: December 25, 2023
+  location: Morocco
+  imgs: 
+    - fez/IMG_1410.jpg
+- id: fez
+  title: Fes
+  date: December 23, 2023
+  location: Morocco
+  imgs: 
+    - fez/IMG_1251.jpg
+- id: rabat
+  title: Rabat
+  date: December 21, 2023
+  location: Morocco
+  imgs: 
+    - rabat/IMG_0981.jpg
 - id: byxbee
   title: Byxbee Park
   date: July 15, 2023
