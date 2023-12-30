@@ -63,7 +63,7 @@ layout: null
           News
         
         -->
-        <div id="timeline">
+        <!-- <div id="timeline">
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td>
@@ -96,7 +96,7 @@ layout: null
           {% endfor %}
           
         </tbody></table>
-        <br>
+        <br> -->
       </div>
          <!-- 
           
@@ -108,9 +108,35 @@ layout: null
               <tr>
               <td>
                 <heading>TIMELINE</heading>
+                <div style="float: right; line-height: 25px;">
+                  <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #B2DFDB;">school</venue> |
+                  <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #BBDEFB;">work</venue> |
+                  <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFE0B2;">research</venue> |
+                  <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFCCBC;">talk</venue> |
+                  <a class="links" href="news.html">[All]</a> 
+                </div>
               </td>
             </tr>
           </tbody></table>
+          <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            {% for item in site.data.news limit : 5%}
+            <tr>
+              <td class="tdnews">
+                {{ item.title }}
+              </td>
+              <td class="tdnews">
+                <venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.fill }};margin-left: 0;">{{ item.month }}</venue>
+              </td>
+              <td class="tdnews">
+                {% if item.year != null %}
+                <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.tag }};margin-left: 0;">{{ item.year }}</venue>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody></table>
+          <br>
           <img style="width:100%;vertical-align:middle" src="images/timeline.svg">
         </div>
         <!-- <br> -->
@@ -240,9 +266,9 @@ layout: null
           {% for teaching in site.data.teaching %}
             <tr>
               <td class="tdnews">
-              <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{ teaching.institution }}{% if teaching.year != null %}<div style="float: right; margin-right: 10px;"><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 2px 5px;background-color: #CFD8DC;margin-left: 0;">{{ teaching.year }}</venue></div>{% endif %}
+              <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{ teaching.institution }}{% if teaching.year != null %}{% endif %}
               <br>
-              <em style="font-size:small;">{{ teaching.title }}</em>{% if teaching.instructor != null %}, <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %}<div style="float: right; margin-right: 10px; font-size:small;"><a class="links2" href="{{ teaching.url }}">{{teaching.urltitle}}</a>{% endif %}</div>
+              <em style="font-size:small;">{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor != null %}, <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %} | <a class="links2" href="{{ teaching.url }}">{{teaching.urltitle}}</a>{% endif %}
               </td>
             </tr>
           {% endfor %}
