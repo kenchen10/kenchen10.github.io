@@ -25,13 +25,13 @@ description:
   Welcome! I am a first year Computer Science PhD student at New York University where I'm 
   advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a> 
   in the <a class="links" href="https://www.immersivecomputinglab.org/" target="_blank">Immersive Computing Lab</a>. 
+  I'm interested in developing perceptually-inspired algorithms for optimizing graphics and display systems.
   <br><br>
-  I graduated with a BA in Computer Science from UC Berkeley, where I pursued research under 
-  <a class="links" href="https://people.eecs.berkeley.edu/~sequin/" target="_blank">Prof. Carlo H. Séquin</a>. 
-  I was also a TA for <a class="links" href="https://cs184.eecs.berkeley.edu/sp21" target="_blank">Computer Graphics & Imaging</a>,
-  and VP of Tech at <a class="links" href="https://www.innovativedesign.club/" target="_blank">Innovative Design</a>.
+  During my PhD, I interned at Meta Reality Labs, hosted by <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>
+  in <a class="links" href="https://www.linkedin.com/in/ajitninan/" target="_blank">Ajit Ninan</a>'s Applied Perception Science team.
+  Previously, I received my MS from NYU in 2023 and BA from UC Berkeley in 2021.
   <br><br>
-  Feel free to reach out about research or anything else!
+  I'm happy to chat about research or anything else, and can be reached at kc4906@nyu.edu!
 
 research: My current research interests intersect computer graphics, VR/AR, applied perception, and displays. <br> (Representative papers are <span class="highlight">highlighted</span>, <em>*=equal contribution</em>)
 baseurl: "" # the subpath of your site, e.g. /blog

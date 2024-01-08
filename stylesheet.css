@@ -29,6 +29,10 @@ a.links2 {
   padding-right: 4px;
 }
 
+a.links2:hover {
+  color: orange;
+}
+
 body {
   background-color: #f9f1f3;
   /* background-color: white; */
@@ -58,6 +62,11 @@ body {
   #timeline { 
     display: none; 
   } 
+
+  #photos { 
+    display: none; 
+  } 
+
 }
 
 table{border-collapse:collapse;}
@@ -228,4 +237,8 @@ pre {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf;
+}
+
+.hoverable:hover {
+  border: 1px solid black;
 }
