@@ -31,7 +31,7 @@
   affiliation_images:
     - nyulogo.png
     - meta.png
-  bibtex: ""
+  bibtex: 
   abstract: "Display power consumption is an emerging concern for untethered devices. This goes double for augmented and virtual extended reality (XR) displays, which target high refresh rates and high resolutions while conforming to an ergonomically light form factor.
 A number of image mapping techniques have been proposed to extend battery usage. However, there is currently no comprehensive quantitative understanding of how the power savings provided by these methods compare to their impact on visual quality. We set out to answer this question.
 <br><br>
