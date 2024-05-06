@@ -44,7 +44,10 @@ layout: null
               </td>
               <td style="padding:20px;vertical-align:middle">
                 <p>
-                  <b><name>{{ site.title }}</name></b>
+                  <b><name>{{ site.title }}</name></b><br>
+                  <b><name2>{{ site.title2 }}</name2></b>
+                  <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
+                  <!-- <img id="timeline" style="vertical-align:middle" src="images/break2.svg"> -->
                 </p>
                 <p>{{ site.description }}</p>
                 <p>
@@ -59,6 +62,8 @@ layout: null
               </td>
             </tr>
           </tbody></table>
+          <!-- <img id="timeline" style="width:100%;vertical-align:middle" src="images/break2.svg"> -->
+          <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
           <table id="timeline" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             <tr>
             <td>
@@ -102,13 +107,22 @@ layout: null
     <table id="photos" style="max-width:200px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
       <tr style="padding:0px">
         <td style="padding-top:20px">   
+          <a href="images.html">
+            <img class="hoverable" style="margin:auto;" width=100% src="images/banner_nyc.jpg">
+          </a>
+        </td>
+      </tr>
+    </table>
+    <table id="photos" style="max-width:200px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
+      <tr style="padding:0px">
+        <td style="padding-top:20px">   
           <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             {% assign i = 0 %}
             {% for photo in site.data.images %}
             <a href="photos/{{ photo.id }}">
               {% for img in photo.imgs limit : 2 %}
               {% assign i = i | plus:1 %}
-              {% if i < 18 %}
+              {% if i < 17 %}
               <img class="hoverable" style="margin:5px;" width=43% src="images/{{ img }}">
               {% endif %}
               {% endfor %}
@@ -142,7 +156,8 @@ layout: null
             </tr>
             {% for publication in site.data.publications %}
             {% if publication.hide == null %}
-            <tr style="background-image: {{ publication.bgcolor }};">
+            
+            <tr style="min-width:100%; width: 100%;background-image: {{ publication.bgcolor }};background-attachment:fixed;">
     
               <td style="padding:10px;vertical-align:middle">
                 <div class="one">
@@ -163,9 +178,9 @@ layout: null
                 {% for author_id in publication.authors %}
                 {% assign author = site.data.authors[author_id] %}
                 {% if author.is_me %}
-                  <u><strong style="font-size: small">{{ author.first_name }} {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}</strong>{% if forloop.last == false %},{% endif %}
+                  <u><strong style="font-size: small">{{ author.first_name }} {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false %},{% endif %}
                   {% else %}
-                  <a style="font-size: small" class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}</a>{% if forloop.last == false %},{% endif %}
+                  <a style="font-size: small" class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{% endif %}
                 {% endif %} 
                 {% endfor %}
                 <br>
@@ -176,11 +191,15 @@ layout: null
                 <pub><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag2 }};margin-left: 0;">{{ publication.venue2 }} {{ publication.year2 }}</venue>{% if publication.venue_long2 != null %} | <em>{{ publication.venue_long2 }}</em>{% endif %} </pub>
                 <br>
                 {%endif%}
-                <pub><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: #E0F7FA;margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
+                <pub><venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
+                {% if publication.award != null %}
+                 <small style="background-color: #FFE0B2; padding: 2px 4px 2px 4px;">&#127942; {{ publication.award }}</small>
+                {%endif%}
                 <br>
-                <!-- <p style="font-size: small">
+                <small>
                   {{ publication.description }}
-                </p> -->
+                </small> 
+                <br>
                 <!-- <i class="fa-solid fa-arrow-right"></i> -->
                 {% if publication.project_page != null %}
                 <a class="links2" href="{{ publication.project_page }}">project page</a>

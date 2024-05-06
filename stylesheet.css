@@ -116,7 +116,12 @@ papertitle {
 
 name {
   font-family: 'Fontin';
-  font-size: 32px;
+  font-size: 40px;
+}
+
+name2 {
+  font-family: 'Fontin';
+  font-size: 24px;
 }
 
 venue {

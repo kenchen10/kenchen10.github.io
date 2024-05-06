@@ -58,3 +58,27 @@ nbadler:
   last_name: Badler
   website: https://www.cis.upenn.edu/~badler/
   affiliation: Cesium
+
+twan:
+  first_name: Thomas
+  last_name: Wan
+  website: https://www.linkedin.com/in/thomas-cc-wan
+  affiliation: Meta
+
+nmatsuda:
+  first_name: Nathan
+  last_name: Matsuda
+  website: https://www.nathanmatsuda.com
+  affiliation: Meta
+
+aninan:
+  first_name: Ajit
+  last_name: Ninan
+  website: https://www.linkedin.com/in/ajitninan
+  affiliation: Meta
+
+achapiro:
+  first_name: Alexandre
+  last_name: Chapiro
+  website: https://achapiro.github.io
+  affiliation: Meta

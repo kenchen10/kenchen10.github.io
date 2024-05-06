@@ -19,21 +19,21 @@
 # in the templates via {{ site.myvariable }}.
 
 title: KENNY CHEN
+title2: 1<sup>st</sup> Year PhD Student @ NYU
 image: profile0.jpg
-email: kc4906@nyu.edu
+email: kennychen@nyu.edu
 description:
   Welcome! I am a first year Computer Science PhD student at New York University where I'm 
   advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a> 
   in the <a class="links" href="https://www.immersivecomputinglab.org/" target="_blank">Immersive Computing Lab</a>. 
-  I'm interested in developing perceptually-inspired algorithms for optimizing graphics and display systems.
   <br><br>
   During my PhD, I interned at Meta Reality Labs, hosted by <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>
   in <a class="links" href="https://www.linkedin.com/in/ajitninan/" target="_blank">Ajit Ninan</a>'s Applied Perception Science team.
   Previously, I received my MS from NYU in 2023 and BA from UC Berkeley in 2021.
   <br><br>
-  I'm happy to chat about research or anything else, and can be reached at kc4906@nyu.edu!
+  I'm happy to chat about research or anything else, and can be reached at <a class="links" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!
 
-research: My current research interests intersect computer graphics, VR/AR, applied perception, and displays. <br> (Representative papers are <span class="highlight">highlighted</span>, <em>*=equal contribution</em>)
+research: My current research interests intersect computer graphics, VR/AR, applied perception, and displays. <br> (Representative papers are <span class="highlight">highlighted</span>, <em>*=equal contribution, †=equal advising</em>)
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://kenchen10.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 10kenchen

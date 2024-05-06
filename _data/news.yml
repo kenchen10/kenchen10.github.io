@@ -1,6 +1,26 @@
 # - id: meta
 #   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
 #   date: 2023-06
+- id: qual
+  title: I passed my qualification exam.
+  date: 2024-04
+  year: 2024
+  month: "04"
+  tag: "#CFD8DC"
+  fill: "#B2DFDB"
+
+- id: sig24
+  title: My internship project, <a class="links" href="projects/sig24/index.html" target="_blank">PEA-PODs</a>, was accepted as a journal paper to SIGGRAPH 2024!
+  date: 2024-03
+  month: "03"
+  fill: "#FFE0B2"
+
+- id: meta24
+  title: I'll be interning in Alex's group at Meta again this summer.
+  date: 2024-01
+  month: "01"
+  fill: "#BBDEFB"
+
 - id: nyuphd
   title: I started my PhD at NYU.
   date: 2023-09
