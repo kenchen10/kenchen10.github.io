@@ -49,7 +49,7 @@ Finally, we leverage our study data and power models to address important displa
   showyear: 2024
   description: "A DRAM traffic compression scheme using peripheral color modulation."
   project_page: "projects/asplos24/index.html"
-  github: 
+  github: horizon-research/hvs_vr_encoding.git
   arxiv: 
   papersite: https://horizon-lab.org/pubs/asplos24-vr.pdf
   teaser_vid: 
