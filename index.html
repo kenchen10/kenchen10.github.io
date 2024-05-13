@@ -17,7 +17,7 @@ layout: null
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="stylesheet2.css">
 	<link rel="icon" href="./favicon.ico">
   <style>
     @import url('https://fonts.cdnfonts.com/css/fontin');
@@ -157,9 +157,9 @@ layout: null
             {% for publication in site.data.publications %}
             {% if publication.hide == null %}
             
-            <tr style="min-width:100%; width: 100%;background-image: {{ publication.bgcolor }};background-attachment:fixed;">
+            <tr style="min-width:100%; width: 100%;">
     
-              <td style="padding:10px;vertical-align:middle">
+              <td style="padding:5px;vertical-align:middle;">
                 <div class="one">
                   {% if publication.teaser_vid != null %}
                   <video style="border: 1px solid black;" width=100% height=100% playsinline autoplay loop muted>
@@ -238,7 +238,7 @@ layout: null
     <table style="max-width:300px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
       <tr>
         <td>
-          <heading style="background-color: rgb(255, 249, 196);">HIGHLIGHTS</heading>
+          <heading style="color:black; background-color: rgb(255, 249, 196);">HIGHLIGHTS</heading>
           <!-- <p><small>{{ site.research }}</small></p> -->
         </td>
       </tr>

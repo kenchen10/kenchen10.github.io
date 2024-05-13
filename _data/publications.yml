@@ -12,8 +12,8 @@
   papersite: 
   teaser_vid: 
   award:
-  image: peapods.png
-  bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(249, 241, 243,1)); z-index: -1;"
+  image: pea-pods-teaser2.png
+  bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgb(255, 249, 196)); z-index: -1;"
   tag: "#FFCCBC"
   teaser_image: peapods_teaser.png
   yt_emb: 
@@ -228,7 +228,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   # arxiv: "2209.07610"
   # teaser_vid: sigasia.mp4
   image: sigasia22_2.png
-  bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgba(249, 241, 243,1)); z-index: -1;"
+  bgcolor: "linear-gradient(to right, rgb(255, 249, 196), rgb(255, 249, 196)); z-index: -1;"
   tag: "#BBDEFB"
   # tag2: "#FFCCBC"
   paper_image: vrenergy_paper.png
