@@ -182,7 +182,7 @@ layout: null
                 {% for author_id in publication.authors %}
                 {% assign author = site.data.authors[author_id] %}
                 {% if author.is_me %}
-                  <u><strong style="font-size: small">{{ author.first_name }} {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false %},{% endif %}
+                  <u><strong style="font-size: small; font-style: italic;">{{ author.first_name }} {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false %},{% endif %}
                   {% else %}
                   <a style="font-size: small" class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{% endif %}
                 {% endif %} 
