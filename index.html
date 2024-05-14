@@ -172,7 +172,11 @@ layout: null
                   {% endif %}
                 </div>
               </td>
-              <td style="padding:10px;vertical-align:middle">
+              {% if publication.bgcolor!= null %}
+              <td style="padding:10px;vertical-align:middle; background: linear-gradient(to right, black , rgb(37, 37, 37));">
+              {%else%}
+              <td style="padding:10px;vertical-align:middle;">
+              {%endif%}
                 <papertitle>{{ publication.title }}</papertitle>
                 <br>
                 {% for author_id in publication.authors %}
@@ -238,7 +242,7 @@ layout: null
     <table style="max-width:300px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
       <tr>
         <td>
-          <heading style="color:black; background-color: rgb(255, 249, 196);">HIGHLIGHTS</heading>
+          <heading style="color:white; background: linear-gradient(to right, black , rgb(94, 94, 94));">HIGHLIGHTS</heading>
           <!-- <p><small>{{ site.research }}</small></p> -->
         </td>
       </tr>

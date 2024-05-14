@@ -53,6 +53,10 @@ a {
     td, th {
         display: block;
     }
+
+    img {
+      display: none;
+    }
   
     td[data-th]:before  {
         content: attr(data-th);
@@ -159,7 +163,8 @@ a {
   }
   
   span.highlight {
-    background-color: rgb(255, 249, 196);
+    color: white;
+    background: linear-gradient(to right, black , rgb(94, 94, 94));
   }
   
   table {

@@ -160,10 +160,13 @@
                 </h3>
                 <p>
                     {% if publication.arxiv != null %}
-                    <a class="links2" href="https://arxiv.org/abs/{{ publication.arxiv }}">Paper</a> {% if publication.pdf != null || publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
+                    <a class="links2" href="https://arxiv.org/abs/{{ publication.arxiv }}">Paper</a> {% if publication.pdf != null ||  publication.supp != null || publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
                     {% endif %}
                     {% if publication.pdf != null %}
-                    <a class="links2" href="../../{{ publication.pdf }}">Paper</a> {% if publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
+                    <a class="links2" href="../../{{ publication.pdf }}">Paper</a> {% if publication.supp != null || publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
+                    {% endif %}
+                    {% if publication.supp != null %}
+                    <a class="links2" href="../../{{ publication.supp }}">Supplement</a> {% if publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
                     {% endif %}
                     {% if publication.papersite != null %}
                     <a class="links2" href="{{ publication.papersite }}">Paper</a> {% if publication.video != null || publication.github != null || %}|{% endif %}
