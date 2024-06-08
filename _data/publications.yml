@@ -13,7 +13,7 @@
   papersite: 
   teaser_vid: 
   award:
-  image: pea-pods-teaser2.png
+  image: peapods-2.png
   bgcolor: True
   tag: "#FFCCBC"
   teaser_image: peapods_teaser.png
@@ -54,7 +54,7 @@ Finally, we leverage our study data and power models to address important displa
   arxiv: 
   papersite: https://horizon-lab.org/pubs/asplos24-vr.pdf
   teaser_vid: 
-  image: asplos24.png
+  image: asplos24-2.png
   bgcolor: 
   tag: "#E1BEE7"
   teaser_image: asplos24teaser.png
@@ -78,12 +78,12 @@ Finally, we leverage our study data and power models to address important displa
   venue: SCA
   venue_long: ACM SIGGRAPH/Eurographics Symposium on Computer Animation, Poster
   year: 2023
-  description: "A dataset of audience videos."
+  # description: "A dataset of audience videos."
   project_page: "projects/sca23/index.html"
   github: 
   arxiv: 
   pdf: assets/papers/sca23-4.pdf
-  image: sca23.png
+  image: audiences-2.png
   bgcolor: 
   tag: "#C8E6C9"
   paper_image: 
@@ -124,7 +124,7 @@ series = {SCA '23}
   github: 
   arxiv: 
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
-  image: sigasia22.png
+  image: etech23-2.png
   bgcolor: 
   tag: "#FFCCBC"
   paper_image: vr-energy-etech.png
@@ -175,7 +175,7 @@ series = {SIGGRAPH '23}
   arxiv: 
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/xr-ergonomics-neck-comfort.pdf
   teaser_vid: 
-  image: emg_neck.png
+  image: emg-2.png
   bgcolor: 
   tag: "#FFCCBC"
   paper_image: mcl-paper.png
@@ -220,7 +220,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   venue_long: Journal Proceedings
   showyear: 2022
   year: 2022
-  description: "We modify peripheral color to save OLED display power."
+  # description: "We modify peripheral color to save OLED display power."
   project_page: "projects/vrenergy/index.html"
   # project_page2: "projects/vr-energy-etech/index.html"
   # project_page2_name: E-Tech
@@ -228,7 +228,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2022/09/vr_energy.pdf
   # arxiv: "2209.07610"
   # teaser_vid: sigasia.mp4
-  image: sigasia22_2.png
+  image: colorfov-2.png
   bgcolor: True
   tag: "#BBDEFB"
   # tag2: "#FFCCBC"

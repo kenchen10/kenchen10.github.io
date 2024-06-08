@@ -10,7 +10,7 @@ a {
   }
   
   a.links {
-    /* color: white; */
+    color: white;
     text-decoration: none;
     font-weight: 500;
   }
