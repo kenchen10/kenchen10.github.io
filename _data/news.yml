@@ -1,12 +1,18 @@
 # - id: meta
 #   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
 #   date: 2023-06
+- id: meta24_start
+  title: I started my internship at Meta.
+  date: 2024-06
+  year: 2024
+  month: "06"
+  tag: "#CFD8DC"
+  fill: "#BBDEFB"
+
 - id: qual
   title: I passed my qualification exam.
   date: 2024-04
-  year: 2024
   month: "04"
-  tag: "#CFD8DC"
   fill: "#B2DFDB"
 
 - id: sig24
