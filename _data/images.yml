@@ -1,3 +1,10 @@
+- id: smokys
+  title: Great Smoky Mountains
+  date: May 29, 2024
+  location: Tennessee
+  imgs: 
+    - smokys/IMG_5317.jpg
+    - smokys/IMG_5327.jpg
 - id: marrakesh
   title: Marrakesh
   date: December 25, 2023
