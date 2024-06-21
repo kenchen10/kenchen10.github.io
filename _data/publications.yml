@@ -12,7 +12,8 @@
   # supp: assets/papers/peapods_supplementary.pdf
   papersite: 
   teaser_vid: 
-  award:
+  award: Best Paper Award (Honorable Mention)
+  award_link: https://blog.siggraph.org/2024/06/siggraph-2024-technical-papers-awards-best-papers-honorable-mentions-and-test-of-time.html/
   image: peapods-2.png
   bgcolor: True
   tag: "#FFCCBC"

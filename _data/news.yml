@@ -1,12 +1,18 @@
 # - id: meta
 #   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
 #   date: 2023-06
-- id: meta24_start
-  title: I started my internship at Meta.
+- id: sig24_award
+  title: <a class="links" href="projects/sig24/index.html" target="_blank">PEA-PODs</a> won a best paper award (honorable mention) at SIGGRAPH!
   date: 2024-06
   year: 2024
   month: "06"
+  fill: "#FFE0B2"
   tag: "#CFD8DC"
+
+- id: meta24_start
+  title: I started my internship at Meta.
+  date: 2024-06
+  month: "06"
   fill: "#BBDEFB"
 
 - id: qual
