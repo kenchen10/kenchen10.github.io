@@ -20,6 +20,7 @@
   teaser_image: peapods_teaser.png
   yt_emb: 
   video: 
+  teaser_text: We studied six power-saving display mapping algorithms. These techniques are used in traditional display power reduction as well as recently-proposed methods for VR displays. Just objectionable difference (JOD) scores provide a unified measure of the magnitude of perceptual impact, and percentage values represent relative display power savings (OLED display shown here). Optimal techniques have low perceptual impact (perceived close to reference in JODs), but provide big power savings.
   authors:
     - kchen
     - twan
@@ -31,7 +32,7 @@
     - achapiro
     - qsun
   affiliation_images:
-    - nyulogo.png
+    - nyu.png
     - meta.png
   bibtex: 
   abstract: "Display power consumption is an emerging concern for untethered devices. This goes double for augmented and virtual extended reality (XR) displays, which target high refresh rates and high resolutions while conforming to an ergonomically light form factor.
@@ -61,6 +62,7 @@ Finally, we leverage our study data and power models to address important displa
   teaser_image: asplos24teaser.png
   yt_emb: 
   video: 
+  teaser_text: Our algorithm takes a tile of pixels and their corresponding discrimination ellipsoid parameters, and generate an adjusted pixel tile, which then goes through existing BD encoding.
   authors:
     - nujjainkar
     - eshahan
@@ -71,7 +73,17 @@ Finally, we leverage our study data and power models to address important displa
   affiliation_images:
     - uofr.png
     - nyulogo.png
-  bibtex: "@inproceedings{10.1145/3617232.3624860, author = {Ujjainkar, Nisarg and Shahan, Ethan and Chen, Kenneth and Duinkharjav, Budmonde and Sun, Qi and Zhu, Yuhao}, title = {Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality}, year = {2024}, isbn = {9798400703720}, publisher = {Association for Computing Machinery}, address = {New York, NY, USA}, url = {https://doi.org/10.1145/3617232.3624860}, doi = {10.1145/3617232.3624860}, booktitle = {Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 1}, pages = {166–180}, numpages = {15}, location = {, La Jolla, CA, USA, }, series = {ASPLOS '24} }"
+  bibtex: "@inproceedings{<br>
+    <tab>ujjainkar2024exploiting, <br>
+    <tab>author = {Ujjainkar, Nisarg and Shahan, Ethan and Chen, Kenneth and Duinkharjav, Budmonde and Sun, Qi and Zhu, Yuhao}, <br>
+    <tab>title = {Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality}, <br>
+    <tab>year = {2024}, <br>
+    <tab>url = {https://doi.org/10.1145/3617232.3624860}, <br>
+    <tab>booktitle = {Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 1}, <br>
+    <tab>pages = {166–180}, <br>
+    <tab>numpages = {15}, <br>
+    <tab>series = {ASPLOS '24}<br>
+    }"
   abstract: "Virtual Reality (VR) has the potential of becoming the next ubiquitous computing platform. Continued progress in the burgeoning field of VR depends critically on an efficient computing substrate. In particular, DRAM access energy is known to contribute to a significant portion of system energy. Today’s framebuffer compression system alleviates the DRAM traffic by using a numerically lossless compression algorithm. We observe that being numerically lossless is unnecessary to preserve perceptual quality for users. This paper proposes a perceptually lossless, but numerically lossy, system to compress DRAM traffics. Our idea builds on top of long-established psychophysical studies that humans cannot discriminate colors that are close to each other. The discrimination ability becomes even weaker (i.e., more colors are perceptually undistinguishable) in our peripheral vision. Leveraging the color discrimination (in)ability, we propose an algorithm that adjusts pixel colors to minimize the bit encoding cost without introducing visible artifacts. The algorithm is coupled with lightweight architectural support that, in real-time, reduces the DRAM traffic by 66.9% and outperforms existing framebuffer compression mechanisms by up to 20.4%. Psychophysical studies on human participants show that our system introduce little to no perceptual fidelity degradation."
 
 - id: sca23
@@ -95,22 +107,17 @@ Finally, we leverage our study data and power models to address important displa
     - kchen
     - nbadler
   affiliation_images:
-    - cesiumlogo.png
-  bibtex: "@inproceedings{10.1145/3606037.3606839,
-author = {Chen, Kenneth and Badler, Norman},
-title = {Towards Learning and Generating Audience Motion from Video},
-year = {2023},
-isbn = {9798400702686},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3606037.3606839},
-doi = {10.1145/3606037.3606839},
-booktitle = {Proceedings of the ACM SIGGRAPH/Eurographics Symposium on Computer Animation},
-articleno = {4},
-numpages = {2},
-keywords = {audience augmentation, crowd generation, neural networks, video datasets, video prediction},
-location = {Los Angeles, CA, USA},
-series = {SCA '23}
+    - Cesium_dark_color.png
+  bibtex: "@inproceedings{<br>
+  <tab>chen2023towards,<br>
+  <tab>author = {Chen, Kenneth and Badler, Norman},<br>
+  <tab>title = {Towards Learning and Generating Audience Motion from Video},<br>
+  <tab>year = {2023},<br>
+  <tab>url = {https://doi.org/10.1145/3606037.3606839},<br>
+  <tab>booktitle = {Proceedings of the ACM SIGGRAPH/Eurographics Symposium on Computer Animation},<br>
+  <tab>articleno = {4},<br>
+  <tab>numpages = {2},<br>
+  <tab>series = {SCA '23}<br>
 }"
   abstract: "There has recently been an explosion of interest in creating large-scale shared virtual spaces for multiplayer content. However, rendering player-controllable avatars in real-time creates latency issues when scaling to thousands of players. We introduce a human audience video dataset to support applications in deep learning-based 2D video audience simulation, bypassing the need for background 3D virtual humans. This dataset consists of YouTube videos that depict audiences with diverse lighting conditions, color, dress, and movement patterns. We describe the dataset statistics, our implicit data collection strategy, and audience video extraction pipeline. We apply deep learning tasks on this data based on video prediction techniques, and propose a novel method for 2D audience simulations."
 
@@ -132,6 +139,7 @@ series = {SCA '23}
   teaser_image: etech23teaser.png
   yt_emb: 
   video: 
+  teaser_text: a) We develop a hardware prototype OLED VR display to capture power measurements when displaying different images. b) Participants view a panoramic scene in VR with our filter turned on, and are encouraged to rotate freely to view the scene in a natural manner. c) Filter intensity is increased over 10 seconds. Image credits to VR Gorilla.
   authors:
     - kchen
     - bduinkharjav
@@ -144,22 +152,17 @@ series = {SCA '23}
   affiliation_images:
     - nyulogo.png
     - uofr.png
-  bibtex: "@inproceedings{10.1145/3588037.3595388,
-author = {Chen, Kenneth and Duinkharjav, Budmonde and Ujjainkar, Nisarg and Shahan, Ethan and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},
-title = {Imperceptible Color Modulation for Power Saving in VR/AR},
-year = {2023},
-isbn = {9798400701542},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3588037.3595388},
-doi = {10.1145/3588037.3595388},
-booktitle = {ACM SIGGRAPH 2023 Emerging Technologies},
-articleno = {8},
-numpages = {2},
-keywords = {Color Perception, Gaze-Contingent Rendering, Power Consumption},
-location = {Los Angeles, CA, USA},
-series = {SIGGRAPH '23}
-}"
+  bibtex: "@inproceedings{  <br>
+    <tab>chen2023imperceptible,<br>
+    <tab>author = {Chen, Kenneth and Duinkharjav, Budmonde and Ujjainkar, Nisarg and Shahan, Ethan and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},<br>
+    <tab>title = {Imperceptible Color Modulation for Power Saving in VR/AR},<br>
+    <tab>year = {2023},<br>
+    <tab>url = {https://doi.org/10.1145/3588037.3595388},<br>
+    <tab>booktitle = {ACM SIGGRAPH 2023 Emerging Technologies},<br>
+    <tab>articleno = {8},<br>
+    <tab>numpages = {2},<br>
+    <tab>series = {SIGGRAPH '23}<br>
+  }"
   abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."
 
 
@@ -181,6 +184,7 @@ series = {SIGGRAPH '23}
   tag: "#FFCCBC"
   paper_image: mcl-paper.png
   teaser_image: teasersig23.png
+  teaser_text: (a) A VR user chooses between two candidate head motion trajectories of seemingly similar muscular workload for a visual task. (b) Our computational model predicts the user’s potential neck muscle contraction level and thus perceived neck muscle discomfort before the movements happen. 3D asset credits to Mixall, Bizulka, RootMotion at Unity, and shockwavegamez01, joseVG at Sketchfab.
   yt_emb: https://www.youtube.com/embed/XO8VR1tJoaI
   video: https://www.youtube.com/watch?v=XO8VR1tJoaI
   authors:
@@ -189,21 +193,13 @@ series = {SIGGRAPH '23}
     - qsun
   affiliation_images:
     - nyulogo.png
-  bibtex: "@inproceedings{10.1145/3588432.3591495,
-author = {Zhang, Yunxiang and Chen, Kenneth and Sun, Qi},
-title = {Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction},
-year = {2023},
-isbn = {9798400701597},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3588432.3591495},
-doi = {10.1145/3588432.3591495},
-booktitle = {ACM SIGGRAPH 2023 Conference Proceedings},
-articleno = {27},
-numpages = {12},
-keywords = {Head-Mounted Display, Ergonomics, Electromyography},
-location = {<conf-loc>, <city>Los Angeles</city>, <state>CA</state>, <country>USA</country>, </conf-loc>},
-series = {SIGGRAPH '23}
+  bibtex: "@inproceedings{<br>
+    <tab>zhang2023toward,<br>
+    <tab>title={Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction},<br>
+    <tab>author={Zhang, Yunxiang and Chen, Kenneth and Sun, Qi},<br>
+    <tab>booktitle={ACM SIGGRAPH 2023 Conference Proceedings},<br>
+    <tab>pages={1–12},<br>
+    <tab>year={2023}<br>
 }"
   abstract: "Ergonomic-friendly usage is essential to mass and prolonged adoption of virtual/augmented reality (VR/AR) head-mounted displays (HMDs). Unlike conventional displays, VR/AR HMDs unlock users' wide-range, frequent, and natural head movements for viewing. Although neck comfort is inevitably compromised due to HMDs' hardware weight, we still have little quantitative knowledge of the resulting additional muscular workload.
 <br><br>
@@ -233,6 +229,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   bgcolor: True
   tag: "#BBDEFB"
   # tag2: "#FFCCBC"
+  teaser_text: "We present a perceptually-guided, real-time, and closed-form model for minimizing the power consumption of untethered VR displays while preserving visual fidelity. We apply a gaze-contingent shader onto the original frame ((a) left) to produce a more power efficient frame ((a) right) while preserving the luminance level and perceptual fidelity during active viewing. The dashed circles indicate the user's gaze. Our method is jointly motivated by prior literature revealing that: i) the power cost of displaying different colors on LEDs may vary significantly, even if the luminance levels remain unchanged [Dong and Zhong 2011]; ii) human color sensitivity decreases in peripheral [Hansen et al. 2009] and active vision [Cohen et al. 2020]. The color palette of the original frame is modulated using our peripheral filter and is shown in (a) for a visual comparison. While the color palettes appear different when gazed upon, an observer cannot discriminate between them when shown in their periphery. (b) visualizes how our model shifts the image's chromatic histograms to minimize the physically-measured power consumption. The blue LEDs consume more energy than the red/green in our experiment display panel. Image credits to Tim Caynes © 2012."
   paper_image: vrenergy_paper.png
   teaser_image: sigasia22_teaser.png
   yt_emb: https://www.youtube.com/embed/bcbG_80TLa0
@@ -250,14 +247,15 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   equal_adv:
     - yzhu
     - qsun
-  bibtex: "@article{Duinkharjav:2022:VRPowerSaver,
-    title = {Color-Perception-Guided Display Power Reduction for Virtual Reality},
-    author = {Duinkharjav, Budmonde and Chen, Kenneth and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},
-    journal = {ACM Trans. Graph. (Proc. SIGGRAPH Asia)},
-    volume = {41},
-    number = {6},
-    pages = {144:1--144:16},
-    year = {2022}
+  bibtex: "@article{<br>
+    <tab>duinkharjav2022color,<br>
+    <tab>title = {Color-Perception-Guided Display Power Reduction for Virtual Reality},<br>
+    <tab>author = {Duinkharjav, Budmonde and Chen, Kenneth and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},<br>
+    <tab>journal = {ACM Trans. Graph. (Proc. SIGGRAPH Asia)},<br>
+    <tab>volume = {41},<br>
+    <tab>number = {6},<br>
+    <tab>pages = {144:1--144:16},<br>
+    <tab>year = {2022}<br>
   }"
   abstract: "Battery life is an increasingly urgent challenge for today's untethered VR and AR devices.
 However, the power efficiency of head-mounted displays is naturally at odds with growing computational requirements driven by better resolution, refresh rate, and dynamic ranges, all of which reduce the sustained usage time of untethered AR/VR devices.

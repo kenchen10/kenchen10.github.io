@@ -16,8 +16,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../stylesheet.css">
     <link rel="icon" href="../../favicon.ico">
     <style>
@@ -28,21 +28,22 @@
 <body>
     <div class="container" id="main">
         <div class="row">
-            <h2 class="col-md-12 text-center" style="padding-top: 1em;">
+            <h2 class="col-md-8 col-md-offset-2" style="padding-top: 40px;">
                 {{ publication.title }}<br>
                 <small>
-                    <pub style="font-size: 16px;"><venue style="font-size: 16px; border: solid #000; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: #E0F7FA;margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
+                    <pub style="font-size: 16px;"><venue style="font-size: 16px; font-weight: bold; margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
                 </small>
                 {% if publication.award != null %}
-                <br>
-                <small>&#127942; {{ publication.award }}</small>
+                <!-- <br> -->
+                &nbsp;
+                <small style="color:coral">&#127942; {{ publication.award }}</small>
                 <br>
                 {%endif%}
                 <!-- <br> -->
             </h2>
         </div>
         <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col-md-8 col-md-offset-2">
                 <ul class="list-inline">
                     {% for author_id in publication.authors %}
                     {% assign author = site.data.authors[author_id] %}
@@ -51,70 +52,61 @@
                     </br>
                     <em>{{ author.affiliation }}</em>
                     </li>
-                    {% assign remainder = forloop.index | modulo: 4 %}
+                    <!-- {% assign remainder = forloop.index | modulo: 4 %}
                     {% if remainder == 0 %}
                     <br>
-                    {% endif %}
+                    {% endif %} -->
                     {% endfor %}
                     
                 </ul>
                 {% for aff_img in publication.affiliation_images %}
-                <!-- <li> -->
-                    <img style="width: 20%;" src="../../images/{{ aff_img }}"> &nbsp;
-                <!-- </br> -->
-                <!-- </li> -->
+                    <img style="height: 40px" src="../../images/{{ aff_img }}"> &nbsp;
                 {% endfor %}
-                <br><br>
-            </div>
-        </div>
-
-
-        <!-- <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h3>
-                    Links
-                </h3>
-                <p>
-                    {% if publication.arxiv != null %}
-                    <a class="links2" href="https://arxiv.org/abs/{{ publication.arxiv }}">Paper</a> {% if publication.pdf != null || publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
+                <br>
+                <p style="padding-top: 6px;"></p>
+                {% if publication.arxiv != null %}
+                    <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}">arxiv</a>
                     {% endif %}
                     {% if publication.pdf != null %}
-                    <a class="links2" href="../../{{ publication.pdf }}">Paper</a> {% if publication.papersite != null || publication.video != null || publication.github != null || %}|{% endif %}
+                    <a class="links3" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a>
+                    {% endif %}
+                    {% if publication.supp != null %}
+                    <a class="links3" href="../../{{ publication.supp }}"><i class="fas fa-scroll"></i> supplement</a>
                     {% endif %}
                     {% if publication.papersite != null %}
-                    <a class="links2" href="{{ publication.papersite }}">Paper</a> {% if publication.video != null || publication.github != null || %}|{% endif %}
+                    <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a>
                     {% endif %}
                     {% if publication.video != null %}
-                    <a class="links2" href="../images/{{ publication.video }}">Video</a> {% if publication.github != null || %}|{% endif %}
+                    <a class="links3" href="../images/{{ publication.video }}"><i class="fas fa-video"></i> video</a>
                     {% endif %}
                     {% if publication.github != null %}
-                    <a class="links2" href="https://github.com/{{ publication.github }}">Code</a>
+                    <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>
                     {% endif %}
-                </p>
+                    {% if publication.award_link != null %}
+                    <a class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> award</a><br>
+                {% endif %}
+                <!-- <br> -->
             </div>
-        </div> -->
+        </div>
+        <!-- <br> -->
 
-        <!-- <div class="row">
+        <div class="row" style="padding-top: 16px;">
             <div class="col-md-8 col-md-offset-2">
-                <video id="v0" width="100%" autoplay loop muted controls>
-                  <source src="../../images/sigasia.mp4" type="video/mp4" />
-                </video>
-			</div>
-            <div class="col-md-8 col-md-offset-2">
-                <p class="text-center">
-                Rendered images and depths from our model.
+                {% if publication.teaser_image != null %}
+                    <image src="../../images/{{ publication.teaser_image }}" class="img-responsive" alt="overview" style="width: 98%; margin-left: auto; margin-right: auto;">
+                {% endif %}
+                <p class="text-justify" style="font-size: smaller; font-style: italic; padding-top: 8px;">
+                    {{ publication.teaser_text }}
                 </p>
             </div>
-        </div> -->
+        </div>
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
                     Abstract
                 </h3>
-                {% if publication.teaser_image != null %}
-                <image src="../../images/{{ publication.teaser_image }}" class="img-responsive" alt="overview"><br>
-                {% endif %}
+
                 <p class="text-justify">
                     {{ publication.abstract }}
                 </p>
@@ -152,33 +144,32 @@
             </div>
         </div>
         {% endif %} -->
-
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
-                    Links
+                    Downloads
                 </h3>
                 <p>
                     {% if publication.arxiv != null %}
-                    <a class="links2" href="https://arxiv.org/abs/{{ publication.arxiv }}">Paper</a><br>
+                    <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}">arxiv</a><br>
                     {% endif %}
                     {% if publication.pdf != null %}
-                    <a class="links2" href="../../{{ publication.pdf }}">Paper</a><br>
+                    <a class="links3" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a><br>
                     {% endif %}
                     {% if publication.supp != null %}
-                    <a class="links2" href="../../{{ publication.supp }}">Supplement</a><br>
+                    <a class="links3" href="../../{{ publication.supp }}"><i class="fas fa-scroll"></i> supplement</a><br>
                     {% endif %}
                     {% if publication.papersite != null %}
-                    <a class="links2" href="{{ publication.papersite }}">Paper</a><br> 
+                    <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a><br> 
                     {% endif %}
                     {% if publication.video != null %}
-                    <a class="links2" href="../images/{{ publication.video }}">Video</a><br>
+                    <a class="links3" href="../images/{{ publication.video }}"><i class="fas fa-video"></i> video</a><br>
                     {% endif %}
                     {% if publication.github != null %}
-                    <a class="links2" href="https://github.com/{{ publication.github }}">Code</a><br>
+                    <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a><br>
                     {% endif %}
                     {% if publication.award_link != null %}
-                    <a class="links2" href="{{ publication.award_link }}">Award</a><br>
+                    <a class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> award</a><br>
                     {% endif %}
                 </p>
             </div>
@@ -190,21 +181,13 @@
                 <h3>
                     Citation
                 </h3>
-                    <pre style="word-wrap: break-word; white-space: pre-wrap;">
-    {{ publication.bibtex }}
-                    </pre>
+                    <pre><code>{{ publication.bibtex }}</code></pre>
                 </section>
                   
             </div>
         </div>
         {% endif %}
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <p style="text-align:right;font-size:small;">
-                    Template from <a style="font-size:small;" href="http://mgharbi.com/">Michaël Gharbi</a>.
-                </p>
-            </div>
-        </div>
+
     </div>
 </body>
 </html>

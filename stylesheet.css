@@ -17,7 +17,7 @@ a.links {
 
 a.links:focus,
 a.links:hover {
-  color: orange;
+  color: rgb(137, 0, 225);
   text-decoration: none;
   font-weight: 500;
 }
@@ -31,6 +31,18 @@ a.links2 {
 
 a.links2:hover {
   color: orange;
+}
+
+a.links3 {
+  color: #1772cf;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: medium;
+  padding-right: 4px;
+}
+
+a.links3:hover {
+  color: rgb(137, 0, 225);
 }
 
 body {
@@ -246,4 +258,8 @@ pre {
 
 .hoverable:hover {
   border: 1px solid black;
+}
+
+tab {
+  padding-left: 60px;
 }
