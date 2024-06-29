@@ -93,9 +93,9 @@
         <div class="row" style="padding-top: 16px;">
             <div class="col-md-8 col-md-offset-2">
                 {% if publication.teaser_image != null %}
-                    <image src="../../images/{{ publication.teaser_image }}" class="img-responsive" alt="overview" style="width: 98%; margin-left: auto; margin-right: auto;">
+                    <image src="../../images/{{ publication.teaser_image }}" class="img-responsive" alt="overview" style="width: 99%; margin-left: auto; margin-right: auto;">
                 {% endif %}
-                <p class="text-justify" style="font-size: smaller; font-style: italic; padding-top: 8px;">
+                <p class="text-justify" style="font-size: smaller; font-style: italic; padding-top: 8px; width: 98%; margin-left: auto; margin-right: auto;">
                     {{ publication.teaser_text }}
                 </p>
             </div>
@@ -107,7 +107,7 @@
                     Abstract
                 </h3>
 
-                <p class="text-justify">
+                <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
                     {{ publication.abstract }}
                 </p>
             </div>
@@ -149,7 +149,7 @@
                 <h3>
                     Downloads
                 </h3>
-                <p>
+                <p style="width: 98%; margin-left: auto; margin-right: auto;">
                     {% if publication.arxiv != null %}
                     <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}">arxiv</a><br>
                     {% endif %}
