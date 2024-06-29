@@ -65,22 +65,22 @@
                 <br>
                 <p style="padding-top: 6px;"></p>
                 {% if publication.arxiv != null %}
-                    <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}">arxiv</a>
+                    <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}">arxiv</a>&nbsp;
                     {% endif %}
                     {% if publication.pdf != null %}
-                    <a class="links3" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a>
+                    <a class="links3" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a>&nbsp;
                     {% endif %}
                     {% if publication.supp != null %}
-                    <a class="links3" href="../../{{ publication.supp }}"><i class="fas fa-scroll"></i> supplement</a>
+                    <a class="links3" href="../../{{ publication.supp }}"><i class="fas fa-paperclip"></i> supplement</a>&nbsp;
                     {% endif %}
                     {% if publication.papersite != null %}
-                    <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a>
+                    <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a>&nbsp;
                     {% endif %}
                     {% if publication.video != null %}
-                    <a class="links3" href="../images/{{ publication.video }}"><i class="fas fa-video"></i> video</a>
+                    <a class="links3" href="../images/{{ publication.video }}"><i class="fas fa-video"></i> video</a>&nbsp;
                     {% endif %}
                     {% if publication.github != null %}
-                    <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>
+                    <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>&nbsp;
                     {% endif %}
                     {% if publication.award_link != null %}
                     <a class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> award</a><br>
@@ -157,7 +157,7 @@
                     <a class="links3" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a><br>
                     {% endif %}
                     {% if publication.supp != null %}
-                    <a class="links3" href="../../{{ publication.supp }}"><i class="fas fa-scroll"></i> supplement</a><br>
+                    <a class="links3" href="../../{{ publication.supp }}"><i class="fas fa-paperclip"></i> supplement</a><br>
                     {% endif %}
                     {% if publication.papersite != null %}
                     <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a><br> 
@@ -181,7 +181,7 @@
                 <h3>
                     Citation
                 </h3>
-                    <pre><code>{{ publication.bibtex }}</code></pre>
+                    <pre style="font-size: x-small;"><code>{{ publication.bibtex }}</code></pre>
                 </section>
                   
             </div>

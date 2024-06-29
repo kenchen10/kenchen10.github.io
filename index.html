@@ -227,6 +227,9 @@ layout: null
                 {% if publication.video != null %}
                 <a style="font-size: smaller" class="links2" href="{{ publication.video }}">[video]</a>
                 {% endif %}
+                {% if publication.supp != null %} 
+                <a style="font-size: smaller" class="links2" href="{{ publication.supp }}">[supplement]</a>
+                {% endif %}
                 {% if publication.award_link != null %} 
                 <a style="font-size: smaller" class="links2" href="{{ publication.award_link }}">[award]</a>
                 {% endif %}

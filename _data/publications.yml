@@ -8,8 +8,8 @@
   project_page: "projects/sig24/index.html"
   github: NYU-ICL/pea-pods.git
   arxiv: 
-  pdf: assets/papers/peapods_manuscript.pdf
-  # supp: assets/papers/peapods_supplementary.pdf
+  pdf: assets/papers/peapods_manuscript_Part1.pdf
+  supp: assets/papers/peapods_manuscript_Part2.pdf
   papersite: 
   teaser_vid: 
   award: Best Paper Award (Honorable Mention)
