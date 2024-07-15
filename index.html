@@ -17,7 +17,8 @@ layout: null
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
-  <link rel="stylesheet" type="text/css" href="stylesheet2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
 	<link rel="icon" href="./favicon.ico">
   <style>
     @import url('https://fonts.cdnfonts.com/css/fontin');
@@ -27,7 +28,7 @@ layout: null
 <body>
   <table style="margin-left: auto;margin-right: auto;"><tr><td>
     <!-- <hr> -->
-    <table style="max-width:800px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
+    <table style="vertical-align: top;max-width:725px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
       <!-- <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody> -->
         <!-- <a href="images.html"><img style="max-width: 800px;" src="images/banner_nyc.jpg"></a> -->
       <!-- </tbody></table> -->
@@ -35,11 +36,11 @@ layout: null
         <td style="padding:0px">   
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             <tr>
-              <th style="width:37%"></th>
-              <th style="width:63%"></th>
+              <th style="width:28%"></th>
+              <th style="width:72%"></th>
             </tr>
             <tr style="padding:0px">
-              <td style="padding:20px;vertical-align:middle">
+              <td style="padding:0px;vertical-align:middle">
                 <div id="banner-load"></div>
               </td>
               <td style="padding:20px;vertical-align:middle">
@@ -51,12 +52,12 @@ layout: null
                 </p>
                 <p>{{ site.description }}</p>
                 <p>
-                  <a class="links2" href="mailto:{{ site.email }}">Email</a> | 
+                  <a class="links3" style="font-size:small" href="mailto:{{ site.email }}"><i class="fas fa-envelope"></i> Email</a> | 
                   <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
-                  <a class="links2" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank">Google Scholar</a> | 
-                  <a class="links2" href="https://twitter.com/{{ site.twitter_username }}" target="_blank">Twitter</a> | 
+                  <a class="links3" style="font-size:small" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><i class="fa-brands fa-google-scholar"></i> Google Scholar</a> | 
+                  <a class="links3" style="font-size:small" href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><i class="fab fa-twitter"></i> Twitter</a> | 
                   <!-- <a class="links" href="https://instagram.com/10chenken"><button style="background-color: #E1BEE7;">Instagram</button></a> | -->
-                  <a class="links2" href="./assets/cv.pdf" target="_blank">CV</a>
+                  <a class="links3" style="font-size:small" href="./assets/cv.pdf" target="_blank"><i class="fas fa-file"></i> CV</a>
                   <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
                 </p>
               </td>
@@ -96,16 +97,16 @@ layout: null
           {% endfor %}
           
         </tbody></table>
-        <br>
+        <!-- <br> -->
         <!-- <br id="timeline" > -->
-            <img id="timeline" style="max-width:700px;vertical-align:middle" src="images/timeline.svg">
+            <!-- <img id="timeline" style="max-width:700px;vertical-align:middle" src="images/timeline.svg"> -->
       <!-- </br> -->
       </tr>
       
     </table>
     </td>
     <td style="vertical-align:top;">
-    <table id="photos" style="max-width:200px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
+    <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
       <tr style="padding:0px">
         <td style="padding-top:20px">   
           <a href="images.html">
@@ -114,17 +115,17 @@ layout: null
         </td>
       </tr>
     </table>
-    <table id="photos" style="max-width:200px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
+    <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
       <tr style="padding:0px">
         <td style="padding-top:20px">   
           <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             {% assign i = 0 %}
             {% for photo in site.data.images %}
             <a href="photos/{{ photo.id }}">
-              {% for img in photo.imgs limit : 2 %}
+              {% for img in photo.imgs limit : 1 %}
               {% assign i = i | plus:1 %}
-              {% if i < 14 %}
-              <img class="hoverable" style="margin:5px;" width=43% src="images/{{ img }}">
+              {% if i < 10 %}
+              <img class="hoverable" style="margin:5px;" width=27% src="images/{{ img }}">
               {% endif %}
               {% endfor %}
             </a>
@@ -174,7 +175,7 @@ layout: null
                 </div>
               </td>
               {% if publication.bgcolor!= null %}
-              <td style="padding:10px;vertical-align:middle; background: linear-gradient(to right, black , rgb(37, 37, 37));">
+              <td style="padding:10px;vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
               {%else%}
               <td style="padding:10px;vertical-align:middle;">
               {%endif%}
@@ -199,7 +200,7 @@ layout: null
                 <pub><venue style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
                 {% if publication.award != null %}
                 <br>
-                 <venue style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: #FFE0B2;margin-left: 0;">&#127942; {{ publication.award }}</venue>
+                 <pub><venue style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;"><i class="fas fa-award"></i>  {{ publication.award }}</venue></pub>
                 {%endif%}
                 {% if publication.description != null %}
                 <br>
@@ -210,31 +211,31 @@ layout: null
                 <br>
                 <!-- <i class="fa-solid fa-arrow-right"></i> -->
                 {% if publication.project_page != null %}
-                <a style="font-size: smaller" class="links2" href="{{ publication.project_page }}">[project page]</a>
+                <a style="font-size: smaller" class="links3" href="{{ publication.project_page }}"><i class="fas fa-globe"></i> [project page]</a>
                 {% endif %}
                 {% if publication.arxiv != null %}
-                <a style="font-size: smaller" class="links2" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf">[PDF]</a>
+                <a style="font-size: smaller" class="links3" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i> [PDF]</a>
                 {% endif %}
                 {% if publication.pdf != null %}
-                <a style="font-size: smaller" class="links2" href="{{publication.pdf}}">[PDF]</a>
+                <a style="font-size: smaller" class="links3" href="{{publication.pdf}}"><i class="far fa-file-pdf"></i> [PDF]</a>
                 {% endif %}
                 {% if publication.papersite != null %}
-                <a style="font-size: smaller" class="links2" href="{{publication.papersite}}">[PDF]</a>
+                <a style="font-size: smaller" class="links3" href="{{publication.papersite}}"><i class="far fa-file-pdf"></i> [PDF]</a>
                 {% endif %}
                 {% if publication.github != null %}
-                <a style="font-size: smaller" class="links2" href="https://github.com/{{ publication.github }}">[code]</a>
+                <a style="font-size: smaller" class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> [code]</a>
                 {% endif %}
                 {% if publication.video != null %}
-                <a style="font-size: smaller" class="links2" href="{{ publication.video }}">[video]</a>
+                <a style="font-size: smaller" class="links3" href="{{ publication.video }}"><i class="fas fa-video"></i> [video]</a>
                 {% endif %}
                 {% if publication.supp != null %} 
-                <a style="font-size: smaller" class="links2" href="{{ publication.supp }}">[supplement]</a>
+                <a style="font-size: smaller" class="links3" href="{{ publication.supp }}"><i class="fas fa-paperclip"></i> [supplement]</a>
                 {% endif %}
                 {% if publication.award_link != null %} 
-                <a style="font-size: smaller" class="links2" href="{{ publication.award_link }}">[award]</a>
+                <a style="font-size: smaller" class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> [award]</a>
                 {% endif %}
                 {% if publication.project_page2 != null %}
-                <a class="links2" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
+                <a class="links3" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
                 {% endif %}
                 <p></p>
               </td>
@@ -262,7 +263,7 @@ layout: null
               <td class="tdnews">
               <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{ teaching.institution }}{% if teaching.year != null %}{% endif %}
               <br>
-              <em style="font-size:small;">{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor != null %} | <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %} | <a class="links2" href="{{ teaching.url }}">[{{teaching.urltitle}}]</a>{% endif %}
+              <em style="font-size:small;">{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor != null %} | <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %} | <a class="links3" style="font-size:small" href="{{ teaching.url }}"><i class="fab fa-slideshare"></i> [{{teaching.urltitle}}]</a>{% endif %}
               </td>
             </tr>
           {% endfor %}
@@ -280,7 +281,7 @@ layout: null
         <table style="max-width:275px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;margin-left: auto;margin-right: auto;vertical-align: top;">
       <tr>
         <td>
-          <heading style="color:white; background: linear-gradient(to right, black , rgb(94, 94, 94));">HIGHLIGHTS</heading>
+          <heading style="color:black; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">HIGHLIGHTS</heading>
           <!-- <p><small>{{ site.research }}</small></p> -->
         </td>
       </tr>
@@ -342,7 +343,7 @@ layout: null
 
   <script>
     //Add your images, we'll set the path in the next step
-        var images = ['profile.JPG'];
+        var images = ['profile_headshot.JPG'];
         
     //Build the img, then do a bit of maths to randomize load and append to a div. Add a touch off css to fade them badboys in all sexy like.
         $('<img id="profile" style="width:100%;border-radius: 0;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');

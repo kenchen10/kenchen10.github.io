@@ -19,17 +19,15 @@
 # in the templates via {{ site.myvariable }}.
 
 title: KENNY CHEN
-title2: 1<sup>st</sup> Year PhD Student @ NYU
+title2: 
 image: profile0.jpg
 email: kennychen@nyu.edu
 description:
-  Welcome! I am a first year Computer Science PhD student at New York University where I'm 
-  advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a> 
-  in the <a class="links" href="https://www.immersivecomputinglab.org/" target="_blank">Immersive Computing Lab</a>. 
+  Welcome! I am a first year Computer Science PhD student at New York University, 
+  advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
   <br><br>
-  During my PhD, I interned at Meta Reality Labs, hosted by <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>
-  in <a class="links" href="https://www.linkedin.com/in/ajitninan/" target="_blank">Ajit Ninan</a>'s Applied Perception Science team.
-  Previously, I received my MS from NYU in 2023 and BA from UC Berkeley in 2021.
+  During my PhD, I interned at Meta Reality Labs, hosted by <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>.
+  Previously, I received my MS from NYU in 2023 and a BA from UC Berkeley in 2021.
   <br><br>
   I'm happy to chat about research or anything else, and can be reached at <a class="links" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!
 

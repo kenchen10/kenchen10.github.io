@@ -70,6 +70,28 @@ body {
   }
 }
 
+@media only screen and (max-width: 40em) {
+  #banner-load {
+    width: 100%;
+  }
+
+  thead th:not(:first-child) {
+      display: none;
+  }
+
+  td, th {
+      display: block;
+  }
+
+  img {
+    display: none;
+  }
+
+  td[data-th]:before  {
+      content: attr(data-th);
+  }
+}
+
 @media only screen and (max-width: 768px) { 
   #timeline { 
     display: none; 
@@ -128,12 +150,12 @@ papertitle {
 
 name {
   font-family: 'Fontin';
-  font-size: 40px;
+  font-size: 20px;
 }
 
 name2 {
   font-family: 'Fontin';
-  font-size: 24px;
+  font-size: 16px;
 }
 
 venue {
@@ -169,7 +191,7 @@ pub {
 }
 
 span.highlight {
-  background-color: rgb(255, 249, 196);
+  background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));;
 }
 
 table {

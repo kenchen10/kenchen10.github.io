@@ -2,7 +2,7 @@
 #   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
 #   date: 2023-06
 - id: sig24_award
-  title: <a class="links" href="projects/sig24/index.html" target="_blank">PEA-PODs</a> won a best paper award (honorable mention) at SIGGRAPH!
+  title: PEA-PODs won a best paper award (honorable mention) at SIGGRAPH!
   date: 2024-06
   year: 2024
   month: "06"
@@ -22,7 +22,7 @@
   fill: "#B2DFDB"
 
 - id: sig24
-  title: My internship project, <a class="links" href="projects/sig24/index.html" target="_blank">PEA-PODs</a>, was accepted as a journal paper to SIGGRAPH 2024!
+  title: My internship project, PEA-PODs, was accepted as a journal paper to SIGGRAPH 2024!
   date: 2024-03
   month: "03"
   fill: "#FFE0B2"
@@ -42,26 +42,26 @@
   fill: "#B2DFDB"
 
 - id: asplos24
-  title: Our <a class="links" href="projects/asplos24/index.html" target="_blank">collaboration</a> with UofR was accepted to ASPLOS 2024!
+  title: Our collaboration with UofR was accepted to ASPLOS 2024!
   date: 2023-08
   month: "08"
   fill: "#FFE0B2"
 
 - id: sca23
-  title: Our work during my internship at Cesium was accepted as a <a class="links" href="projects/sca23/index.html">poster</a> to SCA.
+  title: Our work during my internship at Cesium was accepted as a poster to SCA.
   date: 2023-06
   month: "06"
   fill: "#FFE0B2"
 
 - id: meta
-  title: I started an internship at Meta in the Applied Perception Science team w/ <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>.
+  title: I started an internship at Meta in the Applied Perception Science team w/ Alex Chapiro.
   date: 2023-06
   month: "06"
   tag: "#CFD8DC"
   fill: "#BBDEFB"
 
 - id: sig23
-  title: One <a class="links" href="projects/emg-energy/index.html" target="_blank">conference paper</a> and an <a class="links" href="projects/vr-energy-etech/index.html" target="_blank">E-Tech demo</a> accepted to SIGGRAPH 2023!
+  title: One conference paper and an E-Tech demo accepted to SIGGRAPH 2023!
   date: 2023-05
   month: "05"
   fill: "#FFE0B2"
@@ -87,13 +87,13 @@
   fill: "#FFCCBC"
 
 - id: sigasia22
-  title: Our <a class="links" href="https://arxiv.org/pdf/2209.07610.pdf" target="_blank">paper</a> was accepted to SIGGRAPH Asia 2022 journal track!
+  title: Our paper was accepted to SIGGRAPH Asia 2022 journal track!
   date: 2022-08
   month: "08"
   fill: "#FFE0B2"
 
 - id: csm
-  title: I started a research internship at <a class="links" href="https://cesium.com" target="_blank">Cesium</a> in Philly w/ <a class="links" href="https://www.cis.upenn.edu/~badler/" target="_blank">Dr. Norm Badler</a>.
+  title: I started a research internship at Cesium in Philly w/ Dr. Norm Badler.
   date: 2022-06
   month: "06"
   fill: "#BBDEFB"
