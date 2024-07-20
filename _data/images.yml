@@ -1,3 +1,13 @@
+- id: baylands
+  title: Baylands Nature Preserve
+  date: July 17 - 19, 2024
+  location: California
+  imgs: 
+    - baylands/DSC_0300.jpg
+    - baylands/DSC_0432-Enhanced-NR.jpg
+    - baylands/DSC_0408.avif
+    - baylands/DSC_0441.jpg
+    - baylands/DSC_0477.jpg
 - id: smokys
   title: Great Smoky Mountains
   date: May 29, 2024
