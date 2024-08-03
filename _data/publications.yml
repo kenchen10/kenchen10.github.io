@@ -34,7 +34,26 @@
   affiliation_images:
     - nyu.png
     - meta.png
-  bibtex: 
+  bibtex: "
+  @article{ <br>
+    <tab>chen2024peapods,<br>
+    <tab>author = {Chen, Kenneth and Wan, Thomas and Matsuda, Nathan and Ninan, Ajit and Chapiro, Alexandre and Sun, Qi},<br>
+    <tab>title = {PEA-PODs: Perceptual Evaluation of Algorithms for Power Optimization in XR Displays},<br>
+    <tab>year = {2024},<br>
+    <tab>issue_date = {July 2024},<br>
+    <tab>publisher = {Association for Computing Machinery},<br>
+    <tab>address = {New York, NY, USA},<br>
+    <tab>volume = {43},<br>
+    <tab>number = {4},<br>
+    <tab>issn = {0730-0301},<br>
+    <tab>url = {https://doi.org/10.1145/3658126},<br>
+    <tab>doi = {10.1145/3658126},<br>
+    <tab>journal = {ACM Trans. Graph.},<br>
+    <tab>month = {jul},<br>
+    <tab>articleno = {67},<br>
+    <tab>numpages = {17},<br>
+  }
+  "
   abstract: "Display power consumption is an emerging concern for untethered devices. This goes double for augmented and virtual extended reality (XR) displays, which target high refresh rates and high resolutions while conforming to an ergonomically light form factor.
 A number of image mapping techniques have been proposed to extend battery usage. However, there is currently no comprehensive quantitative understanding of how the power savings provided by these methods compare to their impact on visual quality. We set out to answer this question.
 <br><br>
