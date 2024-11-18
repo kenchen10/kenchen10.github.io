@@ -231,6 +231,9 @@ layout: null
                 {% if publication.supp != null %} 
                 <a style="font-size: smaller" class="links3" href="{{ publication.supp }}"><i class="fas fa-paperclip"></i> [supplement]</a>
                 {% endif %}
+                {% if publication.poster != null %} 
+                <a style="font-size: smaller" class="links3" href="{{ publication.poster }}"><i class="fas fa-chess-board"></i> [poster]</a>
+                {% endif %}
                 {% if publication.award_link != null %} 
                 <a style="font-size: smaller" class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> [award]</a>
                 {% endif %}
@@ -338,6 +341,9 @@ layout: null
                 {% endif %}
                 {% if publication.supp != null %} 
                 <a style="font-size: smaller" class="links3" href="{{ publication.supp }}"><i class="fas fa-paperclip"></i> [supplement]</a>
+                {% endif %}
+                {% if publication.poster != null %} 
+                <a style="font-size: smaller" class="links3" href="{{ publication.poster }}"><i class="fas fa-chess-board"></i> [poster]</a>
                 {% endif %}
                 {% if publication.award_link != null %} 
                 <a style="font-size: smaller" class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> [award]</a>
