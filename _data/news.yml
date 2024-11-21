@@ -1,13 +1,19 @@
 # - id: meta
 #   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
 #   date: 2023-06
+- id: highbeams
+  title: I gave a virtual talk, invited by Prof. Kaan Aksit, at the High Beams Seminar at UCL.
+  date: 2024-11
+  year: 2024
+  month: "11"
+  fill: "#FFCCBC"
+  tag: "#CFD8DC"
+
 - id: sig24_award
   title: PEA-PODs won a best paper award (honorable mention) at SIGGRAPH!
   date: 2024-06
-  year: 2024
   month: "06"
   fill: "#FFE0B2"
-  tag: "#CFD8DC"
 
 - id: meta24_start
   title: I started my internship at Meta.
