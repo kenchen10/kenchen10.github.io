@@ -1,3 +1,22 @@
+- id: prague
+  title: Prague
+  date: December 1 - 3, 2024
+  location: Czech Republic
+  imgs: 
+    - prague/DSC_1474.jpg
+    - prague/DSC_1493.jpg
+    - prague/DSC_1537.jpg
+    - prague/DSC_1574.jpg
+    - prague/DSC_1581.jpg
+- id: budapest
+  title: Budapest
+  date: November 29 - 30, 2024
+  location: Hungary
+  imgs: 
+    - budapest/DSC_1194.jpg
+    - budapest/DSC_1304.jpg
+    - budapest/DSC_1339.jpg
+    - budapest/DSC_1345.jpg
 - id: baylands
   title: Baylands Nature Preserve
   date: July 17 - 19, 2024
@@ -15,12 +34,12 @@
   imgs: 
     - smokys/IMG_5317.jpg
     - smokys/IMG_5327.jpg
-- id: marrakesh
-  title: Marrakesh
-  date: December 25, 2023
-  location: Morocco
-  imgs: 
-    - marrakesh/IMG_1410.jpg
+# - id: marrakesh
+#   title: Marrakesh
+#   date: December 25, 2023
+#   location: Morocco
+#   imgs: 
+#     - marrakesh/IMG_1410.jpg
 - id: fez
   title: Fes
   date: December 23, 2023

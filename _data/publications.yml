@@ -1,3 +1,33 @@
+# - id: vr25
+#   title: "Perceptually-Guided Acoustic ``Foveation``"
+#   venue: IEEE VR
+#   venue_long: Conference Proceedings
+#   year: 2025
+#   showyear: 2025
+#   description: 
+#   project_page: "projects/vr25/index.html"
+#   github: 
+#   arxiv: 
+#   papersite: 
+#   teaser_vid: 
+#   image: vr25.png
+#   bgcolor: 
+#   tag: "#C5CAE9"
+#   teaser_image: 
+#   yt_emb: 
+#   video: 
+#   teaser_text: 
+#   authors:
+#     - xpeng
+#     - kchen
+#     - iroman
+#     - jpbello
+#     - pchakravarthula
+#     - qsun
+#   affiliation_images:
+#   bibtex:
+#   abstract: 
+
 - id: sig24
   title: "<b style='color:#4CBB17;'>PEA-PODs</b>: <b style='color:#4CBB17;'>P</b>erceptual <b style='color:#4CBB17;'>E</b>valuation of <b style='color:#4CBB17;'>A</b>lgorithms <br>for <b style='color:#4CBB17;'>P</b>ower <b style='color:#4CBB17;'>O</b>ptimization in XR <b style='color:#4CBB17;'>D</b>isplay<b style='color:#4CBB17;'>s</b>"
   venue: SIGGRAPH

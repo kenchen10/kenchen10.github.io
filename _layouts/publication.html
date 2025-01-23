@@ -77,7 +77,7 @@
                     <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a>&nbsp;
                     {% endif %}
                     {% if publication.video != null %}
-                    <a class="links3" href="../images/{{ publication.video }}"><i class="fas fa-video"></i> video</a>&nbsp;
+                    <a class="links3" href="{{ publication.video }}"><i class="fas fa-video"></i> video</a>&nbsp;
                     {% endif %}
                     {% if publication.github != null %}
                     <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>&nbsp;
@@ -163,7 +163,7 @@
                     <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a><br> 
                     {% endif %}
                     {% if publication.video != null %}
-                    <a class="links3" href="../images/{{ publication.video }}"><i class="fas fa-video"></i> video</a><br>
+                    <a class="links3" href="{{ publication.video }}"><i class="fas fa-video"></i> video</a><br>
                     {% endif %}
                     {% if publication.github != null %}
                     <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a><br>

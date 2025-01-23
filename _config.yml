@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: KENNY CHEN
+title: Kenny Chen
 title2: 
 image: profile0.jpg
 email: kennychen@nyu.edu

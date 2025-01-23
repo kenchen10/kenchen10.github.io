@@ -2,14 +2,16 @@
 layout: null
 ---
 <!DOCTYPE HTML>
-<html lang="en"><head>
+<html lang="en">
+
+<head>
   {% if site.google_analytics and jekyll.environment == 'production' %}
   {% include analytics.html %}
   {% endif %}
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <title>{{ site.title }}</title>
-  
+
   <meta name="author" content="{{ site.title }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -17,414 +19,563 @@ layout: null
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
-	<link rel="icon" href="./favicon.ico">
+  <link rel="icon" href="./favicon.ico">
   <style>
     @import url('https://fonts.cdnfonts.com/css/fontin');
   </style>
 </head>
 
 <body>
-  <table style="margin-left: auto;margin-right: auto;"><tr><td>
-    <!-- <hr> -->
-    <table style="vertical-align: top;max-width:725px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
-      <!-- <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody> -->
-        <!-- <a href="images.html"><img style="max-width: 800px;" src="images/banner_nyc.jpg"></a> -->
-      <!-- </tbody></table> -->
-      <tr style="padding:0px">
-        <td style="padding:0px">   
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr>
-              <th style="width:28%"></th>
-              <th style="width:72%"></th>
-            </tr>
+  <table style="margin-left: auto;margin-right: auto;">
+    <tr>
+      <td>
+        <!-- <hr> -->
+        <table
+          style="vertical-align: top;max-width:725px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
+          <tbody>
+            <!-- <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody> -->
+            <!-- <a href="images.html"><img style="max-width: 800px;" src="images/banner_nyc.jpg"></a> -->
+            <!-- </tbody></table> -->
             <tr style="padding:0px">
-              <td style="padding:0px;vertical-align:middle">
-                <div id="banner-load"></div>
-              </td>
-              <td style="padding:20px;vertical-align:middle">
-                <p>
-                  <b><name>{{ site.title }}</name></b><br>
-                  <b><name2>{{ site.title2 }}</name2></b>
-                  <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
-                  <!-- <img id="timeline" style="vertical-align:middle" src="images/break2.svg"> -->
-                </p>
-                <p>{{ site.description }}</p>
-                <p>
-                  <a class="links3" style="font-size:small" href="mailto:{{ site.email }}"><i class="fas fa-envelope"></i> Email</a> | 
-                  <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
-                  <a class="links3" style="font-size:small" href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><i class="fa-brands fa-google-scholar"></i> Google Scholar</a> | 
-                  <a class="links3" style="font-size:small" href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><i class="fab fa-twitter"></i> Twitter</a> | 
-                  <!-- <a class="links" href="https://instagram.com/10chenken"><button style="background-color: #E1BEE7;">Instagram</button></a> | -->
-                  <a class="links3" style="font-size:small" href="./assets/cv.pdf" target="_blank"><i class="fas fa-file"></i> CV</a>
-                  <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
-                </p>
+              <td style="padding:0px">
+                <table
+                  style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                    <tr>
+                      <th style="width:28%"></th>
+                      <th style="width:72%"></th>
+                    </tr>
+                    <tr style="padding:0px">
+                      <td style="padding:0px;vertical-align:middle">
+                        <div id="banner-load"></div>
+                      </td>
+                      <td style="padding:20px;vertical-align:middle">
+                        <p>
+                          <b>
+                            <name>{{ site.title }}</name>
+                          </b><br>
+                          <b>
+                            <name2>{{ site.title2 }}</name2>
+                          </b>
+                          <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
+                          <!-- <img id="timeline" style="vertical-align:middle" src="images/break2.svg"> -->
+                        </p>
+                        <p>{{ site.description }}</p>
+                        <p>
+                          <a class="links3" style="font-size:small" href="mailto:{{ site.email }}"><i
+                              class="fas fa-envelope"></i> Email</a> |
+                          <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
+                          <a class="links3" style="font-size:small"
+                            href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><i
+                              class="fa-brands fa-google-scholar"></i> Google Scholar</a> |
+                          <a class="links3" style="font-size:small"
+                            href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><i
+                              class="fab fa-twitter"></i> Twitter</a> |
+                          <!-- <a class="links" href="https://instagram.com/10chenken"><button style="background-color: #E1BEE7;">Instagram</button></a> | -->
+                          <a class="links3" style="font-size:small" href="./assets/cv.pdf" target="_blank"><i
+                              class="fas fa-file"></i> CV</a>
+                          <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- <img id="timeline" style="width:100%;vertical-align:middle" src="images/break2.svg"> -->
+                <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
+                <table id="timeline"
+                  style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <heading>TIMELINE</heading><br>
+                        <div style="float: left; line-height: 25px;">
+                          <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #B2DFDB;">school</venue> |
+                          <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #BBDEFB;">work</venue> |
+                          <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFE0B2;">research</venue> |
+                          <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFCCBC;">talk</venue> |
+                          <a class="links" href="news.html">[All]</a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table id="timeline"
+                  style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                    {% for item in site.data.news limit : 5%}
+                    <tr>
+                      <td class="tdnews" width="10px">
+                        {% if item.year != null %}
+                        <venue
+                          style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.tag }};margin-left: 0;">
+                          {{ item.year }}</venue>
+                        {% endif %}
+                      </td>
+                      <td class="tdnews" width="10px">
+                        <venue
+                          style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.fill }};margin-left: 0;">
+                          {{ item.month }}</venue>
+                      </td>
+                      <td class="tdnews" style="font-size: small;">
+                        {{ item.title }}
+                      </td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+
+                <!-- <table id="images"
+                  style="overflow-x: auto; max-width: fit-content; display: block;">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <heading>IMAGES</heading><br>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="height: 100px; ">
+                        {% for photo in site.data.images %}
+                        <a href="photos/{{ photo.id }}">
+                          {% for img in photo.imgs limit : 1 %}
+                          {% assign i = i | plus:1 %}
+                            {% if i < 12 %} 
+                              <img class="hoverable" style="margin:5px; height: 100%;" src="images/{{ img }}">
+                            {% endif %}
+                          {% endfor %}
+                        </a>
+                        {% endfor %}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+            </tr>
+
+        </table>
+      </td>
+      <td style="vertical-align:top;">
+        <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;">
+          <tbody>
+            <tr style="padding:0px">
+              <td style="padding-top:20px">
+                <a href="images.html">
+                  <img class="hoverable" style="margin:auto;" width=100% src="images/banner_nyc.jpg">
+                </a>
               </td>
             </tr>
-          </tbody></table>
-          <!-- <img id="timeline" style="width:100%;vertical-align:middle" src="images/break2.svg"> -->
-          <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
-          <table id="timeline" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr>
-            <td>
-              <heading>TIMELINE</heading><br>
-              <div style="float: left; line-height: 25px;">
-                <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #B2DFDB;">school</venue> |
-                <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #BBDEFB;">work</venue> |
-                <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFE0B2;">research</venue> |
-                <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFCCBC;">talk</venue> |
-                <a class="links" href="news.html">[All]</a> 
-              </div>
-            </td>
-          </tr>
-        </tbody></table>
-        <table id="timeline" style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          {% for item in site.data.news limit : 5%}
-          <tr>
-            <td class="tdnews" width="10px">
-              {% if item.year != null %}
-              <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.tag }};margin-left: 0;">{{ item.year }}</venue>
-              {% endif %}
-            </td>
-            <td class="tdnews" width="10px">
-              <venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.fill }};margin-left: 0;">{{ item.month }}</venue>
-            </td>
-            <td class="tdnews" style="font-size: small;">
-              {{ item.title }}
-            </td>
-          </tr>
-          {% endfor %}
-          
-        </tbody></table>
-        <!-- <br> -->
-        <!-- <br id="timeline" > -->
-            <!-- <img id="timeline" style="max-width:700px;vertical-align:middle" src="images/timeline.svg"> -->
-      <!-- </br> -->
-      </tr>
-      
-    </table>
-    </td>
-    <td style="vertical-align:top;">
-    <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
-      <tr style="padding:0px">
-        <td style="padding-top:20px">   
-          <a href="images.html">
-            <img class="hoverable" style="margin:auto;" width=100% src="images/banner_nyc.jpg">
-          </a>
-        </td>
-      </tr>
-    </table>
-    <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;"><tbody>
-      <tr style="padding:0px">
-        <td style="padding-top:20px">   
-          <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            {% assign i = 0 %}
-            {% for photo in site.data.images %}
-            <a href="photos/{{ photo.id }}">
-              {% for img in photo.imgs limit : 1 %}
-              {% assign i = i | plus:1 %}
-              {% if i < 10 %}
-              <img class="hoverable" style="margin:5px;" width=27% src="images/{{ img }}">
-              {% endif %}
-              {% endfor %}
-            </a>
-            {% endfor %}
+        </table>
+        <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;">
+          <tbody>
+            <tr style="padding:0px">
+              <td style="padding-top:20px">
+                <table
+                  style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                    {% assign i = 0 %}
+                    {% for photo in site.data.images %}
+                    <a href="photos/{{ photo.id }}">
+                      {% for img in photo.imgs limit : 1 %}
+                      {% assign i = i | plus:1 %}
+                      {% if i < 15 %} <img class="hoverable" style="margin:5px;" width=27% src="images/{{ img }}">
+                        {% endif %}
+                        {% endfor %}
+                    </a>
+                    {% endfor %}
 
-          </tbody></table>
-        </td>
-      </tr>
-    </table>
-  </td></tr></table>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 
   <!-- <br> -->
-<!-- <hr style="color:black"> -->
-  <table style="margin-left: auto;margin-right: auto;vertical-align: top;"><tr><td>
-    <!-- <hr> -->
-    <table style="max-width:725px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
-      <tr>
-        <td>
-          <heading>PUBLICATIONS</heading>
-          <p><small>{{ site.research }}</small></p>
-        </td>
-      </tr>
-      <tr style="padding:0px">
-        <td style="padding:0px">   
-          <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          
-            <tr>
-              <th style="width:25%"></th>
-              <th style="width:75%"></th>
-            </tr>
-            {% for publication in site.data.publications %}
-            {% if publication.hide == null %}
-            
-            <tr style="min-width:100%; width: 100%;">
-    
-              <td style="padding:5px;vertical-align:middle;">
-                <div class="one">
-                  {% if publication.teaser_vid != null %}
-                  <video style="border: 1px solid black;" width=100% height=100% playsinline autoplay loop muted>
-                    <source src="images/{{ publication.teaser_vid }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
-                  {% endif %}
-                  {% if publication.image != null %}
-                    <img style="border: 1px solid black;" width=100% height=100% src="images/{{ publication.image }}">
-                  {% endif %}
-                </div>
-              </td>
-              {% if publication.bgcolor!= null %}
-              <td style="padding:10px;vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
-              {%else%}
-              <td style="padding:10px;vertical-align:middle;">
-              {%endif%}
-                <papertitle style="font-weight: bold;">{{ publication.title }}</papertitle>
-                <br>
-                {% for author_id in publication.authors %}
-                {% assign author = site.data.authors[author_id] %}
-                {% if author.is_me %}
-                  <u><strong style="font-size: smaller; font-style: italic;">{{ author.first_name }} {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false %},{% endif %}
-                  {% else %}
-                  <a style="font-size: smaller" class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{% endif %}
-                {% endif %} 
-                {% endfor %}
-                <br>
-                {% if publication.banner_venue != null %}
-                  <img style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
-                {% endif %}
-                {% if publication.venue2 != null %}
-                <pub><venue style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag2 }};margin-left: 0;">{{ publication.venue2 }} {{ publication.year2 }}</venue>{% if publication.venue_long2 != null %} | <em>{{ publication.venue_long2 }}</em>{% endif %} </pub>
-                <br>
-                {%endif%}
-                <pub><venue style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
-                {% if publication.award != null %}
-                <br>
-                 <pub><venue style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;"><i class="fas fa-award"></i>  {{ publication.award }}</venue></pub>
-                {%endif%}
-                {% if publication.description != null %}
-                <br>
-                <small style="font-size: smaller;">
-                  {{ publication.description }}
-                </small> 
-                {%endif%}
-                <br>
-                <!-- <i class="fa-solid fa-arrow-right"></i> -->
-                {% if publication.project_page != null %}
-                <a style="font-size: smaller" class="links3" href="{{ publication.project_page }}"><i class="fas fa-globe"></i> [project page]</a>
-                {% endif %}
-                {% if publication.arxiv != null %}
-                <a style="font-size: smaller" class="links3" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i> [PDF]</a>
-                {% endif %}
-                {% if publication.pdf != null %}
-                <a style="font-size: smaller" class="links3" href="{{publication.pdf}}"><i class="far fa-file-pdf"></i> [PDF]</a>
-                {% endif %}
-                {% if publication.papersite != null %}
-                <a style="font-size: smaller" class="links3" href="{{publication.papersite}}"><i class="far fa-file-pdf"></i> [PDF]</a>
-                {% endif %}
-                {% if publication.github != null %}
-                <a style="font-size: smaller" class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> [code]</a>
-                {% endif %}
-                {% if publication.video != null %}
-                <a style="font-size: smaller" class="links3" href="{{ publication.video }}"><i class="fas fa-video"></i> [video]</a>
-                {% endif %}
-                {% if publication.supp != null %} 
-                <a style="font-size: smaller" class="links3" href="{{ publication.supp }}"><i class="fas fa-paperclip"></i> [supplement]</a>
-                {% endif %}
-                {% if publication.poster != null %} 
-                <a style="font-size: smaller" class="links3" href="{{ publication.poster }}"><i class="fas fa-chess-board"></i> [poster]</a>
-                {% endif %}
-                {% if publication.award_link != null %} 
-                <a style="font-size: smaller" class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> [award]</a>
-                {% endif %}
-                {% if publication.project_page2 != null %}
-                <a class="links3" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
-                {% endif %}
-                <p></p>
-              </td>
-            </tr>		
-            {% endif %}
-            {% endfor %}
-
-          </tbody></table>
-        </td>
-      </tr>
-
-      <!-- <br><br> -->
-      <tr>
-        <td>
-          <hr color="black">
-          <heading>POSTERS AND DEMOS</heading>
-          <!-- <p><small>Demos, posters, short papers.</small></p> -->
-        </td>
-      </tr>
-      <tr style="padding:0px">
-        <td style="padding:0px">   
-          <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <!-- <hr color="black"> -->
-            <!-- <p><small>Demos, posters, short papers.</small></p> -->
-            <tr>
-              <th style="width:25%"></th>
-              <th style="width:75%"></th>
-            </tr>
-            {% for publication in site.data.publications %}
-            {% if publication.hide %}
-            
-            <tr style="min-width:100%; width: 100%;">
-    
-              <td style="padding:5px;vertical-align:middle;">
-                <div class="one">
-                  {% if publication.teaser_vid != null %}
-                  <video style="border: 1px solid black;" width=100% height=100% playsinline autoplay loop muted>
-                    <source src="images/{{ publication.teaser_vid }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
-                  {% endif %}
-                  {% if publication.image != null %}
-                    <img style="border: 1px solid black;" width=100% height=100% src="images/{{ publication.image }}">
-                  {% endif %}
-                </div>
-              </td>
-              {% if publication.bgcolor!= null %}
-              <td style="padding:10px;vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
-              {%else%}
-              <td style="padding:10px;vertical-align:middle;">
-              {%endif%}
-                <papertitle style="font-weight: bold;">{{ publication.title }}</papertitle>
-                <br>
-                {% for author_id in publication.authors %}
-                {% assign author = site.data.authors[author_id] %}
-                {% if author.is_me %}
-                  <u><strong style="font-size: smaller; font-style: italic;">{{ author.first_name }} {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false %},{% endif %}
-                  {% else %}
-                  <a style="font-size: smaller" class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{% endif %}
-                {% endif %} 
-                {% endfor %}
-                <br>
-                {% if publication.banner_venue != null %}
-                  <img style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
-                {% endif %}
-                {% if publication.venue2 != null %}
-                <pub><venue style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag2 }};margin-left: 0;">{{ publication.venue2 }} {{ publication.year2 }}</venue>{% if publication.venue_long2 != null %} | <em>{{ publication.venue_long2 }}</em>{% endif %} </pub>
-                <br>
-                {%endif%}
-                <pub><venue style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
-                {% if publication.award != null %}
-                <br>
-                 <pub><venue style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;"><i class="fas fa-award"></i>  {{ publication.award }}</venue></pub>
-                {%endif%}
-                {% if publication.description != null %}
-                <br>
-                <small style="font-size: smaller;">
-                  {{ publication.description }}
-                </small> 
-                {%endif%}
-                <br>
-                <!-- <i class="fa-solid fa-arrow-right"></i> -->
-                {% if publication.project_page != null %}
-                <a style="font-size: smaller" class="links3" href="{{ publication.project_page }}"><i class="fas fa-globe"></i> [project page]</a>
-                {% endif %}
-                {% if publication.arxiv != null %}
-                <a style="font-size: smaller" class="links3" href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i> [PDF]</a>
-                {% endif %}
-                {% if publication.pdf != null %}
-                <a style="font-size: smaller" class="links3" href="{{publication.pdf}}"><i class="far fa-file-pdf"></i> [PDF]</a>
-                {% endif %}
-                {% if publication.papersite != null %}
-                <a style="font-size: smaller" class="links3" href="{{publication.papersite}}"><i class="far fa-file-pdf"></i> [PDF]</a>
-                {% endif %}
-                {% if publication.github != null %}
-                <a style="font-size: smaller" class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> [code]</a>
-                {% endif %}
-                {% if publication.video != null %}
-                <a style="font-size: smaller" class="links3" href="{{ publication.video }}"><i class="fas fa-video"></i> [video]</a>
-                {% endif %}
-                {% if publication.supp != null %} 
-                <a style="font-size: smaller" class="links3" href="{{ publication.supp }}"><i class="fas fa-paperclip"></i> [supplement]</a>
-                {% endif %}
-                {% if publication.poster != null %} 
-                <a style="font-size: smaller" class="links3" href="{{ publication.poster }}"><i class="fas fa-chess-board"></i> [poster]</a>
-                {% endif %}
-                {% if publication.award_link != null %} 
-                <a style="font-size: smaller" class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> [award]</a>
-                {% endif %}
-                {% if publication.project_page2 != null %}
-                <a class="links3" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
-                {% endif %}
-                <p></p>
-              </td>
-            </tr>		
-            {% endif %}
-            {% endfor %}
-
-          </tbody></table>
-        </td>
-      </tr>
-      <br>
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+  <!-- <hr style="color:black"> -->
+  <table style="margin-left: auto;margin-right: auto;vertical-align: top;">
+    <tr>
+      <td>
+        <!-- <hr> -->
+        <table style="max-width:725px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
           <tr>
             <td>
-              <heading>TEACHING</heading>
+              <heading>PUBLICATIONS</heading>
+              <p><small>{{ site.research }}</small></p>
             </td>
           </tr>
-        </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-					<tr>
-            <th style="width:100%"></th>
+          <tr style="padding:0px">
+            <td style="padding:0px">
+              <table
+                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                <tbody>
+
+                  <tr>
+                    <th style="width:25%"></th>
+                    <th style="width:75%"></th>
+                  </tr>
+                  {% for publication in site.data.publications %}
+                  {% if publication.hide == null %}
+
+                  <tr style="min-width:100%; width: 100%;">
+
+                    <td style="padding:5px;vertical-align:middle;">
+                      <div class="one">
+                        {% if publication.teaser_vid != null %}
+                        <video style="border: 1px solid black;" width=100% height=100% playsinline autoplay loop muted>
+                          <source src="images/{{ publication.teaser_vid }}" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                        {% endif %}
+                        {% if publication.image != null %}
+                        <img style="border: 1px solid black;" width=100% height=100%
+                          src="images/{{ publication.image }}">
+                        {% endif %}
+                      </div>
+                    </td>
+                    {% if publication.bgcolor!= null %}
+                    <td
+                      style="padding:10px;vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
+                      {%else%}
+                    <td style="padding:10px;vertical-align:middle;">
+                      {%endif%}
+                      <papertitle style="font-weight: bold;">{{ publication.title }}</papertitle>
+                      <br>
+                      {% for author_id in publication.authors %}
+                      {% assign author = site.data.authors[author_id] %}
+                      {% if author.is_me %}
+                      <u><strong style="font-size: smaller; font-style: italic;">{{ author.first_name }}
+                          {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if
+                      author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
+                      author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false
+                      %},{% endif %}
+                      {% else %}
+                      <a style="font-size: smaller" class="links" href="{{ author.website }}">{{ author.first_name }} {{
+                        author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if
+                        author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
+                        author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{%
+                      endif %}
+                      {% endif %}
+                      {% endfor %}
+                      <br>
+                      {% if publication.banner_venue != null %}
+                      <img style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
+                      {% endif %}
+                      {% if publication.venue2 != null %}
+                      <pub>
+                        <venue
+                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag2 }};margin-left: 0;">
+                          {{ publication.venue2 }} {{ publication.year2 }}</venue>{% if publication.venue_long2 != null
+                        %} | <em>{{ publication.venue_long2 }}</em>{% endif %}
+                      </pub>
+                      <br>
+                      {%endif%}
+                      <pub>
+                        <venue
+                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">
+                          {{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %}
+                        | <em>{{ publication.venue_long }}</em>{% endif %}
+                      </pub>
+                      {% if publication.award != null %}
+                      <br>
+                      <pub>
+                        <venue
+                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
+                          <i class="fas fa-award"></i> {{ publication.award }}
+                        </venue>
+                      </pub>
+                      {%endif%}
+                      {% if publication.description != null %}
+                      <br>
+                      <small style="font-size: smaller;">
+                        {{ publication.description }}
+                      </small>
+                      {%endif%}
+                      <br>
+                      <!-- <i class="fa-solid fa-arrow-right"></i> -->
+                      {% if publication.project_page != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.project_page }}"><i
+                          class="fas fa-globe"></i> [project page]</a>
+                      {% endif %}
+                      {% if publication.arxiv != null %}
+                      <a style="font-size: smaller" class="links3"
+                        href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
+                        [PDF]</a>
+                      {% endif %}
+                      {% if publication.pdf != null %}
+                      <a style="font-size: smaller" class="links3" href="{{publication.pdf}}"><i
+                          class="far fa-file-pdf"></i> [PDF]</a>
+                      {% endif %}
+                      {% if publication.papersite != null %}
+                      <a style="font-size: smaller" class="links3" href="{{publication.papersite}}"><i
+                          class="far fa-file-pdf"></i> [PDF]</a>
+                      {% endif %}
+                      {% if publication.github != null %}
+                      <a style="font-size: smaller" class="links3" href="https://github.com/{{ publication.github }}"><i
+                          class="fab fa-github"></i> [code]</a>
+                      {% endif %}
+                      {% if publication.video != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.video }}"><i
+                          class="fas fa-video"></i> [video]</a>
+                      {% endif %}
+                      {% if publication.supp != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.supp }}"><i
+                          class="fas fa-paperclip"></i> [supplement]</a>
+                      {% endif %}
+                      {% if publication.poster != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.poster }}"><i
+                          class="fas fa-chess-board"></i> [poster]</a>
+                      {% endif %}
+                      {% if publication.award_link != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.award_link }}"><i
+                          class="fas fa-award"></i> [award]</a>
+                      {% endif %}
+                      {% if publication.project_page2 != null %}
+                      <a class="links3" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
+                      {% endif %}
+                      <p></p>
+                    </td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </td>
           </tr>
-          {% for teaching in site.data.teaching %}
-            <tr>
-              <td class="tdnews">
-              <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{ teaching.institution }}{% if teaching.year != null %}{% endif %}
-              <br>
-              <em style="font-size:small;">{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor != null %} | <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %} | <a class="links3" style="font-size:small" href="{{ teaching.url }}"><i class="fab fa-slideshare"></i> [{{teaching.urltitle}}]</a>{% endif %}
-              </td>
-            </tr>
-          {% endfor %}
-    </table>
-    <!-- <br>
+
+          <!-- <br><br> -->
+          <tr>
+            <td>
+              <hr color="black">
+              <heading>POSTERS AND DEMOS</heading>
+              <!-- <p><small>Demos, posters, short papers.</small></p> -->
+            </td>
+          </tr>
+          <tr style="padding:0px">
+            <td style="padding:0px">
+              <table
+                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                <tbody>
+                  <!-- <hr color="black"> -->
+                  <!-- <p><small>Demos, posters, short papers.</small></p> -->
+                  <tr>
+                    <th style="width:25%"></th>
+                    <th style="width:75%"></th>
+                  </tr>
+                  {% for publication in site.data.publications %}
+                  {% if publication.hide %}
+
+                  <tr style="min-width:100%; width: 100%;">
+
+                    <td style="padding:5px;vertical-align:middle;">
+                      <div class="one">
+                        {% if publication.teaser_vid != null %}
+                        <video style="border: 1px solid black;" width=100% height=100% playsinline autoplay loop muted>
+                          <source src="images/{{ publication.teaser_vid }}" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                        {% endif %}
+                        {% if publication.image != null %}
+                        <img style="border: 1px solid black;" width=100% height=100%
+                          src="images/{{ publication.image }}">
+                        {% endif %}
+                      </div>
+                    </td>
+                    {% if publication.bgcolor!= null %}
+                    <td
+                      style="padding:10px;vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
+                      {%else%}
+                    <td style="padding:10px;vertical-align:middle;">
+                      {%endif%}
+                      <papertitle style="font-weight: bold;">{{ publication.title }}</papertitle>
+                      <br>
+                      {% for author_id in publication.authors %}
+                      {% assign author = site.data.authors[author_id] %}
+                      {% if author.is_me %}
+                      <u><strong style="font-size: smaller; font-style: italic;">{{ author.first_name }}
+                          {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if
+                      author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
+                      author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false
+                      %},{% endif %}
+                      {% else %}
+                      <a style="font-size: smaller" class="links" href="{{ author.website }}">{{ author.first_name }} {{
+                        author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if
+                        author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
+                        author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{%
+                      endif %}
+                      {% endif %}
+                      {% endfor %}
+                      <br>
+                      {% if publication.banner_venue != null %}
+                      <img style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
+                      {% endif %}
+                      {% if publication.venue2 != null %}
+                      <pub>
+                        <venue
+                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag2 }};margin-left: 0;">
+                          {{ publication.venue2 }} {{ publication.year2 }}</venue>{% if publication.venue_long2 != null
+                        %} | <em>{{ publication.venue_long2 }}</em>{% endif %}
+                      </pub>
+                      <br>
+                      {%endif%}
+                      <pub>
+                        <venue
+                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">
+                          {{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %}
+                        | <em>{{ publication.venue_long }}</em>{% endif %}
+                      </pub>
+                      {% if publication.award != null %}
+                      <br>
+                      <pub>
+                        <venue
+                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
+                          <i class="fas fa-award"></i> {{ publication.award }}
+                        </venue>
+                      </pub>
+                      {%endif%}
+                      {% if publication.description != null %}
+                      <br>
+                      <small style="font-size: smaller;">
+                        {{ publication.description }}
+                      </small>
+                      {%endif%}
+                      <br>
+                      <!-- <i class="fa-solid fa-arrow-right"></i> -->
+                      {% if publication.project_page != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.project_page }}"><i
+                          class="fas fa-globe"></i> [project page]</a>
+                      {% endif %}
+                      {% if publication.arxiv != null %}
+                      <a style="font-size: smaller" class="links3"
+                        href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
+                        [PDF]</a>
+                      {% endif %}
+                      {% if publication.pdf != null %}
+                      <a style="font-size: smaller" class="links3" href="{{publication.pdf}}"><i
+                          class="far fa-file-pdf"></i> [PDF]</a>
+                      {% endif %}
+                      {% if publication.papersite != null %}
+                      <a style="font-size: smaller" class="links3" href="{{publication.papersite}}"><i
+                          class="far fa-file-pdf"></i> [PDF]</a>
+                      {% endif %}
+                      {% if publication.github != null %}
+                      <a style="font-size: smaller" class="links3" href="https://github.com/{{ publication.github }}"><i
+                          class="fab fa-github"></i> [code]</a>
+                      {% endif %}
+                      {% if publication.video != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.video }}"><i
+                          class="fas fa-video"></i> [video]</a>
+                      {% endif %}
+                      {% if publication.supp != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.supp }}"><i
+                          class="fas fa-paperclip"></i> [supplement]</a>
+                      {% endif %}
+                      {% if publication.poster != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.poster }}"><i
+                          class="fas fa-chess-board"></i> [poster]</a>
+                      {% endif %}
+                      {% if publication.award_link != null %}
+                      <a style="font-size: smaller" class="links3" href="{{ publication.award_link }}"><i
+                          class="fas fa-award"></i> [award]</a>
+                      {% endif %}
+                      {% if publication.project_page2 != null %}
+                      <a class="links3" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
+                      {% endif %}
+                      <p></p>
+                    </td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <br>
+          <table
+            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+            <tbody>
+              <tr>
+                <td>
+                  <heading>TEACHING</heading>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table
+            style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+            <tbody>
+              <tr>
+                <th style="width:100%"></th>
+              </tr>
+              {% for teaching in site.data.teaching %}
+              <tr>
+                <td class="tdnews">
+                  <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{
+                  teaching.institution }}{% if teaching.year != null %}{% endif %}
+                  <br>
+                  <em style="font-size:small;">{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor
+                  != null %} | <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %} | <a
+                    class="links3" style="font-size:small" href="{{ teaching.url }}"><i class="fab fa-slideshare"></i>
+                    [{{teaching.urltitle}}]</a>{% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+          </table>
+          <!-- <br>
           <p style="text-align:right;font-size:small;">
             Template from <a style="font-size:small;" href="https://jonbarron.info/">Jon Barron</a>, <a style="font-size:small;" href="https://johannwentzel.ca/index.html">Johann Wentzel</a>.
           </p> -->
-    </td>
-    
-    <td style="vertical-align:top;" id="timeline">
-      <!-- <table style="margin-left: auto;margin-right: auto;vertical-align: top;"><tr><td> -->
+      </td>
+
+      <td style="vertical-align:top;" id="timeline">
+        <!-- <table style="margin-left: auto;margin-right: auto;vertical-align: top;"><tr><td> -->
         <!-- <hr> -->
         <br>
-        <table style="max-width:275px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;margin-left: auto;margin-right: auto;vertical-align: top;">
-      <tr>
-        <td>
-          <heading style="color:black; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">HIGHLIGHTS</heading>
-          <!-- <p><small>{{ site.research }}</small></p> -->
-        </td>
-      </tr>
-      <tr style="padding:0px">
-        <td style="padding:0px">   
-          <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            {% for highlight in site.data.highlights %}
-            <tr>
-              <td style="padding:10px;">
-                <a href="{{ highlight.link }}">
-                  <video class="hoverable"  width=100% playsinline autoplay loop muted>
-                    <source src="images/{{ highlight.video }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
-                </a>
-              </td>
-            </tr>		
-            {% endfor %}
+        <table
+          style="max-width:275px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;margin-left: auto;margin-right: auto;vertical-align: top;">
+          <tr>
+            <td>
+              <heading style="color:black; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
+                HIGHLIGHTS</heading>
+              <!-- <p><small>{{ site.research }}</small></p> -->
+            </td>
+          </tr>
+          <tr style="padding:0px">
+            <td style="padding:0px">
+              <table
+                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                <tbody>
+                  {% for highlight in site.data.highlights %}
+                  <tr>
+                    <td style="padding:10px;">
+                      <a href="{{ highlight.link }}">
+                        <video class="hoverable" width=100% playsinline autoplay loop muted>
+                          <source src="images/{{ highlight.video }}" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
 
-          </tbody></table>
-        </td>
-      </tr>
-    </table>
-  </td></tr></table>
- 
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 
-  
 
-        <!-- <br>
+
+
+  <!-- <br>
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td>
@@ -450,18 +601,18 @@ layout: null
 
 
 
-      </td>
-    </tr>
+  </td>
+  </tr>
   </table>
 
 
   <script>
     //Add your images, we'll set the path in the next step
-        var images = ['profile_headshot.JPG'];
-        
+    var images = ['profile_headshot.JPG'];
+
     //Build the img, then do a bit of maths to randomize load and append to a div. Add a touch off css to fade them badboys in all sexy like.
-        $('<img id="profile" style="width:100%;border-radius: 0;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
-    </script>
+    $('<img id="profile" style="width:100%;border-radius: 0;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
+  </script>
 </body>
 
 </html>

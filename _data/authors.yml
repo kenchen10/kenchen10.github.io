@@ -82,3 +82,27 @@ achapiro:
   last_name: Chapiro
   website: https://achapiro.github.io
   affiliation: Meta
+
+xpeng:
+  first_name: Xi
+  last_name: Peng
+  website: https://seexpeng.github.io
+  affiliation: University of North Carolina, Chapel Hill
+
+iroman:
+  first_name: Iran
+  last_name: Roman
+  website: https://iranroman.github.io
+  affiliation: New York University
+
+jpbello:
+  first_name: Juan Pablo
+  last_name: Bello
+  website: https://wp.nyu.edu/jpbello/
+  affiliation: New York University
+
+pchakravarthula:
+  first_name: Praneeth
+  last_name: Chakravarthula
+  website: https://www.cs.unc.edu/~cpk/
+  affiliation: University of North Carolina, Chapel Hill
