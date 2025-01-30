@@ -144,7 +144,7 @@ heading2 {
 
 papertitle {
   font-family: 'Fontin';
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -278,7 +278,20 @@ pre {
   background-color: #a8bbbf;
 }
 
+.hoverable {
+  transition: transform .2s;
+}
+
 .hoverable:hover {
+  border: 1px solid black;
+  transform: scale(5);
+}
+
+.hoverable2 {
+  transition: transform .2s;
+}
+
+.hoverable2:hover {
   border: 1px solid black;
 }
 

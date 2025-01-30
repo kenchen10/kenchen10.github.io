@@ -29,7 +29,7 @@
 #   abstract: 
 
 - id: sig24
-  title: "<b style='color:#4CBB17;'>PEA-PODs</b>: <b style='color:#4CBB17;'>P</b>erceptual <b style='color:#4CBB17;'>E</b>valuation of <b style='color:#4CBB17;'>A</b>lgorithms <br>for <b style='color:#4CBB17;'>P</b>ower <b style='color:#4CBB17;'>O</b>ptimization in XR <b style='color:#4CBB17;'>D</b>isplay<b style='color:#4CBB17;'>s</b>"
+  title: "<b style='color:#4CBB17;'>PEA-PODs</b>: <b style='color:#4CBB17;'>P</b>erceptual <b style='color:#4CBB17;'>E</b>valuation of <b style='color:#4CBB17;'>A</b>lgorithms for <b style='color:#4CBB17;'>P</b>ower <b style='color:#4CBB17;'>O</b>ptimization in XR <b style='color:#4CBB17;'>D</b>isplay<b style='color:#4CBB17;'>s</b>"
   venue: SIGGRAPH
   venue_long: Journal Proceedings
   year: 2024
@@ -45,7 +45,7 @@
   teaser_vid: 
   award: Best Paper Award (Honorable Mention)
   award_link: https://blog.siggraph.org/2024/06/siggraph-2024-technical-papers-awards-best-papers-honorable-mentions-and-test-of-time.html/
-  image: peapods-2.png
+  image: pea-pods-teaser2.png
   bgcolor: True
   tag: "#FFCCBC"
   teaser_image: peapods_teaser.png
@@ -269,7 +269,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   venue_long: Journal Proceedings
   showyear: 2022
   year: 2022
-  # description: "We modify peripheral color to save OLED display power."
+  description: "We measured human sensitivity to peripheral color stimuli via a psychophysical studied, and applied this data to OLED display power optimization."
   project_page: "projects/vrenergy/index.html"
   # project_page2: "projects/vr-energy-etech/index.html"
   # project_page2_name: E-Tech

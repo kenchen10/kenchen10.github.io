@@ -25,10 +25,11 @@ email: kennychen@nyu.edu
 description:
   Welcome! I am a 2nd year Computer Science PhD student at New York University, 
   advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
+  I'm interested in computer graphics; specifically with studying how graphics and display systems can be 
+  optimized by understanding human visual perception.
   <br><br>
   During my PhD, I interned at Meta Reality Labs, hosted by <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>.
-  Previously, I received my MS from NYU in 2023 and a BA from UC Berkeley in 2021.
-  <br><br>
+  Before my PhD studies, I received my MS from NYU in 2023 and a BA from UC Berkeley in 2021.
   I'm happy to chat about research or anything else, and can be reached at <a class="links" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!
 
 research: My current research interests intersect computer graphics, VR/AR, applied perception, and displays. <br> (Representative papers are <span class="highlight">highlighted</span>, <em>*=equal contribution, †=equal advising</em>)
