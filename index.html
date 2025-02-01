@@ -83,8 +83,9 @@ layout: null
                     </tr>
                   </tbody>
                 </table>
-                <!-- <img id="timeline" style="width:100%;vertical-align:middle" src="images/break2.svg"> -->
+                <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;" src="images/break2.svg">
                 <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
+                <!-- <img id="timeline" style="vertical-align:middle" src="images/timeline.svg"> -->
                 <table id="timeline"
                   style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                   <tbody>
@@ -127,31 +128,6 @@ layout: null
 
                   </tbody>
                 </table>
-
-                <!-- <table id="images"
-                  style="overflow-x: auto; max-width: fit-content; display: block;">
-                  <tbody>
-                    <tr>
-                      <td>
-                        <heading>IMAGES</heading><br>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="height: 100px; ">
-                        {% for photo in site.data.images %}
-                        <a href="photos/{{ photo.id }}">
-                          {% for img in photo.imgs limit : 1 %}
-                          {% assign i = i | plus:1 %}
-                            {% if i < 12 %} 
-                              <img class="hoverable" style="margin:5px; height: 100%;" src="images/{{ img }}">
-                            {% endif %}
-                          {% endfor %}
-                        </a>
-                        {% endfor %}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table> -->
             </tr>
 
         </table>
@@ -350,8 +326,9 @@ layout: null
           <!-- <br><br> -->
           <tr>
             <td>
-              <hr color="black">
-              <heading>Posters and Demos</heading>
+              <!-- <hr color="black"> -->
+              <!-- <img id="timeline" style="width:100%;vertical-align:middle;" src="images/break3.svg"> -->
+              <!-- <heading>Posters and Demos</heading> -->
               <!-- <p><small>Demos, posters, short papers.</small></p> -->
             </td>
           </tr>
@@ -495,7 +472,7 @@ layout: null
               </table>
             </td>
           </tr>
-          <br>
+          <!-- <br> -->
           <table
             style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
             <tbody>
@@ -611,7 +588,7 @@ layout: null
     var images = ['profile_headshot.JPG'];
 
     //Build the img, then do a bit of maths to randomize load and append to a div. Add a touch off css to fade them badboys in all sexy like.
-    $('<img id="profile" style="width:100%;border-radius: 0;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
+    $('<img id="profile" style="width:100%;border-radius: 0; border: 1px solid black;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
   </script>
 </body>
 

@@ -283,8 +283,8 @@ pre {
 }
 
 .hoverable:hover {
-  border: 1px solid black;
-  transform: scale(5);
+  border: .5px solid black;
+  transform: scale(3.5);
 }
 
 .hoverable2 {
