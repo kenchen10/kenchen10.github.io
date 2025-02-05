@@ -31,15 +31,40 @@
             <h2 class="col-md-8 col-md-offset-2" style="padding-top: 40px;">
                 {{ publication.title }}<br>
                 <small>
-                    <pub style="font-size: 16px;"><venue style="font-size: 16px; font-weight: bold; margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %} | <em>{{ publication.venue_long }}</em>{% endif %} </pub>
+                    <pub style="font-size: 16px;"><venue style="font-size: 16px; font-weight: bold; margin-left: 0;">{{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %}, <em>{{ publication.venue_long }}</em>{% endif %} | </pub>
                 </small>
-                {% if publication.award != null %}
                 <!-- <br> -->
-                &nbsp;
+                <!-- <p style="padding-top: 6px;"></p> -->
+                {% if publication.arxiv != null %}
+                    <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}">arxiv</a>
+                    {% endif %}
+                    {% if publication.pdf != null %}
+                    <a class="links3" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a>
+                    {% endif %}
+                    {% if publication.supp != null %}
+                    <a class="links3" href="../../{{ publication.supp }}"><i class="fas fa-paperclip"></i> supplement</a>
+                    {% endif %}
+                    {% if publication.papersite != null %}
+                    <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a>
+                    {% endif %}
+                    {% if publication.video != null %}
+                    <a class="links3" href="{{ publication.video }}"><i class="fas fa-video"></i> video</a>
+                    {% endif %}
+                    {% if publication.github != null %}
+                    <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>
+                    {% endif %}
+                    {% if publication.poster != null %}
+                    <a class="links3" href="{{ publication.poster }}"><i class="fas fa-chess-board"></i> poster</a>
+                    {% endif %}
+                    <!-- {% if publication.award_link != null %}
+                    <a class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> award</a><br>
+                {% endif %} -->
+                {% if publication.award != null %}
+                <br>
+                <!-- &nbsp; -->
                 <small style="color:coral">&#127942; {{ publication.award }}</small>
                 <br>
                 {%endif%}
-                <!-- <br> -->
             </h2>
         </div>
         <div class="row">
@@ -62,7 +87,7 @@
                     <img style="height: 40px" src="../../images/{{ aff_img }}"> &nbsp;
                 {% endfor %}
                 <br>
-                <p style="padding-top: 6px;"></p>
+                <!-- <p style="padding-top: 6px;"></p>
                 {% if publication.arxiv != null %}
                     <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}">arxiv</a>&nbsp;
                     {% endif %}
@@ -86,7 +111,7 @@
                     {% endif %}
                     {% if publication.award_link != null %}
                     <a class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> award</a><br>
-                {% endif %}
+                {% endif %} -->
                 <!-- <br> -->
             </div>
         </div>
