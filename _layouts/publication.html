@@ -48,14 +48,13 @@
                     {% for author_id in publication.authors %}
                     {% assign author = site.data.authors[author_id] %}
                     <li>
-                        <a class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>
-                    </br>
-                    <em>{{ author.affiliation }}</em>
+                        <a class="links" href="{{ author.website }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>,
+                    {% for affiliation in author.affiliation[publication.id] %}
+                    <!-- </br> -->
+                    <em style="color: rgb(130, 130, 130)">{{ affiliation }}</em>
+                    {% endfor %}
                     </li>
-                    <!-- {% assign remainder = forloop.index | modulo: 4 %}
-                    {% if remainder == 0 %}
                     <br>
-                    {% endif %} -->
                     {% endfor %}
                     
                 </ul>
@@ -88,6 +87,7 @@
                 <!-- <br> -->
             </div>
         </div>
+        <!-- <img id="timeline" style="vertical-align:middle" src="images/break2.svg"> -->
         <!-- <br> -->
 
         <div class="row" style="padding-top: 16px;">

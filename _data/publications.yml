@@ -1,36 +1,42 @@
-# - id: vr25
-#   title: "Perceptually-Guided Acoustic ``Foveation``"
-#   venue: IEEE VR
-#   venue_long: Conference Proceedings
-#   year: 2025
-#   showyear: 2025
-#   description: 
-#   project_page: "projects/vr25/index.html"
-#   github: 
-#   arxiv: 
-#   papersite: 
-#   teaser_vid: 
-#   image: vr25.png
-#   bgcolor: 
-#   tag: "#C5CAE9"
-#   teaser_image: 
-#   yt_emb: 
-#   video: 
-#   teaser_text: 
-#   authors:
-#     - xpeng
-#     - kchen
-#     - iroman
-#     - jpbello
-#     - pchakravarthula
-#     - qsun
-#   affiliation_images:
-#   bibtex:
-#   abstract: 
+- id: vr25
+  title: "Perceptually-Guided Acoustic ``Foveation''"
+  venue: IEEE VR
+  venue_long: Conference Proceedings
+  year: 2025
+  showyear: 2025
+  description: We present a perceptual sound source clustering technique.
+  project_page: "projects/vr25/index.html"
+  github: 
+  arxiv: 
+  papersite: "assets/papers/audio_foveation-1.pdf"
+  teaser_vid: 
+  image: vr25.png
+  bgcolor: 
+  tag: "#C5CAE9"
+  teaser_image: vr25_teaser-modified.png
+  yt_emb: 
+  video: 
+  teaser_text: "Figure 1: Azimuth-based audio perceptual acuity guided sound source clustering. (a) visualizes our model-predicted human auditory perception of spatial discrimination threshold along azimuth eccentricity in degrees. (b) illustrates the model-derived audio source clustering method. Based on listeners’ heading direction (assuming forward here), we cluster audio sources that are spatially indistinguishable. Clusters were highlighted by colors corresponding to the human’s minimum audible angle. The number of sound sources for each cluster is marked in the figure. Our measurement shows a 53% computational saving at the presented scene."
+  authors:
+    - xpeng
+    - kchen
+    - iroman
+    - jpbello
+    - qsun
+    - pchakravarthula
+  equal_adv:
+    - pchakravarthula
+    - qsun
+  affiliation_images:
+    - nyu.png
+    - marl.png
+    - UNC-Logo.png
+  bibtex:
+  abstract: "Realistic spatial audio rendering improves immersion in virtual environments. However, the computational complexity of acoustic propagation increases linearly with the number of sources. Consequently, real-time accurate acoustic rendering becomes challenging in highly dynamic scenarios such as virtual and augmented reality (VR/AR). Exploiting the fact that human spatial sensitivity of acoustic sources is not equal at azimuth eccentricities in the horizontal plane, we introduce a perceptually-aware acoustic “foveation” guidance model to the audio rendering pipeline, which can integrate audio sources that are not spatially resolvable by human listeners. To this end, we first conduct a series of psychophysical studies to measure the minimum resolvable audible angular distance under various spatial and background conditions. We leverage this data to derive an azimuth-characterized real-time acoustic foveation algorithm. Numerical analysis and subjective user studies in VR environments demonstrate our method’s effectiveness in significantly reducing acoustic rendering workload, without compromising users’ spatial perception of audio sources. We believe that the presented research will motivate future investigation into the new frontier of modeling and leveraging human multimodal per- ceptual limitations — beyond the extensively studied visual acuity — for designing efficient VR/AR systems."
 
 - id: sig24
   title: "<b style='color:#4CBB17;'>PEA-PODs</b>: <b style='color:#4CBB17;'>P</b>erceptual <b style='color:#4CBB17;'>E</b>valuation of <b style='color:#4CBB17;'>A</b>lgorithms for <b style='color:#4CBB17;'>P</b>ower <b style='color:#4CBB17;'>O</b>ptimization in XR <b style='color:#4CBB17;'>D</b>isplay<b style='color:#4CBB17;'>s</b>"
-  venue: SIGGRAPH
+  venue: ACM SIGGRAPH
   venue_long: Journal Proceedings
   year: 2024
   showyear: 2024
@@ -96,7 +102,7 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: asplos24
   title: "Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality"
-  venue: ASPLOS
+  venue: ACM ASPLOS
   # venue_long: ACM International Conference on Architectural Support for Programming Languages and Operating Systems
   year: 2024
   showyear: 2024
@@ -138,7 +144,7 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: sca23
   title: "Towards Learning and Generating Audience Motion from Video"
-  venue: SCA
+  venue: ACM SCA
   venue_long: ACM SIGGRAPH/Eurographics Symposium on Computer Animation, Poster
   year: 2023
   description: "A dataset of audience videos."
@@ -175,7 +181,7 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: vr-energy-etech
   title: "Imperceptible Color Modulation for Power Saving in VR/AR"
-  venue: SIGGRAPH
+  venue: ACM SIGGRAPH
   venue_long: Emerging Technologies
   year: 2023
   description: "A demo of the display setup and model from our SIGGRAPH Asia '22 paper."
@@ -220,7 +226,7 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: emg-energy
   title: "Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction"
-  venue: SIGGRAPH
+  venue: ACM SIGGRAPH
   venue_long: Conference Proceedings
   # banner_venue: siggraph.jpg
   year: 2023
@@ -265,7 +271,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   affiliation_images:
     - nyulogo.png
     - uofr.png
-  venue: SIGGRAPH Asia
+  venue: ACM SIGGRAPH Asia
   venue_long: Journal Proceedings
   showyear: 2022
   year: 2022

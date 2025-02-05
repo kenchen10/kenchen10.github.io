@@ -2,107 +2,186 @@ kchen:
   first_name: Kenneth
   last_name: Chen
   website: https://kenchen10.github.io
-  affiliation: New York University
+  affiliation: 
+    vr25:
+      - Tandon School of Engineering, NYU
+    sig24:
+      - New York University & Meta
+    asplos24:
+      - New York University
+    sca23:
+      - Cesium GS
+    vr-energy-etech:
+      - New York University
+    emg-energy:
+      - New York University
+    vrenergy:
+      - New York University
   is_me: true
 
 yzhang:
   first_name: Yunxiang
   last_name: Zhang
   website: https://yunxiangzhang.github.io/
-  affiliation: New York University
+  affiliation: 
+    emg-energy:
+      - New York University
 
 eshahan:
   first_name: Ethan
   last_name: Shahan
   website: https://www.linkedin.com/in/ethan-shahan-4517b3211
-  affiliation: University of Rochester
+  affiliation:
+    asplos24:
+      - University of Rochester
+    vr-energy-etech:
+      - University of Rochester
 
 nujjainkar:
   first_name: Nisarg
   last_name: Ujjainkar
   website: https://www.linkedin.com/in/nisarg-ujjainkar-ab8a84148/?originalSubdomain=in
-  affiliation: University of Rochester
+  affiliation:
+    asplos24:
+      - University of Rochester
+    vr-energy-etech:
+      - University of Rochester
 
 bduinkharjav:
   first_name: Budmonde
   last_name: Duinkharjav
   website: https://budmonde.com
-  affiliation: New York University
+  affiliation:
+    asplos24:
+      - New York University
+    vr-energy-etech:
+      - New York University
+    vrenergy:
+      - New York University
 
 atyagi:
   first_name: Abhishek
   last_name: Tyagi
   website: https://abhishek-t-naive.github.io/Blog/
-  affiliation: University of Rochester
+  affiliation:
+    asplos24:
+      - University of Rochester
+    vr-energy-etech:
+      - University of Rochester
+    vrenergy:
+      - University of Rochester
 
 qsun:
   first_name: Qi  
   last_name: Sun
   website: https://qisun.me
-  affiliation: New York University
+  affiliation: 
+    vr25:
+      - Tandon School of Engineering, NYU
+    sig24:
+      - New York University
+    asplos24:
+      - New York University
+    vr-energy-etech:
+      - New York University
+    emg-energy:
+      - New York University
+    vrenergy:
+      - New York University
 
 yzhu:
   first_name: Yuhao
   last_name: Zhu
   website: http://www.yuhaozhu.com/
-  affiliation: University of Rochester
+  affiliation:
+    asplos24:
+      - University of Rochester
+    vr-energy-etech:
+      - University of Rochester
+    vrenergy:
+      - University of Rochester
 
 jhe:
   first_name: Jiayi
   last_name: He
   website: https://www.louisehe.com/
-  affiliation: University of Rochester
+  affiliation:
+    vr-energy-etech:
+      - University of Rochester
+    vrenergy:
+      - University of Rochester
 
 nbadler:
   first_name: Norman I.
   last_name: Badler
   website: https://www.cis.upenn.edu/~badler/
-  affiliation: Cesium
+  affiliation:
+    sca23:
+      - Cesium GS
 
 twan:
   first_name: Thomas
   last_name: Wan
   website: https://www.linkedin.com/in/thomas-cc-wan
-  affiliation: Meta
+  affiliation: 
+    sig24:
+      - Meta
 
 nmatsuda:
   first_name: Nathan
   last_name: Matsuda
   website: https://www.nathanmatsuda.com
-  affiliation: Meta
+  affiliation: 
+    sig24:
+      - Meta
 
 aninan:
   first_name: Ajit
   last_name: Ninan
   website: https://www.linkedin.com/in/ajitninan
-  affiliation: Meta
+  affiliation: 
+    sig24:
+      - Meta
 
 achapiro:
   first_name: Alexandre
   last_name: Chapiro
   website: https://achapiro.github.io
-  affiliation: Meta
+  affiliation: 
+    sig24:
+      - Meta
 
 xpeng:
   first_name: Xi
   last_name: Peng
   website: https://seexpeng.github.io
-  affiliation: University of North Carolina, Chapel Hill
+  affiliation: 
+    vr25:
+      - Tandon School of Engineering, NYU &
+      - University of North Carolina, Chapel Hill
 
 iroman:
   first_name: Iran
   last_name: Roman
   website: https://iranroman.github.io
-  affiliation: New York University
+  affiliation: 
+    vr25:
+      - Tandon School of Engineering, NYU &
+      - Music and Audio Research Lab, NYU
 
 jpbello:
   first_name: Juan Pablo
   last_name: Bello
   website: https://wp.nyu.edu/jpbello/
-  affiliation: New York University
+  affiliation: 
+    vr25:
+      - Tandon School of Engineering, NYU &
+      - Music and Audio Research Lab, NYU
 
 pchakravarthula:
   first_name: Praneeth
   last_name: Chakravarthula
   website: https://www.cs.unc.edu/~cpk/
-  affiliation: University of North Carolina, Chapel Hill
+  affiliation: 
+    vr25:
+      - University of North Carolina, Chapel Hill

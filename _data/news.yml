@@ -1,6 +1,14 @@
 # - id: meta
 #   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
 #   date: 2023-06
+- id: vr25
+  title: A paper was accepted to IEEE VR 2025.
+  date: 2025-01
+  year: 2025
+  month: "01"
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
 - id: highbeams
   title: I gave a virtual talk at the High Beams Seminar at UCL, invited by Prof. Kaan Aksit.
   date: 2024-11
