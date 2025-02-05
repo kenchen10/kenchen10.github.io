@@ -81,6 +81,9 @@
                     {% if publication.github != null %}
                     <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>&nbsp;
                     {% endif %}
+                    {% if publication.poster != null %}
+                    <a class="links3" href="{{ publication.poster }}"><i class="fas fa-chess-board"></i> poster</a>
+                    {% endif %}
                     {% if publication.award_link != null %}
                     <a class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> award</a><br>
                 {% endif %}
@@ -144,7 +147,7 @@
             </div>
         </div>
         {% endif %} -->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
                     Downloads
@@ -168,12 +171,15 @@
                     {% if publication.github != null %}
                     <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a><br>
                     {% endif %}
+                    {% if publication.poster != null %}
+                    <a class="links3" href="{{ publication.poster }}"><i class="fas fa-chess-board"></i> poster</a><br>
+                    {% endif %}
                     {% if publication.award_link != null %}
                     <a class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> award</a><br>
                     {% endif %}
                 </p>
             </div>
-        </div>
+        </div> -->
 
         {% if publication.bibtex != null %}
         <div class="row">
