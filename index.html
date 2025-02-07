@@ -337,6 +337,8 @@ layout: null
               <!-- <img id="timeline" style="width:100%;vertical-align:middle;" src="images/break3.svg"> -->
               <!-- <heading>Posters and Demos</heading> -->
               <!-- <p><small>Demos, posters, short papers.</small></p> -->
+                <heading>Other Papers</heading>
+                <p><small>Short papers, demos, and posters.</small></p>
             </td>
           </tr>
           <tr style="padding:0px">
@@ -344,8 +346,6 @@ layout: null
               <table
                 style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                 <tbody>
-                  <!-- <hr color="black"> -->
-                  <!-- <p><small>Demos, posters, short papers.</small></p> -->
                   <tr>
                     <th style="width:18%"></th>
                     <th style="width:82%"></th>
@@ -371,9 +371,9 @@ layout: null
                     </td>
                     {% if publication.bgcolor!= null %}
                     <td
-                      style="padding:10px;vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
+                      style="border-left: 1px solid rgb(154, 154, 154);padding:10px;vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
                       {%else%}
-                    <td style="padding:10px;vertical-align:middle;">
+                    <td style="padding:10px;vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
                       {%endif%}
                       <papertitle style="font-weight: bold;">{{ publication.title }}</papertitle>
                       <br>

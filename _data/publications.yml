@@ -159,7 +159,7 @@ Finally, we leverage our study data and power models to address important displa
   teaser_image: datagenpipeline-1.png
   yt_emb: 
   video: 
-  # hide: true
+  hide: true
   authors:
     - kchen
     - nbadler
@@ -188,7 +188,7 @@ Finally, we leverage our study data and power models to address important displa
   project_page: "projects/vr-energy-etech/index.html"
   github: 
   arxiv: 
-  # hide: true
+  hide: true
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
   image: etech23-2.png
   bgcolor: 
