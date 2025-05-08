@@ -3,7 +3,7 @@
   title: "Course Assistant"
   course: "CS-GY 9223: Virtual and Augmented Reality"
   year: Fall 2024
-  institution: NYU
+  institution: New York University
   instructor: Prof. Qi Sun
 
 - id: dv
@@ -11,7 +11,7 @@
   title: "Course Assistant"
   course: "CS-GY 6313: Data Visualization"
   year: Spring 2023, 2025
-  institution: NYU
+  institution: New York University
   instructor: Prof. Qi Sun
 
 - id: icg
@@ -20,7 +20,7 @@
   title: "Course Assistant"
   course: "CS-GY 6533 A: Interactive Computer Graphics"
   year: Fall 2021
-  institution: NYU
+  institution: New York University
   instructor: Prof. Claudio Silva
   
 - id: cs184

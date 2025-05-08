@@ -1,3 +1,18 @@
+- id: woodcock
+  title: North American Woodcock in Bryant Park
+  date: April 13, 2025
+  location: New York
+  description: This bird is called a North American Woodcock (or timberdoodle) and it migrates to Bryant Park in March/April. It does a funny dance to coax worms and insects to the surface.
+  imgs: 
+    - woodcock/DSC_1822.jpg
+  vids:
+    - woodcock/DSC_1817.mp4
+- id: nyc_feb_25
+  title: New York Snow
+  date: February 8, 2025
+  location: New York
+  imgs: 
+    - nyc_feb_25/DSC_1737.jpg
 - id: prague
   title: Prague
   date: December 1 - 3, 2024
@@ -7,7 +22,6 @@
     - prague/DSC_1493.jpg
     - prague/DSC_1537.jpg
     - prague/DSC_1574.jpg
-    - prague/DSC_1581.jpg
 - id: budapest
   title: Budapest
   date: November 29 - 30, 2024
@@ -117,8 +131,3 @@
     - campanile.jpg
     - berkeleyhills2.jpg
     - berkeleyhills.jpg
-- id: other
-  title: Random Images
-  date: NA
-  imgs:
-    - nicknacks.jpg

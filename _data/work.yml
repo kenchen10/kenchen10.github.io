@@ -1,0 +1,32 @@
+- id: cambridge
+  company: University of Cambridge
+  mentor: Mentored by Prof. Rafał Mantiuk.
+  descriptions: 
+    - Working on image quality metrics.
+  years: 2025-
+  role: Visiting Researcher
+- id: meta2
+  company: Meta
+  mentor: Mentored by Alexandre Chapiro
+  descriptions: 
+    - Studied/modeled contrast and luminance preferences in HDR displays.
+    - Developed perceptual tone mapping algorithms for HDR video.
+    - Resulted in a SIGGRAPH 2025 paper.
+  years: 2024-2025
+  role: Research Scientist Intern
+- id: meta1
+  company: Meta
+  mentor: Mentored by Alexandre Chapiro
+  descriptions: 
+    - Studied the visibility of different display power optimization algorithms in a VR setting.
+    - Measured and modelled power consumption of the Quest Pro display.
+    - Resulted in a SIGGRAPH 2024 journal paper which won a best paper award, honorable mention.
+  years: 2023-2024
+  role: Research Scientist Intern
+- id: cesium
+  company: Cesium
+  mentor: Supervised by Prof. Norman I. Badler
+  descriptions: 
+    - Resulted in a poster presentation at SCA 2023.
+  years: "2022"
+  role: Research Scientist Intern

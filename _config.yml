@@ -32,7 +32,7 @@ description:
   Before my PhD studies, I received my MS from NYU in 2023 and a BA from UC Berkeley in 2021.
   I'm happy to chat about research or anything else, and can be reached at <a class="links" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!
 
-research: My current research interests intersect computer graphics, VR/AR, applied perception, and displays. <br> (Representative papers are <span class="highlight">highlighted</span>, <em>*=equal contribution, †=equal advising</em>)
+research: (Representative papers are <span class="highlight">highlighted</span>, <em>*=equal contribution, †=equal advising</em>)
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://kenchen10.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 10kenchen

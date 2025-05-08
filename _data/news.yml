@@ -1,10 +1,49 @@
-# - id: meta
-#   title: Started my internship on the Applied Perception Science Team at Meta in Sunnyvale, CA!
-#   date: 2023-06
-- id: vr25
-  title: A paper was accepted to IEEE VR 2025.
-  date: 2025-01
+- id: deb
+  title: I received the Deborah Rosenthal, MD Award for outsanding performance on the PhD quals.
+  date: 2025-04
+  month: "04"
   year: 2025
+  fill: "#B2DFDB"
+  tag: "#CFD8DC"
+
+- id: oe25
+  title: A project on computer-generated holography was accepted to Optics Express.
+  date: 2025-04
+  month: "04"
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: sig25
+  title: My internship project, "What is HDR?", was accepted to SIGGRAPH 2025!
+  date: 2025-04
+  month: "04"
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: imggs
+  title: Our work on image representation using 2D gaussians was accepted to SIGGRAPH 2025.
+  date: 2025-04
+  month: "04"
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: i3d25
+  title: A poster was accepted to I3D 2025.
+  date: 2025-03
+  month: "03"
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: isca25
+  title: Collaboration work on eye tracking was accepted to ISCA 2025.
+  date: 2025-03
+  month: "03"
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: vr25
+  title: Our audio perception paper was accepted to IEEE VR 2025.
+  date: 2025-01
   month: "01"
   fill: "#FFE0B2"
   tag: "#CFD8DC"

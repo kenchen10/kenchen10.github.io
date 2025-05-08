@@ -17,6 +17,16 @@ kchen:
       - New York University
     vrenergy:
       - New York University
+    isca25:
+      - New York University
+    sig25:
+      - New York University & Meta
+    i3d25:
+      - New York University
+    imggs:
+      - New York University
+    oe25:
+      - New York University
   is_me: true
 
 yzhang:
@@ -25,6 +35,10 @@ yzhang:
   website: https://yunxiangzhang.github.io/
   affiliation: 
     emg-energy:
+      - New York University
+    imggs:
+      - New York University
+    oe25:
       - New York University
 
 eshahan:
@@ -88,6 +102,16 @@ qsun:
       - New York University
     vrenergy:
       - New York University
+    isca25:
+      - New York University
+    sig25:
+      - New York University
+    i3d25:
+      - New York University
+    imggs:
+      - New York University
+    oe25:
+      - New York University
 
 yzhu:
   first_name: Yuhao
@@ -126,6 +150,8 @@ twan:
   affiliation: 
     sig24:
       - Meta
+    sig25:
+      - Meta
 
 nmatsuda:
   first_name: Nathan
@@ -133,6 +159,8 @@ nmatsuda:
   website: https://www.nathanmatsuda.com
   affiliation: 
     sig24:
+      - Meta
+    sig25:
       - Meta
 
 aninan:
@@ -149,6 +177,8 @@ achapiro:
   website: https://achapiro.github.io
   affiliation: 
     sig24:
+      - Meta
+    sig25:
       - Meta
 
 xpeng:
@@ -185,3 +215,118 @@ pchakravarthula:
   affiliation: 
     vr25:
       - University of North Carolina, Chapel Hill
+    oe25:
+      - University of North Carolina, Chapel Hill
+
+awen:
+  first_name: Anzhou
+  last_name: Wen
+  website: 
+  affiliation: 
+    oe25:
+      - University of North Carolina, Chapel Hill
+
+hwang:
+  first_name: Haiyu
+  last_name: Wang
+  website: https://github.com/En-tropy
+  affiliation: 
+    isca25:
+      - New York University
+
+wliu:
+  first_name: Wenxuan 
+  last_name: Liu
+  website: https://scholar.google.com/citations?user=nqp5lXQAAAAJ&hl=zh-CN
+  affiliation: 
+    isca25:
+      - New York University
+
+sqzhang:
+  first_name: Sai Qian
+  last_name: Zhang
+  website: https://www.saiqianzhang.com
+  affiliation: 
+    isca25:
+      - New York University
+
+jmcelvain:
+  first_name: Jon
+  last_name: McElvain
+  website: https://www.linkedin.com/in/jon-mcelvain-23450225/
+  affiliation: 
+    sig25:
+      - Meta
+
+yzhao:
+  first_name: Yang
+  last_name: Zhao
+  website: https://scholar.google.com/citations?user=alcGReEAAAAJ&hl=en
+  affiliation: 
+    sig25:
+      - Meta
+
+qli:
+  first_name: Qinchan
+  last_name: Li
+  website: 
+  affiliation: 
+    i3d25:
+      - New York University
+
+ftorrens:
+  first_name: Finley
+  last_name: Torrens
+  website: 
+  affiliation: 
+    i3d25:
+      - 
+
+bli:
+  first_name: Bingxuan
+  last_name: Li
+  website: https://bingxuan-li.github.io
+  affiliation: 
+    imggs:
+      - New York University
+
+akuznetsov:
+  first_name: Alexandr
+  last_name: Kuznetsov
+  website: https://alexku.me
+  affiliation: 
+    imggs:
+      - Advanced Micro Devices (AMD)
+
+ajindal:
+  first_name: Akshay
+  last_name: Jindal
+  website: https://akshayjindal.com
+  affiliation: 
+    imggs:
+      - Intel Corporation
+
+sdiolatzis:
+  first_name: Stavros
+  last_name: Diolatzis
+  website: https://www.sdiolatz.info
+  affiliation: 
+    imggs:
+      - Intel Corporation
+
+asochenov:
+  first_name: Anton
+  last_name: Sochenov
+  website: https://www.intel.com/content/www/us/en/developer/articles/community/gpu-researchers-anton-sochenov.html
+  affiliation: 
+    imggs:
+      - Intel Corporation
+
+akaplanyan:
+  first_name: Anton
+  last_name: Kaplanyan
+  website: http://kaplanyan.com
+  affiliation: 
+    imggs:
+      - Intel Corporation
+

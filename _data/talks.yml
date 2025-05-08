@@ -1,0 +1,20 @@
+- id: ucl
+  title: Perceptually-Inspired Algorithms for Power Optimization in XR Displays
+  venue: High-Beams Seminar
+  location: University College London (Remote)
+  host: Invited by Prof. Kaan Akşit
+  year: "2024"
+
+- id: peapods
+  title: "PEAPODs: Perceptual Evaluation of Algorithms for Power Optimization in XR Displays"
+  venue: SIGGRAPH 2024
+  location: Denver, Colorado
+  year: "2024"
+  host:
+
+- id: color
+  title: Color-Perception-Guided Display Power Reduction for Virtual Reality
+  venue: SIGGRAPH Asia 2022
+  location: Daegu, South Korea
+  year: "2022"
+  host:

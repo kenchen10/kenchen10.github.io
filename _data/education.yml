@@ -1,16 +1,16 @@
 - id: nyu
   university: New York University
-  degree: PhD
-  major: Computer Science
-  advisor: <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a> 
-  years: Fall 2023 - Present
-  degree2: MS
-  major2: Computer Science
-  years2: Fall 2021 - Spring 2023
-  image: nyu.png
+  degrees: 
+    - PhD in Computer Science
+    - MS in Computer Science
+  years: 
+    - 2023 - Present
+    - 2021 - 2023
+  adviser: Prof. Qi Sun
 - id: ucb
   university: University of California, Berkeley
-  degree: BA
-  major: Computer Science
-  years: Fall 2017 - Spring 2021
-  image: ucb.png
+  degrees: 
+    - BA in Computer Science
+  years: 
+    - 2017 - 2021
+  adviser: Prof. Carlo Sequin

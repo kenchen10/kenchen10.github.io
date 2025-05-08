@@ -1,0 +1,437 @@
+---
+layout: null
+---
+<!DOCTYPE HTML>
+<html lang="en"><head>
+  {% if site.google_analytics and jekyll.environment == 'production' %}
+  {% include analytics.html %}
+  {% endif %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>{{ site.title }}</title>
+  
+  <meta name="author" content="{{ site.title }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link rel="icon" href="./favicon.ico">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/fontin');
+  </style>
+</head>
+
+<body>
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+
+        <table
+          style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:29%"></th>
+              <th style="width:71%"></th>
+            </tr>
+            <tr style="padding:0px">
+              <td style="padding:0px;vertical-align:middle">
+                <div id="banner-load"></div>
+              </td>
+              <td style="padding:20px;vertical-align:middle">
+                <p>
+                  <b>
+                    <name>{{ site.title }}</name>
+                  </b><br>
+                  <b>
+                    <name2>{{ site.title2 }}</name2>
+                  </b>
+                  <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
+                  <!-- <img id="timeline" style="vertical-align:middle" src="images/break2.svg"> -->
+                </p>
+                <p>Welcome! I am a 2nd year Computer Science PhD student at New York University, 
+                  advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
+                  I'm interested in computer graphics; specifically with studying how graphics and display systems can be 
+                  optimized by understanding human visual perception.
+                  <br><br>
+                  During my PhD, I interned twice at Meta Reality Labs, both times hosted by <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>.
+                  Before my PhD studies, I completed an MS at NYU (2023) and a BA at UC Berkeley (2021).
+                  I'm happy to chat about research or anything else; email me at <a class="links" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!</p>
+                <p>
+                  <a class="links3" style="font-size:small" href="mailto:{{ site.email }}"><i
+                      class="fas fa-envelope"></i> Email</a> |
+                  <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
+                  <a class="links3" style="font-size:small"
+                    href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><i
+                      class="fa-brands fa-google-scholar"></i> Google Scholar</a> |
+                  <!-- <a class="links3" style="font-size:small"
+                    href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><i
+                      class="fab fa-twitter"></i> Twitter</a> | -->
+                  <!-- <a class="links" href="https://instagram.com/10chenken"><button style="background-color: #E1BEE7;">Instagram</button></a> | -->
+                  <a class="links3" style="font-size:small" href="./assets/cv.pdf" target="_blank"><i
+                      class="fas fa-file"></i> CV [PDF]</a>
+                  <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <br>
+        <heading>Research Interests</heading>
+        <hr style="margin-top: 2px; margin-bottom: 4px; border-top: 2px solid #FFF0F2; border-color: black;">
+        <table
+          style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <!-- <tr>
+              <th style="width:85%"></th>
+              <th style="width:15%"></th>
+            </tr> -->
+
+            <tr style="min-width:100%; width: 100%;">
+              <td style="padding:5px;vertical-align:middle;">
+                Computer graphics & displays, VR/AR, psychophysics, high dynamic range, color, tone mapping, image quality
+
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <br>
+        <heading>Education</heading>
+        <hr style="margin-top: 2px; margin-bottom: 4px; border-top: 2px solid #FFF0F2; border-color: black;">
+        <table
+          style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:85%"></th>
+              <th style="width:15%"></th>
+            </tr>
+
+            {% for education in site.data.education %}
+              <tr style="min-width:100%; width: 100%;">
+                <td style="padding:5px;vertical-align:middle;">
+                  <strong style="font-size:14px">{{ education.university }}</strong> <br>
+                  {% for degree in education.degrees %}
+                    <em style="font-size: 13px">{{ degree }}</em> <br>
+                  {% endfor %}
+                  <venue style="font-size: 13px">Supervised by {{ education.adviser }}</venue>
+  
+                </td>
+                <td style="vertical-align:top; padding-top: 5px; text-align: right;">
+                  <br>
+                  {% for year in education.years %}
+                  <venue style="font-size: 14px">{{ year }}</venue> <br>
+                  {% endfor %}
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+        <br>
+        <heading>Publications</heading> (*=equal contribution)
+        <hr style="margin-top: 2px; margin-bottom: 4px; border-top: 2px solid #FFF0F2; border-color: black;">
+        <table
+          style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:95%"></th>
+              <th style="width:5%"></th>
+            </tr>
+            {% for publication in site.data.publications %}
+            {% assign idx = {{forloop.index}} %}
+            {% if publication.hide == null %}
+
+            <tr style="min-width:100%; width: 100%;">
+              <!-- <td style="vertical-align:top; padding-top: 5px; padding-right: 0px;">
+                •
+              </td> -->
+              <td style="padding:5px;vertical-align:middle;">
+                <a class="links3" href="{{publication.project_page}}" style="font-size: 14px;"><u>{{ publication.title }}</u></a>
+                <br>
+                {% for author_id in publication.authors %}
+                {% assign author = site.data.authors[author_id] %}
+                {% if author.is_me %}
+                <u><strong style="font-size: 13px; font-style: italic;">{{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if
+                author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
+                author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false
+                %},{% endif %}
+                {% else %}
+                <a style="font-size: 13px" class="links" href="{{ author.website }}">{{ author.last_name }}{% for equal_id in publication.equal %}{% if
+                  author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
+                  author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{%
+                endif %}
+                {% endif %}
+                {% endfor %}
+                <br>
+                <pub>
+                  <venue style="font-weight: 600; font-size: 13px;">
+                    {{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %}
+                  | <em>{{ publication.venue_long }}</em>{% endif %}
+                </pub>
+                {% if publication.award != null %}
+                <!-- <br> -->
+                <pub>
+                  <venue
+                    style="font-size: 13px; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
+                    <i class="fas fa-award"></i> {{ publication.award }}
+                  </venue>
+                </pub>
+                {%endif%}
+                <!-- <br> -->
+                <!-- <p></p> -->
+              </td>
+              <td style="vertical-align:top; padding-top: 5px;">
+                {% if publication.showyear != null %}
+                  <p style="font-size: 14px;">{{ publication.year }}</p>
+                {% endif %}
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+        <br>
+        <heading>Posters/Demos</heading> (*=equal contribution)
+        <hr style="margin-top: 2px; margin-bottom: 4px; border-top: 2px solid #FFF0F2; border-color: black;">
+        <table
+          style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:95%"></th>
+              <th style="width:5%"></th>
+            </tr>
+            {% for publication in site.data.publications %}
+            {% assign idx = {{forloop.index}} %}
+            {% if publication.hide %}
+
+            <tr style="min-width:100%; width: 100%;">
+              <!-- <td style="vertical-align:top; padding-top: 5px; padding-right: 0px;">
+                •
+              </td> -->
+              <td style="padding:5px;vertical-align:middle;">
+                <a class="links3" href="{{publication.project_page}}" style="font-size: 14px;"><u>{{ publication.title }}</u></a>
+                <br>
+                {% for author_id in publication.authors %}
+                {% assign author = site.data.authors[author_id] %}
+                {% if author.is_me %}
+                <u><strong style="font-size: 13px; font-style: italic;">{{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if
+                author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
+                author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false
+                %},{% endif %}
+                {% else %}
+                <a style="font-size: 13px" class="links" href="{{ author.website }}">{{ author.last_name }}{% for equal_id in publication.equal %}{% if
+                  author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
+                  author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{%
+                endif %}
+                {% endif %}
+                {% endfor %}
+                <br>
+                <pub>
+                  <venue style="font-weight: 600; font-size: 13px;">
+                    {{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %}
+                  | <em>{{ publication.venue_long }}</em>{% endif %}
+                </pub>
+                {% if publication.award != null %}
+                <!-- <br> -->
+                <pub>
+                  <venue
+                    style="font-size: 13px; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
+                    <i class="fas fa-award"></i> {{ publication.award }}
+                  </venue>
+                </pub>
+                {%endif%}
+                <!-- <br> -->
+                <!-- <p></p> -->
+              </td>
+              <td style="vertical-align:top; padding-top: 5px;">
+                {% if publication.showyear != null %}
+                  <p style="font-size: 14px;">{{ publication.year }}</p>
+                {% endif %}
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+        <br>
+        
+        <heading>Employment</heading>
+        <hr style="margin-top: 2px; margin-bottom: 4px; border-top: 2px solid #FFF0F2; border-color: black;">
+        <!-- <p><small>{{ site.research }}</small></p> -->
+        <table
+          style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:85%"></th>
+              <th style="width:15%"></th>
+            </tr>
+
+            {% for work in site.data.work %}
+              <tr style="min-width:100%; width: 100%;">
+                <td style="padding:5px;vertical-align:middle;">
+                  <strong style="font-size:14px">{{ work.company }}</strong> | <venue style="font-size: 14px">{{ work.role }}</venue> <br>
+                  <em style="font-size: 13px">{{ work.mentor }}</em> <br>
+                  <ul style="margin-left: -12px; margin-bottom: 2px;">
+                  {% for description in work.descriptions %}
+                    <li style="font-size: 13px">{{ description }}</li>
+                  {% endfor %}
+                  </ul>
+  
+                </td>
+                <td style="vertical-align:top; padding-top: 5px; text-align: right;">
+                  {% for year in work.years %}
+                  <venue style="font-size: 14px">{{ year }}</venue> <br>
+                  {% endfor %}
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+        <br>
+        
+        <heading>Talks</heading>
+        <hr style="margin-top: 2px; margin-bottom: 4px; border-top: 2px solid #FFF0F2; border-color: black;">
+        <!-- <p><small>{{ site.research }}</small></p> -->
+        <table
+          style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:85%"></th>
+              <th style="width:15%"></th>
+            </tr>
+
+            {% for talk in site.data.talks %}
+              <tr style="min-width:100%; width: 100%;">
+                <td style="padding:5px;vertical-align:middle;">
+                  <strong style="font-size:14px">{{ talk.title }}</strong> <br>
+                  <venue style="font-size: 14px">{{ talk.venue }} | {{ talk.location }}</venue> <br>
+                  {{% if talk.host != null %}}
+                    <em style="font-size: 13px">{{ talk.host }}</em>
+                  {{% endif %}}
+  
+                </td>
+                <td style="vertical-align:top; padding-top: 5px; text-align: right;">
+                  {% for year in talk.year %}
+                  <venue style="font-size: 14px">{{ year }}</venue> <br>
+                  {% endfor %}
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+        <br>
+        
+        <heading>Teaching</heading>
+        <hr style="margin-top: 2px; margin-bottom: 4px; border-top: 2px solid #FFF0F2; border-color: black;">
+        <!-- <p><small>{{ site.research }}</small></p> -->
+        <table
+          style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:80%"></th>
+              <th style="width:20%"></th>
+            </tr>
+
+            {% for course in site.data.teaching %}
+              <tr style="min-width:100%; width: 100%;">
+                <td style="padding:5px;vertical-align:middle;">
+                  <strong style="font-size:14px">{{ course.course }}</strong> <br>
+                  <venue style="font-size: 14px"><em>{{ course.institution }}</em>, {{ course.title }}</venue>
+  
+                </td>
+                <td style="vertical-align:top; padding-top: 5px; text-align: right;">
+                  {% for year in course.year %}
+                  <venue style="font-size: 14px">{{ year }}</venue> <br>
+                  {% endfor %}
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+        <br>
+        
+        <heading>Awards & Honors</heading>
+        <hr style="margin-top: 2px; margin-bottom: 4px; border-top: 2px solid #FFF0F2; border-color: black;">
+        <!-- <p><small>{{ site.research }}</small></p> -->
+        <table
+          style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:80%"></th>
+              <th style="width:20%"></th>
+            </tr>
+
+            {% for award in site.data.awards %}
+              <tr style="min-width:100%; width: 100%;">
+                <td style="padding:5px;vertical-align:middle;">
+                  <strong style="font-size:14px">{{ award.title }}</strong>, <venue style="font-size: 14px">{{ award.location }}</venue><br>
+                  <em style="font-size:13px;">{{ award.description }}</em>
+  
+                </td>
+                <td style="vertical-align:top; padding-top: 5px; text-align: right;">
+                  {% for year in award.year %}
+                  <venue style="font-size: 14px">{{ year }}</venue> <br>
+                  {% endfor %}
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+        <br>
+        
+        <!-- <heading>Academic Service</heading>
+        <hr style="margin-top: 2px; margin-bottom: 4px; border-top: 2px solid #FFF0F2; border-color: black;">
+        <table
+          style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:80%"></th>
+              <th style="width:20%"></th>
+            </tr>
+            {% for service in site.data.service %}
+              <tr style="min-width:100%; width: 100%;">
+                <td style="padding:5px;vertical-align:middle;">
+                    <venue style="font-size: 13px">{{ service.name }}</venue><br>
+                </td>
+                <td style="vertical-align:top; padding-top: 5px; text-align: right;">
+                  <venue style="font-size: 14px">{{ service.years }}</venue>
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table> -->
+        
+      </td>
+    </tr>
+  </table>
+</body>
+
+<script>
+  //Add your images, we'll set the path in the next step
+  var images = ['profile_headshot.JPG'];
+
+  //Build the img, then do a bit of maths to randomize load and append to a div. Add a touch off css to fade them badboys in all sexy like.
+  $('<img id="profile" style="width:100%;border-radius: 0; border: 1px solid black;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
+</script>
+
+</html>

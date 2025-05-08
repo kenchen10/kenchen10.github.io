@@ -199,11 +199,11 @@ table {
   border-spacing: 0;
 }
 
-td {
+/* td {
   border: none;
   border-style: none none none none;
   padding: 10px;
-}
+} */
 
 tr:first-child td:first-child { border-top-left-radius: 10px; }
 tr:first-child td:last-child { border-top-right-radius: 10px; }
@@ -255,7 +255,7 @@ pre {
 .tdnews {
   border: none;
   border-style: none none none none;
-  padding: 0px 10px 0px 10px;
+  padding: 0px 0px 0px 30px;
 }
 
 /* custom scrollbar */
@@ -284,7 +284,7 @@ pre {
 
 .hoverable:hover {
   border: .5px solid black;
-  transform: scale(3.5);
+  transform: scale(2);
 }
 
 .hoverable2 {
@@ -297,4 +297,16 @@ pre {
 
 tab {
   padding-left: 10px;
+}
+
+.container{
+    width: 1250px;
+}
+
+
+#myhr {
+  margin-top: 2px; 
+  margin-bottom: 4px; 
+  border-top: 2px solid #FFF0F2; 
+  border-color: black;
 }

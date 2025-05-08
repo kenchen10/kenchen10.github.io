@@ -1,21 +1,220 @@
+- id: sig25
+  title: "What is HDR? Perceptual Impact of Luminance and Contrast in Immersive Displays"
+  venue: SIGGRAPH
+  doi: 10.1145/3721238.3730629
+  year: 2025
+  showyear: 2025
+  description: "We studied how contrast/luminance compression affects user preferences in HDR."
+  project_page: "projects/sig25/index.html"
+  highlightvideo: sig25.mp4
+  github: 
+  arxiv: 
+  poster: 
+  pdf: assets/papers/What_is_HDR__Manuscript-13_Part1.pdf
+  supp: assets/papers/What_is_HDR__Manuscript-13_Part2.pdf
+  papersite: 
+  teaser_vid: 
+  award: 
+  award_link: 
+  image: WIH-image.png
+  bgcolor: True
+  tag: "#F6BEFF"
+  teaser_image: WIH-teaser.png
+  yt_emb: 
+  video: images/wih_supp_video.mp4
+  teaser_text: "A model to predict perceptual impact (in Just-Objectionable-Differences, or JODs) is derived from HDR preference data for combinations of display
+contrast and peak luminance, with predictions visualized as a heatmap (left). In this plot, the baseline 0 JOD condition is set to values similar to commercially-
+available VR displays: 100 nits peak luminance and 64:1 contrast. In addition, we simulate 3 displays with different dynamic ranges. Our model allows us
+to examine the perceived improvement from increased peak luminance and contrast. For example, both display 2 and 3 provide a 1 JOD improvement
+over display 1. Note that HDR content cannot be displayed in a PDF format, so all images in this manuscript are tone-mapped for presentation. See our
+supplementary webpage for representative content."
+  authors:
+    - kchen
+    - nmatsuda
+    - jmcelvain
+    - yzhao
+    - twan
+    - qsun
+    - achapiro
+  affiliation_images:
+    - nyu.png
+    - meta.png
+  equal_adv:
+    - achapiro
+    - qsun
+  bibtex: 
+  abstract: "The contrast and luminance capabilities of a display are central to the quality
+of the image. High dynamic range (HDR) displays have high luminance and
+contrast, but it can be difficult to ascertain whether a given set of characteris-
+tics qualifies for this label. This is especially unclear for new display modes,
+such as virtual reality (VR). This paper studies the perceptual impact of peak
+luminance and contrast of a display, including characteristics and use cases
+representative of VR. To achieve this goal, we first developed a haploscope
+testbed prototype display capable of achieving 1k nits peak luminance
+and 1M:1 contrast with high precision. We then collected a novel HDR
+video dataset targetting VR-relevant content types. We also implemented
+custom tone mapping operators to map between display parameter sets.
+Finally, we collected subjective preference data spanning 3 orders of mag-
+nitude in each dimension. Our data was used to fit a model, which was
+validated using a subjective study on an HDR VR prototype headmounted
+display (HMD). Our model helps provide guidance for future display design,
+and helps standardize the understanding of HDR."
+
+- id: imggs
+  title: "Image-GS: Content-Adaptive Image Representation via 2D Gaussians"
+  venue: SIGGRAPH
+  venue_long: 
+  year: 2025
+  highlightvideo: imggs.mp4
+  description: "2D gaussians can serve as an effective technique for low bit rate image encoding."
+  project_page: "projects/imggs/index.html"
+  github: NYU-ICL/image-gs
+  arxiv: 
+  poster: 
+  pdf: https://arxiv.org/abs/2407.01866/
+  supp: 
+  papersite: 
+  teaser_vid: 
+  award: 
+  award_link: 
+  image: imggs.png
+  tag: "#F6BEFF"
+  teaser_image: imggs_teaser.png
+  yt_emb: 
+  video: 
+  teaser_text: "Content-adaptive image representation with Image-GS. Leveraging a tailored differentiable renderer, Image-GS adaptively distributes and progressively
+optimizes a set of 2D Gaussians to fit a target image. Image-GS shows high memory & computation e!iciency, supports fast random pixel access, and o!ers a
+natural level of detail. (a) shows the learned Gaussian position distribution (green dots); 20% of Gaussians are plotted for better visibility. (b) Compared to
+alternative methods, Image-GS's content-adaptive nature enables it to wisely allocate resources based on the local signal complexity and preserve fine image
+details with higher fidelity. The insets visualize the corresponding error images, with brighter colors indicating higher errors."
+  authors:
+    - yzhang
+    - bli
+    - akuznetsov
+    - ajindal
+    - sdiolatzis
+    - kchen
+    - asochenov
+    - akaplanyan
+    - qsun
+  equal: 
+    - yzhang
+    - bli
+  affiliation_images:
+    - nyu.png
+    - intel.png
+    - amd.png
+  bibtex: 
+  abstract: "Neural image representations have emerged as a promising approach for storing and rendering visual data. Combined with learning-based work-flows, these novel representations have demonstrated impressive balances
+between visual quality and memory footprint. Existing methods along this line, however, often rely on fixed data structures that suboptimally allocate
+memory budget or computation-intensive implicit neural models, limiting their adoption in real-time graphics applications.
+Inspired by recent advances in radiance field rendering, we introduce Image-GS, an efficient, flexible, and content-adaptive image representation based on anisotropic 2D Gaussians. Image-GS delivers remarkable visual
+quality and memory effciency while supporting fast random access and a
+natural level-of-detail stack. Leveraging a custom differentiable renderer imlemented via efficient CUDA kernels, Image-GS reconstructs target images by adaptively allocating and progressively optimizing a set of 2D Gaussians.
+Our method achieves superior visual fidelity over state-of-the-art neural image representations across diverse images and textures. Notably, Image-GS exhibits linear scaling in memory and computational requirements relative to the number of Gaussians, offering a flexible trade-off between fidelity and
+run-time efficiency, which we demonstrate in machine vision and image restoration tasks."
+
+- id: oe25
+  title: "View Synthesis for 3D Computer-Generated Holograms Using Deep Neural Fields"
+  venue: Optics Express
+  venue_long: 
+  year: 2025
+  showyear:
+  description: "Neural networks are trained to predict 3D holograms at novel scene views."
+  project_page: "projects/oe25/index.html"
+  github: 
+  doi: 10.1364/OE.559364
+  arxiv: 
+  poster: 
+  pdf: assets/papers/oe-33-9-19399.pdf
+  supp: assets/papers/7444817.pdf
+  papersite: 
+  teaser_vid: 
+  award: 
+  award_link: 
+  image: nhf.png
+  tag: "#F6BEFF"
+  teaser_image: nhf_teaser.png
+  yt_emb: 
+  video: images/supp-view-interp_s.mp4
+  teaser_text: "(A) Camera captures are used to optimize a scene representation model. 
+        (B) Light field elemental views are rendered by iteratively evaluating the radiance field at uniformly spaced camera positions.
+        Epipolar slices show that the scene representation model can synthesize new views with high image quality.
+        (C) The light field is converted to a complex wavefront by computing the inverse of the short-time Fourier transform (iSTFT).
+        (D) The model weights of a CNN are optimized by backpropagating the errors of a focal stack loss.
+        The ASM is used to simulate wavefront propagation at different distances from a reference plane.
+        (E) Insets of model predictions for four test views are shown, with near and far focus."
+  authors:
+    - kchen
+    - awen
+    - yzhang
+    - pchakravarthula
+    - qsun
+  affiliation_images:
+    - nyu.png
+    - UNC-Logo.png
+  bibtex: "
+    @article{chen2025neuralholographicfields,<br>
+      <tab>author = {Kenneth Chen and Anzhou Wen and Yunxiang Zhang and Praneeth Chakravarthula and Qi Sun},<br>
+      <tab>journal = {Opt. Express},<br>
+      <tab>keywords = {Holographic displays; Imaging techniques; Light propagation; Neural networks; Spatial light modulators; Wave propagation},<br>
+      <tab>number = {9},<br>
+      <tab>pages = {19399--19408},<br>
+      <tab>publisher = {Optica Publishing Group},<br>
+      <tab>title = {View synthesis for 3D computer-generated holograms using deep neural fields},<br>
+      <tab>volume = {33},<br>
+      <tab>month = {May},<br>
+      <tab>year = {2025},<br>
+      <tab>url = {https://opg.optica.org/oe/abstract.cfm?URI=oe-33-9-19399},<br>
+      <tab>doi = {10.1364/OE.559364}<br>
+    }
+  "
+  abstract: "Computer-generated holography (CGH) simulates the propagation and interference of complex light waves, allowing it to reconstruct realistic images captured from a specific viewpoint by solving the corresponding Maxwell equations.
+However, in applications such as virtual and augmented reality, viewers should freely observe holograms from arbitrary viewpoints, much as how we naturally see the physical world.  
+In this work, we train a neural network to generate holograms at any view in a scene.
+Our result is the Neural Holographic Field: the first artificial-neural-network-based representation for light wave propagation in free space and transform sparse 2D photos into holograms that are not only 3D but also freely viewable from any perspective. We demonstrate by visualizing various smartphone-captured scenes from arbitrary six-degree-of-freedom viewpoints on a prototype holographic display. To this end, we encode the measured light intensity from photos into a neural network representation of underlying wavefields. Our method implicitly learns the amplitude and phase surrogates of the underlying incoherent light waves under coherent light display conditions. During playback, the learned model predicts the underlying continuous complex wavefront propagating to arbitrary views to generate holograms."
+
+- id: isca25
+  title: "Process Only Where You Look: Hardware and Algorithm Co-optimization for Efficient Gaze-Tracked Image Rendering in Virtual Reality"
+  venue: ISCA
+  venue_long: 
+  year: 2025
+  description: 
+  project_page: "projects/isca25/index.html"
+  github: 
+  arxiv: 
+  pdf: 
+  teaser_vid: 
+  image: isca25.png
+  bgcolor: 
+  tag: "#F6BEFF"
+  teaser_image: isca25teaser.png
+  yt_emb: 
+  video: 
+  teaser_text:
+  authors:
+    - hwang
+    - wliu
+    - kchen
+    - qsun
+    - sqzhang
+  affiliation_images:
+    - nyu.png
+  bibtex:
+  abstract: "Virtual reality (VR) plays a crucial role in advancing immersive, interactive experiences that transform learning, work, and entertainment by enhancing user engagement and expanding possibilities across various fields. Image rendering is one of the most crucial application in VR, as it produces high-quality, realistic visuals that are vital for maintaining immersive user experiences and preventing visual discomfort or motion sickness. However, the cost of image rendering in VR environment is considerable, primarily due to the demands of high-quality visual experiences from users. This challenge is even greater in real-time applications, where maintaining low latency further increases the complexity of the rendering process. On the other hand, VR devices, such as head-mounted displays (HMDs), are intrinsically linked to human behavior, using insights from perception and cognition to enhance user experience. In this work, we aim to reduce the high computational costs of the rendering process in VR by leveraging natural human eye dynamics and focusing on processing only where you look (POLO). This involves co-optimizing AI algorithms with underlying hardware for greater efficiency. We introduce POLONet, an efficient multitask deep learning framework designed to track human eye movements with minimal latency. 
+  Integrated with the POLO accelerator as a plug-in for VR HMD SoCs, this approach significantly lowers image rendering costs, achieving up to a 3.9x reduction in end-to-end latency compared to the latest gaze tracking methods."
+
 - id: vr25
   title: "Perceptually-Guided Acoustic ``Foveation''"
   venue: IEEE VR
-  venue_long: Conference Proceedings
+  doi: 10.1109/VR59515.2025.00069
   year: 2025
-  showyear: 2025
   description: We present a perceptual sound source clustering technique.
   project_page: "projects/vr25/index.html"
-  github: 
-  arxiv: 
   pdf: "assets/papers/audio_foveation-1.pdf"
-  teaser_vid: 
   image: vr25.png
-  bgcolor: 
-  tag: "#C5CAE9"
+  tag: "#F6BEFF"
   teaser_image: vr25_teaser-modified.png
-  yt_emb: 
-  video: 
   teaser_text: "Figure 1: Azimuth-based audio perceptual acuity guided sound source clustering. (a) visualizes our model-predicted human auditory perception of spatial discrimination threshold along azimuth eccentricity in degrees. (b) illustrates the model-derived audio source clustering method. Based on listeners’ heading direction (assuming forward here), we cluster audio sources that are spatially indistinguishable. Clusters were highlighted by colors corresponding to the human’s minimum audible angle. The number of sound sources for each cluster is marked in the figure. Our measurement shows a 53% computational saving at the presented scene."
   authors:
     - xpeng
@@ -31,29 +230,80 @@
     - nyu.png
     - marl.png
     - UNC-Logo.png
-  bibtex:
+  bibtex: "
+    @INPROCEEDINGS{<br>
+      <tab>peng25acousticfoveation,<br>
+      <tab>author={Peng, Xi and Chen, Kenneth and Roman, Iran and Bello, Juan Pablo and Sun, Qi and Chakravarthula, Praneeth},<br>
+      <tab>booktitle={2025 IEEE Conference Virtual Reality and 3D User Interfaces (VR)},<br> 
+      <tab>title={Perceptually-Guided Acoustic \"Foveation\"},<br> 
+      <tab>year={2025},<br>
+      <tab>pages={450-460},<br>
+      <tab>keywords={Solid modeling;Visualization;Sensitivity;Computational modeling;Virtual environments;Rendering (computer graphics);Acoustics;Real-time systems;Psychophysics;Spatial resolution;Perception;Virtual reality;Mixed/Augmented reality},<br>
+      <tab>doi={10.1109/VR59515.2025.00069},<br>
+    }
+  "
   abstract: "Realistic spatial audio rendering improves immersion in virtual environments. However, the computational complexity of acoustic propagation increases linearly with the number of sources. Consequently, real-time accurate acoustic rendering becomes challenging in highly dynamic scenarios such as virtual and augmented reality (VR/AR). Exploiting the fact that human spatial sensitivity of acoustic sources is not equal at azimuth eccentricities in the horizontal plane, we introduce a perceptually-aware acoustic “foveation” guidance model to the audio rendering pipeline, which can integrate audio sources that are not spatially resolvable by human listeners. To this end, we first conduct a series of psychophysical studies to measure the minimum resolvable audible angular distance under various spatial and background conditions. We leverage this data to derive an azimuth-characterized real-time acoustic foveation algorithm. Numerical analysis and subjective user studies in VR environments demonstrate our method’s effectiveness in significantly reducing acoustic rendering workload, without compromising users’ spatial perception of audio sources. We believe that the presented research will motivate future investigation into the new frontier of modeling and leveraging human multimodal per- ceptual limitations — beyond the extensively studied visual acuity — for designing efficient VR/AR systems."
+
+- id: i3d25
+  title: "BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models"
+  venue: I3D
+  venue_long: Poster
+  year: 2025
+  poster: assets/poster_i3d.png
+  description: "Diffusion models can be used for texturing 3D models."
+  project_page: "projects/i3d25/index.html"
+  pdf: assets/papers/i3d25.pdf
+  image: i3d.png
+  tag: "#F6BEFF"
+  teaser_image: i3d-teaser.png
+  doi: 10.1145/3722564.3728376
+  hide: true
+  teaser_text: "Our BlendFusion generative 3D mesh modeling
+framework. (a) shows the overall and zoomed-in 3D scene for
+re-texturing, (b) shows the modeled texture after 20 minutes
+by a professional designer, and (c) shows the results using our
+framework with an inference time of 2 minutes with prompt
+`a child drawing style of a cabinet in a cartoony kitchen'."
+  authors:
+    - qli
+    - ftorrens
+    - kchen
+    - qsun
+  affiliation_images:
+    - nyu.png
+  bibtex: ""
+  abstract: "Modeling 3D assets is a universal in various applications, including animation and game development. However, a key challenge
+lies in the labor-intensive task of 3D texturing, where creators
+must repeatedly update textures to align with modified geometric shapes on the fly. This iterative workflow makes 3D texturing
+significantly more cumbersome and less efficient than 2D image
+painting. To address this, we introduce BlendFusion, an interactive
+framework that leverages generative diffusion models to streamline
+3D texturing. Unlike existing systems that generate textures from
+scratch, BlendFusion integrates the procedural nature of texturing
+by incorporating multi-view projection to guide the generation
+process, enhancing stylistic alignment with the creator's intent.
+Experimental results demonstrate the robustness and consistency
+of BlendFusion across both objective and subjective evaluations."
 
 - id: sig24
   title: "<b style='color:#4CBB17;'>PEA-PODs</b>: <b style='color:#4CBB17;'>P</b>erceptual <b style='color:#4CBB17;'>E</b>valuation of <b style='color:#4CBB17;'>A</b>lgorithms for <b style='color:#4CBB17;'>P</b>ower <b style='color:#4CBB17;'>O</b>ptimization in XR <b style='color:#4CBB17;'>D</b>isplay<b style='color:#4CBB17;'>s</b>"
-  venue: ACM SIGGRAPH
-  venue_long: Journal Proceedings
+  venue: SIGGRAPH
+  venue_long:
+  doi: 10.1145/3658126
   year: 2024
   showyear: 2024
+  highlightvideo: peapods.mp4
   description: "We conduct user studies to evaluate display power optimization algorithms."
   project_page: "projects/sig24/index.html"
   github: NYU-ICL/pea-pods.git
-  arxiv: 
   poster: assets/PEAPODs-Poster.pdf
   pdf: assets/papers/peapods_manuscript_Part1.pdf
   supp: assets/papers/peapods_manuscript_Part2.pdf
-  papersite: 
-  teaser_vid: 
   award: Best Paper Award (Honorable Mention)
   award_link: https://blog.siggraph.org/2024/06/siggraph-2024-technical-papers-awards-best-papers-honorable-mentions-and-test-of-time.html/
   image: pea-pods-teaser2.png
   bgcolor: True
-  tag: "#FFCCBC"
+  tag: "#F6BEFF"
   teaser_image: peapods_teaser.png
   yt_emb: https://www.youtube.com/embed/CcITr7fy8Go
   video: https://youtu.be/CcITr7fy8Go
@@ -102,22 +352,19 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: asplos24
   title: "Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality"
-  venue: ACM ASPLOS
+  venue: ASPLOS
   # venue_long: ACM International Conference on Architectural Support for Programming Languages and Operating Systems
+  doi: 10.1145/3617232.3624860
   year: 2024
-  showyear: 2024
   description: "A DRAM traffic compression scheme using peripheral color modulation."
   project_page: "projects/asplos24/index.html"
   github: horizon-research/hvs_vr_encoding.git
-  arxiv: 
   papersite: https://horizon-lab.org/pubs/asplos24-vr.pdf
-  teaser_vid: 
   image: asplos24-2.png
-  bgcolor: 
-  tag: "#E1BEE7"
+  tag: "#F6BEFF"
   teaser_image: asplos24teaser.png
-  yt_emb: 
-  video: 
+  yt_emb: https://www.youtube.com/embed/7TLZIIFo7TI
+  video: https://www.youtube.com/7TLZIIFo7TI
   teaser_text: Our algorithm takes a tile of pixels and their corresponding discrimination ellipsoid parameters, and generate an adjusted pixel tile, which then goes through existing BD encoding.
   authors:
     - nujjainkar
@@ -144,21 +391,18 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: sca23
   title: "Towards Learning and Generating Audience Motion from Video"
-  venue: ACM SCA
-  venue_long: ACM SIGGRAPH/Eurographics Symposium on Computer Animation, Poster
+  venue: SCA
+  doi: 10.1145/3606037.3606839
+  venue_long: Poster
   year: 2023
+  showyear: 2023
   description: "A dataset of audience videos."
   project_page: "projects/sca23/index.html"
-  github: 
-  arxiv: 
   pdf: assets/papers/sca23-4.pdf
   image: audiences-2.png
-  bgcolor: 
-  tag: "#C8E6C9"
-  paper_image: 
+  tag: "#F6BEFF"
   teaser_image: datagenpipeline-1.png
-  yt_emb: 
-  video: 
+  video: images/Audiences_SCA23.mp4
   hide: true
   authors:
     - kchen
@@ -181,22 +425,18 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: vr-energy-etech
   title: "Imperceptible Color Modulation for Power Saving in VR/AR"
-  venue: ACM SIGGRAPH
-  venue_long: Emerging Technologies
+  venue: SIGGRAPH
+  venue_long: Emerging Technologies Demo
+  doi: 10.1145/3588037.3595388
+  hide: true
   year: 2023
   description: "A demo of the display setup and model from our SIGGRAPH Asia '22 paper."
   project_page: "projects/vr-energy-etech/index.html"
-  github: 
-  arxiv: 
-  hide: true
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
-  image: etech23-2.png
-  bgcolor: 
-  tag: "#FFCCBC"
+  image: etech23-3.jpg
+  tag: "#F6BEFF"
   paper_image: vr-energy-etech.png
   teaser_image: etech23teaser.png
-  yt_emb: 
-  video: 
   teaser_text: a) We develop a hardware prototype OLED VR display to capture power measurements when displaying different images. b) Participants view a panoramic scene in VR with our filter turned on, and are encouraged to rotate freely to view the scene in a natural manner. c) Filter intensity is increased over 10 seconds. Image credits to VR Gorilla.
   authors:
     - kchen
@@ -226,20 +466,15 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: emg-energy
   title: "Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction"
-  venue: ACM SIGGRAPH
-  venue_long: Conference Proceedings
-  # banner_venue: siggraph.jpg
+  venue: SIGGRAPH
+  doi: 10.1145/3588432.3591495
   year: 2023
-  showyear: 2023
   description: "Leveraging EMG devices, we developed a model to predict VR neck muscular workload."
   project_page: "projects/emg-energy/index.html"
   github: NYU-ICL/xr-ergonomics-neck-comfort
-  arxiv: 
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/xr-ergonomics-neck-comfort.pdf
-  teaser_vid: 
   image: emg-2.png
-  bgcolor: 
-  tag: "#FFCCBC"
+  tag: "#F6BEFF"
   paper_image: mcl-paper.png
   teaser_image: teasersig23.png
   teaser_text: (a) A VR user chooses between two candidate head motion trajectories of seemingly similar muscular workload for a visual task. (b) Our computational model predicts the user’s potential neck muscle contraction level and thus perceived neck muscle discomfort before the movements happen. 3D asset credits to Mixall, Bizulka, RootMotion at Unity, and shockwavegamez01, joseVG at Sketchfab.
@@ -265,28 +500,21 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
 
 - id: vrenergy
   title: "Color-Perception-Guided Display Power Reduction for Virtual Reality"
-  # venue2: SIGGRAPH
-  # venue_long2: Emerging Technologies
-  # year2: 2023
   affiliation_images:
     - nyulogo.png
     - uofr.png
-  venue: ACM SIGGRAPH Asia
-  venue_long: Journal Proceedings
+  venue: SIGGRAPH Asia
+  doi: 10.1145/3550454.3555473
   showyear: 2022
   year: 2022
   description: "We measured human sensitivity to peripheral color stimuli via a psychophysical studied, and applied this data to OLED display power optimization."
   project_page: "projects/vrenergy/index.html"
-  # project_page2: "projects/vr-energy-etech/index.html"
-  # project_page2_name: E-Tech
   github: NYU-ICL/vr-power-saver
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2024/11/vr_energy_siga_22.pdf
-  # arxiv: "2209.07610"
-  # teaser_vid: sigasia.mp4
   image: colorfov-2.png
   bgcolor: True
-  tag: "#BBDEFB"
-  # tag2: "#FFCCBC"
+  tag: "#F6BEFF"
+  highlightvideo: sigasia.mp4
   teaser_text: "We present a perceptually-guided, real-time, and closed-form model for minimizing the power consumption of untethered VR displays while preserving visual fidelity. We apply a gaze-contingent shader onto the original frame ((a) left) to produce a more power efficient frame ((a) right) while preserving the luminance level and perceptual fidelity during active viewing. The dashed circles indicate the user's gaze. Our method is jointly motivated by prior literature revealing that: i) the power cost of displaying different colors on LEDs may vary significantly, even if the luminance levels remain unchanged [Dong and Zhong 2011]; ii) human color sensitivity decreases in peripheral [Hansen et al. 2009] and active vision [Cohen et al. 2020]. The color palette of the original frame is modulated using our peripheral filter and is shown in (a) for a visual comparison. While the color palettes appear different when gazed upon, an observer cannot discriminate between them when shown in their periphery. (b) visualizes how our model shifts the image's chromatic histograms to minimize the physically-measured power consumption. The blue LEDs consume more energy than the red/green in our experiment display panel. Image credits to Tim Caynes © 2012."
   paper_image: vrenergy_paper.png
   teaser_image: sigasia22_teaser.png

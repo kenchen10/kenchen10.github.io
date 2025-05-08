@@ -29,12 +29,12 @@ layout: null
 </head>
 
 <body>
-  <table style="margin-left: auto;margin-right: auto;">
+  <table style="margin-left: auto;margin-right: auto;padding-top: 20px;">
     <tr>
       <td>
         <!-- <hr> -->
         <table
-          style="vertical-align: top;max-width:725px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
+          style="vertical-align: top;max-width:750px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
           <tbody>
             <!-- <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody> -->
             <!-- <a href="images.html"><img style="max-width: 800px;" src="images/banner_nyc.jpg"></a> -->
@@ -45,17 +45,19 @@ layout: null
                   style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                   <tbody>
                     <tr>
-                      <th style="width:29%"></th>
-                      <th style="width:71%"></th>
+                      <th style="width:30%"></th>
+                      <th style="width:70%"></th>
                     </tr>
                     <tr style="padding:0px">
-                      <td style="padding:0px;vertical-align:middle">
+                      <td style="padding-left:10px;vertical-align:middle">
                         <div id="banner-load"></div>
                       </td>
                       <td style="padding:20px;vertical-align:middle">
                         <p>
                           <b>
                             <name>{{ site.title }}</name>
+                            <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;margin-left: -10px;" src="images/break2.svg">
+                            <!-- <hr style="margin-top: 2px; margin-bottom: -8px; border-top: 2px solid #FFF0F2; border-color: black;"> -->
                           </b><br>
                           <b>
                             <name2>{{ site.title2 }}</name2>
@@ -63,26 +65,28 @@ layout: null
                           <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
                           <!-- <img id="timeline" style="vertical-align:middle" src="images/break2.svg"> -->
                         </p>
-                        <p>Welcome! I am a 2nd year Computer Science PhD student at New York University, 
-                          advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
-                          I'm interested in computer graphics; specifically with studying how graphics and display systems can be 
+                        <p style="font-size: 14px;">Welcome! I'm a 2nd year Computer Science PhD student at New York University, 
+                          advised by <a class="links" style="font-size: 14px;" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
+                          I study how graphics and display systems can be 
                           optimized by understanding human visual perception.
                           <br><br>
-                          During my PhD, I interned twice at Meta Reality Labs, both times hosted by <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>.
-                          Before my PhD studies, I completed an MS at NYU (2023) and a BA at UC Berkeley (2021).
-                          I'm happy to chat about research or anything else; email me at <a class="links" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!</p>
+                          This summer, I am at the University of Cambridge working with <a class="links" style="font-size: 14px;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>.
+                          During my PhD, I interned twice at Meta Reality Labs, both times hosted by <a class="links" style="font-size: 14px;" href="https://achapiro.github.io/" target="_blank">Dr. Alex Chapiro</a>.
+                          Before my PhD, I did an MS at NYU (2023) and a BA at UC Berkeley (2021).
+                          I'm happy to chat about research or anything else; email me at <a class="links" style="font-size: 14px;" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!</p>
                         <p>
+                          <!-- <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;" src="images/break2.svg"> -->
                           <a class="links3" style="font-size:small" href="mailto:{{ site.email }}"><i
                               class="fas fa-envelope"></i> Email</a> |
                           <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
                           <a class="links3" style="font-size:small"
                             href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><i
                               class="fa-brands fa-google-scholar"></i> Google Scholar</a> |
-                          <a class="links3" style="font-size:small"
+                          <!-- <a class="links3" style="font-size:small"
                             href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><i
-                              class="fab fa-twitter"></i> Twitter</a> |
+                              class="fab fa-twitter"></i> Twitter</a> | -->
                           <!-- <a class="links" href="https://instagram.com/10chenken"><button style="background-color: #E1BEE7;">Instagram</button></a> | -->
-                          <a class="links3" style="font-size:small" href="./assets/cv.pdf" target="_blank"><i
+                          <a class="links3" style="font-size:small" href="assets/cv.pdf"><i
                               class="fas fa-file"></i> CV</a>
                           <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
                         </p>
@@ -90,22 +94,27 @@ layout: null
                     </tr>
                   </tbody>
                 </table>
-                <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;" src="images/break2.svg">
+                <!-- <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;" src="images/break2.svg"> -->
+
+               
+              
                 <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
                 <!-- <img id="timeline" style="vertical-align:middle" src="images/timeline.svg"> -->
                 <table id="timeline"
                   style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                   <tbody>
                     <tr>
-                      <td>
-                        <heading>Timeline</heading><br>
-                        <div style="float: left; line-height: 25px;">
-                          <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #B2DFDB;">school</venue> |
-                          <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #BBDEFB;">work</venue> |
-                          <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFE0B2;">research</venue> |
-                          <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFCCBC;">talk</venue> |
-                          <a class="links" href="news.html">[All]</a>
-                        </div>
+                      <td style="padding: 10px;">
+                        <!-- <br> -->
+                        <heading>Timeline</heading> <a class="links3" href="news.html">[See All]</a><br>
+                        <hr id="myhr">
+                        <!-- <div style="float: left; line-height: 25px;">
+                          <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #B2DFDB;">school</venue> |
+                          <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #BBDEFB;">work</venue> |
+                          <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #FFE0B2;">research</venue> |
+                          <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #FFCCBC;">talk</venue> |
+                          <a class="links3" href="news.html">[All]</a>
+                        </div> -->
                       </td>
                     </tr>
                   </tbody>
@@ -115,16 +124,16 @@ layout: null
                   <tbody>
                     {% for item in site.data.news limit : 5%}
                     <tr>
-                      <td class="tdnews" width="10px">
+                      <td class="tdnews" width="10px" style="padding-left: 10px;">
                         {% if item.year != null %}
                         <venue
-                          style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.tag }};margin-left: 0;">
+                          style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.tag }};margin-left: 0;">
                           {{ item.year }}</venue>
                         {% endif %}
                       </td>
                       <td class="tdnews" width="10px">
                         <venue
-                          style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.fill }};margin-left: 0;">
+                          style="font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.fill }};margin-left: 0;">
                           {{ item.month }}</venue>
                       </td>
                       <td class="tdnews" style="font-size: small;">
@@ -143,17 +152,17 @@ layout: null
         <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;">
           <tbody>
             <tr style="padding:0px">
-              <td style="padding-top:20px">
+              <td style="padding-top:52px">
                 <a href="images.html">
-                  <img class="hoverable2" style="margin:auto;" width=100% src="images/banner_nyc.jpg">
+                  <img class="hoverable2" style="margin:auto;" width=95% src="images/banner_nyc.jpg">
                 </a>
               </td>
             </tr>
         </table>
         <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;">
           <tbody>
-            <tr style="padding:0px">
-              <td style="padding-top:20px">
+            <tr style="padding:0px;">
+              <td style="padding-top:10px">
                 <table
                   style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                   <tbody>
@@ -183,10 +192,12 @@ layout: null
     <tr>
       <td>
         <!-- <hr> -->
-        <table style="max-width:725px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
+        <table style="max-width:1000px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
           <tr>
             <td>
+              <br>
               <heading>Publications</heading>
+              <hr id="myhr">
               <p><small>{{ site.research }}</small></p>
             </td>
           </tr>
@@ -197,14 +208,18 @@ layout: null
                 <tbody>
 
                   <tr>
-                    <th style="width:18%"></th>
-                    <th style="width:82%"></th>
+                    <th style="width:13%"></th>
+                    <th style="width:67%"></th>
+                    <th style="width:20%"></th>
                   </tr>
                   {% for publication in site.data.publications %}
                   {% if publication.hide == null %}
-
                   <tr style="min-width:100%; width: 100%;">
-
+                    <!-- {% if publication.showyear != null %}
+                    <td style="min-width:100%; width: 100%;">
+                      <p>{{ publication.showyear }}</p>
+                    </td>
+                    {% endif %} -->
                     <td style="padding:5px;vertical-align:middle;">
                       <div class="one" style="padding-right: 4px;">
                         {% if publication.teaser_vid != null %}
@@ -221,9 +236,9 @@ layout: null
                     </td>
                     {% if publication.bgcolor!= null %}
                     <td
-                      style="border-left: 1px solid rgb(154, 154, 154);padding:10px;vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
+                      style="border-left: 1px solid rgb(154, 154, 154);padding-left:10px; padding-top: 4px; vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213)); border-radius: 0 10px 10px 0;">
                       {%else%}
-                    <td style="padding:10px;vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
+                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
                       {%endif%}
                       <papertitle style="font-weight: bold;">{{ publication.title }}</papertitle>
                       <br>
@@ -261,9 +276,7 @@ layout: null
                           style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">
                           {{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %}
                         | <em>{{ publication.venue_long }}</em>{% endif %}
-                      </pub>
-                      {% if publication.award != null %}
-                      <br>
+                      </pub>{% if publication.award != null %}
                       <pub>
                         <venue
                           style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
@@ -274,52 +287,65 @@ layout: null
                       {% if publication.description != null %}
                       <br>
                       <small style="font-size: smaller;">
-                        {{ publication.description }}
+                        <em>{{ publication.description }}</em>
                       </small>
                       {%endif%}
                       <br>
                       <!-- <i class="fa-solid fa-arrow-right"></i> -->
                       {% if publication.project_page != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.project_page }}"><i
-                          class="fas fa-globe"></i> [project page]</a>
+                          class="fas fa-globe"></i> project page</a>
                       {% endif %}
                       {% if publication.arxiv != null %}
                       <a style="font-size: smaller" class="links3"
                         href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
-                        [PDF]</a>
+                        PDF</a>
                       {% endif %}
                       {% if publication.pdf != null %}
                       <a style="font-size: smaller" class="links3" href="{{publication.pdf}}"><i
-                          class="far fa-file-pdf"></i> [PDF]</a>
+                          class="far fa-file-pdf"></i> PDF</a>
                       {% endif %}
                       {% if publication.papersite != null %}
                       <a style="font-size: smaller" class="links3" href="{{publication.papersite}}"><i
-                          class="far fa-file-pdf"></i> [PDF]</a>
+                          class="far fa-file-pdf"></i> PDF</a>
+                      {% endif %}
+                      {% if publication.doi != null %}
+                      <a style="font-size: smaller" class="links3" href="https://doi.org/{{ publication.doi }}"><i class="fa fa-link"></i> doi</a>
                       {% endif %}
                       {% if publication.github != null %}
                       <a style="font-size: smaller" class="links3" href="https://github.com/{{ publication.github }}"><i
-                          class="fab fa-github"></i> [code]</a>
+                          class="fab fa-github"></i> code</a>
                       {% endif %}
                       {% if publication.video != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.video }}"><i
-                          class="fas fa-video"></i> [video]</a>
+                          class="fas fa-video"></i> video</a>
                       {% endif %}
                       {% if publication.supp != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.supp }}"><i
-                          class="fas fa-paperclip"></i> [supplement]</a>
+                          class="fas fa-paperclip"></i> supplement</a>
                       {% endif %}
                       {% if publication.poster != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.poster }}"><i
-                          class="fas fa-chess-board"></i> [poster]</a>
+                          class="fas fa-chess-board"></i> poster</a>
                       {% endif %}
                       {% if publication.award_link != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.award_link }}"><i
-                          class="fas fa-award"></i> [award]</a>
+                          class="fas fa-award"></i> award</a>
                       {% endif %}
                       {% if publication.project_page2 != null %}
                       <a class="links3" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
                       {% endif %}
                       <p></p>
+                    </td>
+                    <td style="padding-left:10px;">
+                      {% if publication.highlightvideo != null %}
+                      <a href="{{ publication.project_page }}">
+                        <video class="hoverable2" width=100% playsinline autoplay loop muted>
+                          <source src="images/{{ publication.highlightvideo }}" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                      </a>
+                      {% endif %}
                     </td>
                   </tr>
                   {% endif %}
@@ -330,15 +356,15 @@ layout: null
             </td>
           </tr>
 
-          <!-- <br><br> -->
           <tr>
             <td>
-              <!-- <hr color="black"> -->
-              <!-- <img id="timeline" style="width:100%;vertical-align:middle;" src="images/break3.svg"> -->
-              <!-- <heading>Posters and Demos</heading> -->
-              <!-- <p><small>Demos, posters, short papers.</small></p> -->
-                <heading>Other Papers</heading>
-                <p><small>Short papers, demos, and posters.</small></p>
+              <br>
+              <heading>Posters/Demos</heading>
+              <hr id="myhr">
+              <p><small></small></p>
+              <p><small></small></p>
+              <p><small></small></p>
+              <p><small></small></p>
             </td>
           </tr>
           <tr style="padding:0px">
@@ -346,17 +372,22 @@ layout: null
               <table
                 style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                 <tbody>
+
                   <tr>
-                    <th style="width:18%"></th>
-                    <th style="width:82%"></th>
+                    <th style="width:13%"></th>
+                    <th style="width:67%"></th>
+                    <th style="width:20%"></th>
                   </tr>
                   {% for publication in site.data.publications %}
                   {% if publication.hide %}
-
                   <tr style="min-width:100%; width: 100%;">
-
+                    <!-- {% if publication.showyear != null %}
+                    <td style="min-width:100%; width: 100%;">
+                      <p>{{ publication.showyear }}</p>
+                    </td>
+                    {% endif %} -->
                     <td style="padding:5px;vertical-align:middle;">
-                      <div class="one">
+                      <div class="one" style="padding-right: 4px;">
                         {% if publication.teaser_vid != null %}
                         <video style="border: 1px solid black;" width=100% height=100% playsinline autoplay loop muted>
                           <source src="images/{{ publication.teaser_vid }}" type="video/mp4">
@@ -371,9 +402,9 @@ layout: null
                     </td>
                     {% if publication.bgcolor!= null %}
                     <td
-                      style="border-left: 1px solid rgb(154, 154, 154);padding:10px;vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
+                      style="border-left: 1px solid rgb(154, 154, 154);padding-left:10px; padding-top: 4px; vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213)); border-radius: 0 10px 10px 0;">
                       {%else%}
-                    <td style="padding:10px;vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
+                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
                       {%endif%}
                       <papertitle style="font-weight: bold;">{{ publication.title }}</papertitle>
                       <br>
@@ -411,9 +442,7 @@ layout: null
                           style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">
                           {{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %}
                         | <em>{{ publication.venue_long }}</em>{% endif %}
-                      </pub>
-                      {% if publication.award != null %}
-                      <br>
+                      </pub>{% if publication.award != null %}
                       <pub>
                         <venue
                           style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
@@ -424,52 +453,65 @@ layout: null
                       {% if publication.description != null %}
                       <br>
                       <small style="font-size: smaller;">
-                        {{ publication.description }}
+                        <em>{{ publication.description }}</em>
                       </small>
                       {%endif%}
                       <br>
                       <!-- <i class="fa-solid fa-arrow-right"></i> -->
                       {% if publication.project_page != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.project_page }}"><i
-                          class="fas fa-globe"></i> [project page]</a>
+                          class="fas fa-globe"></i> project page</a>
                       {% endif %}
                       {% if publication.arxiv != null %}
                       <a style="font-size: smaller" class="links3"
                         href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
-                        [PDF]</a>
+                        PDF</a>
                       {% endif %}
                       {% if publication.pdf != null %}
                       <a style="font-size: smaller" class="links3" href="{{publication.pdf}}"><i
-                          class="far fa-file-pdf"></i> [PDF]</a>
+                          class="far fa-file-pdf"></i> PDF</a>
                       {% endif %}
                       {% if publication.papersite != null %}
                       <a style="font-size: smaller" class="links3" href="{{publication.papersite}}"><i
-                          class="far fa-file-pdf"></i> [PDF]</a>
+                          class="far fa-file-pdf"></i> PDF</a>
+                      {% endif %}
+                      {% if publication.doi != null %}
+                      <a style="font-size: smaller" class="links3" href="https://doi.org/{{ publication.doi }}"><i class="fa fa-link"></i> doi</a>
                       {% endif %}
                       {% if publication.github != null %}
                       <a style="font-size: smaller" class="links3" href="https://github.com/{{ publication.github }}"><i
-                          class="fab fa-github"></i> [code]</a>
+                          class="fab fa-github"></i> code</a>
                       {% endif %}
                       {% if publication.video != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.video }}"><i
-                          class="fas fa-video"></i> [video]</a>
+                          class="fas fa-video"></i> video</a>
                       {% endif %}
                       {% if publication.supp != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.supp }}"><i
-                          class="fas fa-paperclip"></i> [supplement]</a>
+                          class="fas fa-paperclip"></i> supplement</a>
                       {% endif %}
                       {% if publication.poster != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.poster }}"><i
-                          class="fas fa-chess-board"></i> [poster]</a>
+                          class="fas fa-chess-board"></i> poster</a>
                       {% endif %}
                       {% if publication.award_link != null %}
                       <a style="font-size: smaller" class="links3" href="{{ publication.award_link }}"><i
-                          class="fas fa-award"></i> [award]</a>
+                          class="fas fa-award"></i> award</a>
                       {% endif %}
                       {% if publication.project_page2 != null %}
                       <a class="links3" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
                       {% endif %}
                       <p></p>
+                    </td>
+                    <td style="padding-left:10px;">
+                      {% if publication.highlightvideo != null %}
+                      <a href="{{ publication.project_page }}">
+                        <video class="hoverable2" width=100% playsinline autoplay loop muted>
+                          <source src="images/{{ publication.highlightvideo }}" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                      </a>
+                      {% endif %}
                     </td>
                   </tr>
                   {% endif %}
@@ -479,13 +521,20 @@ layout: null
               </table>
             </td>
           </tr>
-          <!-- <br> -->
+        
+
           <table
             style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
             <tbody>
               <tr>
                 <td>
+                  <br>
                   <heading>Teaching</heading>
+                  <hr id="myhr">
+                  <p><small></small></p>
+                  <p><small></small></p>
+                  <p><small></small></p>
+                  <p><small></small></p>
                 </td>
               </tr>
             </tbody>
@@ -498,7 +547,7 @@ layout: null
               </tr>
               {% for teaching in site.data.teaching %}
               <tr>
-                <td class="tdnews">
+                <td class="tdnews" style="padding-left: 10px;">
                   <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{
                   teaching.institution }}{% if teaching.year != null %}{% endif %}
                   <br>
@@ -516,43 +565,6 @@ layout: null
           </p> -->
       </td>
 
-      <td style="vertical-align:top;" id="timeline">
-        <!-- <table style="margin-left: auto;margin-right: auto;vertical-align: top;"><tr><td> -->
-        <!-- <hr> -->
-        <br>
-        <table
-          style="max-width:275px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;margin-left: auto;margin-right: auto;vertical-align: top;">
-          <tr>
-            <td>
-              <heading style="color:black; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213));">
-                Highlights</heading>
-              <!-- <p><small>{{ site.research }}</small></p> -->
-            </td>
-          </tr>
-          <tr style="padding:0px">
-            <td style="padding:0px">
-              <table
-                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                <tbody>
-                  {% for highlight in site.data.highlights %}
-                  <tr>
-                    <td style="padding:10px;">
-                      <a href="{{ highlight.link }}">
-                        <video class="hoverable2" width=100% playsinline autoplay loop muted>
-                          <source src="images/{{ highlight.video }}" type="video/mp4">
-                          Your browser does not support the video tag.
-                        </video>
-                      </a>
-                    </td>
-                  </tr>
-                  {% endfor %}
-
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </td>
     </tr>
   </table>
 

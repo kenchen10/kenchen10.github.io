@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Supplement</title>
+
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/fontin');
+    </style>
+
+</head>
+
+<body>
+
+    <div id="summary">
+        <div class="row">
+            <div style="width: 25%; margin-right: 10px;">
+                <h1>
+                    What is HDR?
+                </h1>
+                <h4 style="margin-top: -10px;">
+                    [Supplementary webpage]
+                </h4>
+            </div>
+            <div style="width: 75%;">
+                <p>
+                    <br>
+                    This page is meant to supplement the <strong>What is HDR?</strong> paper by showcasing still frames from HDR video stimuli used in our user study.
+                    HDR content was tested in Google Chrome on a Macbook Pro M3, and can only be viewed accurately on an HDR display. 
+                </p>
+            </div>
+        </div>
+        <hr>
+        <p>
+            Select the following buttons to compare the <strong>Reference</strong> (left) with the <strong>Test</strong> HDR image (right):
+        </p>
+
+        <div class="row">
+            <div style="width: 33%;">
+                <br>
+                <u>Peak Luminance:</u><br>
+                <div style="margin-top: 6px;">
+                    <input onclick="updateLuminance(63);changeImage();" type="radio" name="Button" class="ButtonState" checked id="Button1" value="1"/>
+                    <label class="Button" for="Button1">63</label>
+                    <input onclick="updateLuminance(125);changeImage();" type="radio" name="Button" class="ButtonState" checked id="Button2" value="2"/>
+                    <label class="Button" for="Button2">125</label>
+                    <input onclick="updateLuminance(250);changeImage();" type="radio" name="Button" class="ButtonState" checked id="Button3" value="3"/>
+                    <label class="Button" for="Button3">250</label>
+                    <input onclick="updateLuminance(500);changeImage();" type="radio" name="Button" class="ButtonState" checked id="Button4" value="4"/>
+                    <label class="Button" for="Button4">500</label>
+                    <input onclick="updateLuminance(1000);changeImage();" type="radio" name="Button" class="ButtonState" checked id="Button5" value="5"/>
+                    <label class="Button" for="Button5">1,000</label>
+                </div> 
+                <br>
+
+                <u style="margin-bottom: 4px;">Contrast:</u><br>
+                <div style="margin-top: 6px;">
+                    <input onclick="updateContrast(64);changeImage();" type="radio" name="Button2" class="ButtonState" checked id="Button6" value="6"/>
+                    <label class="Button" for="Button6">64:1</label>
+                    <input onclick="updateContrast(320);changeImage();" type="radio" name="Button2" class="ButtonState" checked id="Button7" value="7"/>
+                    <label class="Button" for="Button7">320:1</label>
+                    <input onclick="updateContrast(1600);changeImage();" type="radio" name="Button2" class="ButtonState" checked id="Button8" value="8"/>
+                    <label class="Button" for="Button8">1,600:1</label>
+                    <br>
+                    <br>
+                    <input onclick="updateContrast(8000);changeImage();" type="radio" name="Button2" class="ButtonState" checked id="Button9" value="9"/>
+                    <label class="Button" for="Button9">8,000:1</label>
+                    <input onclick="updateContrast(40000);changeImage();" type="radio" name="Button2" class="ButtonState" checked id="Button10" value="10"/>
+                    <label class="Button" for="Button10">40,000:1</label>
+                </div> 
+                <br>
+
+                <u style="margin-bottom: 4px;">Content:</u><br>
+                <div style="margin-top: 6px;">
+                    <input onclick="updateScene('messenger');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button11" value="11"/>
+                    <label class="Button" for="Button11">Messenger</label>
+                    <input onclick="updateScene('earth');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button12" value="12"/>
+                    <label class="Button" for="Button12">Earth</label>
+                    <input onclick="updateScene('blender');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button13" value="13"/>
+                    <label class="Button" for="Button13">Blender</label>
+                    <br>
+                    <br>
+                    <input onclick="updateScene('face1');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button14" value="14"/>
+                    <label class="Button" for="Button14">Face 1</label>
+                    <input onclick="updateScene('face2');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button15" value="15"/>
+                    <label class="Button" for="Button15">Face 2</label>
+                    <input onclick="updateScene('face3');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button16" value="16"/>
+                    <label class="Button" for="Button16">Face 3</label>
+                    <br>
+                    <br>
+                    <input onclick="updateScene('showgirl');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button17" value="17"/>
+                    <label class="Button" for="Button17">Showgirl</label>
+                    <input onclick="updateScene('smith');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button18" value="18"/>
+                    <label class="Button" for="Button18">Smith</label>
+                    <input onclick="updateScene('werewolf');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button19" value="19"/>
+                    <label class="Button" for="Button19">Werewolf</label>
+                    <br>
+                    <br>
+                    <input onclick="updateScene('porsche');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button20" value="20"/>
+                    <label class="Button" for="Button20">Porsche</label>
+                    <input onclick="updateScene('courtyard');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button21" value="21"/>
+                    <label class="Button" for="Button21">Courtyard</label>
+                    <input onclick="updateScene('street');changeImage();" type="radio" name="Button3" class="ButtonState" checked id="Button22" value="22"/>
+                    <label class="Button" for="Button22">Street</label>
+                </div> 
+                <br>
+
+                <u style="margin-bottom: 4px;">Tone Mapping Operator:</u><br>
+                <div style="margin-top: 6px;">
+                    <input onclick="updateTMO('gloss');changeImage();" type="radio" name="Button4" class="ButtonState" checked id="Button23" value="23"/>
+                    <label class="Button" for="Button23">Fixed TMO</label>
+                    <input onclick="updateTMO('vrtmo');changeImage();" type="radio" name="Button4" class="ButtonState" checked id="Button24" value="24"/>
+                    <label class="Button" for="Button24">Content-Aware TMO</label>
+                </div> 
+            </div>
+            <div style="width: 66%;">
+                <img id="plot" src="plots/isoline_supp_vrtmo_1000_40000.png">
+                <p style="font-weight: 400; font-size: 12px; margin: auto; width: 85%;">
+                    <em>Fig. 1)</em> In this figure, we plot the selected peak luminance and contrast (magenta asterisk) on top of a heatmap of JOD scores predicted by our model.
+                    The red X represents the baseline display (0 JODs) with parameters representative of commercial VR (100 nits, 64:1 contrast), black crosses are conditions 
+                    we studied, and the red star is the reference condition in our study (1,000 nits, 1M:1).
+                </p>
+            </div>
+        </div>
+        
+        <br>
+        <hr>
+        <br>
+        <div class="row">
+            <div class="column">
+                <div id="captionTitle">Reference</div>
+                <img id="ref" src="images_4/street.png" style="width:100%">
+                <div id="caption"><strong>Peak Luminance:</strong> 1,000 nits</div>
+                <div id="caption"><strong>Contrast:</strong> 1,000,000:1</div>
+            </div>
+            <div class="column">
+                <div id="captionTitle">Test</div>
+                <img id="test" src="images_4/street_gloss_1000_40000.png" style="width:100%">
+                <div id="captionTestTMO"><strong>Tone Mapping Operator:</strong> Content-Aware TMO</div>
+                <div id="captionTestL"><strong>Peak Luminance:</strong> 1,000 nits</div>
+                <div id="captionTestC"><strong>Contrast:</strong> 40,000:1</div>
+            </div>
+        </div>
+        <br>
+    </div>
+
+
+    
+    <script>
+        luminance = 1000;
+        contrast = 40000;
+        scene = "street";
+        tmo = "vrtmo";
+
+        function updateLuminance(l)
+        {
+            luminance = l;
+        }
+
+        function updateContrast(l)
+        {
+            contrast = l;
+        }
+
+        function updateScene(l)
+        {
+            scene = l;
+        }
+
+        function updateTMO(l)
+        {
+            tmo = l;
+        }
+
+        function changeImage()
+        {
+            var img = document.getElementById("test");
+            img.src="images_4/" + scene + "_" + tmo + "_" + luminance.toString() + "_" + contrast.toString() + ".png";
+
+            var img = document.getElementById("ref");
+            img.src="images_4/" + scene + ".png";
+
+            var img = document.getElementById("plot");
+            img.src="plots/" + "isoline_supp_" + tmo + "_" + luminance.toString() + "_" + contrast.toString() + ".png";
+
+            var captionTestTMO = document.getElementById("captionTestTMO");
+            var captionTestL = document.getElementById("captionTestL");
+            var captionTestC = document.getElementById("captionTestC");
+
+            var tmoName = "Content-Aware TMO";
+            if (tmo == "gloss") {
+                tmoName = "Fixed TMO";
+            }
+            captionTestTMO.innerHTML = "<strong>Tone Mapping Operator:</strong> " + tmoName;
+            captionTestL.innerHTML = "<strong>Peak Luminance:</strong> " + numberWithCommas(luminance) + " nits";
+            captionTestC.innerHTML = "<strong>Contrast:</strong> " + numberWithCommas(contrast) + ":1";
+        }
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+</body>
+
+</html>

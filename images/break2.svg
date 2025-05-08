@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1765.87 17.54">
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1368.03 17.54">
   <defs>
     <style>
       .cls-1 {
-        opacity: .5;
+        fill: #323232;
       }
 
       .cls-2 {
-        opacity: .25;
+        fill: #9a9a9a;
       }
 
       .cls-3 {
-        opacity: .13;
+        fill: #3e3e3e;
       }
 
       .cls-4 {
-        opacity: .06;
+        fill: #4e4e4e;
       }
 
       .cls-5 {
-        opacity: .03;
+        fill: #f0f0f0;
+      }
+
+      .cls-6 {
+        fill: silver;
+      }
+
+      .cls-7 {
+        fill: #626262;
+      }
+
+      .cls-8 {
+        fill: #7b7b7b;
       }
     </style>
   </defs>
-  <rect class="cls-1" x="310.85" y="0" width="280" height="17.54"/>
-  <rect class="cls-2" x="1467.11" width="140" height="17.54"/>
-  <rect class="cls-3" x="1619.19" width="70" height="17.54"/>
-  <rect class="cls-4" x="1701.28" width="35" height="17.54"/>
-  <rect class="cls-5" x="1748.37" width="17.5" height="17.54"/>
-  <rect class="cls-2" x="158.76" y="0" width="140" height="17.54"/>
-  <rect class="cls-3" x="76.67" y="0" width="70" height="17.54"/>
-  <rect class="cls-4" x="29.59" y="0" width="35" height="17.54"/>
-  <rect class="cls-5" y="0" width="17.5" height="17.54"/>
-  <rect class="cls-1" x="1175.02" y="0" width="280" height="17.54"/>
-  <rect x="602.93" y="0" width="560" height="17.54"/>
+  <rect width="414.5" height="17.54"/>
+  <rect class="cls-1" x="434.51" width="276.34" height="17.54"/>
+  <rect class="cls-3" x="730.85" width="184.22" height="17.54"/>
+  <rect class="cls-4" x="935.08" width="122.82" height="17.54"/>
+  <rect class="cls-7" x="1077.9" width="81.88" height="17.54"/>
+  <rect class="cls-8" x="1179.79" width="54.58" height="17.54"/>
+  <rect class="cls-2" x="1254.38" width="36.39" height="17.54"/>
+  <rect class="cls-6" x="1310.77" width="24.26" height="17.54"/>
+  <rect class="cls-5" x="1355.04" width="12.99" height="17.54"/>
 </svg>

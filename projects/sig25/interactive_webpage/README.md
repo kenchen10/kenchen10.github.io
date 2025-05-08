@@ -1,0 +1,1 @@
+This page is meant to supplement the "What is HDR?" paper. The webpage can be started by double clicking the "index.html" file. Make sure the file is opened in Chrome on an HDR display for accurate representation of HDR content. Content was tested on an Apple Macbook Pro M3 display, with Chrome chrome://flags "Force color profile" set to "Default".

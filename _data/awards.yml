@@ -1,0 +1,32 @@
+- id: qual
+  title: Deborah Rosenthal, MD Award
+  location: NYU
+  description: For outstanding performance on the PhD qualification exam.
+  year: "2025"
+
+- id: gaann
+  title: U.S. DoE Graduate Assistance in Areas of National Need Fellowship (GAANN)
+  location: NYU
+  description: Scholarship to cover tuition and fees, as well as program stipend.
+  year: "2024"
+
+- id: peapods
+  title: Best Paper Award (Honorable Mention)
+  location: SIGGRAPH 2024
+  description: "For the paper “PEA-PODs: Perceptual Evaluation of Algorithms for Power Optimization in XR Displays”."
+  year: "2024"
+
+- id: tandonfellow
+  title: Tandon School of Engineering PhD Fellowship
+  location: NYU
+  year: "2023"
+
+- id: gradscholar
+  title: Graduate Scholarship
+  location: NYU
+  year: "2021"
+
+- id: cs184
+  title: CS184 Computer Graphics Final Project Showcase Winner
+  location: NYU
+  year: "2020"

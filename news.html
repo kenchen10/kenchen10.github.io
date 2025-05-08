@@ -39,13 +39,13 @@ layout: null
         -->
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-          <td>
-            <heading>TIMELINE</heading><br>
+          <td style="padding: 10px 10px 10px 20px;">
+            <heading>Timeline</heading><br>
             <div style="float: left; line-height: 25px;">
-              <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #B2DFDB;">school</venue> |
-              <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #BBDEFB;">work</venue> |
-              <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFE0B2;">research</venue> |
-              <venue style="font-weight: bold;padding: 2px 5px 2px 5px; background-color: #FFCCBC;">talk</venue>
+              <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #B2DFDB;">school</venue> |
+              <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #BBDEFB;">work</venue> |
+              <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #FFE0B2;">research</venue> |
+              <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #FFCCBC;">talk</venue>
               <!-- <a class="links" href="news.html">[All]</a>  -->
             </div>
           </td>
@@ -56,11 +56,11 @@ layout: null
           <tr>
             <td class="tdnews">
               {% if item.year != null %}
-              <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.tag }};margin-left: 0;">{{ item.year }}</venue>
+              <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.tag }};margin-left: 0;">{{ item.year }}</venue>
               {% endif %}
             </td>
             <td class="tdnews">
-              <venue style="font-weight: bold;padding: 0px 5px 0px 5px;background-color: {{ item.fill }};margin-left: 0;">{{ item.month }}</venue>
+              <venue style="font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.fill }};margin-left: 0;">{{ item.month }}</venue>
             </td>
             <td class="tdnews">
               {{ item.title }}

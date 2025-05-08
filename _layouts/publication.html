@@ -41,20 +41,23 @@
                     {% if publication.pdf != null %}
                     <a class="links3" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a>
                     {% endif %}
-                    {% if publication.supp != null %}
-                    <a class="links3" href="../../{{ publication.supp }}"><i class="fas fa-paperclip"></i> supplement</a>
-                    {% endif %}
                     {% if publication.papersite != null %}
                     <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a>
                     {% endif %}
-                    {% if publication.video != null %}
-                    <a class="links3" href="{{ publication.video }}"><i class="fas fa-video"></i> video</a>
+                    {% if publication.doi != null %}
+                    <a class="links3" href="https://doi.org/{{ publication.doi }}"><i class="far fa-link"></i> doi</a>
+                    {% endif %}
+                    {% if publication.supp != null %}
+                    <a class="links3" href="../../{{ publication.supp }}"><i class="fas fa-paperclip"></i> supplement</a>
                     {% endif %}
                     {% if publication.github != null %}
                     <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>
                     {% endif %}
+                    {% if publication.video != null %}
+                    <a class="links3" href="{{ publication.video }}"><i class="fas fa-video"></i> video</a>
+                    {% endif %}
                     {% if publication.poster != null %}
-                    <a class="links3" href="{{ publication.poster }}"><i class="fas fa-chess-board"></i> poster</a>
+                    <a class="links3" href="../../{{ publication.poster }}"><i class="fas fa-chess-board"></i> poster</a>
                     {% endif %}
                     <!-- {% if publication.award_link != null %}
                     <a class="links3" href="{{ publication.award_link }}"><i class="fas fa-award"></i> award</a><br>
@@ -118,7 +121,7 @@
         <!-- <img id="timeline" style="vertical-align:middle" src="images/break2.svg"> -->
         <!-- <br> -->
 
-        <div class="row" style="padding-top: 16px;">
+        <div class="row" style="padding-top: 32px;">
             <div class="col-md-8 col-md-offset-2">
                 {% if publication.teaser_image != null %}
                     <image src="../../images/{{ publication.teaser_image }}" class="img-responsive" alt="overview" style="width: 99%; margin-left: auto; margin-right: auto;">
@@ -133,6 +136,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <h3>
                     Abstract
+                    <hr id="myhr">
                 </h3>
 
                 <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
@@ -142,22 +146,28 @@
         </div>
 
 
-        {{ page.content }}
-
         {% if publication.video != null %}
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
                     Video
+                    <hr id="myhr">
                 </h3>
                 <div class="text-center">
                     <div style="position:relative;padding-top:56.25%;">
-                        <iframe src="{{ publication.yt_emb }}" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                        {% if publication.yt_emb != null %}
+                            <iframe src="{{ publication.yt_emb }}" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                        {% else if publication.video != null %}
+                            <video controls src="../../{{ publication.video }}" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
         {% endif %}
+
+        <br>
+        {{ page.content }}
 
         <!-- {% if publication.yt_emb == null && publication.video != null %}
         <div class="row">
@@ -211,6 +221,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <h3>
                     Citation
+                    <hr id="myhr">
                 </h3>
                     <pre style="font-size: x-small;"><code>{{ publication.bibtex }}</code></pre>
                 </section>

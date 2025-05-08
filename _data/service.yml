@@ -1,0 +1,39 @@
+- id: euroxr
+  name: EuroXR
+  years: 2025
+  role: Program Committee
+
+- id: iui
+  name: ACM Intelligent User Interfaces (IUI)
+  years: 2025
+  role: Program Committee
+
+- id: eurographics
+  name: Eurographics
+  years: 2025
+  role: Peer Review
+
+- id: iui2
+  name: ACM Intelligent User Interfaces (IUI)
+  years: 2025
+  role: Peer Review
+
+- id: vr
+  name: IEEE Conference on Virtual Reality and 3D User Interfaces (IEEE VR)
+  years: 2025
+  role: Peer Review
+
+- id: sig
+  name: ACM Special Interest Group on Computer Graphics (SIGGRAPH)
+  years: 2024
+  role: Peer Review
+
+- id: siga
+  name: ACM Special Interest Group on Computer Graphics Asia (SIGGRAPH Asia)
+  years: 2024
+  role: Peer Review
+
+- id: tvcg
+  name: IEEE Transactions on Visualization and Computer Graphics (TVCG)
+  years: 2025, 2024
+  role: Peer Review
