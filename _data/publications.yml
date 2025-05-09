@@ -246,7 +246,6 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
 - id: i3d25
   title: "BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models"
   venue: I3D
-  venue_long: Poster
   year: 2025
   poster: assets/poster_i3d.png
   description: "Diffusion models can be used for texturing 3D models."
@@ -256,6 +255,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   tag: "#F6BEFF"
   teaser_image: i3d-teaser.png
   doi: 10.1145/3722564.3728376
+  award: Best Poster Award
   hide: true
   teaser_text: "Our BlendFusion generative 3D mesh modeling
 framework. (a) shows the overall and zoomed-in 3D scene for
@@ -424,7 +424,7 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: vr-energy-etech
   title: "Imperceptible Color Modulation for Power Saving in VR/AR"
-  venue: SIGGRAPH
+  venue: SIGGRAPH E-Tech
   venue_long: Emerging Technologies Demo
   doi: 10.1145/3588037.3595388
   hide: true

@@ -1,8 +1,15 @@
+- id: i3daward
+  title: Our I3D poster won a best poster award.
+  date: 2025-05
+  month: "05"
+  year: 2025
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
 - id: deb
   title: I received the Deborah Rosenthal, MD Award for outsanding performance on the PhD quals.
   date: 2025-05
   month: "05"
-  year: 2025
   fill: "#B2DFDB"
   tag: "#CFD8DC"
 
