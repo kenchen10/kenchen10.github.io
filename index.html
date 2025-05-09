@@ -101,7 +101,7 @@ layout: null
                 <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
                 <!-- <img id="timeline" style="vertical-align:middle" src="images/timeline.svg"> -->
                 <table id="timeline"
-                  style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                   <tbody>
                     <tr>
                       <td style="padding: 10px;">
@@ -124,7 +124,7 @@ layout: null
                   <tbody>
                     {% for item in site.data.news limit : 5%}
                     <tr>
-                      <td class="tdnews" width="10px" style="padding-left: 10px;">
+                      <td class="tdnews" width="10px" style="padding-left: 30px;">
                         {% if item.year != null %}
                         <venue
                           style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.tag }};margin-left: 0;">
@@ -192,7 +192,7 @@ layout: null
     <tr>
       <td>
         <!-- <hr> -->
-        <table style="max-width:1000px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
+        <table style="padding-left:8px;padding-right:8px;max-width:1000px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
           <tr>
             <td>
               <br>
@@ -337,7 +337,7 @@ layout: null
                       {% endif %}
                       <p></p>
                     </td>
-                    <td style="padding-left:10px;">
+                    <td id="timeline" style="padding-left:10px;">
                       {% if publication.highlightvideo != null %}
                       <a href="{{ publication.project_page }}">
                         <video class="hoverable2" width=100% playsinline autoplay loop muted>
@@ -524,7 +524,7 @@ layout: null
         
 
           <table
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+            style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
             <tbody>
               <tr>
                 <td>
