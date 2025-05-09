@@ -36,7 +36,7 @@
                 <!-- <br> -->
                 <!-- <p style="padding-top: 6px;"></p> -->
                 {% if publication.arxiv != null %}
-                    <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}">arxiv</a>
+                    <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}"><i class="far fa-file-pdf"></i> paper</a>
                     {% endif %}
                     {% if publication.pdf != null %}
                     <a class="links3" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a>

@@ -69,9 +69,8 @@ and helps standardize the understanding of HDR."
   description: "2D gaussians can serve as an effective technique for low bit rate image encoding."
   project_page: "projects/imggs/index.html"
   github: NYU-ICL/image-gs
-  arxiv: 
   poster: 
-  pdf: https://arxiv.org/abs/2407.01866/
+  arxiv: 2407.01866
   supp: 
   papersite: 
   teaser_vid: 
