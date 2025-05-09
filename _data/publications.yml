@@ -270,7 +270,23 @@ framework with an inference time of 2 minutes with prompt
     - qsun
   affiliation_images:
     - nyu.png
-  bibtex: ""
+  bibtex: "
+  @inproceedings{<br>
+    <tab>li2025blendfusion,<br>
+    <tab>author = {Li, Qinchan and Torrens, Finley and Chen, Kenneth and Sun, Qi},<br> 
+    <tab>title = {BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models},<br> 
+    <tab>year = {2025},<br> 
+    <tab>isbn = {9798400718335},<br> 
+    <tab>publisher = {Association for Computing Machinery},<br> 
+    <tab>address = {New York, NY, USA},<br> 
+    <tab>url = {https://doi.org/10.1145/3722564.3728376},<br> 
+    <tab>doi = {10.1145/3722564.3728376},<br> 
+    <tab>booktitle = {Companion Proceedings of the ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games},<br> 
+    <tab>articleno = {3},<br> 
+    <tab>numpages = {3},<br> 
+    <tab>series = {I3D Companion '25}<br> 
+  }
+  "
   abstract: "Modeling 3D assets is a universal in various applications, including animation and game development. However, a key challenge
 lies in the labor-intensive task of 3D texturing, where creators
 must repeatedly update textures to align with modified geometric shapes on the fly. This iterative workflow makes 3D texturing
