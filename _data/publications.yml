@@ -490,6 +490,7 @@ Finally, we leverage our study data and power models to address important displa
   image: etech23-3.jpg
   tag: "#F6BEFF"
   paper_image: vr-energy-etech.png
+  video: images/etech-video.mp4
   teaser_image: etech23teaser.png
   teaser_text: a) We develop a hardware prototype OLED VR display to capture power measurements when displaying different images. b) Participants view a panoramic scene in VR with our filter turned on, and are encouraged to rotate freely to view the scene in a natural manner. c) Filter intensity is increased over 10 seconds. Image credits to VR Gorilla.
   authors:
