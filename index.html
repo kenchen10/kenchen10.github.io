@@ -17,7 +17,6 @@ layout: null
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -36,13 +35,10 @@ layout: null
         <table
           style="vertical-align: top;max-width:750px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
           <tbody>
-            <!-- <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody> -->
-            <!-- <a href="images.html"><img style="max-width: 800px;" src="images/banner_nyc.jpg"></a> -->
-            <!-- </tbody></table> -->
             <tr style="padding:0px">
               <td style="padding:0px">
                 <table
-                  style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  style="padding-left:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                   <tbody>
                     <tr>
                       <th style="width:30%"></th>
@@ -57,13 +53,10 @@ layout: null
                           <b>
                             <name>{{ site.title }}</name>
                             <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;margin-left: -10px;" src="images/break2.svg">
-                            <!-- <hr style="margin-top: 2px; margin-bottom: -8px; border-top: 2px solid #FFF0F2; border-color: black;"> -->
                           </b><br>
                           <b>
                             <name2>{{ site.title2 }}</name2>
                           </b>
-                          <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
-                          <!-- <img id="timeline" style="vertical-align:middle" src="images/break2.svg"> -->
                         </p>
                         <p style="font-size: 14px;">Welcome! I'm a 2nd year Computer Science PhD student at New York University, 
                           advised by <a class="links" style="font-size: 14px;" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
@@ -75,46 +68,26 @@ layout: null
                           Before my PhD, I did an MS at NYU (2023) and a BA at UC Berkeley (2021).
                           I'm happy to chat about research or anything else; email me at <a class="links" style="font-size: 14px;" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!</p>
                         <p>
-                          <!-- <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;" src="images/break2.svg"> -->
                           <a class="links3" style="font-size:small" href="mailto:{{ site.email }}"><i
                               class="fas fa-envelope"></i> Email</a> |
-                          <!-- <a class="links" href="data/{{ site.cv }}">CV</a> &nbsp/&nbsp -->
                           <a class="links3" style="font-size:small"
                             href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><i
                               class="fa-brands fa-google-scholar"></i> Google Scholar</a> |
-                          <!-- <a class="links3" style="font-size:small"
-                            href="https://twitter.com/{{ site.twitter_username }}" target="_blank"><i
-                              class="fab fa-twitter"></i> Twitter</a> | -->
-                          <!-- <a class="links" href="https://instagram.com/10chenken"><button style="background-color: #E1BEE7;">Instagram</button></a> | -->
                           <a class="links3" style="font-size:small" href="assets/cv.pdf"><i
                               class="fas fa-file"></i> CV</a>
-                          <!-- <a class="links" href="https://github.com/{{ site.github_username }}/" target="_blank">Github</a> -->
                         </p>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-                <!-- <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;" src="images/break2.svg"> -->
 
-               
-              
-                <!-- <img id="timeline" style="vertical-align:middle" src="images/break.svg"> -->
-                <!-- <img id="timeline" style="vertical-align:middle" src="images/timeline.svg"> -->
                 <table id="timeline"
                   style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                   <tbody>
                     <tr>
                       <td style="padding: 10px;">
-                        <!-- <br> -->
                         <heading>Timeline</heading> <a class="links3" href="news.html">[See All]</a><br>
                         <hr id="myhr">
-                        <!-- <div style="float: left; line-height: 25px;">
-                          <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #B2DFDB;">school</venue> |
-                          <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #BBDEFB;">work</venue> |
-                          <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #FFE0B2;">research</venue> |
-                          <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #FFCCBC;">talk</venue> |
-                          <a class="links3" href="news.html">[All]</a>
-                        </div> -->
                       </td>
                     </tr>
                   </tbody>
@@ -195,7 +168,7 @@ layout: null
         <table style="padding-left:8px;padding-right:8px;max-width:1000px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
           <tr>
             <td>
-              <br>
+              <!-- <br> -->
               <heading>Publications</heading>
               <hr id="myhr">
               <p><small>{{ site.research }}</small></p>
@@ -215,11 +188,6 @@ layout: null
                   {% for publication in site.data.publications %}
                   {% if publication.hide == null %}
                   <tr style="min-width:100%; width: 100%;">
-                    <!-- {% if publication.showyear != null %}
-                    <td style="min-width:100%; width: 100%;">
-                      <p>{{ publication.showyear }}</p>
-                    </td>
-                    {% endif %} -->
                     <td style="padding:5px;vertical-align:middle;">
                       <div class="one" style="padding-right: 4px;">
                         {% if publication.teaser_vid != null %}
@@ -375,17 +343,12 @@ layout: null
 
                   <tr>
                     <th style="width:13%"></th>
-                    <th style="width:67%"></th>
-                    <th style="width:20%"></th>
+                    <th style="width:86%"></th>
+                    <th style="width:1%"></th>
                   </tr>
                   {% for publication in site.data.publications %}
                   {% if publication.hide %}
                   <tr style="min-width:100%; width: 100%;">
-                    <!-- {% if publication.showyear != null %}
-                    <td style="min-width:100%; width: 100%;">
-                      <p>{{ publication.showyear }}</p>
-                    </td>
-                    {% endif %} -->
                     <td style="padding:5px;vertical-align:middle;">
                       <div class="one" style="padding-right: 4px;">
                         {% if publication.teaser_vid != null %}
@@ -559,10 +522,37 @@ layout: null
               </tr>
               {% endfor %}
           </table>
-          <!-- <br>
-          <p style="text-align:right;font-size:small;">
-            Template from <a style="font-size:small;" href="https://jonbarron.info/">Jon Barron</a>, <a style="font-size:small;" href="https://johannwentzel.ca/index.html">Johann Wentzel</a>.
-          </p> -->
+
+          <!-- <table
+            style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+            <tbody>
+              <tr>
+                <td>
+                  <br>
+                  <heading>Miscellaneous</heading>
+                  <hr id="myhr">
+                  <p><small></small></p>
+                  <p><small></small></p>
+                  <p><small></small></p>
+                  <p><small></small></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table
+            style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+            <tbody>
+              <tr>
+                <th style="width:100%"></th>
+              </tr>
+              {% for misc in site.data.misc %}
+              <tr>
+                <td class="tdnews" style="padding-left: 10px;">
+                  <a class="links" href="{{ misc.site }}"><strong>{{ misc.title }}</strong></a>, <em style="font-size:small;">{{ misc.description }}</em>
+                </td>
+              </tr>
+              {% endfor %}
+          </table> -->
       </td>
 
     </tr>

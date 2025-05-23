@@ -1,6 +1,6 @@
 - id: sig25
   title: "What is HDR? Perceptual Impact of Luminance and Contrast in Immersive Displays"
-  venue: SIGGRAPH
+  venue: ACM SIGGRAPH
   doi: 10.1145/3721238.3730629
   year: 2025
   showyear: 2025
@@ -21,6 +21,14 @@
   tag: "#F6BEFF"
   teaser_image: WIH-teaser.png
   yt_emb: 
+  other: '<h3>
+    Supplemental Webpage
+    <hr id="myhr">
+</h3>
+
+<p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
+    Our <a class="links3" href="interactive_webpage/index.html">[supplementary webpage]</a> is meant to accomodate the "What is HDR?" paper by showcasing still frames from HDR video stimuli used in our user study. HDR content was tested in Google Chrome on a Macbook Pro M3, and can only be viewed accurately on an HDR display.
+</p>'
   video: images/wih_supp_video.mp4
   teaser_text: "A model to predict perceptual impact (in Just-Objectionable-Differences, or JODs) is derived from HDR preference data for combinations of display
 contrast and peak luminance, with predictions visualized as a heatmap (left). In this plot, the baseline 0 JOD condition is set to values similar to commercially-
@@ -42,11 +50,21 @@ supplementary webpage for representative content."
   equal_adv:
     - achapiro
     - qsun
-  bibtex: 
+  bibtex: "
+  @inproceedings{<br>
+    <tab>chen2025WIH,<br>
+    <tab>author = {Chen, Kenneth and Matsuda, Nathan and McElvain, Jon and Zhao, Yang and Wan, Thomas and Sun, Qi and Chapiro, Alexandre},<br> 
+    <tab>title = {What is HDR? Perceptual Impact of Luminance and Contrast},<br> 
+    <tab>year = {2025},<br>
+    <tab>publisher = {Association for Computing Machinery},<br> 
+    <tab>address = {New York, NY, USA},<br> 
+    <tab>booktitle = {ACM SIGGRAPH 2025 Conference Proceedings},<br>
+    <tab>series = {SIGGRAPH '25}<br> 
+  }
+  "
   abstract: "The contrast and luminance capabilities of a display are central to the quality
 of the image. High dynamic range (HDR) displays have high luminance and
-contrast, but it can be difficult to ascertain whether a given set of characteris-
-tics qualifies for this label. This is especially unclear for new display modes,
+contrast, but it can be difficult to ascertain whether a given set of characteristics qualifies for this label. This is especially unclear for new display modes,
 such as virtual reality (VR). This paper studies the perceptual impact of peak
 luminance and contrast of a display, including characteristics and use cases
 representative of VR. To achieve this goal, we first developed a haploscope
@@ -54,33 +72,35 @@ testbed prototype display capable of achieving 1k nits peak luminance
 and 1M:1 contrast with high precision. We then collected a novel HDR
 video dataset targetting VR-relevant content types. We also implemented
 custom tone mapping operators to map between display parameter sets.
-Finally, we collected subjective preference data spanning 3 orders of mag-
-nitude in each dimension. Our data was used to fit a model, which was
+Finally, we collected subjective preference data spanning 3 orders of magnitude in each dimension. Our data was used to fit a model, which was
 validated using a subjective study on an HDR VR prototype headmounted
 display (HMD). Our model helps provide guidance for future display design,
 and helps standardize the understanding of HDR."
 
 - id: imggs
   title: "Image-GS: Content-Adaptive Image Representation via 2D Gaussians"
-  venue: SIGGRAPH
-  venue_long: 
+  venue: ACM SIGGRAPH
   year: 2025
   highlightvideo: imggs.mp4
   description: "2D gaussians can serve as an effective technique for low bit rate image encoding."
   project_page: "projects/imggs/index.html"
   github: NYU-ICL/image-gs
-  poster: 
   arxiv: 2407.01866
-  supp: 
-  papersite: 
-  teaser_vid: 
-  award: 
-  award_link: 
   image: imggs.png
   tag: "#F6BEFF"
   teaser_image: imggs_teaser.png
-  yt_emb: 
-  video: 
+  bibtex: "
+  @inproceedings{<br>
+    <tab>zhang2025imggs,<br>
+    <tab>author = {Zhang, Yunxiang and Li, Bingxuan and Kuznetsov, Alexandr and Jindal, Akshay and Diolatzis, Stavros and Chen, Kenneth and Sochenov, Anton and Kaplanyan, Anton and Sun, Qi},<br> 
+    <tab>title = {Image-GS: Content-Adaptive Image Representation via 2D Gaussians},<br> 
+    <tab>year = {2025},<br>
+    <tab>publisher = {Association for Computing Machinery},<br> 
+    <tab>address = {New York, NY, USA},<br> 
+    <tab>booktitle = {ACM SIGGRAPH 2025 Conference Proceedings},<br>
+    <tab>series = {SIGGRAPH '25}<br> 
+  }
+  "
   teaser_text: "Content-adaptive image representation with Image-GS. Leveraging a tailored differentiable renderer, Image-GS adaptively distributes and progressively
 optimizes a set of 2D Gaussians to fit a target image. Image-GS shows high memory & computation e!iciency, supports fast random pixel access, and o!ers a
 natural level of detail. (a) shows the learned Gaussian position distribution (green dots); 20% of Gaussians are plotted for better visibility. (b) Compared to
@@ -103,7 +123,6 @@ details with higher fidelity. The insets visualize the corresponding error image
     - nyu.png
     - intel.png
     - amd.png
-  bibtex: 
   abstract: "Neural image representations have emerged as a promising approach for storing and rendering visual data. Combined with learning-based work-flows, these novel representations have demonstrated impressive balances
 between visual quality and memory footprint. Existing methods along this line, however, often rely on fixed data structures that suboptimally allocate
 memory budget or computation-intensive implicit neural models, limiting their adoption in real-time graphics applications.
@@ -153,7 +172,8 @@ run-time efficiency, which we demonstrate in machine vision and image restoratio
     - nyu.png
     - UNC-Logo.png
   bibtex: "
-    @article{chen2025neuralholographicfields,<br>
+    @article{<br>
+      <tab>chen2025neuralholographicfields,<br>
       <tab>author = {Kenneth Chen and Anzhou Wen and Yunxiang Zhang and Praneeth Chakravarthula and Qi Sun},<br>
       <tab>journal = {Opt. Express},<br>
       <tab>keywords = {Holographic displays; Imaging techniques; Light propagation; Neural networks; Spatial light modulators; Wave propagation},<br>
@@ -175,7 +195,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
 
 - id: isca25
   title: "Process Only Where You Look: Hardware and Algorithm Co-optimization for Efficient Gaze-Tracked Image Rendering in Virtual Reality"
-  venue: ISCA
+  venue: ACM/IEEE ISCA
   venue_long: 
   year: 2025
   description: 
@@ -191,6 +211,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   yt_emb: 
   video: 
   teaser_text:
+  bibtex: ""
   authors:
     - hwang
     - wliu
@@ -199,7 +220,6 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
     - sqzhang
   affiliation_images:
     - nyu.png
-  bibtex:
   abstract: "Virtual reality (VR) plays a crucial role in advancing immersive, interactive experiences that transform learning, work, and entertainment by enhancing user engagement and expanding possibilities across various fields. Image rendering is one of the most crucial application in VR, as it produces high-quality, realistic visuals that are vital for maintaining immersive user experiences and preventing visual discomfort or motion sickness. However, the cost of image rendering in VR environment is considerable, primarily due to the demands of high-quality visual experiences from users. This challenge is even greater in real-time applications, where maintaining low latency further increases the complexity of the rendering process. On the other hand, VR devices, such as head-mounted displays (HMDs), are intrinsically linked to human behavior, using insights from perception and cognition to enhance user experience. 
   <br><br>
   In this work, we aim to reduce the high computational costs of the rendering process in VR by leveraging natural human eye dynamics and focusing on processing only where you look (POLO). This involves co-optimizing AI algorithms with underlying hardware for greater efficiency. We introduce POLONet, an efficient multitask deep learning framework designed to track human eye movements with minimal latency. 
@@ -247,7 +267,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
 
 - id: i3d25
   title: "BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models"
-  venue: I3D
+  venue: ACM I3D
   year: 2025
   poster: assets/poster_i3d.png
   description: "Diffusion models can be used for texturing 3D models."
@@ -259,6 +279,14 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   doi: 10.1145/3722564.3728376
   award: Best Poster Award
   hide: true
+  other: '<h3>
+            Award
+            <hr id="myhr">
+        </h3>
+
+        <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
+            <img style="border: 1px solid black;" width="100%" src="../../images/i3daward.png">
+        </p>'
   teaser_text: "Our BlendFusion generative 3D mesh modeling
 framework. (a) shows the overall and zoomed-in 3D scene for
 re-texturing, (b) shows the modeled texture after 20 minutes
@@ -304,7 +332,7 @@ of BlendFusion across both objective and subjective evaluations."
 
 - id: sig24
   title: "<b style='color:#4CBB17;'>PEA-PODs</b>: <b style='color:#4CBB17;'>P</b>erceptual <b style='color:#4CBB17;'>E</b>valuation of <b style='color:#4CBB17;'>A</b>lgorithms for <b style='color:#4CBB17;'>P</b>ower <b style='color:#4CBB17;'>O</b>ptimization in XR <b style='color:#4CBB17;'>D</b>isplay<b style='color:#4CBB17;'>s</b>"
-  venue: SIGGRAPH
+  venue: ACM SIGGRAPH
   venue_long:
   doi: 10.1145/3658126
   year: 2024
@@ -324,6 +352,15 @@ of BlendFusion across both objective and subjective evaluations."
   teaser_image: peapods_teaser.png
   yt_emb: https://www.youtube.com/embed/CcITr7fy8Go
   video: https://youtu.be/CcITr7fy8Go
+  other: '<h3>
+    Award <a class="links3" href="https://blog.siggraph.org/2024/06/siggraph-2024-technical-papers-awards-best-papers-honorable-mentions-and-test-of-time.html/">[SIGGRAPH Blogpost]</a>
+    <hr id="myhr">
+</h3>
+
+<p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
+    <img style="border: 1px solid black;" width="100%" src="../../images/award.jpg">
+</p>
+'
   teaser_text: We studied six power-saving display mapping algorithms. These techniques are used in traditional display power reduction as well as recently-proposed methods for VR displays. Just objectionable difference (JOD) scores provide a unified measure of the magnitude of perceptual impact, and percentage values represent relative display power savings (OLED display shown here). Optimal techniques have low perceptual impact (perceived close to reference in JODs), but provide big power savings.
   authors:
     - kchen
@@ -369,7 +406,7 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: asplos24
   title: "Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality"
-  venue: ASPLOS
+  venue: ACM ASPLOS
   # venue_long: ACM International Conference on Architectural Support for Programming Languages and Operating Systems
   doi: 10.1145/3617232.3624860
   year: 2024
@@ -408,7 +445,7 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: sca23
   title: "Towards Learning and Generating Audience Motion from Video"
-  venue: SCA
+  venue: ACM SCA
   doi: 10.1145/3606037.3606839
   venue_long: Poster
   year: 2023
@@ -442,7 +479,7 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: vr-energy-etech
   title: "Imperceptible Color Modulation for Power Saving in VR/AR"
-  venue: SIGGRAPH E-Tech
+  venue: ACM SIGGRAPH
   venue_long: Emerging Technologies Demo
   doi: 10.1145/3588037.3595388
   hide: true
@@ -483,7 +520,7 @@ Finally, we leverage our study data and power models to address important displa
 
 - id: emg-energy
   title: "Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction"
-  venue: SIGGRAPH
+  venue: ACM SIGGRAPH
   doi: 10.1145/3588432.3591495
   year: 2023
   description: "Leveraging EMG devices, we developed a model to predict VR neck muscular workload."
@@ -520,7 +557,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   affiliation_images:
     - nyulogo.png
     - uofr.png
-  venue: SIGGRAPH Asia
+  venue: ACM SIGGRAPH Asia
   doi: 10.1145/3550454.3555473
   showyear: 2022
   year: 2022

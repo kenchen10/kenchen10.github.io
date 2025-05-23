@@ -1,9 +1,20 @@
+- id: rtingspower
+  link: https://www.rtings.com/tv/learn/led-oled-power-consumption-and-electricity-cost
+  title: OLED and LED TV Power Consumption and Electricity Cost
+  author: Nicholas Di Giovanni
+- id: mjb
+  link: https://perceiving-systems.blog/en/post/writing-a-good-scientific-paper
+  title: Writing a good scientific paper
+  author: Michael J. Black
 - id: jbh
   link: https://github.com/jbhuang0604/awesome-tips
-  title: "Jia-Bin Huang's curated list of tips on various topics"
+  title: "Curated list of tips on various topics"
+  author: Jia-Bin Huang
 - id: ss
   link: https://www.silviasellan.com/siggraph_submission_resources.html
-  title: "Silvia Sellán's resources for Blender renderings"
+  title: "Resources for Blender renderings"
+  author: Silvia Sellán
 - id: systems
   link: http://graphics.stanford.edu/~kayvonf/notes/systemspaper/
   title: "What Makes a (Graphics) Systems Paper Beautiful"
+  author: Kayvon Fatahalian

@@ -1,8 +1,12 @@
+- id: photos
+  site: images.html
+  title: Photos
+  description: my photographs
 - id: sort
   site: https://kenchen10.github.io/sorting-vis/
   title: "Sorting Visualization"
-  description: "a sorting visualization written in p5"
+  description: "a visualization of sorting algorithms written in p5"
 - id: rand
   site: ./resources.html
   title: "Useful Links"
-  description: "a collection of useful resources"
+  description: "a collection of useful links/resources"
