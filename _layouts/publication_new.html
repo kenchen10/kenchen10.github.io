@@ -123,6 +123,8 @@
                             {% endif %}
 
                             {% if publication.video != null %}
+                            <div style="padding-bottom: 8px;">
+                                <div>
                                 <h3>
                                     Video
                                     <hr id="myhr">
@@ -132,20 +134,31 @@
                                         <iframe src="{{ publication.yt_emb }}" allowfullscreen></iframe>
                                     </div>
                                 {% else if publication.video != null %}
-                                    <video controls src="../../{{ publication.video }}" allowfullscreen style="width:100%;"></iframe>
+                                    <video controls src="../../{{ publication.video }}" allowfullscreen style="width:100%;"></video>
                                 {% endif %}
+                                <!-- </video> -->
+                                </div>
+                            </div>
                             {% endif %}
 
                             {% if publication.poster != null %}
-                            <h3>
-                                Poster
-                                <hr id="myhr">
-                            </h3>
-                            <embed style="border: 1px solid black;" src="../../{{ publication.poster }}" width="100%" />
+                            <div style="padding-bottom: 8px;">
+                                <div>
+                                <h3>
+                                    Poster
+                                    <hr id="myhr">
+                                </h3>
+                                <embed style="border: 1px solid black;" src="../../{{ publication.poster }}" width="100%" />
+                                </div>
+                            </div>
                             {% endif %}
 
                             {% if publication.other != null %}
+                            <div style="padding-bottom: 8px;">
+                                <div>
                                 {{ publication.other }}
+                                </div>
+                            </div>
                             {% endif %}
                         </td>
                       </tr>
