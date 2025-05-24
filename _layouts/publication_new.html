@@ -141,14 +141,14 @@
                             </div>
                             {% endif %}
 
-                            {% if publication.poster != null %}
+                            {% if publication.poster_preview != null %}
                             <div style="padding-bottom: 2px;">
                                 <div>
                                 <h3>
                                     Poster
                                     <hr id="myhr">
                                 </h3>
-                                <embed style="border: 1px solid black;" src="../../{{ publication.poster }}" width="100%" />
+                                <embed style="border: 1px solid black;" src="../../{{ publication.poster_preview }}" width="100%" />
                                 </div>
                             </div>
                             {% endif %}

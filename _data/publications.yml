@@ -270,6 +270,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   venue: ACM I3D
   year: 2025
   poster: assets/poster_i3d.png
+  poster_preview: assets/poster_i3d.png
   description: "Diffusion models can be used for texturing 3D models."
   project_page: "projects/i3d25/index.html"
   pdf: assets/papers/i3d25.pdf
@@ -342,6 +343,7 @@ of BlendFusion across both objective and subjective evaluations."
   project_page: "projects/sig24/index.html"
   github: NYU-ICL/pea-pods.git
   poster: assets/PEAPODs-Poster.pdf
+  poster_preview: assets/PEAPODs-Poster.png
   pdf: assets/papers/peapods_manuscript_Part1.pdf
   supp: assets/papers/peapods_manuscript_Part2.pdf
   award: Best Paper Award (Honorable Mention)
@@ -358,7 +360,7 @@ of BlendFusion across both objective and subjective evaluations."
 </h3>
 
 <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
-    <img style="border: 1px solid black;" width="100%" src="../../images/award.jpg">
+    <embed style="border: 1px solid black;" width="100%" src="../../images/award.jpg">
 </p>
 '
   teaser_text: We studied six power-saving display mapping algorithms. These techniques are used in traditional display power reduction as well as recently-proposed methods for VR displays. Just objectionable difference (JOD) scores provide a unified measure of the magnitude of perceptual impact, and percentage values represent relative display power savings (OLED display shown here). Optimal techniques have low perceptual impact (perceived close to reference in JODs), but provide big power savings.
@@ -458,6 +460,8 @@ Finally, we leverage our study data and power models to address important displa
   teaser_image: datagenpipeline-1.png
   video: images/Audiences_SCA23.mp4
   hide: true
+  poster: assets/sca23_poster_tall.pdf
+  poster_preview: assets/sca23_poster_tall.png
   authors:
     - kchen
     - nbadler
