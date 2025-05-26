@@ -330,3 +330,41 @@ tab {
   height: 100%;
   border: 0;
 }
+
+.bibtexcontainer {
+  border: 1px solid #ccc;
+  width: fit-content;
+  font-family: monospace;
+  border-radius: 4px;
+}
+
+.bibtex-header {
+  background-color: #dbdbdb;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: small;
+  transition: background-color 0.6s ease;
+}
+
+.bibtex-header.copied {
+  background-color: #baffba; /* light green highlight */
+  border-radius: 4px;
+  /* border: 1px solid #ccc; */
+}
+
+.copy-button {
+  padding: 2px 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.bibtex-content {
+  margin: 0;
+  padding: 0; /* top padding is now 0, but we keep some side and bottom padding */
+}
+
+pre {
+  border-radius: 0;
+}
