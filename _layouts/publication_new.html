@@ -43,7 +43,7 @@
                         <th style="width:33%"></th>
                       </tr>
                       <tr style="padding:0px;">
-                        <td style="vertical-align: top; padding-right: 24px;">
+                        <td style="vertical-align: top; padding-right: 12px; padding-left: 12px;">
                             <h2>{{ publication.title }}</h2>
                             <em style="font-size: 20px; border-radius: 4px; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">{{ publication.venue }} {{ publication.year }}</em>{% if publication.venue_long != null %} <em style="font-size: 20px;"> | {{ publication.venue_long }}</em>{% endif %}
                             {% if publication.award != null %}
@@ -87,7 +87,7 @@
                         </td>
 
                         <!-- Right column -->
-                        <td style="padding-top: 14px; vertical-align: top;">
+                        <td style="padding-top: 14px; vertical-align: top; padding-left: 12px; padding-right: 12px;">
                             
                             {% if publication.bibtex != null %}
                             <div style="padding-bottom: 8px; padding-top: 14px;">
