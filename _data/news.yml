@@ -63,6 +63,12 @@
   fill: "#FFCCBC"
   tag: "#CFD8DC"
 
+- id: peapodstalk
+  title: 'I gave a talk about our <a class="links" style="font-size: 14px;" href="projects/sig24/index.html" target="_blank">PEA-PODs</a> work at SIGGRAPH in Denver.'
+  date: 2024-08
+  month: "08"
+  fill: "#FFCCBC"
+
 - id: sig24_award
   title: '<a class="links" style="font-size: 14px;" href="projects/sig24/index.html" target="_blank">PEA-PODs</a> won a best paper award (honorable mention) at SIGGRAPH!'
   date: 2024-06
