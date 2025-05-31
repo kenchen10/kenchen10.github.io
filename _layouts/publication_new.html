@@ -101,31 +101,37 @@
                               </div>
                             </div>
                             {% endif %}
-
+                            
+                            <h3>
+                                Links
+                                <hr id="myhr">
+                            </h3>
+                            <div>
                             {% if publication.arxiv != null %}
-                                <a class="links3" style="font-size: 14px;" href="https://arxiv.org/abs/{{ publication.arxiv }}"><i class="far fa-file-pdf"></i> paper</a>
+                                <a class="links3" style="font-size: small;" href="https://arxiv.org/abs/{{ publication.arxiv }}"><i class="far fa-file-pdf"></i> paper</a>
                             {% endif %}
                             {% if publication.pdf != null %}
-                                <a class="links3" style="font-size: 14px;" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a>
+                                <a class="links3" style="font-size: small;" href="../../{{ publication.pdf }}"><i class="far fa-file-pdf"></i> paper</a>
                             {% endif %}
                             {% if publication.papersite != null %}
-                                <a class="links3" style="font-size: 14px;" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a>
+                                <a class="links3" style="font-size: small;" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a>
                             {% endif %}
                             {% if publication.doi != null %}
-                                <a class="links3" style="font-size: 14px;" href="https://doi.org/{{ publication.doi }}"><i class="far fa-link"></i> doi</a>
+                                <a class="links3" style="font-size: small;" href="https://doi.org/{{ publication.doi }}"><i class="far fa-link"></i> doi</a>
                             {% endif %}
                             {% if publication.supp != null %}
-                                <a class="links3" style="font-size: 14px;" href="../../{{ publication.supp }}"><i class="fas fa-paperclip"></i> supplement</a>
+                                <a class="links3" style="font-size: small;" href="../../{{ publication.supp }}"><i class="fas fa-paperclip"></i> supplement</a>
                             {% endif %}
                             {% if publication.github != null %}
-                                <a class="links3" style="font-size: 14px;" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>
+                                <a class="links3" style="font-size: small;" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>
                             {% endif %}
                             {% if publication.video != null %}
-                                <a class="links3" style="font-size: 14px;" href="{{ publication.video }}"><i class="fas fa-video"></i> video</a>
+                                <a class="links3" style="font-size: small;" href="{{ publication.video }}"><i class="fas fa-video"></i> video</a>
                             {% endif %}
                             {% if publication.poster != null %}
-                                <a class="links3" style="font-size: 14px;" href="../../{{ publication.poster }}"><i class="fas fa-chess-board"></i> poster</a>
+                                <a class="links3" style="font-size: small;" href="../../{{ publication.poster }}"><i class="fas fa-chess-board"></i> poster</a>
                             {% endif %}
+                            </div>
 
                             {% if publication.video != null %}
                             <div style="padding-bottom: 2px;">
