@@ -48,7 +48,7 @@ layout: null
           </tr>
         </tbody></table>
         <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>  
-          <ul style="list-style-type:none;">
+          <ul style="list-style-type:none; margin-left: -8px;">
           {% for item in site.data.images %}
             <li>
               <a class="links" href="photos/{{item.id}}/index.html"><strong>{{ item.title }}</strong></a>{% if item.location != null %}, {{item.location}}{% endif %}{% if item.date != null %}<div style="float: right; margin-right: 35px;">{{item.date}}</div>{% endif %}
