@@ -520,49 +520,49 @@ layout: null
               {% endfor %}
           </table>
 
+          <table
+          style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <td>
+                <br>
+                <heading>Miscellanea</heading>
+                <hr id="myhr">
+                <p><small></small></p>
+                <p><small></small></p>
+                <p><small></small></p>
+                <p><small></small></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table
+            style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody>
+            <tr>
+              <th style="width:100%"></th>
+            </tr>
+            <tr>
+              <div class="image-row" style="max-width: 1000px; margin-left:12px;">
+                {% for misc in site.data.misc %}
+                {% if misc.img != null %}
+                  <div class="image-item">
+                    <a href="{{ misc.site }}">
+                      <img src="{{ misc.img }}" alt="Image 1">
+                      <div class="caption"><em>{{ misc.description }}</em></div>
+                    </a>
+                  </div>
+                {%endif%}
+                {% endfor %}  
+              </div>
+            </tr>
+          </tbody>
+        </table>
+
       </td>
 
     </tr>
   </table>
-
-<table id="timeline"
-  style="padding-left:8px;padding-right:8px;width:1000px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-  <tbody>
-    <tr>
-      <td>
-        <br>
-        <heading>Miscellanea</heading>
-        <hr id="myhr">
-        <p><small></small></p>
-        <p><small></small></p>
-        <p><small></small></p>
-        <p><small></small></p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<table id="timeline"
-  style="padding-left:8px;padding-right:8px;width:1000px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-  <tbody>
-    <tr>
-      <td>
-        <div class="image-row" style="max-width: 1000px; padding-left:8px;">
-          {% for misc in site.data.misc %}
-          {% if misc.img != null %}
-            <div class="image-item">
-              <a href="{{ misc.site }}">
-                <img src="{{ misc.img }}" alt="Image 1">
-                <div class="caption"><em>{{ misc.description }}</em></div>
-              </a>
-            </div>
-          {%endif%}
-          {% endfor %}  
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 
   <!-- <br>
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
