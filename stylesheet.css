@@ -368,3 +368,8 @@ tab {
 pre {
   border-radius: 0;
 }
+
+
+.paperbody {
+  width: 98%; margin-left: auto; margin-right: auto;
+}
