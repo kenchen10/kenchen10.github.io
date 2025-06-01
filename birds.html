@@ -48,11 +48,12 @@ layout: null
             <td style="padding: 10px 20px 10px 28px;">
               <div class="image-row">
                 {% for item in site.data.birds %}
-                  <div class="image-item2"><img src="{{ item }}" alt="Image 1"></div>
+                  <div class="image-container"><img src="{{ item }}" class="zoomable-image" onclick="zoomImage(this)"></div>
                 {% endfor %}
               </div>
             </td>
           </tr>
+
           
         </tbody></table>
 
@@ -60,6 +61,24 @@ layout: null
       </td>
     </tr>
   </table>
+
+  <div id="zoom-overlay" onclick="closeZoom()">
+    <img id="zoomed-img" />
+  </div>
+
+  <script>
+    function zoomImage(img) {
+      const zoomOverlay = document.getElementById('zoom-overlay');
+      const zoomedImg = document.getElementById('zoomed-img');
+      zoomedImg.src = img.src;
+      zoomOverlay.style.display = 'flex';
+    }
+
+    function closeZoom() {
+      document.getElementById('zoom-overlay').style.display = 'none';
+    }
+  </script>
+
 </body>
 
 </html>

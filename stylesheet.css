@@ -424,3 +424,37 @@ pre {
   font-size: 14px;
   /* color: #555; */
 }
+
+.zoomable-image {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  max-width: 200px;
+  height: auto;
+}
+
+.zoom-clone {
+  position: fixed;
+  z-index: 1000;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  pointer-events: none;
+  object-fit: contain;
+}
+
+#zoom-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#zoom-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  transition: transform .3s ease;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
