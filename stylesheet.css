@@ -282,20 +282,20 @@ pre {
 }
 
 .hoverable {
-  transition: transform .2s;
+  transition: transform 0.2s ease;
 }
 
 .hoverable:hover {
-  border: .5px solid black;
-  transform: scale(2);
+  /* border: .5px solid black; */
+  transform: scale(1.1);
 }
 
 .hoverable2 {
-  transition: transform .2s;
+  transition: transform .2s ease;
 }
 
 .hoverable2:hover {
-  border: 1px solid black;
+  transform: scale(1.02);
 }
 
 tab {
@@ -372,4 +372,55 @@ pre {
 
 .paperbody {
   width: 98%; margin-left: auto; margin-right: auto;
+}
+
+.image-row {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  gap: 16px;
+  /* max-width: 1000px; */
+  margin: 0 auto;
+}
+
+.image-item {
+  width: 125px;
+  /* text-align: center; */
+}
+
+.image-item a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.image-item img {
+  width: 100%;
+  height: auto;
+  /* border-radius: 4px; */
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.image-item img:hover {
+  transform: scale(1.03);
+}
+
+.image-item2 {
+  width: 200px;
+  /* text-align: center; */
+}
+
+.image-item2 img {
+  width: 100%;
+  height: auto;
+  /* border-radius: 4px; */
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.caption {
+  margin-top: 4px;
+  font-size: 14px;
+  /* color: #555; */
 }

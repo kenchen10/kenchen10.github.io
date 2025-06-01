@@ -1,11 +1,18 @@
 - id: photos
   site: images.html
-  title: Photos
-  description: my photographs
-- id: sort
+  title: photos
+  description: some of my photos
+  img: images/photo_coverimage.jpg
+- id: birds
+  site: birds.html
+  title: birds
+  description: photos of birds
+  img: images/bird_coverimage.jpg
+- id: vis
   site: https://kenchen10.github.io/sorting-vis/
-  title: "Sorting Visualization"
-  description: "a visualization of sorting algorithms written in p5"
+  title: sorting vis
+  description: a visualization of sorting algorithms
+  img: images/vis.png
 - id: rand
   site: ./resources.html
   title: "Useful Links"
