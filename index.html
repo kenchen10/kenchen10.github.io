@@ -481,6 +481,43 @@ layout: null
               </table>
             </td>
           </tr>
+
+          <tr>
+            <td>
+              <br>
+              <heading>Experience</heading>
+              <hr id="myhr">
+            </td>
+          </tr>
+          <tr style="padding:0px">
+            <td style="padding:0px">
+              <table
+                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                <tbody>
+
+                  <tr>
+                    <th style="width:15%"></th>
+                    <th style="width:85%"></th>
+                  </tr>
+                  {% for work in site.data.work %}
+                  <tr style="min-width:100%; width: 100%;">
+                    <td style="padding:5px;vertical-align:middle;">
+                      <div class="one" style="padding-right: 4px;">
+                        <img style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
+                          src="images/{{ work.img }}">
+                      </div>
+                    </td>
+                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
+                      <strong>{{ work.company }}</strong> | {{ work.role }} [{{ work.years }}] <br>
+                      <small>{{ work.shortdescription }}, <em>{{ work.mentor }}</em></small>
+                    </td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </td>
+          </tr>
         
 
           <table
@@ -520,7 +557,8 @@ layout: null
               {% endfor %}
           </table>
 
-          <table id="timeline"
+
+        <table id="timeline"
           style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
           <tbody>
             <tr>
