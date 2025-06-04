@@ -141,7 +141,7 @@ layout: null
                     <a href="photos/{{ photo.id }}">
                       {% for img in photo.imgs limit : 1 %}
                       {% assign i = i | plus:1 %}
-                      {% if i < 15 %} <img class="hoverable" style="margin:5px;" width=27% src="images/{{ img }}">
+                      {% if i < 15 %} <img class="hoverable" style="margin:5px;border: solid black 1px;" width=27% src="images/{{ img }}">
                         {% endif %}
                         {% endfor %}
                     </a>
@@ -305,7 +305,7 @@ layout: null
                     <td id="timeline" style="padding-left:10px;">
                       {% if publication.highlightvideo != null %}
                       <a href="{{ publication.project_page }}">
-                        <video class="hoverable2" width=100% playsinline autoplay loop muted>
+                        <video style="border: solid black 1px;" class="hoverable2" width=100% playsinline autoplay loop muted>
                           <source src="images/{{ publication.highlightvideo }}" type="video/mp4">
                           Your browser does not support the video tag.
                         </video>
@@ -586,7 +586,7 @@ layout: null
                 {% if misc.img != null %}
                   <div class="image-item">
                     <a href="{{ misc.site }}">
-                      <img src="{{ misc.img }}" alt="Image 1">
+                      <img src="{{ misc.img }}" alt="Image 1" style="border: solid black 1px;">
                       <div class="caption"><em>{{ misc.description }}</em></div>
                     </a>
                   </div>
