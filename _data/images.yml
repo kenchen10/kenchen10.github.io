@@ -1,3 +1,24 @@
+- id: seven_sisters
+  title: Seven Sisters Cliffs
+  date: June 7, 2025
+  location: England
+  imgs: 
+    - seven_sisters/DSC_2071.jpg
+    - seven_sisters/DSC_2078.jpg
+    - seven_sisters/DSC_2104.jpg
+    - seven_sisters/DSC_2107.jpg
+    - seven_sisters/DSC_2122.jpg
+    - seven_sisters/DSC_2123.jpg
+  description: I hiked from Seaford to Eastbourne, along the south coast of England. The complete hike was around 13 miles long.
+- id: london_june2025
+  title: London
+  date: June 5 - 6, 2025
+  location: England
+  imgs: 
+    - london_june2025/DSC_1903.jpg
+    - london_june2025/DSC_1891.jpg
+    - london_june2025/DSC_2039.jpg
+    - london_june2025/DSC_2007.jpg
 - id: woodcock
   title: North American Woodcock in Bryant Park
   date: April 13, 2025
