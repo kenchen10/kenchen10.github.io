@@ -518,44 +518,49 @@ layout: null
               </table>
             </td>
           </tr>
-        
 
-          <table
-            style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-            <tbody>
-              <tr>
-                <td>
-                  <br>
-                  <heading>Teaching</heading>
-                  <hr id="myhr">
-                  <p><small></small></p>
-                  <p><small></small></p>
-                  <p><small></small></p>
-                  <p><small></small></p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <table
-            style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-            <tbody>
-              <tr>
-                <th style="width:100%"></th>
-              </tr>
-              {% for teaching in site.data.teaching %}
-              <tr>
-                <td class="tdnews" style="padding-left: 12px;">
-                  <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{
-                  teaching.institution }}{% if teaching.year != null %}{% endif %}
-                  <br>
-                  <em style="font-size:small;">{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor
-                  != null %} | <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %} | <a
-                    class="links3" style="font-size:small" href="{{ teaching.url }}"><i class="fab fa-slideshare"></i>
-                    [{{teaching.urltitle}}]</a>{% endif %}
-                </td>
-              </tr>
-              {% endfor %}
-          </table>
+          <tr>
+            <td>
+              <br>
+              <heading>Teaching</heading>
+              <hr id="myhr">
+            </td>
+          </tr>
+          <tr style="padding:0px">
+            <td style="padding:0px">
+              <table
+                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                <tbody>
+
+                  <tr>
+                    <th style="width:15%"></th>
+                    <th style="width:85%"></th>
+                  </tr>
+                  {% for teaching in site.data.teaching %}
+                  <tr style="min-width:100%; width: 100%;">
+                    <td style="padding:5px;vertical-align:middle;">
+                      <div class="one" style="padding-right: 4px;">
+                        <img style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
+                          src="images/{{ teaching.image }}">
+                      </div>
+                    </td>
+                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
+                      <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{
+                      teaching.institution }}{% if teaching.year != null %}{% endif %}
+                      <br>
+                      <em style="font-size:small;">{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor
+                      != null %} | <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %} | <a
+                        class="links3" style="font-size:small" href="{{ teaching.url }}"><i class="fab fa-slideshare"></i>
+                        [{{teaching.urltitle}}]</a>{% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        
 
 
         <table id="timeline"
