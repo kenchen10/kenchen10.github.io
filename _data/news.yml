@@ -1,8 +1,15 @@
+- id: cambridge
+  title: 'I started a research visit at University of Cambridge, working with Prof. Rafał Mantiuk.'
+  date: 2025-06
+  month: "06"
+  year: 2025
+  fill: "#BBDEFB"
+  tag: "#CFD8DC"
+
 - id: i3daward
   title: 'Our <a class="links" style="font-size: 14px;" href="projects/i3d25/index.html" target="_blank">I3D poster</a> won a best poster award.'
   date: 2025-05
   month: "05"
-  year: 2025
   fill: "#FFE0B2"
   tag: "#CFD8DC"
 
