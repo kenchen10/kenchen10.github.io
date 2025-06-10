@@ -5,7 +5,7 @@
   course: "CS-GY 9223: Virtual and Augmented Reality"
   year: Fall 2024
   institution: New York University
-  instructor: Prof. Qi Sun
+  instructor: '<a class="links" style="font-size: small;" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>'
 
 - id: dv
   site: 
@@ -14,7 +14,7 @@
   course: "CS-GY 6313: Data Visualization"
   year: Spring 2023, 2025
   institution: New York University
-  instructor: Prof. Qi Sun
+  instructor: '<a class="links" style="font-size: small;" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>'
 
 - id: icg
   image: icg.png
@@ -23,7 +23,7 @@
   course: "CS-GY 6533 A: Interactive Computer Graphics"
   year: Fall 2021
   institution: New York University
-  instructor: Prof. Claudio Silva
+  instructor: '<a class="links" style="font-size: small;" href="https://ctsilva.github.io" target="_blank">Prof. Claudio Silva</a>'
   
 - id: cs184
   image: ucb.png
@@ -34,7 +34,7 @@
   url: https://drive.google.com/drive/folders/1sjWmTR2wsuL361LpH6zM1STHCGFhDJtH?usp=sharing
   urltitle: slides
   institution: UC Berkeley
-  instructor: Prof. Ren Ng & Prof. Angjoo Kanazawa
+  instructor: '<a class="links" style="font-size: small;" href="https://www2.eecs.berkeley.edu/Faculty/Homepages/yirenng.html" target="_blank">Prof. Ren Ng</a> & <a class="links" style="font-size: small;" href="https://people.eecs.berkeley.edu/~kanazawa/" target="_blank">Prof. Angjoo Kanazawa</a>'
 
 - id: cs194
   image: cs194-26.png
@@ -43,4 +43,4 @@
   course: "CS 194-26: Intro to Computer Vision and Computational Photography"
   year: Fall 2020
   institution: UC Berkeley
-  instructor: Prof. Alexei Efros
+  instructor: '<a class="links" style="font-size: small;" href="https://people.eecs.berkeley.edu/~efros/" target="_blank">Prof. Alexei Efros</a>'

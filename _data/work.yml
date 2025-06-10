@@ -1,6 +1,6 @@
 - id: cambridge
   company: University of Cambridge
-  mentor: mentored by Prof. Rafał Mantiuk.
+  mentor: 'mentored by <a class="links" style="font-size: small;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>.'
   descriptions: 
     - Working on image quality metrics.
   shortdescription: Working on image quality metrics 
@@ -9,7 +9,7 @@
   img: cambridge.png
 - id: meta2
   company: Meta
-  mentor: mentored by Dr. Alexandre Chapiro.
+  mentor: 'mentored by <a class="links" style="font-size: small;" href="https://achapiro.github.io/" target="_blank">Dr. Alexandre Chapiro</a>.'
   descriptions: 
     - Studied/modeled contrast and luminance preferences in HDR displays.
     - Developed perceptual tone mapping algorithms for HDR video.
@@ -20,7 +20,7 @@
   img: meta.png
 - id: meta1
   company: Meta
-  mentor: mentored by Dr. Alexandre Chapiro.
+  mentor: 'mentored by <a class="links" style="font-size: small;" href="https://achapiro.github.io/" target="_blank">Dr. Alexandre Chapiro</a>.'
   descriptions: 
     - Studied the visibility of different display power optimization algorithms in a VR setting.
     - Measured and modelled power consumption of the Quest Pro display.
@@ -31,7 +31,7 @@
   img: meta.png
 - id: cesium
   company: Cesium
-  mentor: supervised by Prof. Norman I. Badler.
+  mentor: 'supervised by <a class="links" style="font-size: small;" href="https://www.cis.upenn.edu/~badler/" target="_blank">Prof. Norman I. Badler</a>.'
   descriptions: 
     - Resulted in a poster presentation at SCA 2023.
   shortdescription: Created an audience video dataset
