@@ -1,3 +1,12 @@
+- id: cambridge
+  title: Cambridge
+  date: June 13, 2025
+  location: UK
+  imgs: 
+    - cambridge/DSC_2129.jpg
+    - cambridge/DSC_2131.jpg
+    - cambridge/DSC_2134.jpg
+  description: Some photos I took during my research visit at University of Cambridge.
 - id: seven_sisters
   title: Seven Sisters Cliffs
   date: June 7, 2025
