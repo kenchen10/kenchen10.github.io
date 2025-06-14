@@ -2,7 +2,7 @@
   site: images.html
   title: photos
   description: some of my photos
-  img: images/photo_coverimage.jpg
+  img: images/photo_coverimage.png
 - id: birds
   site: birds.html
   title: birds
