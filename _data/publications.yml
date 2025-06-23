@@ -132,6 +132,48 @@ natural level-of-detail stack. Leveraging a custom differentiable renderer imlem
 Our method achieves superior visual fidelity over state-of-the-art neural image representations across diverse images and textures. Notably, Image-GS exhibits linear scaling in memory and computational requirements relative to the number of Gaussians, offering a flexible trade-off between fidelity and
 run-time efficiency, which we demonstrate in machine vision and image restoration tasks."
 
+- id: catimage
+  title: "Cost-Aware Routing for Efficient Text-To-Image Generation"
+  venue: arxiv
+  year: 2025
+  description: "Routing text prompts to different text-to-image models can save on compute time."
+  project_page: "projects/catimage/index.html"
+  github: 
+  arxiv: 2506.14753
+  image: catimg.png
+  tag: "#F6BEFF"
+  teaser_image: catimg_teaser.png
+  bibtex: ""
+  teaser_text: "Two input prompts that require different denoising steps to ensure quality. As shown in (c),
+prompt (a) only requires a small number of denoising steps to reach a high CLIPScore. By contrast,
+the more complex prompt (b) requires over 100 steps to reach a similar quality. Key to our proposed
+CATImage is to allocate an appropriate amount of computation for each prompt, so that the
+overall computational cost is reduced while the quality remains the same."
+  authors:
+    - qli
+    - kchen
+    - wjitkrittum
+    - qsun
+    - psangkloy
+  affiliation_images:
+    - nyu.png
+    - Google_2015_logo.png
+  abstract: "Diffusion models are well known for their ability to generate a high-fidelity image
+for an input prompt through an iterative denoising process. Unfortunately, the high
+fidelity also comes at a high computational cost due the inherently sequential generative process. In this work, we seek to optimally balance quality and computational
+cost, and propose a framework to allow the amount of computation to vary for each
+prompt, depending on its complexity. Each prompt is automatically routed to the
+most appropriate text-to-image generation function, which may correspond to a
+distinct number of denoising steps of a diffusion model, or a disparate, independent
+text-to-image model. Unlike uniform cost reduction techniques (e.g., distillation,
+model quantization), our approach achieves the optimal trade-off by learning to
+reserve expensive choices (e.g., 100+ denoising steps) only for a few complex
+prompts, and employ more economical choices (e.g., small distilled model) for less
+sophisticated prompts. We empirically demonstrate on COCO and DiffusionDB
+that by learning to route to nine already-trained text-to-image models, our approach
+is able to deliver an average quality that is higher than that achievable by any of
+these models alone."
+
 - id: oe25
   title: "View Synthesis for 3D Computer-Generated Holograms Using Deep Neural Fields"
   venue: Optics Express

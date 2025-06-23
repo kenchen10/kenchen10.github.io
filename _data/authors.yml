@@ -27,6 +27,8 @@ kchen:
       - New York University
     oe25:
       - New York University
+    catimage:
+      - Tandon School of Engineering, New York University
   is_me: true
 
 yzhang:
@@ -112,6 +114,8 @@ qsun:
       - New York University
     oe25:
       - New York University
+    catimage:
+      - Tandon School of Engineering, New York University
 
 yzhu:
   first_name: Yuhao
@@ -273,6 +277,8 @@ qli:
   affiliation: 
     i3d25:
       - New York University
+    catimage:
+      - Tandon School of Engineering, New York University
 
 ftorrens:
   first_name: Finley
@@ -330,3 +336,18 @@ akaplanyan:
     imggs:
       - Intel Corporation
 
+psangkloy:
+  first_name: Patsorn
+  last_name: Sangkloy
+  website: https://patsorn.me
+  affiliation: 
+    catimage:
+      - Tandon School of Engineering, New York University
+
+wjitkrittum:
+  first_name: Wittawat
+  last_name: Jitkrittum
+  website: https://wittaw.at
+  affiliation: 
+    catimage:
+      - Google Research
