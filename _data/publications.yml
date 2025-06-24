@@ -254,7 +254,24 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   yt_emb: 
   video: 
   teaser_text:
-  bibtex: ""
+  bibtex: "
+  @inproceedings{<br>
+    <tab>wang2025polo,<br>
+    <tab>author = {Wang, Haiyu and Liu, Wenxuan and Chen, Kenneth and Sun, Qi and Zhang, Sai Qian},<br>
+    <tab>title = {Process Only Where You Look: Hardware and Algorithm Co-optimization for Efficient Gaze-Tracked Foveated Rendering in Virtual Reality},<br>
+    <tab>year = {2025},<br>
+    <tab>isbn = {9798400712616},<br>
+    <tab>publisher = {Association for Computing Machinery},<br>
+    <tab>address = {New York, NY, USA},<br>
+    <tab>url = {https://doi.org/10.1145/3695053.3731110},<br>
+    <tab>doi = {10.1145/3695053.3731110},<br>
+    <tab>booktitle = {Proceedings of the 52nd Annual International Symposium on Computer Architecture},<br>
+    <tab>pages = {344-358},<br>
+    <tab>numpages = {15},<br>
+    <tab>keywords = {Foveated Rendering, Gaze Tracking, Saccade Detection, Hardware Accelerator, Virtual Reality},<br>
+    <tab>series = {ISCA '25}<br>
+  }
+  "
   authors:
     - hwang
     - wliu
