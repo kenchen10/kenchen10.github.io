@@ -1,3 +1,11 @@
+- id: amsterdam
+  title: Amsterdam
+  date: June 20, 2025
+  location: Netherlands
+  imgs: 
+    - amsterdam/DSC_2162.jpg
+    - amsterdam/DSC_2145.avif
+    - amsterdam/DSC_2203.jpg
 - id: cambridge
   title: Cambridge
   date: June 13, 2025
