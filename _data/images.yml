@@ -1,3 +1,20 @@
+- id: edinburgh
+  title: Edinburgh
+  date: July 12 - 13, 2025
+  location: Scotland
+  imgs: 
+    - edinburgh/DSC_2485.jpg
+    - edinburgh/DSC_2394.jpg
+    - edinburgh/DSC_2407.jpg
+    - edinburgh/DSC_2425.jpg
+    - edinburgh/DSC_2433.jpg
+    - edinburgh/DSC_2435.jpg
+- id: barcelona
+  title: Barcelona
+  date: July 3 - 6, 2025
+  location: Spain
+  imgs: 
+    - barcelona/DSC_2337.jpg
 - id: amsterdam
   title: Amsterdam
   date: June 20, 2025

@@ -52,14 +52,20 @@ supplementary webpage for representative content."
     - qsun
   bibtex: "
   @inproceedings{<br>
-    <tab>chen2025WIH,<br>
-    <tab>author = {Chen, Kenneth and Matsuda, Nathan and McElvain, Jon and Zhao, Yang and Wan, Thomas and Sun, Qi and Chapiro, Alexandre},<br> 
-    <tab>title = {What is HDR? Perceptual Impact of Luminance and Contrast},<br> 
+    <tab>chen2025whatishdr,<br>
+    <tab>author = {Chen, Kenneth and Matsuda, Nathan and McElvain, Jon and Zhao, Yang and Wan, Thomas and Sun, Qi and Chapiro, Alexandre},<br>
+    <tab>title = {What is HDR? Perceptual Impact of Luminance and Contrast in Immersive Displays},<br>
     <tab>year = {2025},<br>
-    <tab>publisher = {Association for Computing Machinery},<br> 
-    <tab>address = {New York, NY, USA},<br> 
-    <tab>booktitle = {ACM SIGGRAPH 2025 Conference Proceedings},<br>
-    <tab>series = {SIGGRAPH '25}<br> 
+    <tab>isbn = {9798400715402},<br>
+    <tab>publisher = {Association for Computing Machinery},<br>
+    <tab>address = {New York, NY, USA},<br>
+    <tab>url = {https://doi.org/10.1145/3721238.3730629},<br>
+    <tab>doi = {10.1145/3721238.3730629},<br>
+    <tab>booktitle = {Proceedings of the Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers},<br>
+    <tab>articleno = {40},<br>
+    <tab>numpages = {11},<br>
+    <tab>keywords = {High Dynamic Range, Displays, Visual Perception, Virtual Reality},<br>
+    <tab>series = {SIGGRAPH Conference Papers '25}<br>
   }
   "
   abstract: "The contrast and luminance capabilities of a display are central to the quality
@@ -82,23 +88,31 @@ and helps standardize the understanding of HDR."
   venue: ACM SIGGRAPH
   year: 2025
   highlightvideo: imggs.mp4
+  video: images/imggs_ff.mp4
   description: "2D gaussians can serve as an effective technique for low bit rate image encoding."
   project_page: "projects/imggs/index.html"
   github: NYU-ICL/image-gs
   arxiv: 2407.01866
   image: imggs.png
   tag: "#F6BEFF"
+  doi: 10.1145/3721238.3730596
   teaser_image: imggs_teaser.png
   bibtex: "
   @inproceedings{<br>
     <tab>zhang2025imggs,<br>
-    <tab>author = {Zhang, Yunxiang and Li, Bingxuan and Kuznetsov, Alexandr and Jindal, Akshay and Diolatzis, Stavros and Chen, Kenneth and Sochenov, Anton and Kaplanyan, Anton and Sun, Qi},<br> 
-    <tab>title = {Image-GS: Content-Adaptive Image Representation via 2D Gaussians},<br> 
+    <tab>author = {Zhang, Yunxiang and Li, Bingxuan and Kuznetsov, Alexandr and Jindal, Akshay and Diolatzis, Stavros and Chen, Kenneth and Sochenov, Anton and Kaplanyan, Anton and Sun, Qi},<br>
+    <tab>title = {Image-GS: Content-Adaptive Image Representation via 2D Gaussians},<br>
     <tab>year = {2025},<br>
-    <tab>publisher = {Association for Computing Machinery},<br> 
-    <tab>address = {New York, NY, USA},<br> 
-    <tab>booktitle = {ACM SIGGRAPH 2025 Conference Proceedings},<br>
-    <tab>series = {SIGGRAPH '25}<br> 
+    <tab>isbn = {9798400715402},<br>
+    <tab>publisher = {Association for Computing Machinery},<br>
+    <tab>address = {New York, NY, USA},<br>
+    <tab>url = {https://doi.org/10.1145/3721238.3730596},<br>
+    <tab>doi = {10.1145/3721238.3730596},<br>
+    <tab>booktitle = {Proceedings of the Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers},<br>
+    <tab>articleno = {102},<br>
+    <tab>numpages = {11},<br>
+    <tab>keywords = {Image and texture representation},<br>
+    <tab>series = {SIGGRAPH Conference Papers '25}<br>
   }
   "
   teaser_text: "Content-adaptive image representation with Image-GS. Leveraging a tailored differentiable renderer, Image-GS adaptively distributes and progressively
