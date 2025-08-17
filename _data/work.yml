@@ -22,10 +22,10 @@
   company: Meta
   mentor: 'mentored by <a class="links" style="font-size: small;" href="https://achapiro.github.io/" target="_blank">Dr. Alexandre Chapiro</a>.'
   descriptions: 
-    - Studied the visibility of different display power optimization algorithms in a VR setting.
+    - Studied the perceptual impact of different display power optimization algorithms in a VR setting.
     - Measured and modelled power consumption of the Quest Pro display.
     - Resulted in a SIGGRAPH 2024 journal paper which won a best paper award, honorable mention.
-  shortdescription: Studied the visibility of display power optimization algorithms 
+  shortdescription: Studied the perceptual impact of display power optimization algorithms 
   years: June 2023 - January 2024
   role: Research Scientist Intern
   img: meta.png
