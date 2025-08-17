@@ -1,8 +1,29 @@
+- id: ffaward
+  title: 'Our fast forward at SIGGRAPH for <a class="links" style="font-size: 14px;" href="http://127.0.0.1:4000/projects/sig25/index.html" target="_blank">"What is HDR?"</a> won an <a class="links" style="font-size: 14px;" href="https://s2025.siggraph.org/program/technical-papers/" target="_blank"> audience choice award</a>!'
+  date: 2025-08
+  month: "08"
+  year: 2025
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: sig25talk
+  title: 'I gave a talk at SIGGRAPH in Vancouver about our <a class="links" style="font-size: 14px;" href="http://127.0.0.1:4000/projects/sig25/index.html" target="_blank">"What is HDR?"</a> work.'
+  date: 2025-08
+  month: "08"
+  fill: "#FFCCBC"
+  tag: "#CFD8DC"
+
+- id: cambridgetalk
+  title: 'I gave a talk about my work at the Rainbow Lab at University of Cambridge.'
+  date: 2025-07
+  month: "07"
+  fill: "#FFCCBC"
+  tag: "#CFD8DC"
+
 - id: cambridge
   title: 'I started a research visit at University of Cambridge, working with <a class="links" style="font-size: 14px;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>.'
   date: 2025-06
   month: "06"
-  year: 2025
   fill: "#BBDEFB"
   tag: "#CFD8DC"
 
