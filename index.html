@@ -280,6 +280,9 @@ layout: null
                       <a style="font-size: small" class="links3" href="https://github.com/{{ publication.github }}"><i
                           class="fab fa-github"></i> code</a>
                       {% endif %}
+                      {% if publication.talk != null %}
+                          <a class="links3" style="font-size: small;" href="{{ publication.talk }}"><i class="fa-solid fa-person-chalkboard"></i> talk</a>
+                      {% endif %}
                       {% if publication.video != null %}
                       <a style="font-size: small" class="links3" href="{{ publication.video }}"><i
                           class="fas fa-video"></i> video</a>

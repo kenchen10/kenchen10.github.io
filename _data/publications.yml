@@ -7,11 +7,12 @@
   description: "We studied how contrast/luminance compression affects user preferences in HDR."
   project_page: "projects/sig25/index.html"
   highlightvideo: sig25.mp4
-  github: 
+  github: NYU-ICL/what-is-hdr.git
   arxiv: 
   poster: 
   pdf: assets/papers/WIH_Part1.pdf
   supp: assets/papers/WIH_Part2.pdf
+  talk: https://www.youtube.com/embed/tbyemMp3V0Y
   papersite: 
   teaser_vid: 
   award: 
