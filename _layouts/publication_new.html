@@ -83,6 +83,17 @@
                                 {{ publication.abstract }}
                             </p>
 
+                            {% if publication.acks != null %}
+                            <h3>
+                                Acknowledgments
+                                <hr id="myhr">
+                            </h3>
+            
+                            <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
+                                {{ publication.acks }}
+                            </p>
+                            {% endif %}
+
                             {{ page.content }}
                         </td>
 
