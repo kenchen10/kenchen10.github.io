@@ -136,6 +136,9 @@
                             {% if publication.github != null %}
                                 <a class="links3" style="font-size: small;" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>
                             {% endif %}
+                            {% if publication.ff != null %}
+                                <a class="links3" style="font-size: small;" href="{{ publication.ff }}"><i class="fa-solid fa-forward-fast"></i> TLDR</a>
+                            {% endif %}
                             {% if publication.talk != null %}
                                 <a class="links3" style="font-size: small;" href="{{ publication.talk }}"><i class="fa-solid fa-person-chalkboard"></i> talk</a>
                             {% endif %}
@@ -146,6 +149,19 @@
                                 <a class="links3" style="font-size: small;" href="../../{{ publication.poster }}"><i class="fas fa-chess-board"></i> poster</a>
                             {% endif %}
                             </div>
+
+                            {% if publication.ff != null %}
+                            <div style="padding-bottom: 2px;">
+                                <div>
+                                <h3>
+                                    Fast Forward (TLDR)
+                                    <hr id="myhr">
+                                </h3>
+                                <video controls src="../../{{ publication.ff }}" allowfullscreen style="width:100%;"></video>
+                                <!-- </video> -->
+                                </div>
+                            </div>
+                            {% endif %}
 
                             {% if publication.talk != null %}
                             <div style="padding-bottom: 2px;">
