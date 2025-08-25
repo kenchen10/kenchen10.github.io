@@ -1,3 +1,12 @@
+- id: venice
+  title: Venice
+  date: August 23 - 24, 2025
+  location: Italy
+  imgs: 
+    - venice/DSC_2591.jpg
+    - venice/DSC_2572.jpg
+    - venice/DSC_2539.jpg
+    - venice/DSC_2565.jpg
 - id: vancouver
   title: Vancouver
   date: August 10, 2025

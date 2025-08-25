@@ -9,7 +9,8 @@
   highlightvideo: sig25.mp4
   github: NYU-ICL/what-is-hdr.git
   arxiv: 
-  poster: 
+  poster: assets/WIH-poster.pdf
+  poster_preview: assets/WIH-poster.png
   ff: images/sig25_ff.mp4
   pdf: assets/papers/WIH_Part1.pdf
   supp: assets/papers/WIH_Part2.pdf
@@ -364,7 +365,9 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
         </h3>
 
         <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
+        <a href="../../images/i3daward.png">
             <img style="border: 1px solid black;" width="100%" src="../../images/i3daward.png">
+        </a>
         </p>'
   teaser_text: "Our BlendFusion generative 3D mesh modeling
 framework. (a) shows the overall and zoomed-in 3D scene for
@@ -438,7 +441,9 @@ of BlendFusion across both objective and subjective evaluations."
 </h3>
 
 <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
+<a href="../../images/award.jpg">
     <embed style="border: 1px solid black;" width="100%" src="../../images/award.jpg">
+</a>
 </p>
 '
   teaser_text: We studied six power-saving display mapping algorithms. These techniques are used in traditional display power reduction as well as recently-proposed methods for VR displays. Just objectionable difference (JOD) scores provide a unified measure of the magnitude of perceptual impact, and percentage values represent relative display power savings (OLED display shown here). Optimal techniques have low perceptual impact (perceived close to reference in JODs), but provide big power savings.
