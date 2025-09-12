@@ -247,7 +247,7 @@ layout: null
                           <i class="fas fa-award"></i> {{ publication.award }}
                         </venue>
                       </pub>
-                      {%endif%}
+                      {%endif%}{% for media in publication.media %}<a href="{{ media.link }}" target="_blank"><img style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a>{% endfor %}
                       {% if publication.description != null %}
                       <br>
                       <small style="font-size: small;">
@@ -594,7 +594,7 @@ layout: null
               <div class="image-row" style="max-width: 1000px; margin-left:12px;">
                 {% for misc in site.data.misc %}
                 {% if misc.img != null %}
-                  <div class="image-item">
+                  <div class="image-item" id="timeline">
                     <a href="{{ misc.site }}">
                       <img src="{{ misc.img }}" alt="Image 1" style="border: solid black 1px;">
                       <div class="caption"><em>{{ misc.description }}</em></div>

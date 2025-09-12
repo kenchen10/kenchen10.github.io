@@ -99,6 +99,10 @@ and helps standardize the understanding of HDR."
   arxiv: 2407.01866
   image: imggs.png
   tag: "#F6BEFF"
+  media:
+    - id: twominpapers
+      link: https://www.youtube.com/watch?v=_WjU5d26Cc4
+      img: twominpapersbanner.jpg
   doi: 10.1145/3721238.3730596
   teaser_image: imggs_teaser.png
   bibtex: "
