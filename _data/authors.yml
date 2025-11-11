@@ -29,6 +29,10 @@ kchen:
       - New York University
     catimage:
       - Tandon School of Engineering, New York University
+    geneva:
+      - New York University
+    fovgs:
+      - New York University
   is_me: true
 
 yzhang:
@@ -41,6 +45,8 @@ yzhang:
     imggs:
       - New York University
     oe25:
+      - New York University
+    fovgs:
       - New York University
 
 eshahan:
@@ -116,6 +122,10 @@ qsun:
       - New York University
     catimage:
       - Tandon School of Engineering, New York University
+    geneva:
+      - New York University
+    fovgs:
+      - New York University
 
 yzhu:
   first_name: Yuhao
@@ -343,6 +353,8 @@ psangkloy:
   affiliation: 
     catimage:
       - Tandon School of Engineering, New York University
+    geneva:
+      - New York University
 
 wjitkrittum:
   first_name: Wittawat
@@ -359,3 +371,61 @@ csu:
   affiliation: 
     catimage:
       - Tandon School of Engineering, New York University
+
+shmupparaju:
+  first_name: Sai Harsha
+  last_name: Mupparaju
+  website: https://scholar.google.com/citations?user=N2Gp2gYAAAAJ&hl=en
+  affiliation: 
+    fovgs:
+      - New York University
+
+jkang:
+  first_name: Jenna
+  last_name: Kang
+  website: https://jennakangg.github.io
+  affiliation: 
+    geneva:
+      - New York University
+    fovgs:
+      - New York University
+
+mbsilva:
+  first_name: Maria Beatriz
+  last_name: Silva
+  website: 
+  affiliation: 
+    geneva:
+      - New York University
+
+nlwilliams:
+  first_name: Niall L. 
+  last_name: Williams
+  website: https://niall.phd
+  affiliation: 
+    geneva:
+      - New York University
+
+xzhang:
+  first_name: Xinyu
+  last_name: Zhang
+  website: 
+  affiliation: 
+    fovgs:
+      - Sony Interactive Entertainment
+
+momori:
+  first_name: Maito
+  last_name: Omori
+  website: 
+  affiliation: 
+    fovgs:
+      - Sony Interactive Entertainment
+
+karimatsu:
+  first_name: Kazuyuki
+  last_name: Arimatsu
+  website: 
+  affiliation: 
+    fovgs:
+      - Sony Interactive Entertainment

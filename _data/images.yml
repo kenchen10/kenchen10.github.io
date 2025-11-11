@@ -1,3 +1,22 @@
+- id: tryon
+  title: Tryon Park
+  date: November 8, 2025
+  location: New York City
+  imgs: 
+    - tryon/DSC00159.avif
+- id: niagara
+  title: Niagara Falls
+  date: October 26, 2025
+  location: Canada
+  imgs: 
+    - niagara/DSC00118.jpg
+- id: minnewaska
+  title: Minnewaska State Park
+  date: October 24, 2025
+  location: New York
+  imgs: 
+    - minnewaska/DSC00021.jpg
+    - minnewaska/DSC00062.jpg
 - id: venice
   title: Venice
   date: August 23 - 24, 2025
@@ -79,7 +98,7 @@
 - id: woodcock
   title: North American Woodcock in Bryant Park
   date: April 13, 2025
-  location: New York
+  location: New York City
   description: This bird is called a North American Woodcock (or timberdoodle) and it migrates to Bryant Park in March/April. It does a funny dance to coax worms and insects to the surface.
   imgs: 
     - woodcock/DSC_1822.jpg

@@ -1,8 +1,15 @@
+- id: wacv26
+  title: 'Two papers, <a class="links" style="font-size: 14px;" href="projects/geneva/index.html" target="_blank">GeneVA</a> and <a class="links" style="font-size: 14px;" href="projects/fovgs/index.html" target="_blank">Perceptual 3DGS</a>, were accepted to WACV 2026.'
+  date: 2025-11
+  month: "11"
+  year: 2025
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
 - id: imggstwominpapers
   title: '<a class="links" style="font-size: 14px;" href="projects/imggs/index.html" target="_blank">Image-GS</a> was featured on <a class="links" style="font-size: 14px;" target="_blank" href="https://youtu.be/_WjU5d26Cc4">Two Minute Papers</a>!'
   date: 2025-09
   month: "09"
-  year: 2025
   fill: "#FFE0B2"
   tag: "#CFD8DC"
 

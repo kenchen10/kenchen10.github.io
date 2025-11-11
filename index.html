@@ -55,12 +55,11 @@ layout: null
                             <!-- <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;margin-left: -4px;" src="images/break2.svg"> -->
                           </b>
                         </p>
-                        <p class="text-justify" style="margin-left: auto; margin-right: auto;font-size: 14px; background-color: rgb(242, 235, 235); padding: 4px 6px; border-radius: 4px; border: solid 1px;">Welcome! I'm a 3rd year Computer Science PhD student at New York University, 
+                        <p class="text-justify" style="margin-left: auto; margin-right: auto;font-size: 14px; background-color: rgb(242, 235, 235); padding: 4px 6px; border-radius: 4px; border: solid 1px;">Welcome! I'm a 3rd year CS PhD student at New York University, 
                           advised by <a class="links" style="font-size: 14px;" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
-                          I'm interested in studying how graphics and display systems can be optimized by understanding human visual perception.
+                          I'm interested in studying how novel graphics, display, and AI systems can be optimized by understanding human perception.
                           <br><br>
-                          This summer, I'm at the University of Cambridge working with <a class="links" style="font-size: 14px;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>.
-                          During my PhD, I interned twice at Meta Reality Labs, mentored by <a class="links" style="font-size: 14px;" href="https://achapiro.github.io/" target="_blank">Dr. Alex Chapiro</a>.
+                          During my PhD, I spent a summer at the University of Cambridge (2025) working with <a class="links" style="font-size: 14px;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>, and interned twice at Meta Reality Labs (2023 & 2024), mentored by <a class="links" style="font-size: 14px;" href="https://achapiro.github.io/" target="_blank">Dr. Alex Chapiro</a>.
                           Before my PhD, I did an MS at NYU (2023) and a BA at UC Berkeley (2021), both in computer science.
                           I'm happy to chat about research or anything else; email me at <a class="links" style="font-size: 14px;" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!</p>
                         <p>
@@ -91,7 +90,7 @@ layout: null
                 <table id="timeline"
                   style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                   <tbody>
-                    {% for item in site.data.news limit : 5%}
+                    {% for item in site.data.news limit : 8%}
                     <tr>
                       <td class="tdnews" width="10px" style="padding-left: 30px;">
                         {% if item.year != null %}
@@ -244,10 +243,10 @@ layout: null
                       <pub>
                         <venue
                           style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
-                          <i class="fas fa-award"></i> {{ publication.award }}
+                          <i class="fas fa-award"></i> {{ publication.award }} 
                         </venue>
                       </pub>
-                      {%endif%}{% for media in publication.media %}<a href="{{ media.link }}" target="_blank"><img style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a>{% endfor %}
+                      {%endif%}{% for media in publication.media %} <a href="{{ media.link }}" target="_blank"><img style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a> {% endfor %}
                       {% if publication.description != null %}
                       <br>
                       <small style="font-size: small;">
@@ -262,7 +261,7 @@ layout: null
                       {% endif %}
                       {% if publication.arxiv != null %}
                       <a style="font-size: small" class="links3"
-                        href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
+                        href="https://arxiv.org/abs/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
                         PDF</a>
                       {% endif %}
                       {% if publication.pdf != null %}
@@ -329,7 +328,7 @@ layout: null
           <tr>
             <td>
               <br>
-              <heading>Posters/Demos</heading>
+              <heading>Posters, Demos, and More</heading>
               <hr id="myhr">
               <p><small></small></p>
               <p><small></small></p>
@@ -429,7 +428,7 @@ layout: null
                       {% endif %}
                       {% if publication.arxiv != null %}
                       <a style="font-size: small" class="links3"
-                        href="https://arxiv.org/pdf/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
+                        href="https://arxiv.org/abs/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
                         PDF</a>
                       {% endif %}
                       {% if publication.pdf != null %}
