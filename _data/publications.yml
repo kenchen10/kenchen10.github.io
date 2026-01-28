@@ -9,7 +9,7 @@
   tag: "#F6BEFF"
   pdf: assets/papers/eg26.pdf
   supp: assets/papers/paper1054_2_MM1.pdf
-  teaser_image: mlpea_teaser.png
+  teaser_image: mlpea-teaser.png
   teaser_text: "Our pipeline generates images which consume less power than the original when shown on a display, while minimizing perceptual impact. 
   Here, we show an example of an image generated with our technique compared to the reference and its uniformly dimmed version.
   The corresponding dimming maps are shown in the insets, with the multiplicative scaling factor  presented in the color bar on the right. 
