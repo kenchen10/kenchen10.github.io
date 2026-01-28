@@ -142,7 +142,7 @@ layout: null
                     <a href="photos/{{ photo.id }}">
                       {% for img in photo.imgs limit : 1 %}
                       {% assign i = i | plus:1 %}
-                      {% if i < 13 %} <img class="hoverable" style="margin:5px;border: solid black 1px;" width=27% src="images/{{ img }}">
+                      {% if i < 16 and i > 2 %} <img class="hoverable" style="margin:5px;border: solid black 1px;" width=27% src="images/{{ img }}">
                         {% endif %}
                         {% endfor %}
                     </a>
