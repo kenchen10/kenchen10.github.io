@@ -5,7 +5,7 @@
   description: "A neural net predicts spatially-varying dimming maps for display power optimization."
   project_page: "projects/mlpea/index.html"
   github: NYU-ICL/ML-PEA
-  image: mlpea.png
+  image: MLPEA.png
   tag: "#F6BEFF"
   pdf: assets/papers/eg26.pdf
   supp: assets/papers/paper1054_2_MM1.pdf
