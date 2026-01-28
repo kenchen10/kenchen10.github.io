@@ -1,5 +1,5 @@
 - id: mlpea
-  title: 'A <a class="links" style="font-size: 14px;" href="projects/mlpea/index.html" target="_blank">follow-up paper</a> to our <a class="links" style="font-size: 14px;" href="http://127.0.0.1:4000/projects/sig25/index.html" target="_blank">"What is HDR?" paper</a> was accepted to HVEI 2026.'
+  title: 'A <a class="links" style="font-size: 14px;" href="projects/mlpea/index.html" target="_blank">follow-up paper</a> to our <a class="links" style="font-size: 14px;" href="projects/sig25/index.html" target="_blank">"What is HDR?" paper</a> was accepted to HVEI 2026.'
   date: 2026-01
   month: "01"
   year: 2026
@@ -36,14 +36,14 @@
   tag: "#CFD8DC"
 
 - id: ffaward
-  title: 'Our fast forward at SIGGRAPH for <a class="links" style="font-size: 14px;" href="http://127.0.0.1:4000/projects/sig25/index.html" target="_blank">"What is HDR?"</a> won an <a class="links" style="font-size: 14px;" href="https://s2025.siggraph.org/program/technical-papers/" target="_blank"> audience choice award</a>!'
+  title: 'Our fast forward at SIGGRAPH for <a class="links" style="font-size: 14px;" href="projects/sig25/index.html" target="_blank">"What is HDR?"</a> won an <a class="links" style="font-size: 14px;" href="https://s2025.siggraph.org/program/technical-papers/" target="_blank"> audience choice award</a>!'
   date: 2025-08
   month: "08"
   fill: "#FFE0B2"
   tag: "#CFD8DC"
 
 - id: sig25talk
-  title: 'I gave a talk at SIGGRAPH in Vancouver about our <a class="links" style="font-size: 14px;" href="http://127.0.0.1:4000/projects/sig25/index.html" target="_blank">"What is HDR?"</a> work.'
+  title: 'I gave a talk at SIGGRAPH in Vancouver about our <a class="links" style="font-size: 14px;" href="projects/sig25/index.html" target="_blank">"What is HDR?"</a> work.'
   date: 2025-08
   month: "08"
   fill: "#FFCCBC"
@@ -85,7 +85,7 @@
   tag: "#CFD8DC"
 
 - id: sig25
-  title: 'My internship project, <a class="links" style="font-size: 14px;" href="http://127.0.0.1:4000/projects/sig25/index.html" target="_blank">"What is HDR?"</a>, was accepted to SIGGRAPH 2025!'
+  title: 'My internship project, <a class="links" style="font-size: 14px;" href="projects/sig25/index.html" target="_blank">"What is HDR?"</a>, was accepted to SIGGRAPH 2025!'
   date: 2025-04
   month: "04"
   fill: "#FFE0B2"
