@@ -33,6 +33,10 @@ kchen:
       - New York University
     fovgs:
       - New York University
+    mlpea:
+      - New York University
+    wihdirectview:
+      - New York University
   is_me: true
 
 yzhang:
@@ -48,6 +52,8 @@ yzhang:
       - New York University
     fovgs:
       - New York University
+    wihdirectview:
+      - New York University and Meta Reality Labs
 
 eshahan:
   first_name: Ethan
@@ -126,6 +132,10 @@ qsun:
       - New York University
     fovgs:
       - New York University
+    mlpea:
+      - New York University
+    wihdirectview:
+      - New York University
 
 yzhu:
   first_name: Yuhao
@@ -166,6 +176,8 @@ twan:
       - Meta
     sig25:
       - Meta
+    mlpea:
+      - Meta
 
 nmatsuda:
   first_name: Nathan
@@ -176,6 +188,8 @@ nmatsuda:
       - Meta
     sig25:
       - Meta
+    mlpea:
+      - Meta
 
 aninan:
   first_name: Ajit
@@ -183,6 +197,8 @@ aninan:
   website: https://www.linkedin.com/in/ajitninan
   affiliation: 
     sig24:
+      - Meta
+    mlpea:
       - Meta
 
 achapiro:
@@ -194,6 +210,10 @@ achapiro:
       - Meta
     sig25:
       - Meta
+    mlpea:
+      - Meta
+    wihdirectview:
+      - Meta Reality Labs
 
 xpeng:
   first_name: Xi
@@ -409,7 +429,7 @@ nlwilliams:
 xzhang:
   first_name: Xinyu
   last_name: Zhang
-  website: 
+  website: https://zhxyxxx.github.io
   affiliation: 
     fovgs:
       - Sony Interactive Entertainment
@@ -417,7 +437,7 @@ xzhang:
 momori:
   first_name: Maito
   last_name: Omori
-  website: 
+  website: https://scholar.google.com/citations?user=Gi0wOVEAAAAJ&hl=ja
   affiliation: 
     fovgs:
       - Sony Interactive Entertainment
@@ -425,7 +445,49 @@ momori:
 karimatsu:
   first_name: Kazuyuki
   last_name: Arimatsu
-  website: 
+  website: https://mohammedari.github.io
   affiliation: 
     fovgs:
       - Sony Interactive Entertainment
+
+mweier:
+  first_name: Martin
+  last_name: Weier
+  website: 
+  affiliation: 
+
+ostaadt:
+  first_name: Oliver
+  last_name: Staadt
+  website: 
+  affiliation: 
+
+cgroth:
+  first_name: Colin
+  last_name: Groth
+  website: 
+  affiliation: 
+
+bmohanto:
+  first_name: Bipul
+  last_name: Mohanto
+  website: 
+  affiliation: 
+
+amarquardt:
+  first_name: Alexander
+  last_name: Marquardt
+  website: 
+  affiliation: 
+
+csalaun:
+  first_name: Corentin
+  last_name: Salaün
+  website: 
+  affiliation: 
+
+dmartin:
+  first_name: Daniel
+  last_name: Martin
+  website: 
+  affiliation: 

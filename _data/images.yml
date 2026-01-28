@@ -1,3 +1,9 @@
+- id: nycsnow26
+  title: NYC Snow
+  date: January 26, 2026
+  location: New York City
+  imgs: 
+    - nycsnow26/DSC00166.avif
 - id: tryon
   title: Tryon Park
   date: November 8, 2025

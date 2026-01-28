@@ -136,6 +136,15 @@
                             {% if publication.github != null %}
                                 <a class="links3" style="font-size: small;" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>
                             {% endif %}
+                            {% if publication.dataset != null %}
+                                <a style="font-size: small" class="links3" href="{{ publication.dataset }}"><i class="fa-solid fa-database"></i> dataset</a>
+                            {% endif %}
+                            {% if publication.dataset_vid != null %}
+                                <a style="font-size: small" class="links3" href="{{ publication.dataset_vid }}"><i class="fa-solid fa-database"></i> dataset (videos)</a>
+                            {% endif %}
+                            {% if publication.dataset_annotations != null %}
+                                <a style="font-size: small" class="links3" href="{{ publication.dataset_annotations }}"><i class="fa-solid fa-database"></i> dataset (labels)</a>
+                            {% endif %}
                             {% if publication.ff != null %}
                                 <a class="links3" style="font-size: small;" href="{{ publication.ff }}"><i class="fa-solid fa-forward-fast"></i> TLDR</a>
                             {% endif %}

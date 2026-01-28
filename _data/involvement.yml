@@ -1,0 +1,19 @@
+- id: pergravar
+  title: "Third International Workshop on Perception-driven Graphics and Displays for VR and AR (PerGraVAR)"
+  venue: IEEE VR
+  year: 2026
+  project_page: https://www.pergravar-work.shop/2026/
+  image: pergravar.png
+  tag: "#F6BEFF"
+  workshop: true
+  authors:
+    - mweier
+    - ostaadt
+    - cgroth
+    - bmohanto
+    - amarquardt
+    - csalaun
+    - pchakravarthula
+    - dmartin
+    - kchen
+  bibtex: ""

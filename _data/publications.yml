@@ -1,3 +1,68 @@
+- id: mlpea
+  title: "ML-PEA: Machine Learning-Based Perceptual Algorithms for Display Power Optimization"
+  venue: Eurographics
+  year: 2026
+  description: "A neural net predicts spatially-varying dimming maps for display power optimization."
+  project_page: "projects/mlpea/index.html"
+  github: NYU-ICL/ML-PEA
+  image: mlpea.png
+  tag: "#F6BEFF"
+  pdf: assets/papers/eg26.pdf
+  supp: assets/papers/paper1054_2_MM1.pdf
+  teaser_image: mlpea_teaser.png
+  teaser_text: "Our pipeline generates images which consume less power than the original when shown on a display, while minimizing perceptual impact. 
+  Here, we show an example of an image generated with our technique compared to the reference and its uniformly dimmed version.
+  The corresponding dimming maps are shown in the insets, with the multiplicative scaling factor  presented in the color bar on the right. 
+  Note that both the uniformly dimmed image and the image generated with our technique in this figure consume the same amount of display power: 52.1% of the reference."
+  authors:
+    - kchen
+    - nmatsuda
+    - twan
+    - aninan
+    - achapiro
+    - qsun
+  affiliation_images:
+    - nyu.png
+    - meta.png
+  abstract: "Image processing techniques can be used to modulate the pixel intensities of an image to reduce the power consumption of the display device. A simple example of this consists of uniformly dimming the entire image.
+  Such algorithms should strive to minimize the impact on image quality while maximizing power savings.
+  Techniques based on heuristics or human perception have been proposed, both for traditional flat panel displays and modern display modalities such as virtual and augmented reality (VR/AR).
+  In this paper, we focus on developing and evaluating display power-saving techniques that use machine learning (ML).
+  This pipeline was validated via quantitative analysis using metrics and through a subjective study.
+  Our results show that participants prefer our technique over a uniform dimming baseline for high target power saving conditions.
+  In the future, this work should serve as a template and baseline for future applications of deep learning for display power optimization."
+
+- id: wihdirectview
+  title: "Perceptual Impact of Peak Luminance and Contrast in Direct View HDR Display"
+  venue: IS&T HVEI
+  year: 2026
+  description: "A follow-up to our 'What is HDR?' paper, adapted for direct-view displays."
+  project_page: "projects/wihdirectview/index.html"
+  teaser_image: wihdirectview-teaser.png
+  pdf: assets/papers/hvei26.pdf
+  teaser_text: "In this plot, we show that the existing standard for HDR, DisplayHDR, is not spaced in equal perceptual units (JODs) as defined by our model.
+    Red X marks are equally spaced as evaluated by this model."
+  image: wihdirectview.png
+  tag: "#F6BEFF"
+  authors:
+    - kchen
+    - yzhang
+    - qsun
+    - achapiro
+  equal:
+    - kchen 
+    - yzhang
+  affiliation_images:
+    - nyu.png
+    - meta.png
+  abstract: "Characterization of a high dynamic range (HDR) display's performance can be largely defined by its contrast and peak luminance. 
+  Prior work has studied this question for virtual reality (VR) using a haploscopic HDR setup, but it is not obvious if those results are transferrable to a more traditional viewing setting, 
+  such as direct view. In this work, we conducted a study to measure user preference for different contrast and peak luminance parameters in this scenario, and develop a perceptual 
+  just-objectionable-difference (JOD) scale to quantify preference scores. This is accomplished by studying contrast and peak luminance conditions across several orders of magnitude, 
+  shown on a professional HDR display with peak luminance of 1,000 nits and 1,000,000:1 contrast.
+  The data is used to develop a computational model that can drive display design and future standardization of the definition of HDR, in terms of human preference."
+  bibtex: ""
+
 - id: fovgs
   title: "Perceptually Guided 3DGS Streaming and Rendering for Virtual Reality"
   venue: IEEE/CVF WACV
@@ -7,6 +72,8 @@
   image: fovgs.png
   tag: "#F6BEFF"
   teaser_image: fovgs_teaser.png
+  github: NYU-ICL/perceptual-3dgs
+  pdf: https://www.immersivecomputinglab.org/wp-content/uploads/2025/12/Perceptual-3DGS.pdf
   teaser_text: "The proposed perceptually guided, adaptive level-of-detail 3DGS streaming and rendering framework for virtual reality."
   authors:
     - yzhang
@@ -17,6 +84,9 @@
     - momori
     - karimatsu
     - qsun
+  equal:
+    - yzhang 
+    - shmupparaju
   affiliation_images:
     - nyu.png
     - sony-interactive-entertainment.png
@@ -38,12 +108,15 @@ method achieves superior trade-offs between computational efficiency and percept
 - id: geneva
   title: "GeneVA: A Dataset of Human Annotations for Generative Text to Video Artifacts"
   venue: IEEE/CVF WACV
+  # venue_long: Winter Conference on Applications of Computer Vision
   year: 2026
   arxiv: 2509.08818
   description: "A large-scale dataset of bounding boxes, ratings, descriptions of artifacts in AI videos."
   project_page: "projects/geneva/index.html"
   image: geneva.png
   tag: "#F6BEFF"
+  dataset_vid: https://ai-generated-videos-icl.s3.us-east-1.amazonaws.com/
+  dataset_annotations: https://geneva-annotations.s3.us-east-1.amazonaws.com/AnnotatedVideos.json
   teaser_image: geneva_teaser.png
   teaser_text: "We show example annotated bounding boxes for each model (labeled on the right). The bounding boxes are annotated in red, with
 their artifact category and user-annotated description below the frames. Video quality (“Overall”) and video-prompt alignment (“Prompt”)
@@ -174,6 +247,9 @@ and helps standardize the understanding of HDR."
     - id: twominpapers
       link: https://www.youtube.com/watch?v=_WjU5d26Cc4
       img: twominpapersbanner.jpg
+    - id: learnopencv
+      link: https://learnopencv.com/image-gs-image-reconstruction-using-2d-gaussians/
+      img: learnOpenCV.png
   doi: 10.1145/3721238.3730596
   teaser_image: imggs_teaser.png
   bibtex: "
@@ -334,7 +410,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   venue: ACM/IEEE ISCA
   venue_long: 
   year: 2025
-  description: 
+  description: Hardware-software co-optimization of VR eye tracking.
   project_page: "projects/isca25/index.html"
   github: 
   doi: 10.1145/3695053.3731110
@@ -567,7 +643,7 @@ Finally, we leverage our study data and power models to address important displa
 - id: asplos24
   title: "Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality"
   venue: ACM ASPLOS
-  # venue_long: ACM International Conference on Architectural Support for Programming Languages and Operating Systems
+  # venue_long: Architectural Support for Programming Languages and Operating Systems
   doi: 10.1145/3617232.3624860
   year: 2024
   description: "A DRAM traffic compression scheme using peripheral color modulation."
@@ -690,7 +766,7 @@ Finally, we leverage our study data and power models to address important displa
   project_page: "projects/emg-energy/index.html"
   github: NYU-ICL/xr-ergonomics-neck-comfort
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/xr-ergonomics-neck-comfort.pdf
-  image: emg-2.png
+  image: mcl.png
   tag: "#F6BEFF"
   paper_image: mcl-paper.png
   teaser_image: teasersig23.png

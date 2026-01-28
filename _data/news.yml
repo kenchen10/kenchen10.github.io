@@ -1,8 +1,30 @@
+- id: mlpea
+  title: 'A <a class="links" style="font-size: 14px;" href="projects/mlpea/index.html" target="_blank">follow-up paper</a> to our <a class="links" style="font-size: 14px;" href="http://127.0.0.1:4000/projects/sig25/index.html" target="_blank">"What is HDR?" paper</a> was accepted to HVEI 2026.'
+  date: 2026-01
+  month: "01"
+  year: 2026
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: mlpea
+  title: 'A <a class="links" style="font-size: 14px;" href="projects/mlpea/index.html" target="_blank">paper on ML-based display power optimization</a> was accepted to Eurographics 2026.'
+  date: 2025-12
+  month: "12"
+  year: 2025
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: pergravar
+  title: 'We will hold an <a class="links" style="font-size: 14px;" href="https://www.pergravar-work.shop/2026/" target="_blank">IEEE VR 2026 workshop</a> on perception-driven VR/AR graphics/displays!'
+  date: 2025-12
+  month: "12"
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
 - id: wacv26
   title: 'Two papers, <a class="links" style="font-size: 14px;" href="projects/geneva/index.html" target="_blank">GeneVA</a> and <a class="links" style="font-size: 14px;" href="projects/fovgs/index.html" target="_blank">Perceptual 3DGS</a>, were accepted to WACV 2026.'
   date: 2025-11
   month: "11"
-  year: 2025
   fill: "#FFE0B2"
   tag: "#CFD8DC"
 

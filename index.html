@@ -59,6 +59,7 @@ layout: null
                           advised by <a class="links" style="font-size: 14px;" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
                           I'm interested in studying how novel graphics, display, and AI systems can be optimized by understanding human perception.
                           <br><br>
+                          This summer, I will be at Adobe Research.
                           During my PhD, I spent a summer at the University of Cambridge (2025) working with <a class="links" style="font-size: 14px;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>, and interned twice at Meta Reality Labs (2023 & 2024), mentored by <a class="links" style="font-size: 14px;" href="https://achapiro.github.io/" target="_blank">Dr. Alex Chapiro</a>.
                           Before my PhD, I did an MS at NYU (2023) and a BA at UC Berkeley (2021), both in computer science.
                           I'm happy to chat about research or anything else; email me at <a class="links" style="font-size: 14px;" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!</p>
@@ -89,28 +90,30 @@ layout: null
                 </table>
                 <table id="timeline"
                   style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                  <tbody>
-                    {% for item in site.data.news limit : 8%}
-                    <tr>
-                      <td class="tdnews" width="10px" style="padding-left: 30px;">
-                        {% if item.year != null %}
-                        <venue
-                          style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.tag }};margin-left: 0;">
-                          {{ item.year }}</venue>
-                        {% endif %}
-                      </td>
-                      <td class="tdnews" width="10px">
-                        <venue
-                          style="font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.fill }};margin-left: 0;">
-                          {{ item.month }}</venue>
-                      </td>
-                      <td class="tdnews" style="font-size: 14px;">
-                        {{ item.title }}
-                      </td>
-                    </tr>
-                    {% endfor %}
+                  <!-- <p class="text-justify" style="margin-left: auto; margin-right: auto;font-size: 14px; background-color: rgb(242, 235, 235); padding: 4px 6px; border-radius: 4px; border: solid 1px;"> -->
+                    <tbody>
+                      {% for item in site.data.news limit : 9%}
+                      <tr>
+                        <td class="tdnews" width="10px" style="padding-left: 30px;">
+                          {% if item.year != null %}
+                          <venue
+                            style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.tag }};margin-left: 0;">
+                            {{ item.year }}</venue>
+                          {% endif %}
+                        </td>
+                        <td class="tdnews" width="10px">
+                          <venue
+                            style="font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.fill }};margin-left: 0;">
+                            {{ item.month }}</venue>
+                        </td>
+                        <td class="tdnews" style="font-size: 14px;">
+                          {{ item.title }}
+                        </td>
+                      </tr>
+                      {% endfor %}
 
-                  </tbody>
+                    </tbody>
+                  <!-- </p> -->
                 </table>
             </tr>
 
@@ -139,7 +142,7 @@ layout: null
                     <a href="photos/{{ photo.id }}">
                       {% for img in photo.imgs limit : 1 %}
                       {% assign i = i | plus:1 %}
-                      {% if i < 14 %} <img class="hoverable" style="margin:5px;border: solid black 1px;" width=27% src="images/{{ img }}">
+                      {% if i < 13 %} <img class="hoverable" style="margin:5px;border: solid black 1px;" width=27% src="images/{{ img }}">
                         {% endif %}
                         {% endfor %}
                     </a>
@@ -163,6 +166,32 @@ layout: null
         <table style="padding-left:8px;padding-right:8px;max-width:1000px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
           <tr>
             <td>
+              
+              <!-- <br> -->
+              <!-- <heading>Research Interests</heading>
+              <hr id="myhr">
+              <p style="padding-top: 10px">
+                I'm interest in applying studies of the human visual system to visual computing domains, including
+                <ul>
+                  <li>
+                    Graphics/HCI: Developing rendering, design algorithms that are better-aligned with human perception [SIGGRAPH 2023, WACV 2026].
+                  </li>
+                  <li>
+                    Displays: Modelling human vision for improvements in display performance [SIGGRAPH Asia 2022, SIGGRAPH 2024, SIGGRAPH 2025].
+                  </li>
+                  <li>
+                    Generative AI: Measuring human preference to certain AI-related artifacts [arxiv 2025, WACV 2026].
+                  </li>
+                </ul>
+              </p>
+              <br> -->
+            </td>
+          </tr>
+          
+          <!-- <br> -->
+
+          <tr>
+            <td>
               <!-- <br> -->
               <heading>Publications</heading>
               <hr id="myhr">
@@ -181,7 +210,7 @@ layout: null
                     <th style="width:20%"></th>
                   </tr>
                   {% for publication in site.data.publications %}
-                  {% if publication.hide == null %}
+                  {% if publication.hide == null and publication.workshop == null %}
                   <tr style="min-width:100%; width: 100%;">
                     <td style="padding:5px;vertical-align:middle;">
                       <div class="one" style="padding-right: 4px;">
@@ -279,6 +308,15 @@ layout: null
                       <a style="font-size: small" class="links3" href="https://github.com/{{ publication.github }}"><i
                           class="fab fa-github"></i> code</a>
                       {% endif %}
+                      {% if publication.dataset != null %}
+                      <a style="font-size: small" class="links3" href="{{ publication.dataset }}"><i class="fa-solid fa-database"></i> dataset</a>
+                      {% endif %}
+                      {% if publication.dataset_vid != null %}
+                      <a style="font-size: small" class="links3" href="{{ publication.dataset_vid }}"><i class="fa-solid fa-database"></i> dataset (videos)</a>
+                      {% endif %}
+                      {% if publication.dataset_annotations != null %}
+                      <a style="font-size: small" class="links3" href="{{ publication.dataset_annotations }}"><i class="fa-solid fa-database"></i> dataset (labels)</a>
+                      {% endif %}
                       {% if publication.ff != null %}
                           <a class="links3" style="font-size: small;" href="{{ publication.ff }}"><i class="fa-solid fa-forward-fast"></i> TLDR</a>
                       {% endif %}
@@ -328,7 +366,7 @@ layout: null
           <tr>
             <td>
               <br>
-              <heading>Posters, Demos, and More</heading>
+              <heading>Posters, Demos, etc.</heading>
               <hr id="myhr">
               <p><small></small></p>
               <p><small></small></p>
@@ -348,7 +386,7 @@ layout: null
                     <th style="width:1%"></th>
                   </tr>
                   {% for publication in site.data.publications %}
-                  {% if publication.hide %}
+                  {% if publication.hide and publication.workshop == null %}
                   <tr style="min-width:100%; width: 100%;">
                     <td style="padding:5px;vertical-align:middle;">
                       <div class="one" style="padding-right: 4px;">
@@ -479,6 +517,44 @@ layout: null
                     </td>
                   </tr>
                   {% endif %}
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <br>
+              <heading>Community Involvement</heading>
+              <hr id="myhr">
+            </td>
+          </tr>
+          <tr style="padding:0px">
+            <td style="padding:0px">
+              <table
+                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                <tbody>
+
+                  <tr>
+                    <th style="width:15%"></th>
+                    <th style="width:85%"></th>
+                  </tr>
+                  {% for involvement in site.data.involvement %}
+                  <tr style="min-width:100%; width: 100%;">
+                    <td style="padding:5px;vertical-align:middle;">
+                      <div class="one" style="padding-right: 4px;">
+                        <img style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
+                          src="images/{{ involvement.image }}">
+                      </div>
+                    </td>
+                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
+                      <strong>{{ involvement.title }}</strong> | <em>{{ involvement.venue }} {{ involvement.year }}</em> <br>
+                      <a style="font-size: small" class="links3" href="{{ involvement.project_page }}"><i
+                        class="fas fa-globe"></i> webpage</a>
+                    </td>
+                  </tr>
                   {% endfor %}
 
                 </tbody>
