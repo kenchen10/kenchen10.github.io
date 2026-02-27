@@ -104,6 +104,17 @@ perceived visual quality. To support low-power, untethered VR setups, we introdu
 work that partially offloads computation to the cloud. The framework self-adapts to any edge device's network bandwidth and compute capabilities without requiring tedious
 retraining. Objective metrics and VR user study evidence that, compared to vanilla and foveated LOD baselines, our
 method achieves superior trade-offs between computational efficiency and perceptual quality."
+  bibtex: "
+    @InProceedings{<br>
+      <tab>Zhang_2026_WACV,<br>
+      <tab>author = {Zhang, Yunxiang and Mupparaju, Sai Harsha and Chen, Kenneth and Kang, Jenna and Zhang, Xinyu and Omori, Maito and Arimatsu, Kazuyuki and Sun, Qi},<br>
+      <tab>title = {Perceptually Guided 3DGS Streaming and Rendering for Mixed Reality},<br>
+      <tab>booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},<br>
+      <tab>month = {March},<br>
+      <tab>year = {2026},<br>
+      <tab>pages = {4212-4222}<br>
+  }
+  "
 
 - id: geneva
   title: "GeneVA: A Dataset of Human Annotations for Generative Text to Video Artifacts"
@@ -141,6 +152,17 @@ the VidProM [41] dataset, with text prompts from this dataset then used to gener
 Sora. We trained an artifact detector and caption generator using a pre-trained image-based model, and a custom
 temporal fusion module. The dataset can be found at dummylink.com. We hope that datasets like GeneVA will encourage improvements in artifact detection in AI-generated video
 towards applications such as deepfake detection."
+  bibtex: "
+    @InProceedings{<br>
+      <tab>Kang_2026_WACV,<br>
+      <tab>author = {Kang, Jenna and Silva, Maria Beatriz and Sangkloy, Patsorn and Chen, Kenneth and Williams, Niall L. and Sun, Qi},<br>
+      <tab>title = {GeneVA: A Dataset of Human Annotations for Generative Text to Video Artifacts},<br>
+      <tab>booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},<br>
+      <tab>month = {March},<br>
+      <tab>year = {2026},<br>
+      <tab>pages = {6174-6183}<br>
+  }
+  "
 
 - id: sig25
   title: "What is HDR? Perceptual Impact of Luminance and Contrast in Immersive Displays"
