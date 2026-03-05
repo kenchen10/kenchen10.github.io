@@ -43,6 +43,8 @@
   teaser_text: "In this plot, we show that the existing standard for HDR, DisplayHDR, is not spaced in equal perceptual units (JODs) as defined by our model.
     Red X marks are equally spaced as evaluated by this model."
   image: wihdirectview.png
+  poster: ../assets/posters/HVEI26-poster.pdf
+  poster_preview: ../assets/posters/HVEI26-poster.png
   tag: "#F6BEFF"
   authors:
     - kchen
@@ -61,7 +63,21 @@
   just-objectionable-difference (JOD) scale to quantify preference scores. This is accomplished by studying contrast and peak luminance conditions across several orders of magnitude, 
   shown on a professional HDR display with peak luminance of 1,000 nits and 1,000,000:1 contrast.
   The data is used to develop a computational model that can drive display design and future standardization of the definition of HDR, in terms of human preference."
-  bibtex: ""
+  bibtex: "
+  @article{<br>
+    <tab>chen2026wihdirectview,<br>
+    <tab>author = {Kenneth Chen and Yunxiang Zhang and Qi Sun and Alexandre Chapiro},<br>
+    <tab>title = {Perceptual Impact of Peak Luminance and Contrast in Direct View HDR Display},<br>
+    <tab>journal = {Electronic Imaging},<br>
+    <tab>volume = {38},<br>
+    <tab>number = {10},<br>
+    <tab>pages = {222-1--222-1},<br>
+    <tab>keywords = {Applied Perception, High Dynamic Range, Display Technology, Tone Mapping, Psychophysics},<br>
+    <tab>doi = {10.2352/EI.2026.38.10.HVEI-222},<br>
+    <tab>url = {https://library.imaging.org/ei/articles/38/10/HVEI-222},<br>
+    <tab>year = {2026},<br>
+  }
+  "
 
 - id: fovgs
   title: "Perceptually Guided 3DGS Streaming and Rendering for Virtual Reality"
