@@ -1,8 +1,29 @@
-- id: mlpea
-  title: 'A <a class="links" style="font-size: 14px;" href="projects/mlpea/index.html" target="_blank">follow-up paper</a> to our <a class="links" style="font-size: 14px;" href="projects/sig25/index.html" target="_blank">"What is HDR?" paper</a> was accepted to HVEI 2026.'
+- id: tmlr26
+  title: 'Our <a class="links" style="font-size: 14px;" href="projects/catimage/index.html" target="_blank">paper on model routing</a> was accepted to TMLR!'
+  date: 2026-03
+  month: "03"
+  year: 2026
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: stanfordpres26
+  title: "I presented an overview of my PhD work at Prof. Gordon Wetzstein's group at Stanford!"
+  date: 2026-03
+  month: "03"
+  fill: "#FFCCBC"
+  tag: "#CFD8DC"
+
+- id: hveipres
+  title: 'I presented <a class="links" style="font-size: 14px;" href="projects/wihdirectview/index.html" target="_blank">our work on preferences in direct-view HDR</a> at HVEI 2026 in SF!'
+  date: 2026-03
+  month: "03"
+  fill: "#FFCCBC"
+  tag: "#CFD8DC"
+
+- id: wihdirectview
+  title: 'A <a class="links" style="font-size: 14px;" href="projects/wihdirectview/index.html" target="_blank">follow-up work</a> to our <a class="links" style="font-size: 14px;" href="projects/sig25/index.html" target="_blank">"What is HDR?" paper</a> was accepted to HVEI 2026.'
   date: 2026-01
   month: "01"
-  year: 2026
   fill: "#FFE0B2"
   tag: "#CFD8DC"
 

@@ -2,13 +2,13 @@
   company: University of Cambridge
   mentor: 'mentored by <a class="links" style="font-size: small;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>.'
   descriptions: 
-    - Working on image quality metrics.
-  shortdescription: Working on image quality metrics 
+    - Worked on quality metrics for tone mapping.
+  shortdescription: Worked on quality metrics for tone mapping
   years: June 2025 - August 2025
   role: Visiting Student
   img: cambridge.png
 - id: meta2
-  company: Meta
+  company: Meta Reality Labs
   mentor: 'mentored by <a class="links" style="font-size: small;" href="https://achapiro.github.io/" target="_blank">Dr. Alexandre Chapiro</a>.'
   descriptions: 
     - Studied/modeled contrast and luminance preferences in HDR displays.
@@ -19,7 +19,7 @@
   role: Research Scientist Intern
   img: meta.png
 - id: meta1
-  company: Meta
+  company: Meta Reality Labs
   mentor: 'mentored by <a class="links" style="font-size: small;" href="https://achapiro.github.io/" target="_blank">Dr. Alexandre Chapiro</a>.'
   descriptions: 
     - Studied the perceptual impact of different display power optimization algorithms in a VR setting.
