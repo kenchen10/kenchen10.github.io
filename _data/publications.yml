@@ -134,7 +134,11 @@ these models alone."
   tag: "#F6BEFF"
   teaser_image: fovgs_teaser.png
   github: NYU-ICL/perceptual-3dgs
-  pdf: https://www.immersivecomputinglab.org/wp-content/uploads/2025/12/Perceptual-3DGS.pdf
+  poster: ../assets/posters/wacv-poster.pdf
+  poster_preview: ../assets/posters/wacv-poster.png
+  video: https://youtu.be/2qGCfs54fAQ
+  yt_emb: https://www.youtube.com/embed/2qGCfs54fAQ
+  pdf: assets/papers/Zhang_Perceptually_Guided_3DGS_Streaming_and_Rendering_for_Mixed_Reality_WACV_2026_paper.pdf
   teaser_text: "The proposed perceptually guided, adaptive level-of-detail 3DGS streaming and rendering framework for virtual reality."
   authors:
     - yzhang
