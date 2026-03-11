@@ -77,7 +77,7 @@ these models alone."
 
 - id: wihdirectview
   title: "Perceptual Impact of Peak Luminance and Contrast in Direct View HDR Display"
-  venue: IS&T HVEI
+  venue: IS&T EI
   year: 2026
   description: "A follow-up to our 'What is HDR?' paper, adapted for direct-view displays."
   project_page: "projects/wihdirectview/index.html"
