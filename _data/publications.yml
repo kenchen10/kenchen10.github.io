@@ -186,7 +186,9 @@ method achieves superior trade-offs between computational efficiency and percept
   venue: IEEE/CVF WACV
   # venue_long: Winter Conference on Applications of Computer Vision
   year: 2026
-  arxiv: 2509.08818
+  # arxiv: 2509.08818
+  pdf: assets/papers/Kang_GeneVA_A_Dataset_of_Human_Annotations_for_Generative_Text_to_WACV_2026_paper.pdf
+  supp: assets/papers/Kang_GeneVA_A_Dataset_WACV_2026_supplemental.pdf
   description: "A large-scale dataset of bounding boxes, ratings, descriptions of artifacts in AI videos."
   project_page: "projects/geneva/index.html"
   image: geneva.png
