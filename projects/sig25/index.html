@@ -158,12 +158,13 @@ function getModel() { return MODELS[currentModelIdx]; }
 
 function jodToPPref(jod) {
   const p_A_better = jStat.normal.cdf(jod, 0, 1.4826) * 100;
+  console.log(p_A_better)
   const p_pref = (p_A_better*2 - 100) / 100;
   return (p_pref + 1) * 0.5;
 }
 function fmtPPref(v) {
   const pct = v * 100;
-  return (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+  return pct.toFixed(1) + '%';
 }
 
 function jodRaw(contrast, luminance) {
@@ -189,7 +190,7 @@ function updatePointResults() {
     const dj = jodDelta(p.c, p.l);
     const pp = jodToPPref(dj);
     const sign = dj >= 0 ? '+' : '';
-    el.textContent = `${sign}${dj.toFixed(2)} JOD  ·  ${fmtPPref(pp)} pref`;
+    el.textContent = `${sign}${dj.toFixed(2)} JOD  |  ${fmtPPref(pp)} prefer ${p.name} over baseline.`;
     el.style.color = dj >= 0 ? '#185fa5' : '#993c1d';
   });
 }
