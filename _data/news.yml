@@ -1,8 +1,15 @@
+- id: wihmodel
+  title: 'I made an interactive version of our <a class="links" style="font-size: 14px;" href="projects/sig25/index.html" target="_blank">"What is HDR?"</a> model.'
+  date: 2026-03
+  month: "03"
+  year: 2026
+  fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
 - id: tmlr26
   title: 'Our <a class="links" style="font-size: 14px;" href="projects/catimage/index.html" target="_blank">paper on model routing</a> was accepted to TMLR!'
   date: 2026-03
   month: "03"
-  year: 2026
   fill: "#FFE0B2"
   tag: "#CFD8DC"
 
