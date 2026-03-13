@@ -64,7 +64,7 @@ input[type=number]:focus, select:focus {
     .point-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
     .point-row input[type=number] { width: 80px; }
     .color-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-    .tooltip { position: absolute; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 6px 10px; font-size: 12px; pointer-events: none; display: none; z-index: 10; white-space: nowrap; }
+    .tooltip { position: fixed; z-index: 99999; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 6px 10px; font-size: 12px; pointer-events: none; display: none; z-index: 10; white-space: nowrap; }
     .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 12px 0; }
     select { padding: 4px 8px; font-size: 13px; }
     .baseline-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 10px 14px; display: inline-flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
@@ -90,11 +90,11 @@ input[type=number]:focus, select:focus {
             <div class="baseline-card">
                 <div class="param-group">
                 <label>Luminance (cd/m²)</label>
-                <input type="number" id="base-lum" value="200" step="10" min="1" style="width:90px">
+                <input type="number" id="base-lum" value="100" step="10" min="1" style="width:90px">
                 </div>
                 <div class="param-group">
                 <label>Contrast ratio</label>
-                <input type="number" id="base-con" value="1000" step="100" min="1" style="width:100px">
+                <input type="number" id="base-con" value="64" step="100" min="1" style="width:100px">
                 </div>
                 <div id="base-jod-display" style="font-size:12px;color:var(--color-text-secondary);padding-bottom:6px"></div>
             </div>
@@ -104,7 +104,7 @@ input[type=number]:focus, select:focus {
                 <div class="param-group">
                 <label>Contrast range</label>
                 <div style="display:flex;gap:6px;align-items:center">
-                    <input type="number" id="cmin" value="50" step="10" min="1" style="width:75px">
+                    <input type="number" id="cmin" value="25" step="10" min="1" style="width:75px">
                     <span style="font-size:13px;color:var(--color-text-secondary)">to</span>
                     <input type="number" id="cmax" value="2000000" step="1000" min="1" style="width:90px">
                 </div>
@@ -112,7 +112,7 @@ input[type=number]:focus, select:focus {
                 <div class="param-group">
                 <label>Peak luminance range (cd/m²)</label>
                 <div style="display:flex;gap:6px;align-items:center">
-                    <input type="number" id="lmin" value="50" step="10" min="1" style="width:75px">
+                    <input type="number" id="lmin" value="40" step="10" min="1" style="width:75px">
                     <span style="font-size:13px;color:var(--color-text-secondary)">to</span>
                     <input type="number" id="lmax" value="2000" step="100" min="1" style="width:75px">
                 </div>
@@ -142,10 +142,11 @@ input[type=number]:focus, select:focus {
 </div> -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jstat/latest/jstat.min.js"></script>
   <script>
   const MODELS = [
-    {name: "Virtual Reality (Fixed)", params: { k1: 7897.3, k2: 0.8447, k3: 0.0008151, k4: 7902.3 }},
     {name: "Virtual Reality (Content-aware)", params: { k1: 9971.3, k2: 0.8466, k3: 0.0005518, k4: 9975.3 }},
+    {name: "Virtual Reality (Fixed)", params: { k1: 7897.3, k2: 0.8447, k3: 0.0008151, k4: 7902.3 }},
     {name: "Direct-view Display", params: { k1: 3423.04, k2: 0.685, k3: 0.001384, k4: 3426.64 }},
     {name: "Custom", params: { k1: 7897.3, k2: 0.8447, k3: 0.0008151, k4: 7902.3  }, editable: true}
   ];
@@ -155,28 +156,42 @@ let pointRows = [], rowId = 0;
 
 function getModel() { return MODELS[currentModelIdx]; }
 
+function jodToPPref(jod) {
+  const p_A_better = jStat.normal.cdf(jod, 0, 1.4826) * 100;
+  const p_pref = (p_A_better*2 - 100) / 100;
+  return (p_pref + 1) * 0.5;
+}
+function fmtPPref(v) {
+  const pct = v * 100;
+  return (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+}
+
 function jodRaw(contrast, luminance) {
   const p = getModel().params;
-  const Y = luminance;
-  const X = Y / Math.max(contrast, 1e-9);
-  const logY = Math.log10(Math.max(Y, 1e-6));
+  const X = luminance / Math.max(contrast, 1e-9);
+  const logY = Math.log10(Math.max(luminance, 1e-6));
   const Z = Math.pow(logY, p.k3) * (p.k1 - p.k2 * Math.sqrt(Math.max(X, 0))) - p.k4;
   return isFinite(Z) ? Z : 0;
 }
-
 function getBaselineJOD() {
-  const bl = +document.getElementById('base-lum').value;
-  const bc = +document.getElementById('base-con').value;
-  return jodRaw(bc, bl);
+  return jodRaw(+document.getElementById('base-con').value, +document.getElementById('base-lum').value);
 }
-
-function jod(contrast, luminance) {
-  return jodRaw(contrast, luminance) - getBaselineJOD();
-}
+function jodDelta(contrast, luminance) { return jodRaw(contrast, luminance) - getBaselineJOD(); }
 
 function updateBaseDisplay() {
-  const v = getBaselineJOD();
-  document.getElementById('base-jod-display').textContent = `absolute JOD: ${v.toFixed(3)}`;
+  document.getElementById('base-jod-display').textContent = `absolute JOD: ${getBaselineJOD().toFixed(3)}`;
+}
+
+function updatePointResults() {
+  pointRows.forEach((p, i) => {
+    const el = document.getElementById(`point-result-${p.id}`);
+    if (!el) return;
+    const dj = jodDelta(p.c, p.l);
+    const pp = jodToPPref(dj);
+    const sign = dj >= 0 ? '+' : '';
+    el.textContent = `${sign}${dj.toFixed(2)} JOD  ·  ${fmtPPref(pp)} pref`;
+    el.style.color = dj >= 0 ? '#185fa5' : '#993c1d';
+  });
 }
 
 function fmtContrast(v) {
@@ -198,6 +213,7 @@ function onModelChange() {
   currentModelIdx = +document.getElementById('model-select').value;
   renderParamDisplay();
   updateBaseDisplay();
+  updatePointResults();
 }
 
 function renderParamDisplay() {
@@ -207,7 +223,7 @@ function renderParamDisplay() {
     el.innerHTML = ['k1','k2','k3','k4'].map(k => `
       <div class="param-group"><label>${k}</label>
         <input type="number" value="${m.params[k]}" step="0.001" style="width:68px"
-          oninput="MODELS[${currentModelIdx}].params.${k}=+this.value;updateBaseDisplay()">
+          oninput="MODELS[${currentModelIdx}].params.${k}=+this.value;updateBaseDisplay();updatePointResults()">
       </div>`).join('');
   } else {
     el.innerHTML = ['k1','k2','k3','k4'].map(k =>
@@ -232,10 +248,14 @@ function renderPointRows() {
   el.innerHTML = '';
   pointRows.forEach((p, i) => {
     const color = COLORS[i % COLORS.length];
+    const dj = jodDelta(p.c, p.l);
+    const pp = jodToPPref(dj);
+    const sign = dj >= 0 ? '+' : '';
+    const resultColor = dj >= 0 ? '#185fa5' : '#993c1d';
     const div = document.createElement('div');
     div.className = 'point-row';
     div.innerHTML = `
-      <span class="color-dot" style="background:${color}"></span>
+      <span class="color-dot" style="margin-top: 25px; background:${color}"></span>
       <div class="param-group">
         <label style="font-size:11px">Name</label>
         <input type="text" value="${p.name}" placeholder="e.g. OLED TV"
@@ -245,13 +265,14 @@ function renderPointRows() {
       <div class="param-group">
         <label style="font-size:11px">Contrast</label>
         <input type="number" value="${p.c}" step="1" min="1"
-          onchange="pointRows[${i}].c=+this.value" style="width:90px">
+          onchange="pointRows[${i}].c=+this.value;updatePointResults()" style="width:90px">
       </div>
       <div class="param-group">
         <label style="font-size:11px">Luminance (cd/m²)</label>
         <input type="number" value="${p.l}" step="10" min="1"
-          onchange="pointRows[${i}].l=+this.value" style="width:80px">
+          onchange="pointRows[${i}].l=+this.value;updatePointResults()" style="width:80px">
       </div>
+      <div class="point-result" id="point-result-${p.id}" style="margin-top: 25px; color:${resultColor}">${sign}${dj.toFixed(2)} JOD  ·  ${fmtPPref(pp)} pref</div>
       <button onclick="removePoint(${p.id})" style="font-size:11px;padding:2px 6px;align-self:flex-end;margin-bottom:1px">✕</button>`;
     el.appendChild(div);
   });
@@ -281,10 +302,11 @@ function marchingSquares(grid, nx, ny, level, xScale, yScale, xVals, yVals) {
 }
 
 const CB_W=18, CB_GAP=48;
-const margin={top:20, right:CB_GAP+CB_W+60, bottom:55, left:75};
+const margin={top:20, right:CB_GAP+CB_W+70, bottom:55, left:75};
 
 function redraw() {
   updateBaseDisplay();
+  updatePointResults();
   const res    =+document.getElementById('res').value;
   const cminV  =+document.getElementById('cmin').value;
   const cmaxV  =+document.getElementById('cmax').value;
@@ -310,7 +332,7 @@ function redraw() {
   const xScale=d3.scaleLinear().domain([logCMin,logCMax]).range([0,W]);
   const yScale=d3.scaleLinear().domain([logLMin,logLMax]).range([H,0]);
 
-  const grid=logLArr.map(logL=>logCArr.map(logC=>jod(Math.pow(10,logC),Math.pow(10,logL))));
+  const grid=logLArr.map(logL=>logCArr.map(logC=>jodDelta(Math.pow(10,logC),Math.pow(10,logL))));
   const allVals=grid.flat().filter(isFinite);
   const vMin=d3.min(allVals), vMax=d3.max(allVals);
   const absMax=Math.max(Math.abs(vMin),Math.abs(vMax));
@@ -348,23 +370,26 @@ function redraw() {
   const hoverGroup=g.append('g');
   g.append('rect').attr('width',W).attr('height',H).attr('fill','transparent')
     .style('cursor','crosshair')
-    .on('mousemove',function(event){
-      const [mx,my]=d3.pointer(event);
-      const logC=xScale.invert(mx), logL=yScale.invert(my);
-      const c=Math.pow(10,logC), l=Math.pow(10,logL);
-      const val=jod(c,l);
-      const tt=document.getElementById('tooltip');
-      tt.style.display='block';
-      tt.style.left=(mx+margin.left+12)+'px';
-      tt.style.top=(my+margin.top-10)+'px';
-      tt.innerHTML=`contrast: ${fmtContrast(c)} &nbsp; lum: ${l.toFixed(0)} cd/m² &nbsp; <b>${val>0?'+':''}${val.toFixed(3)} JOD</b>`;
+    .on('mousemove', function(event) {
+      const [mx, my] = d3.pointer(event);
+      const dj = jodDelta(Math.pow(10, xScale.invert(mx)), Math.pow(10, yScale.invert(my)));
+      const pp = jodToPPref(dj);
+      const c = Math.pow(10, xScale.invert(mx));
+      const l = Math.pow(10, yScale.invert(my));
+      const tt = document.getElementById('tooltip');
+      tt.style.display = 'block';
+      tt.style.left = Math.min(event.clientX + 14, window.innerWidth - tt.offsetWidth - 10) + 'px';
+      tt.style.top  = Math.min(event.clientY - 10, window.innerHeight - tt.offsetHeight - 10) + 'px';
       hoverGroup.selectAll('*').remove();
-      marchingSquares(grid,res,res,val,xScale,yScale,logCArr,logLArr).forEach(s=>
+      console.log('client:', event.clientX, event.clientY);
+      console.log('page:', event.pageX, event.pageY);
+      console.log('innerWidth:', window.innerWidth);
+      marchingSquares(grid, res, res, dj, xScale, yScale, logCArr, logLArr).forEach(s =>
         hoverGroup.append('line')
-          .attr('x1',s[0][0]).attr('y1',s[0][1]).attr('x2',s[1][0]).attr('y2',s[1][1])
-          .attr('stroke','#fff').attr('stroke-width',2));
-      hoverGroup.append('circle').attr('cx',mx).attr('cy',my).attr('r',4)
-        .attr('fill','white').attr('stroke','#000').attr('stroke-width',1);
+          .attr('x1', s[0][0]).attr('y1', s[0][1]).attr('x2', s[1][0]).attr('y2', s[1][1])
+          .attr('stroke', '#fff').attr('stroke-width', 2));
+      hoverGroup.append('circle').attr('cx', mx).attr('cy', my).attr('r', 4)
+        .attr('fill', 'white').attr('stroke', '#000').attr('stroke-width', 1);
     })
     .on('mouseleave',function(){
       document.getElementById('tooltip').style.display='none';
@@ -389,9 +414,10 @@ function redraw() {
     const logC=Math.log10(Math.max(pt.c,1e-6));
     const logL=Math.log10(Math.max(pt.l,1));
     const color=COLORS[i%COLORS.length];
-    const ptVal=jod(pt.c,pt.l);
-    const label=pt.name.trim() ? `${pt.name}: ${ptVal>0?'+':''}${ptVal.toFixed(2)} JOD` : `${ptVal>0?'+':''}${ptVal.toFixed(2)} JOD`;
-    marchingSquares(grid,res,res,ptVal,xScale,yScale,logCArr,logLArr).forEach(s=>
+    const dj=jodDelta(pt.c,pt.l);
+    const jodStr=`${dj>0?'+':''}${dj.toFixed(2)} JOD`;
+    const label=pt.name.trim() ? `${pt.name}: ${jodStr}` : jodStr;
+    marchingSquares(grid,res,res,dj,xScale,yScale,logCArr,logLArr).forEach(s=>
       ptLayer.append('line')
         .attr('x1',s[0][0]).attr('y1',s[0][1]).attr('x2',s[1][0]).attr('y2',s[1][1])
         .attr('stroke',color).attr('stroke-width',1.5).attr('stroke-dasharray','4,3').attr('opacity',0.9));
@@ -441,24 +467,21 @@ function redraw() {
       .attr('fill','var(--color-text-secondary)').text(val>0?`+${val.toFixed(1)}`:val.toFixed(1));
   });
   cbG.append('text').attr('x',CB_W+8).attr('y',-6).attr('font-size',11).attr('font-weight',500)
-    .attr('fill','var(--color-text-secondary)').text('Low');
+    .attr('fill','var(--color-text-secondary)').text('Positive');
   cbG.append('text').attr('x',CB_W+8).attr('y',H+14).attr('font-size',11).attr('font-weight',500)
-    .attr('fill','var(--color-text-secondary)').text('High');
+    .attr('fill','var(--color-text-secondary)').text('Negative');
   cbG.append('text')
-    .attr('transform',`translate(${CB_W+42},${H/2}) rotate(90)`)
+    .attr('transform',`translate(${CB_W+52},${H/2}) rotate(90)`)
     .attr('text-anchor','middle').attr('font-size',12)
     .attr('fill','var(--color-text-secondary)').text('Perceptual Impact (JODs)');
 }
-
-document.getElementById('base-lum').addEventListener('input', updateBaseDisplay);
-document.getElementById('base-con').addEventListener('input', updateBaseDisplay);
 
 window.onload = () => {
   buildModelSelect();
   renderParamDisplay();
   updateBaseDisplay();
   addPointRow(1300, 400, 'DisplayHDR 400');
-  addPointRow(50000, 1400, 'DisplayHDR 1400');
+  addPointRow(50000, 1400, 'DisplayHDR 1,400');
   setTimeout(redraw, 100);
 };
 window.redraw = redraw;
@@ -466,4 +489,5 @@ window.addPointRow = addPointRow;
 window.removePoint = removePoint;
 window.onModelChange = onModelChange;
 window.updateBaseDisplay = updateBaseDisplay;
+window.updatePointResults = updatePointResults;
 </script>
