@@ -1,6 +1,173 @@
-- images/baylands/DSC_0300.jpg
-- images/baylands/DSC_0408.avif
-- images/baylands/DSC_0432-Enhanced-NR.jpg
-- images/baylands/DSC_0441.jpg
-- images/baylands/DSC_0477.jpg
-- images/woodcock/DSC_1822.jpg
+- img: images/birds/DSC_0261.jpg
+  name: American Crow
+  date: July 12, 2024
+  location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0309.jpg
+  name: Long-billed Curlew
+  location: Baylands Nature Preserve, CA
+  date: July 17, 2024
+  location: Baylands Nature Preserve, CA
+# - img: images/birds/DSC_0310.avif
+#   name: 
+#   location: Baylands Nature Preserve, CA
+#   date: July 17, 2024
+#   location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0321.avif
+  name: Forster's Tern
+  location: Baylands Nature Preserve, CA
+  date: July 17, 2024
+# - img: images/baylands/DSC_0300.jpg
+#   name: Mallard
+#   date: July 17, 2024
+#   location: Baylands Nature Preserve, CA
+# - img: images/birds/DSC_0402.avif
+#   name: American Crow
+#   date: July 19, 2024
+#   location: Baylands Nature Preserve, CA
+# - img: "images/birds/DSC_0404 copy.avif"
+#   name: Black-crowned Night Heron
+#   date: July 19, 2024
+#   location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0346.avif
+  name: American Avocet
+  location: Baylands Nature Preserve, CA
+  date: July 19, 2024
+- img: images/birds/DSC_0360.jpg
+  name: Willet
+  location: Baylands Nature Preserve, CA
+  date: July 19, 2024
+- img: images/birds/DSC_0388.jpg
+  name: American Herring Gull (Juvenile)
+  location: Baylands Nature Preserve, CA
+  date: July 19, 2024
+- img: images/birds/DSC_0424.avif
+  name: Black-crowned Night Heron (Juvenile)
+  date: July 19, 2024
+- img: images/birds/DSC_0421.jpg
+  name: Barn Swallow
+  location: Baylands Nature Preserve, CA
+  date: July 19, 2024
+- img: images/birds/DSC_0430.avif
+  name: Black-crowned Night Heron (Adult)
+  date: July 19, 2024
+  location: Baylands Nature Preserve, CA
+# - img: images/baylands/DSC_0408.avif
+#   name: Black-crowned Night Heron
+#   date: July 19, 2024
+#   location: Baylands Nature Preserve, CA
+- img: images/baylands/DSC_0432-Enhanced-NR.jpg
+  name: Ruddy Duck (Male)
+  date: July 19, 2024
+  location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0664.jpg
+  name: American White Pelican
+  date: August 2, 2024
+  location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0547.jpg
+  name: Brown-headed Cowbird (Female)
+  date: August 2, 2024
+  location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0564.jpg
+  name: Mourning Dove
+  date: August 2, 2024
+  location: Baylands Nature Preserve, CA
+# - img: images/birds/DSC_0588.jpg
+#   name: 
+#   date: August 2, 2024
+#   location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0616.jpg
+  name: Black-necked Stilt
+  date: August 2, 2024
+  location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0692.avif
+  name: Bonaparte's Gull (Non-breeding)
+  date: August 2, 2024
+  location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0505.jpg
+  name: Common Yellowthroat
+  date: August 2, 2024
+  location: Baylands Nature Preserve, CA
+# - img: images/birds/DSC_0800.avif
+#   name: 
+#   date: August 16, 2024
+#   location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0784.avif
+  name: Snowy Egret
+  date: August 16, 2024
+  location: Baylands Nature Preserve, CA
+- img: images/birds/DSC_0894.avif
+  name: Muscovy Duck
+  date: August 18, 2024
+  location: Golden Gate Park, CA
+- img: images/birds/DSC_0862.jpg
+  name: Canada Goose
+  date: August 18, 2024
+  location: Golden Gate Park, CA
+- img: images/birds/DSC_0923.jpg
+  name: Black Phoebe
+  date: August 31, 2024
+  location: Foster City, CA
+- img: images/birds/DSC_0975.jpg
+  name: Great Blue Heron
+  date: August 31, 2024
+  location: Foster City, CA
+- img: images/birds/DSC_0986.jpg
+  name: Western Gull (Juvenile)
+  date: September 14, 2024
+  location: San Francisco, CA
+- img: images/birds/DSC_1010.jpg
+  name: Double-crested Cormorant
+  date: September 14, 2024
+  location: San Francisco, CA
+- img: images/birds/DSC_1034.jpg
+  name: Western Gull
+  date: September 14, 2024
+  location: San Francisco, CA
+- img: images/birds/DSC_1472.jpg
+  name: Mute Swan
+  date: December 1, 2024
+  location: Prague, Czechia
+# - img: images/baylands/DSC_0441.jpg
+#   name: Mallard
+#   date: July 19, 2024
+#   location: Baylands Nature Preserve, CA
+# - img: images/baylands/DSC_0477.jpg
+#   name: American White Pelican
+#   date: July 19, 2024
+#   location: Baylands Nature Preserve, CA
+- img: images/woodcock/DSC_1822.jpg
+  name: North American Woodcock
+  date: April 13, 2025
+  location: Bryant Park, NYC
+- img: images/birds/DSC_1994.jpg
+  name: Great White Pelican
+  date: June 6, 2025
+  location: London, UK
+- img: images/birds/DSC_1948.jpg
+  name: Eurasian Magpie
+  date: June 6, 2025
+  location: London, UK
+# - img: images/birds/DSC_1958.jpg
+#   name: 
+#   date: June 6, 2025
+#   location: London, UK
+- img: images/birds/DSC_1987.png
+  name: Rose-ringed Parakeet
+  date: June 6, 2025
+  location: London, UK
+- img: images/birds/DSC_1993.jpg
+  name: Gray Heron
+  date: June 6, 2025
+  location: London, UK
+- img: images/birds/DSC_1915.jpg
+  name: Eurasian Coot
+  date: June 6, 2025
+  location: London, UK
+- img: images/birds/DSC_1919.jpg
+  name: Egyptian Goose
+  date: June 6, 2025
+  location: London, UK
+- img: images/birds/DSC_1925.jpg
+  name: Great Crested Grebe
+  date: June 6, 2025
+  location: London, UK

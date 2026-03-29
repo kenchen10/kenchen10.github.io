@@ -5,8 +5,8 @@
   img: images/photo_coverimage.png
 - id: birds
   site: birds.html
-  title: birds
-  description: photos of birds
+  title: bird journal
+  description: birding journal
   img: images/bird_coverimage.jpg
 - id: vis
   site: https://kenchen10.github.io/sorting-vis/

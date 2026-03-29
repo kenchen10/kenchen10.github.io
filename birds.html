@@ -21,6 +21,11 @@ layout: null
 	<link rel="icon" href="./favicon.ico">
   <style>
     @import url('https://fonts.cdnfonts.com/css/fontin');
+
+    figure {
+      display: flex;
+      /* align-items: center; */
+    }
   </style>
 </head>
 
@@ -38,8 +43,13 @@ layout: null
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
             <td style="padding: 10px 20px 10px 20px;">
-              <heading>Birds</heading> 
-              <hr id="myhr">
+              <heading>Birding Journal</heading> <br>
+              <em>
+                Here, I'm documenting my birding journey with all the birds I've photographed. I tried to identify birds using tools like Cornell's <a href="https://merlin.allaboutbirds.org">Merlin Bird ID</a>.
+                I've ordered these photographs chronologically. Some are encoded in an HDR file format, and require a proper display to view.
+              </em>
+              <br><br>
+              <!-- <hr id="myhr"> -->
             </td>
           </tr>
         </tbody></table>
@@ -48,7 +58,18 @@ layout: null
             <td style="padding: 10px 20px 10px 28px;">
               <div class="image-row">
                 {% for item in site.data.birds %}
-                  <div class="image-container"><img src="{{ item }}" class="zoomable-image" onclick="zoomImage(this)"></div>
+                  <!-- <div class="image-container"><img src="{{ item }}" class="zoomable-image" onclick="zoomImage(this)"></div> -->
+                  <figure style="width: 100%;">
+                    <img src="{{ item.img }}" style="width: 55%; border: 2px solid black;">
+                    <div style="width: 45%; padding-left: 20px;">
+                      <h4 style="text-decoration: underline;">{{ item.name }}</h4>
+                      <figcaption>
+                        {{ item.location }}<br>
+                        {{ item.date }}
+                      </figcaption>
+                    </div>
+                  </figure>
+                  <br>
                 {% endfor %}
               </div>
             </td>
@@ -66,7 +87,7 @@ layout: null
     <img id="zoomed-img" />
   </div>
 
-  <script>
+  <!-- <script>
     function zoomImage(img) {
       const zoomOverlay = document.getElementById('zoom-overlay');
       const zoomedImg = document.getElementById('zoomed-img');
@@ -77,7 +98,7 @@ layout: null
     function closeZoom() {
       document.getElementById('zoom-overlay').style.display = 'none';
     }
-  </script>
+  </script> -->
 
 </body>
 
