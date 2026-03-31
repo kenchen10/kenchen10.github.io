@@ -42,6 +42,7 @@
   date: July 19, 2024
 - img: images/birds/DSC_0424.avif
   name: Black-crowned Night Heron (Juvenile)
+  location: Baylands Nature Preserve, CA
   date: July 19, 2024
 - img: images/birds/DSC_0421.jpg
   name: Barn Swallow
@@ -171,3 +172,11 @@
   name: Great Crested Grebe
   date: June 6, 2025
   location: London, UK
+- img: images/birds/DSC_2612.png
+  name: House Sparrow
+  date: March 30, 2026
+  location: Bryant Park, NYC
+- img: images/birds/DSC_2629.png
+  name: North American Woodcock
+  date: March 30, 2026
+  location: Bryant Park, NYC
