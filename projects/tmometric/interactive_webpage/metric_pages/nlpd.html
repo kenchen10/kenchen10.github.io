@@ -1,0 +1,257 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+    <style>
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        margin: 0;
+        padding: 20px;
+        font-family: 'LinBiolinum', system-ui, -apple-system, sans-serif;
+    }
+    .dataTables_wrapper {
+        width: 100%;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 6px 8px;
+        font-size: 12px;
+        word-wrap: break-word;
+        border-bottom: 1px solid rgba(0,0,0,0.15);
+        text-align: center;
+        vertical-align: middle;
+    }
+    td:first-child, th:first-child {
+        text-align: left;
+    }
+    #results {
+        table-layout: fixed;
+        width: 100%;      /* required for fixed layout to take effect */
+    }
+
+    #results th:nth-child(5n+1),
+    #results td:nth-child(5n+1) {
+        border-right: 2px solid #000;
+    }
+
+    @font-face {
+        font-family: 'LinBiolinum';
+        src: url('../fonts/LinBiolinum_R.otf') format('opentype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'LinBiolinum';
+        src: url('../fonts/LinBiolinum_B.otf') format('opentype');
+        font-weight: 700;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'LinBiolinum';
+        src: url('../fonts/LinBiolinum_RI.otf') format('opentype');
+        font-weight: 400;
+        font-style: italic;
+    }
+    hr {
+        border: none;
+        height: 1px;
+        background: rgba(0,0,0,0.25);
+        margin: 24px 0;
+    }
+    a {
+        color: #1a73e8; /* your custom color */
+        text-decoration: none; /* optional: remove underline */
+    }
+
+    /* Hover / focus color */
+    a:hover,
+    a:focus {
+        color: #155ab6; /* slightly darker or different on hover */
+    }
+
+    /* Do NOT change color on visited or active */
+    a:visited,
+    a:active {
+        color: #1a73e8;  /* same as normal color */
+    }
+    .stimuli-grid {
+        display: grid;
+        grid-template-columns: 100px repeat(5, 1fr); /* label + images */
+        gap: 10px;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto 32px auto;
+    }
+
+    .stimuli-grid .col-label {
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .stimuli-grid .row-label {
+        text-align: right;
+        padding-right: 8px;
+        font-weight: 600;
+    }
+
+    .stimuli-grid img {
+        width: 100%;
+        height: auto;
+    }
+
+    .figure-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* adjust */
+        gap: 8px;
+        align-items: start;   /* IMPORTANT */
+    }
+
+    .figure-grid figure {
+        margin: 0;
+    }
+    .page {
+        max-width: 1200px;   /* adjust for your layout */
+        margin: 0 auto;      /* centers horizontally */
+        padding: 16px;
+    }
+
+    </style>
+    <body>
+    <div class="page">
+    
+        <hr>
+        <h2 id="nlpd">NLPD <a href="../index.html">[⬅]</a></h2>
+        <hr>
+    
+
+            <h3>LUNAM TM Image Quality Dataset:</h3>
+            <div style="display: flex; justify-content: center; align-items: center;">
+        
+
+                <img src="../plots/NLPD_PU_TMIQD.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PU_srgb_TMIQD.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PQ_srgb_TMIQD.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_mu_srgb_TMIQD.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_linear_srgb_TMIQD.png" style="max-width:20%;">
+            
+
+            </div>
+        
+
+            <h3>Linköping TM HDR Video Dataset:</h3>
+            <div style="display: flex; justify-content: center; align-items: center;">
+        
+
+                <img src="../plots/NLPD_PU_Eilertsen.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PU_srgb_Eilertsen.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PQ_srgb_Eilertsen.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_mu_srgb_Eilertsen.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_linear_srgb_Eilertsen.png" style="max-width:20%;">
+            
+
+            </div>
+        
+
+            <h3>LIVE TM HDR Database:</h3>
+            <div style="display: flex; justify-content: center; align-items: center;">
+        
+
+                <img src="../plots/NLPD_PU_LiveHDRTMO.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PU_srgb_LiveHDRTMO.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PQ_srgb_LiveHDRTMO.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_mu_srgb_LiveHDRTMO.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_linear_srgb_LiveHDRTMO.png" style="max-width:20%;">
+            
+
+            </div>
+        
+
+            <h3>What is HDR?:</h3>
+            <div style="display: flex; justify-content: center; align-items: center;">
+        
+
+                <img src="../plots/NLPD_PU_WIH.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PU_srgb_WIH.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PQ_srgb_WIH.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_mu_srgb_WIH.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_linear_srgb_WIH.png" style="max-width:20%;">
+            
+
+            </div>
+        
+
+            <h3>Our Dataset:</h3>
+            <div style="display: flex; justify-content: center; align-items: center;">
+        
+
+                <img src="../plots/NLPD_PU_Ours.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PU_srgb_Ours.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_PQ_srgb_Ours.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_mu_srgb_Ours.png" style="max-width:20%;">
+            
+
+                <img src="../plots/NLPD_linear_srgb_Ours.png" style="max-width:20%;">
+            
+
+            </div>
+        
+
+        <br><br>
+    
+    </div>
+    </body>
+    </html>
+    

@@ -1,3 +1,121 @@
+- id: tmometric
+  title: "Adapting Quality Metrics to Tone Mapping"
+  venue: ACM SIGGRAPH
+  year: 2026
+  showyear: true
+  description: "Image/video quality metrics can be adapted to predict tone mapping quality."
+  project_page: "projects/tmometric/index.html"
+  github: 
+  arxiv: 
+  is_selected: true
+  bgcolor: True
+  image: sig26-long.png
+  tag: "#F6BEFF"
+  teaser_image: sig26-rep-img.png
+  other: '<h3>
+        Supplemental Webpage
+        <hr id="myhr">
+    </h3>
+
+    <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
+        Our <a class="links3" href="interactive_webpage/index.html">[supplementary webpage]</a> is meant to accomodate the "Adapting Quality Metrics to Tone Mapping" paper by showcasing granular, per-dataset metric evaluation results and user study stimuli.
+    </p>'
+  # bibtex: ""
+  teaser_text: "In tone mapping, the absolute luminance of HDR reference and tone-mapped test can differ significantly. To accurately predict quality, our display model maps display-encoded content to photometric values, given the specifications of the display. The colormap represents the photometric values in nits. Next, a perceptual transfer function, P() maps these values to a shared display-encoded representation (e.g. 0-1), usable by the quality metric."
+  authors:
+    - kchen
+    - dkim
+    - yasano
+    - achapiro
+    - qsun
+    - rmantiuk
+  affiliation_images:
+    - nyu.png
+    - cambridge.png
+    - meta.png
+  abstract: "Tone mapping evaluation is difficult because of the substantial differences
+in absolute luminance between high dynamic range (HDR) reference and
+tone-mapped standard dynamic range (SDR) test content. To address this
+challenge, we collected a new tone mapping evaluation dataset, focused on
+fundamental tone mapping operations, and combined it with several existing
+tone mapping quality assessment datasets. Rather than introducing new
+specialized metrics designed for tone-mapped content, we instead developed
+a set of techniques to adapt existing metrics for tone-mapped content. Our
+approach models the photometric differences between HDR reference and
+SDR test displays for accurate metric predictions. The technique consists
+of two steps: first, a display model converts display-encoded content to
+photometric values; second, these values are re-encoded using a perceptual
+transfer function for both HDR and tone-mapped images. We systematically
+evaluated both general-purpose image and video quality metrics with our
+adaptations and those specifically designed for tone mapping. With these
+adjustments, general-purpose metrics perform much better for tone mapping
+evaluation, consistently outperforming previously established specialized
+techniques. Additionally, we modified the ColorVideoVDP metric to be
+sensitive to absolute luminance changes, resulting in ColorVideoVDP-tm,
+which shows greatly improved performance and accepts photometric values
+as input. These results highlight the robustness of our adaptation technique
+and provide an improved protocol for evaluating future tone mapping quality
+metrics. Refer to our supplementary webpage for all data and stimuli."
+
+- id: dichoptic
+  title: "Dichoptic Foveation"
+  venue: ACM SIGGRAPH
+  year: 2026
+  description: "An eccentricity-dependent model of binocular blur-sharpening is applied to foveated rendering."
+  project_page: "projects/dichoptic/index.html"
+  github: 
+  arxiv: 
+  image: dichoptic-long.png
+  tag: "#F6BEFF"
+  teaser_image: dichoptic-teaser.png
+  # bibtex: ""
+  teaser_text: "We present dichoptic foveation, a new paradigm to parameterize quality degradation of dichoptically-rendered stimuli in stereoscopic displays like virtual reality. Particularly, we apply Gaussian blur on the stimulus of one eye (right inset images here), while the other eye's stimulus is processed by a simultaneous sharpening routine (left insets).
+    This is guided by our computational model (see heatmaps), which is built on psychophysical data. Dichoptic foveation has direct implications for better quality-to-compute ratios in foveated rendering. Image by kordi_vahle from Pixabay."
+  authors:
+    - hkam
+    - cgroth
+    - jkang
+    - psaraf
+    - qsun
+    - kchen
+  affiliation_images:
+    - nyu.png
+  abstract: "Interocular differences in visual perception can induce a variety of effects when fused by the brain.
+For example, prior works have found that carefully crafted binocular differences in local detail can improve contrast.
+It has also been found that when the frequency content of two stimuli are slightly different, blur suppression leads to a fused percept that is typically dominated by the sharper image.
+In this paper, we develop a psychophysical framework to measure the perception of natural image stimuli with interocular frequency differences across the visual field.
+To this end, we study the effect of dichoptic foveation, which we define as the application of blur to one eye and a simultaneous sharpening filter to the other.
+Stimuli were viewed in a virtual reality (VR) head-mounted display (HMD) and placed at different retinal eccentricities.
+Study data were scaled to a perceptual just objectionable difference (JOD) scale, and a 4D model was fit to it; our results suggest that interocular frequency differences can be well described by a simple computational model.
+We applied the model in a realistic VR scenario with free exploration of 360° videos to improve a base foveated rendering system by enhancing high frequency information dichoptically."
+
+- id: dyndom
+  title: "Dynamic Visual Dominance in Stereoscopic Foveation"
+  venue: ACM SIGGRAPH
+  year: 2026
+  description: "Eye dominance varies based on gaze direction. This finding is exploited for foveated rendering."
+  project_page: "projects/dyndom/index.html"
+  github: 
+  arxiv: 
+  image: dyndom-long.png
+  tag: "#F6BEFF"
+  teaser_image: dyndom-teaser.png
+  # bibtex: ""
+  teaser_text: "We show that visual dominance is not a static, eye-fixed percept, but varies dynamically between the eyes as a function of gaze direction and peripheral offset from the fovea. Consequently, different regions of a stereoscopic image are dominated by different eyes depending on the fixation point. Left: Our retinal dominance maps for the left and right eyes obtained from our psychophysical experiments. The central white markers indicate the fixation point, and the bottom scale denotes retinal eccentricity. Red and blue colors indicate the level of dominance toward the left and right eyes, respectively. As can be observed, the temporal viewing hemifield (corresponding to the nasal retinal region) consistently dominates over the nasal viewing hemifield (corresponding to the temporal retinal region), particularly at larger eccentricities, with the exception of the blind spots (dashed circles). Right: We leverage the map to introduce asymmetric blur for foveated rendering. With standard foveated rendering as reference, the first approach applies a static dominance, introducing additional blur in the left-eye only, assuming right-eye dominance. Our method, shown in the last column, accounts for dynamic dominance changes by applying additional blur according to the dynamic dominance maps of each eye. Please refer to the difference in blurriness between the two bears for better visualization. While the static approach applies a stronger blur to the nominally non-dominant left eye, the dominance maps reveal a local dominance switch in this region, which can lead to visible artifacts. In contrast, our method adapts to this switch, shifting additional blur between eyes where it is perceptually less noticeable. By leveraging gaze-dependent, dynamically varying visual dominance, our approach enables stronger localized blur with reduced artifacts."
+  authors:
+    - djimeneznavarro
+    - cgroth
+    - kchen
+    - qsun
+    - kmyszkowski
+    - hseidel
+    - aserrano
+  affiliation_images:
+    - logo_mpi_430.png
+    - LogoUZ.png
+    - nyu.png
+  abstract: "In human vision, the inputs perceived by each eye do not contribute equally to the final percept. Instead, visual dominance influences how these inputs are fused, giving more weight to one eye view over the other.  While eye dominance has been traditionally treated as a static, eye-fixed property, recent evidence suggests that dominance can vary with viewing conditions. In this work, we systematically characterize dynamic visual dominance across the visual field, with a particular focus on peripheral vision, where perceptual asymmetries are most relevant for stereoscopic rendering. Through two complementary psychophysical experiments, we first show that tolerance to eye-asymmetric blur at the fovea under binocular viewing depends on gaze direction, confirming that eye dominance is not spatially invariant. We then show that peripheral dominance is primarily governed by retinal eccentricity, with consistent naso-temporal asymmetries and dominance reversals around the blind spots. We leverage our insights in a dominance-contingent rendering application, where additional blur is selectively applied to the perceptually non-dominant eye regions under binocular viewing. Compared to static dominance approaches, our method enables stronger localized quality reductions, illustrating the practical relevance of dynamic peripheral dominance for stereoscopic foveated rendering. Thus, our goal through this work is to show how visual dominance behaves dynamically in both fovea and periphery, indicating how foveation techniques could benefit from it."
+
 - id: catimage
   title: "Cost-Aware Routing for Efficient Text-To-Image Generation"
   venue: TMLR
@@ -5,8 +123,8 @@
   description: "Routing text prompts to different text-to-image models can save on compute time."
   project_page: "projects/catimage/index.html"
   github: 
-  arxiv: 2506.14753
-  image: catimg.png
+  pdf: assets/papers/6538_Cost_Aware_Routing_for_Ef.pdf
+  image: catimg-long.png
   tag: "#F6BEFF"
   teaser_image: catimg_teaser.png
   bibtex: ""
@@ -40,6 +158,17 @@ sophisticated prompts. We empirically demonstrate on COCO and DiffusionDB
 that by learning to route to nine already-trained text-to-image models, our approach
 is able to deliver an average quality that is higher than that achievable by any of
 these models alone."
+  bibtex: "
+    @article{<br>
+      <tab>li2026costaware,<br>
+      <tab>title={Cost-Aware Routing for Efficient Text-To-Image Generation},<br>
+      <tab>author={Qinchan Li and Kenneth Chen and Changyue Su and Wittawat Jitkrittum and Qi Sun and Patsorn Sangkloy},<br>
+      <tab>journal={Transactions on Machine Learning Research},<br>
+      <tab>issn={2835-8856},<br>
+      <tab>year={2026},<br>
+      <tab>url={https://openreview.net/forum?id=Jbe9AVsYS6}<br>
+      }
+  "
 
 - id: mlpea
   title: "ML-PEA: Machine Learning-Based Perceptual Algorithms for Display Power Optimization"
@@ -47,8 +176,10 @@ these models alone."
   year: 2026
   description: "A neural net predicts spatially-varying dimming maps for display power optimization."
   project_page: "projects/mlpea/index.html"
+  is_selected: true
   github: NYU-ICL/ML-PEA
-  image: MLPEA.png
+  doi: 10.1111/cgf.70369
+  image: mlpea-long.png
   tag: "#F6BEFF"
   pdf: assets/papers/eg26.pdf
   supp: assets/papers/paper1054_2_MM1.pdf
@@ -74,10 +205,24 @@ these models alone."
   This pipeline was validated via quantitative analysis using metrics and through a subjective study.
   Our results show that participants prefer our technique over a uniform dimming baseline for high target power saving conditions.
   In the future, this work should serve as a template and baseline for future applications of deep learning for display power optimization."
+  bibtex: "
+  @article{<br>
+    <tab>chen2026MLPEA,<br>
+    <tab>author = {Chen, Kenneth and Matsuda, Nathan and Wan, Thomas and Ninan, Ajit and Chapiro, Alexandre and Sun, Qi},<br>
+    <tab>title = {ML-PEA: Machine Learning-Based Perceptual Algorithms for Display Power Optimization},<br>
+    <tab>journal = {Computer Graphics Forum},<br>
+    <tab>pages = {e70369},<br>
+    <tab>keywords = {CCS Concepts, • Computing methodologies → Virtual reality, Mixed / augmented reality, Perception, Machine learning},<br>
+    <tab>doi = {https://doi.org/10.1111/cgf.70369},<br>
+    <tab>url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.70369},<br>
+    <tab>eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/cgf.70369}<br>
+  }
+  "
 
 - id: wihdirectview
   title: "Perceptual Impact of Peak Luminance and Contrast in Direct View HDR Display"
-  venue: IS&T EI
+  venue: IS&T HVEI
+  is_selected: true
   year: 2026
   description: "A follow-up to our 'What is HDR?' paper, adapted for direct-view displays."
   project_page: "projects/wihdirectview/index.html"
@@ -86,7 +231,7 @@ these models alone."
   github: NYU-ICL/what-is-hdr
   teaser_text: "In this plot, we show that the existing standard for HDR, DisplayHDR, is not spaced in equal perceptual units (JODs) as defined by our model.
     Red X marks are equally spaced as evaluated by this model."
-  image: wihdirectview.png
+  image: wihdirectview-long.png
   poster: ../assets/posters/HVEI26-poster.pdf
   poster_preview: ../assets/posters/HVEI26-poster.png
   doi: 10.2352/EI.2026.38.10.HVEI-222
@@ -128,9 +273,9 @@ these models alone."
   title: "Perceptually Guided 3DGS Streaming and Rendering for Virtual Reality"
   venue: IEEE/CVF WACV
   year: 2026
-  description: "3DGS for wide FOV displays using a perception-guided LOD framework."
+  description: "Efficient 3DGS for wide FOV displays using a perception-guided LOD framework."
   project_page: "projects/fovgs/index.html"
-  image: fovgs.png
+  image: fovgs-long.png
   tag: "#F6BEFF"
   teaser_image: fovgs_teaser.png
   github: NYU-ICL/perceptual-3dgs
@@ -191,7 +336,7 @@ method achieves superior trade-offs between computational efficiency and percept
   supp: assets/papers/Kang_GeneVA_A_Dataset_WACV_2026_supplemental.pdf
   description: "A large-scale dataset of bounding boxes, ratings, descriptions of artifacts in AI videos."
   project_page: "projects/geneva/index.html"
-  image: geneva.png
+  image: geneva-long.png
   tag: "#F6BEFF"
   dataset_vid: https://ai-generated-videos-icl.s3.us-east-1.amazonaws.com/
   dataset_annotations: https://geneva-annotations.s3.us-east-1.amazonaws.com/AnnotatedVideos.json
@@ -239,7 +384,7 @@ towards applications such as deepfake detection."
   showyear: 2025
   description: "A perceptual scale to describe human preference for contrast and luminance when viewing HDR."
   project_page: "projects/sig25/index.html"
-  highlightvideo: sig25.mp4
+  highlightvideo: "sig25 (2).mp4"
   github: NYU-ICL/what-is-hdr.git
   arxiv: 
   poster: assets/WIH-poster.pdf
@@ -248,12 +393,13 @@ towards applications such as deepfake detection."
   pdf: assets/papers/WIH_Part1.pdf
   supp: assets/papers/WIH_Part2.pdf
   talk: https://www.youtube.com/embed/tbyemMp3V0Y
+  is_selected: true
   papersite: 
   teaser_vid: 
   award: 
   award_link: 
   acks: "We thank Ken Koh for creating HDR productivity content and Maurizio Nitti for rendering and designing HDR teddy bear scenes. Thanks to Dennis Pak for designing/constructing the haploscope and the mirror setup. Calibration of the EIZO display could not have been accomplished without the support of Yuta Asano. Thank you to Ben Mills for building the enclosure of our haploscope, for calibration of displays, as well as binocular calibration and alignment of mirrors. Thanks go to Will McCann and Xin Li, who supported the construction of the hardware and mirror fabrication. This project would not have been successful without the support of Fartun Sheygo and Alex Gherman, who conducted the main study, Nour Shoora who organized it, the user study participants for their time, and John Hill and Romain Bachy for help with logistics. Thanks go to Henry Milani for providing a PR-745 for validation of our displays, and Reza Saeedpour for support with using the device. Thank you to Dounia Hammou for providing pointers to HDR video datasets, Professor Rafał Mantiuk for the many discussions related to tone mapping and more, and Daryn Blanc-Goldhammer for comments on our work. We are grateful to Alexis Terterov for conducting the validation study, and EIZO support team for help debugging HDR displays. Thanks to Doug Lanman for discussions. Finally, thank you to Jenna Kang, Niall Williams, and Colin Groth for help with figure style. This work is partially supported by National Science Foundation grant #2225861, and a DARPA ICS program."
-  image: WIH-image.png
+  image: wih-long.png
   bgcolor: True
   tag: "#F6BEFF"
   teaser_image: WIH-teaser.png
@@ -324,13 +470,14 @@ and helps standardize the understanding of HDR."
   title: "Image-GS: Content-Adaptive Image Representation via 2D Gaussians"
   venue: ACM SIGGRAPH
   year: 2025
-  highlightvideo: imggs.mp4
+  highlightvideo: "imggs (1).mp4"
   video: images/imggs_ff.mp4
   description: "2D gaussians can serve as an effective technique for low bit rate image encoding."
   project_page: "projects/imggs/index.html"
   github: NYU-ICL/image-gs
   arxiv: 2407.01866
-  image: imggs.png
+  is_selected: true
+  image: imggs-long.png
   tag: "#F6BEFF"
   media:
     - id: twominpapers
@@ -396,7 +543,8 @@ run-time efficiency, which we demonstrate in machine vision and image restoratio
   venue_long: 
   year: 2025
   showyear:
-  description: "Neural networks are trained to predict 3D holograms at novel scene views."
+  is_selected: true
+  description: "Neural networks are trained to efficiently infer 3D holograms at novel scene views."
   project_page: "projects/oe25/index.html"
   github: 
   doi: 10.1364/OE.559364
@@ -408,7 +556,7 @@ run-time efficiency, which we demonstrate in machine vision and image restoratio
   teaser_vid: 
   award: 
   award_link: 
-  image: nhf.png
+  image: nhf-long.png
   tag: "#F6BEFF"
   teaser_image: nhf_teaser.png
   yt_emb: 
@@ -462,7 +610,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   doi: 10.1145/3695053.3731110
   pdf: "assets/papers/ISCA_2025_POLO_final.pdf"
   teaser_vid: 
-  image: isca25.png
+  image: polo-long.png
   bgcolor: 
   tag: "#F6BEFF"
   teaser_image: isca25teaser.png
@@ -508,7 +656,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   description: A sound source clustering technique based on a model of minimum audible angle.
   project_page: "projects/vr25/index.html"
   pdf: "assets/papers/audio_foveation-1.pdf"
-  image: vr25.png
+  image: audiofov-long.png
   tag: "#F6BEFF"
   teaser_image: vr25_teaser-modified.png
   teaser_text: "Figure 1: Azimuth-based audio perceptual acuity guided sound source clustering. (a) visualizes our model-predicted human auditory perception of spatial discrimination threshold along azimuth eccentricity in degrees. (b) illustrates the model-derived audio source clustering method. Based on listeners’ heading direction (assuming forward here), we cluster audio sources that are spatially indistinguishable. Clusters were highlighted by colors corresponding to the human’s minimum audible angle. The number of sound sources for each cluster is marked in the figure. Our measurement shows a 53% computational saving at the presented scene."
@@ -540,74 +688,73 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   "
   abstract: "Realistic spatial audio rendering improves immersion in virtual environments. However, the computational complexity of acoustic propagation increases linearly with the number of sources. Consequently, real-time accurate acoustic rendering becomes challenging in highly dynamic scenarios such as virtual and augmented reality (VR/AR). Exploiting the fact that human spatial sensitivity of acoustic sources is not equal at azimuth eccentricities in the horizontal plane, we introduce a perceptually-aware acoustic “foveation” guidance model to the audio rendering pipeline, which can integrate audio sources that are not spatially resolvable by human listeners. To this end, we first conduct a series of psychophysical studies to measure the minimum resolvable audible angular distance under various spatial and background conditions. We leverage this data to derive an azimuth-characterized real-time acoustic foveation algorithm. Numerical analysis and subjective user studies in VR environments demonstrate our method’s effectiveness in significantly reducing acoustic rendering workload, without compromising users’ spatial perception of audio sources. We believe that the presented research will motivate future investigation into the new frontier of modeling and leveraging human multimodal per- ceptual limitations — beyond the extensively studied visual acuity — for designing efficient VR/AR systems."
 
-- id: i3d25
-  title: "BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models"
-  venue: ACM I3D
-  year: 2025
-  poster: assets/poster_i3d.png
-  poster_preview: assets/poster_i3d.png
-  description: "Diffusion models can be used for texturing 3D models."
-  project_page: "projects/i3d25/index.html"
-  pdf: assets/papers/i3d25.pdf
-  image: i3d.png
-  tag: "#F6BEFF"
-  teaser_image: i3d-teaser.png
-  doi: 10.1145/3722564.3728376
-  award: Best Poster Award
-  video: images/i3d_video.mp4
-  hide: true
-  other: '<h3>
-            Award
-            <hr id="myhr">
-        </h3>
+# - id: i3d25
+#   title: "BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models"
+#   venue: ACM I3D
+#   year: 2025
+#   poster: assets/poster_i3d.png
+#   poster_preview: assets/poster_i3d.png
+#   description: "Diffusion models can be used to texture 3D models."
+#   project_page: "projects/i3d25/index.html"
+#   pdf: assets/papers/i3d25.pdf
+#   image: blendfusion-long.png
+#   tag: "#F6BEFF"
+#   teaser_image: i3d-teaser.png
+#   doi: 10.1145/3722564.3728376
+#   award: Best Poster Award
+#   video: images/i3d_video.mp4
+#   other: '<h3>
+#             Award
+#             <hr id="myhr">
+#         </h3>
 
-        <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
-        <a href="../../images/i3daward.png">
-            <img style="border: 1px solid black;" width="100%" src="../../images/i3daward.png">
-        </a>
-        </p>'
-  teaser_text: "Our BlendFusion generative 3D mesh modeling
-framework. (a) shows the overall and zoomed-in 3D scene for
-re-texturing, (b) shows the modeled texture after 20 minutes
-by a professional designer, and (c) shows the results using our
-framework with an inference time of 2 minutes with prompt
-`a child drawing style of a cabinet in a cartoony kitchen'."
-  authors:
-    - qli
-    - ftorrens
-    - kchen
-    - qsun
-  affiliation_images:
-    - nyu.png
-  bibtex: "
-  @inproceedings{<br>
-    <tab>li2025blendfusion,<br>
-    <tab>author = {Li, Qinchan and Torrens, Finley and Chen, Kenneth and Sun, Qi},<br> 
-    <tab>title = {BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models},<br> 
-    <tab>year = {2025},<br> 
-    <tab>isbn = {9798400718335},<br> 
-    <tab>publisher = {Association for Computing Machinery},<br> 
-    <tab>address = {New York, NY, USA},<br> 
-    <tab>url = {https://doi.org/10.1145/3722564.3728376},<br> 
-    <tab>doi = {10.1145/3722564.3728376},<br> 
-    <tab>booktitle = {Companion Proceedings of the ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games},<br> 
-    <tab>articleno = {3},<br> 
-    <tab>numpages = {3},<br> 
-    <tab>series = {I3D Companion '25}<br> 
-  }
-  "
-  abstract: "Modeling 3D assets is a universal in various applications, including animation and game development. However, a key challenge
-lies in the labor-intensive task of 3D texturing, where creators
-must repeatedly update textures to align with modified geometric shapes on the fly. This iterative workflow makes 3D texturing
-significantly more cumbersome and less efficient than 2D image
-painting. To address this, we introduce BlendFusion, an interactive
-framework that leverages generative diffusion models to streamline
-3D texturing. Unlike existing systems that generate textures from
-scratch, BlendFusion integrates the procedural nature of texturing
-by incorporating multi-view projection to guide the generation
-process, enhancing stylistic alignment with the creator's intent.
-Experimental results demonstrate the robustness and consistency
-of BlendFusion across both objective and subjective evaluations."
+#         <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
+#         <a href="../../images/i3daward.png">
+#             <img style="border: 1px solid black;" width="100%" src="../../images/i3daward.png">
+#         </a>
+#         </p>'
+#   teaser_text: "Our BlendFusion generative 3D mesh modeling
+# framework. (a) shows the overall and zoomed-in 3D scene for
+# re-texturing, (b) shows the modeled texture after 20 minutes
+# by a professional designer, and (c) shows the results using our
+# framework with an inference time of 2 minutes with prompt
+# `a child drawing style of a cabinet in a cartoony kitchen'."
+#   authors:
+#     - qli
+#     - ftorrens
+#     - kchen
+#     - qsun
+#   affiliation_images:
+#     - nyu.png
+#   bibtex: "
+#   @inproceedings{<br>
+#     <tab>li2025blendfusion,<br>
+#     <tab>author = {Li, Qinchan and Torrens, Finley and Chen, Kenneth and Sun, Qi},<br> 
+#     <tab>title = {BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models},<br> 
+#     <tab>year = {2025},<br> 
+#     <tab>isbn = {9798400718335},<br> 
+#     <tab>publisher = {Association for Computing Machinery},<br> 
+#     <tab>address = {New York, NY, USA},<br> 
+#     <tab>url = {https://doi.org/10.1145/3722564.3728376},<br> 
+#     <tab>doi = {10.1145/3722564.3728376},<br> 
+#     <tab>booktitle = {Companion Proceedings of the ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games},<br> 
+#     <tab>articleno = {3},<br> 
+#     <tab>numpages = {3},<br> 
+#     <tab>series = {I3D Companion '25}<br> 
+#   }
+#   "
+#   abstract: "Modeling 3D assets is a universal in various applications, including animation and game development. However, a key challenge
+# lies in the labor-intensive task of 3D texturing, where creators
+# must repeatedly update textures to align with modified geometric shapes on the fly. This iterative workflow makes 3D texturing
+# significantly more cumbersome and less efficient than 2D image
+# painting. To address this, we introduce BlendFusion, an interactive
+# framework that leverages generative diffusion models to streamline
+# 3D texturing. Unlike existing systems that generate textures from
+# scratch, BlendFusion integrates the procedural nature of texturing
+# by incorporating multi-view projection to guide the generation
+# process, enhancing stylistic alignment with the creator's intent.
+# Experimental results demonstrate the robustness and consistency
+# of BlendFusion across both objective and subjective evaluations."
 
 - id: sig24
   title: "<b style='color:#4CBB17;'>PEA-PODs</b>: <b style='color:#4CBB17;'>P</b>erceptual <b style='color:#4CBB17;'>E</b>valuation of <b style='color:#4CBB17;'>A</b>lgorithms for <b style='color:#4CBB17;'>P</b>ower <b style='color:#4CBB17;'>O</b>ptimization in XR <b style='color:#4CBB17;'>D</b>isplay<b style='color:#4CBB17;'>s</b>"
@@ -624,9 +771,10 @@ of BlendFusion across both objective and subjective evaluations."
   poster_preview: assets/PEAPODs-Poster.png
   pdf: assets/papers/peapods_manuscript_Part1.pdf
   supp: assets/papers/peapods_manuscript_Part2.pdf
+  is_selected: true
   award: Best Paper Award (Honorable Mention)
   award_link: https://blog.siggraph.org/2024/06/siggraph-2024-technical-papers-awards-best-papers-honorable-mentions-and-test-of-time.html/
-  image: pea-pods-teaser2.png
+  image: peapods-long.png
   bgcolor: True
   tag: "#F6BEFF"
   teaser_image: peapods_teaser.png
@@ -691,12 +839,13 @@ Finally, we leverage our study data and power models to address important displa
   venue: ACM ASPLOS
   # venue_long: Architectural Support for Programming Languages and Operating Systems
   doi: 10.1145/3617232.3624860
+  is_selected: true
   year: 2024
-  description: "A DRAM traffic compression scheme using peripheral color modulation."
+  description: "A DRAM traffic compression scheme via peripheral color modulation."
   project_page: "projects/asplos24/index.html"
   github: horizon-research/hvs_vr_encoding.git
   papersite: https://horizon-lab.org/pubs/asplos24-vr.pdf
-  image: asplos24-2.png
+  image: asplos-long.png
   tag: "#F6BEFF"
   teaser_image: asplos24teaser.png
   yt_emb: https://www.youtube.com/embed/7TLZIIFo7TI
@@ -725,94 +874,17 @@ Finally, we leverage our study data and power models to address important displa
     }"
   abstract: "Virtual Reality (VR) has the potential of becoming the next ubiquitous computing platform. Continued progress in the burgeoning field of VR depends critically on an efficient computing substrate. In particular, DRAM access energy is known to contribute to a significant portion of system energy. Today’s framebuffer compression system alleviates the DRAM traffic by using a numerically lossless compression algorithm. We observe that being numerically lossless is unnecessary to preserve perceptual quality for users. This paper proposes a perceptually lossless, but numerically lossy, system to compress DRAM traffics. Our idea builds on top of long-established psychophysical studies that humans cannot discriminate colors that are close to each other. The discrimination ability becomes even weaker (i.e., more colors are perceptually undistinguishable) in our peripheral vision. Leveraging the color discrimination (in)ability, we propose an algorithm that adjusts pixel colors to minimize the bit encoding cost without introducing visible artifacts. The algorithm is coupled with lightweight architectural support that, in real-time, reduces the DRAM traffic by 66.9% and outperforms existing framebuffer compression mechanisms by up to 20.4%. Psychophysical studies on human participants show that our system introduce little to no perceptual fidelity degradation."
 
-- id: sca23
-  title: "Towards Learning and Generating Audience Motion from Video"
-  venue: ACM SCA
-  doi: 10.1145/3606037.3606839
-  venue_long: Poster
-  year: 2023
-  showyear: 2023
-  description: "A dataset of audience videos."
-  project_page: "projects/sca23/index.html"
-  pdf: assets/papers/sca23-4.pdf
-  image: audiences-2.png
-  tag: "#F6BEFF"
-  teaser_image: datagenpipeline-1.png
-  video: images/Audiences_SCA23.mp4
-  hide: true
-  poster: assets/sca23_poster_tall.pdf
-  poster_preview: assets/sca23_poster_tall.png
-  authors:
-    - kchen
-    - nbadler
-  affiliation_images:
-    - Cesium_dark_color.png
-  bibtex: "@inproceedings{<br>
-  <tab>chen2023towards,<br>
-  <tab>author = {Chen, Kenneth and Badler, Norman},<br>
-  <tab>title = {Towards Learning and Generating Audience Motion from Video},<br>
-  <tab>year = {2023},<br>
-  <tab>url = {https://doi.org/10.1145/3606037.3606839},<br>
-  <tab>booktitle = {Proceedings of the ACM SIGGRAPH/Eurographics Symposium on Computer Animation},<br>
-  <tab>articleno = {4},<br>
-  <tab>numpages = {2},<br>
-  <tab>series = {SCA '23}<br>
-}"
-  abstract: "There has recently been an explosion of interest in creating large-scale shared virtual spaces for multiplayer content. However, rendering player-controllable avatars in real-time creates latency issues when scaling to thousands of players. We introduce a human audience video dataset to support applications in deep learning-based 2D video audience simulation, bypassing the need for background 3D virtual humans. This dataset consists of YouTube videos that depict audiences with diverse lighting conditions, color, dress, and movement patterns. We describe the dataset statistics, our implicit data collection strategy, and audience video extraction pipeline. We apply deep learning tasks on this data based on video prediction techniques, and propose a novel method for 2D audience simulations."
-
-
-- id: vr-energy-etech
-  title: "Imperceptible Color Modulation for Power Saving in VR/AR"
-  venue: ACM SIGGRAPH
-  venue_long: Emerging Technologies Demo
-  doi: 10.1145/3588037.3595388
-  hide: true
-  year: 2023
-  description: "A demo of the display setup and model from our SIGGRAPH Asia '22 paper."
-  project_page: "projects/vr-energy-etech/index.html"
-  papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
-  image: etech23-3.jpg
-  tag: "#F6BEFF"
-  paper_image: vr-energy-etech.png
-  video: images/etech-video.mp4
-  teaser_image: etech23teaser.png
-  teaser_text: a) We develop a hardware prototype OLED VR display to capture power measurements when displaying different images. b) Participants view a panoramic scene in VR with our filter turned on, and are encouraged to rotate freely to view the scene in a natural manner. c) Filter intensity is increased over 10 seconds. Image credits to VR Gorilla.
-  authors:
-    - kchen
-    - bduinkharjav
-    - nujjainkar
-    - eshahan
-    - atyagi
-    - jhe
-    - yzhu
-    - qsun
-  affiliation_images:
-    - nyulogo.png
-    - uofr.png
-  bibtex: "@inproceedings{  <br>
-    <tab>chen2023imperceptible,<br>
-    <tab>author = {Chen, Kenneth and Duinkharjav, Budmonde and Ujjainkar, Nisarg and Shahan, Ethan and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},<br>
-    <tab>title = {Imperceptible Color Modulation for Power Saving in VR/AR},<br>
-    <tab>year = {2023},<br>
-    <tab>url = {https://doi.org/10.1145/3588037.3595388},<br>
-    <tab>booktitle = {ACM SIGGRAPH 2023 Emerging Technologies},<br>
-    <tab>articleno = {8},<br>
-    <tab>numpages = {2},<br>
-    <tab>series = {SIGGRAPH '23}<br>
-  }"
-  abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."
-
-
 - id: emg-energy
   title: "Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction"
   venue: ACM SIGGRAPH
   doi: 10.1145/3588432.3591495
   year: 2023
+  showyear: true
   description: "A model to predict VR neck muscular workload trained on EMG data."
   project_page: "projects/emg-energy/index.html"
   github: NYU-ICL/xr-ergonomics-neck-comfort
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/xr-ergonomics-neck-comfort.pdf
-  image: mcl.png
+  image: emg-long.png
   tag: "#F6BEFF"
   paper_image: mcl-paper.png
   teaser_image: teasersig23.png
@@ -846,6 +918,82 @@ Finally, we leverage our study data and power models to address important displa
 <br><br>
 Leveraging electromyography devices, we measure, model, and predict users' neck muscle contraction level while they rotate their heads to interact with surrounding objects in VR. Specifically, learning from the data obtained in our physiological pilot study, we establish a bio-physically inspired model for both stationary and dynamic head status. It 1) models quantified muscle contraction level given a complete head motion trajectory, and 2) predicts potential discomfort before a head movement occurs. We validate our model with a series of objective evaluation and user study. The results demonstrate its prediction accuracy for unseen movements, and capability in reducing muscular efforts and thus discomfort by altering the layout of virtual targets. We hope this research will motivate new ergonomic-centered designs and metrics for VR/AR and interactive computer graphics applications."
 
+# - id: sca23
+#   title: "Towards Learning and Generating Audience Motion from Video"
+#   venue: ACM SCA
+#   doi: 10.1145/3606037.3606839
+#   venue_long: Poster
+#   year: 2023
+#   description: "A dataset of audience videos with application to audience synthesis."
+#   project_page: "projects/sca23/index.html"
+#   pdf: assets/papers/sca23-4.pdf
+#   image: sca-long.png
+#   tag: "#F6BEFF"
+#   teaser_image: datagenpipeline-1.png
+#   video: images/Audiences_SCA23.mp4
+#   poster: assets/sca23_poster_tall.pdf
+#   poster_preview: assets/sca23_poster_tall.png
+#   authors:
+#     - kchen
+#     - nbadler
+#   affiliation_images:
+#     - Cesium_dark_color.png
+#   bibtex: "@inproceedings{<br>
+#   <tab>chen2023towards,<br>
+#   <tab>author = {Chen, Kenneth and Badler, Norman},<br>
+#   <tab>title = {Towards Learning and Generating Audience Motion from Video},<br>
+#   <tab>year = {2023},<br>
+#   <tab>url = {https://doi.org/10.1145/3606037.3606839},<br>
+#   <tab>booktitle = {Proceedings of the ACM SIGGRAPH/Eurographics Symposium on Computer Animation},<br>
+#   <tab>articleno = {4},<br>
+#   <tab>numpages = {2},<br>
+#   <tab>series = {SCA '23}<br>
+# }"
+#   abstract: "There has recently been an explosion of interest in creating large-scale shared virtual spaces for multiplayer content. However, rendering player-controllable avatars in real-time creates latency issues when scaling to thousands of players. We introduce a human audience video dataset to support applications in deep learning-based 2D video audience simulation, bypassing the need for background 3D virtual humans. This dataset consists of YouTube videos that depict audiences with diverse lighting conditions, color, dress, and movement patterns. We describe the dataset statistics, our implicit data collection strategy, and audience video extraction pipeline. We apply deep learning tasks on this data based on video prediction techniques, and propose a novel method for 2D audience simulations."
+
+
+# - id: vr-energy-etech
+#   title: "Imperceptible Color Modulation for Power Saving in VR/AR"
+#   venue: ACM SIGGRAPH
+#   venue_long: Emerging Technologies Demo
+#   doi: 10.1145/3588037.3595388
+#   year: 2023
+#   description: "A demo of the display setup and model from our SIGGRAPH Asia '22 paper."
+#   project_page: "projects/vr-energy-etech/index.html"
+#   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
+#   image: sig23etech-long.png
+#   tag: "#F6BEFF"
+#   is_selected: true
+#   paper_image: vr-energy-etech.png
+#   video: images/etech-video.mp4
+#   teaser_image: etech23teaser.png
+#   teaser_text: a) We develop a hardware prototype OLED VR display to capture power measurements when displaying different images. b) Participants view a panoramic scene in VR with our filter turned on, and are encouraged to rotate freely to view the scene in a natural manner. c) Filter intensity is increased over 10 seconds. Image credits to VR Gorilla.
+#   authors:
+#     - kchen
+#     - bduinkharjav
+#     - nujjainkar
+#     - eshahan
+#     - atyagi
+#     - jhe
+#     - yzhu
+#     - qsun
+#   affiliation_images:
+#     - nyulogo.png
+#     - uofr.png
+#   bibtex: "@inproceedings{  <br>
+#     <tab>chen2023imperceptible,<br>
+#     <tab>author = {Chen, Kenneth and Duinkharjav, Budmonde and Ujjainkar, Nisarg and Shahan, Ethan and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},<br>
+#     <tab>title = {Imperceptible Color Modulation for Power Saving in VR/AR},<br>
+#     <tab>year = {2023},<br>
+#     <tab>url = {https://doi.org/10.1145/3588037.3595388},<br>
+#     <tab>booktitle = {ACM SIGGRAPH 2023 Emerging Technologies},<br>
+#     <tab>articleno = {8},<br>
+#     <tab>numpages = {2},<br>
+#     <tab>series = {SIGGRAPH '23}<br>
+#   }"
+#   abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."
+
+
 - id: vrenergy
   title: "Color-Perception-Guided Display Power Reduction for Virtual Reality"
   affiliation_images:
@@ -855,14 +1003,15 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   doi: 10.1145/3550454.3555473
   showyear: 2022
   year: 2022
-  description: "VR display power reduction via peripheral color modulation algorithm calibrated on color discrimination data."
+  description: "VR display power can be reduce by modulating peripheral colors, via a color discrimination model."
   project_page: "projects/vrenergy/index.html"
   github: NYU-ICL/vr-power-saver
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2024/11/vr_energy_siga_22.pdf
-  image: colorfov-2.png
+  image: vrenergy-long.png
   bgcolor: True
+  is_selected: true
   tag: "#F6BEFF"
-  highlightvideo: sigasia.mp4
+  highlightvideo: "sigasia (1).mp4"
   teaser_text: "We present a perceptually-guided, real-time, and closed-form model for minimizing the power consumption of untethered VR displays while preserving visual fidelity. We apply a gaze-contingent shader onto the original frame ((a) left) to produce a more power efficient frame ((a) right) while preserving the luminance level and perceptual fidelity during active viewing. The dashed circles indicate the user's gaze. Our method is jointly motivated by prior literature revealing that: i) the power cost of displaying different colors on LEDs may vary significantly, even if the luminance levels remain unchanged [Dong and Zhong 2011]; ii) human color sensitivity decreases in peripheral [Hansen et al. 2009] and active vision [Cohen et al. 2020]. The color palette of the original frame is modulated using our peripheral filter and is shown in (a) for a visual comparison. While the color palettes appear different when gazed upon, an observer cannot discriminate between them when shown in their periphery. (b) visualizes how our model shifts the image's chromatic histograms to minimize the physically-measured power consumption. The blue LEDs consume more energy than the red/green in our experiment display panel. Image credits to Tim Caynes © 2012."
   paper_image: vrenergy_paper.png
   teaser_image: sigasia22_teaser.png

@@ -24,6 +24,67 @@ layout: null
   <link rel="icon" href="./favicon.ico">
   <style>
     @import url('https://fonts.cdnfonts.com/css/fontin');
+    
+    /* Styles for the section toggle buttons */
+    .section-toggles {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+      margin-top: 10px;
+    }
+    
+    .section-toggle {
+      display: inline-block;
+      padding: 4px 6px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #333;
+      background-color: #f0f0f0;
+      border: 1px solid #9E9E9E;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    
+    .section-toggle:hover {
+      background-color: #e0e0e0;
+    }
+    
+    .section-toggle.active {
+      background-color: rgb(230, 213, 213);
+      border-color: #9E9E9E;
+      color: #000;
+    }
+    
+    .content-section {
+      transition: opacity 0.3s ease;
+    }
+    
+    .content-section.hidden {
+      display: none;
+    }
+
+    .content-section.section-spacing td {
+      padding-top: 22px;
+    }
+
+    body.single-section-mode .content-section.section-spacing td {
+      padding-top: 0px;
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .section-header-row .section-toggles {
+      margin: 0;
+    }
   </style>
 </head>
 
@@ -51,7 +112,7 @@ layout: null
                       <td style="padding:20px;vertical-align:middle">
                         <p>
                           <b>
-                            <name>{{ site.title }}</name>
+                            <h3>{{ site.title }}</h3>
                             <!-- <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;margin-left: -4px;" src="images/break2.svg"> -->
                           </b>
                         </p>
@@ -59,7 +120,7 @@ layout: null
                           advised by <a class="links" style="font-size: 14px;" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
                           I'm interested in studying how novel graphics, display, and AI systems can be optimized by understanding human perception.
                           <br><br>
-                          This summer, I will be at Adobe Research.
+                          This summer, I am at Adobe Research.
                           During my PhD, I spent a summer at the University of Cambridge (2025) working with <a class="links" style="font-size: 14px;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>, and interned twice at Meta Reality Labs (2023 & 2024), mentored by <a class="links" style="font-size: 14px;" href="https://achapiro.github.io/" target="_blank">Dr. Alex Chapiro</a>.
                           Before my PhD, I did an MS at NYU (2023) and a BA at UC Berkeley (2021), both in computer science.
                           I'm happy to chat about research or anything else; email me at <a class="links" style="font-size: 14px;" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a>!</p>
@@ -69,7 +130,7 @@ layout: null
                           <a class="links3" style="font-size: 14px"
                             href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><i
                               class="fa-brands fa-google-scholar"></i> Google Scholar</a> |
-                          <a class="links3" style="font-size: 14px" href="assets/cv.pdf"><i
+                          <a class="links3" style="font-size: 14px" href="cv.html"><i
                               class="fas fa-file"></i> CV</a>
                         </p>
                       </td>
@@ -78,7 +139,7 @@ layout: null
                 </table>
 
                 <table id="timeline"
-                  style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto; margin-top: -20px">
                   <tbody>
                     <tr>
                       <td style="padding: 10px;">
@@ -159,7 +220,7 @@ layout: null
 
   <!-- <br> -->
   <!-- <hr style="color:black"> -->
-  <table style="margin-left: auto;margin-right: auto;vertical-align: top;">
+  <table style="margin-left: auto;margin-right: auto;vertical-align: top; margin-top: -20px">
     <tr>
       <td>
         <!-- <hr> -->
@@ -188,30 +249,72 @@ layout: null
             </td>
           </tr>
           
-          <!-- <br> -->
+          <br><br>
 
-          <tr>
+          <tr class="content-section" id="publications-section">
             <td>
-              <!-- <br> -->
-              <heading>Publications</heading>
+              <div class="section-header-row">
+                <heading>Publications</heading>
+          
+                <div class="section-toggles" id="section-toggle-container">
+                  <button class="section-toggle active" onclick="toggleSection('all', event)">
+                    <i class="fas fa-layer-group"></i> All
+                  </button>
+          
+                  <button class="section-toggle active" onclick="toggleSection('publications', event)">
+                    <i class="fas fa-file-alt"></i> Publications
+                  </button>
+          
+                  <button class="section-toggle active" onclick="toggleSection('posters', event)">
+                    <i class="fas fa-image"></i> Posters/Demos
+                  </button>
+          
+                  <button class="section-toggle active" onclick="toggleSection('experience', event)">
+                    <i class="fas fa-briefcase"></i> Experience
+                  </button>
+          
+                  <button class="section-toggle active" onclick="toggleSection('teaching', event)">
+                    <i class="fas fa-chalkboard-teacher"></i> Teaching
+                  </button>
+                </div>
+              </div>
+          
               <hr id="myhr">
               <p><small>{{ site.research }}</small></p>
             </td>
           </tr>
-          <tr style="padding:0px">
+          <tr class="content-section" id="publications-section-content" style="padding:0px">
             <td style="padding:0px">
+              <div id="publications-container">
               <table
                 style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                 <tbody>
 
                   <tr>
-                    <th style="width:13%"></th>
-                    <th style="width:67%"></th>
-                    <th style="width:20%"></th>
+                    <th style="width:22%"></th>
+                    <th style="width:62%"></th>
+                    <th style="width:16%"></th>
                   </tr>
                   {% for publication in site.data.publications %}
                   {% if publication.hide == null and publication.workshop == null %}
-                  <tr style="min-width:100%; width: 100%;">
+                  {% if publication.showyear != null %}
+                  <tr class="publication-row year-row" data-selected="{{ publication.is_selected }}">
+                    <td>
+                      {% if forloop.first != true %}
+                      <div style="padding-top: 10px;">
+                        <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold; background-color: rgb(230, 213, 213); padding: 0px 86% 2px 5px; margin-left: 0;">
+                          {{ publication.year }}
+                        </venue>
+                      </div>
+                      {% else %}
+                      <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold; background-color: rgb(230, 213, 213); padding: 0px 86% 2px 5px; margin-left: 0;">
+                        {{ publication.year }}
+                      </venue>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endif %}
+                  <tr class="publication-row" data-selected="{{ publication.is_selected }}" style="min-width:100%; width: 100%;">
                     <td style="padding:5px;vertical-align:middle;">
                       <div class="one" style="padding-right: 4px;">
                         {% if publication.teaser_vid != null %}
@@ -355,39 +458,60 @@ layout: null
                       {% endif %}
                     </td>
                   </tr>
+                  <!-- <tr>
+                    <td></td>
+                  </tr> -->
                   {% endif %}
                   {% endfor %}
 
                 </tbody>
               </table>
+              </div>
             </td>
           </tr>
 
-          <tr>
+          <!-- <br> -->
+          <tr class="content-section section-spacing" id="posters-section">
             <td>
-              <br>
-              <heading>Posters, Demos, etc.</heading>
+              <!-- <br> -->
+              <div class="section-header-row">
+                <heading>Posters, Demos, etc.</heading>
+              </div>
               <hr id="myhr">
-              <p><small></small></p>
-              <p><small></small></p>
-              <p><small></small></p>
-              <p><small></small></p>
             </td>
           </tr>
-          <tr style="padding:0px">
+          <tr class="content-section" id="posters-section-content" style="padding:0px">
             <td style="padding:0px">
+              <div id="publications-container">
               <table
                 style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                 <tbody>
 
                   <tr>
-                    <th style="width:13%"></th>
-                    <th style="width:86%"></th>
-                    <th style="width:1%"></th>
+                    <th style="width:22%"></th>
+                    <th style="width:62%"></th>
+                    <th style="width:16%"></th>
                   </tr>
-                  {% for publication in site.data.publications %}
-                  {% if publication.hide and publication.workshop == null %}
-                  <tr style="min-width:100%; width: 100%;">
+                  {% for publication in site.data.otherpubs %}
+                  {% if publication.hide %}
+                  {% if publication.showyear != null %}
+                  <tr class="publication-row year-row" data-selected="{{ publication.is_selected }}">
+                    <td>
+                      {% if forloop.first != true %}
+                      <div style="padding-top: 10px;">
+                        <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold; background-color: rgb(230, 213, 213); padding: 0px 86% 2px 5px; margin-left: 0;">
+                          {{ publication.year }}
+                        </venue>
+                      </div>
+                      {% else %}
+                      <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold; background-color: rgb(230, 213, 213); padding: 0px 86% 2px 5px; margin-left: 0;">
+                        {{ publication.year }}
+                      </venue>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endif %}
+                  <tr class="publication-row" data-selected="{{ publication.is_selected }}" style="min-width:100%; width: 100%;">
                     <td style="padding:5px;vertical-align:middle;">
                       <div class="one" style="padding-right: 4px;">
                         {% if publication.teaser_vid != null %}
@@ -448,10 +572,10 @@ layout: null
                       <pub>
                         <venue
                           style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
-                          <i class="fas fa-award"></i> {{ publication.award }}
+                          <i class="fas fa-award"></i> {{ publication.award }} 
                         </venue>
                       </pub>
-                      {%endif%}
+                      {%endif%}{% for media in publication.media %} <a href="{{ media.link }}" target="_blank"><img style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a> {% endfor %}
                       {% if publication.description != null %}
                       <br>
                       <small style="font-size: small;">
@@ -484,6 +608,21 @@ layout: null
                       <a style="font-size: small" class="links3" href="https://github.com/{{ publication.github }}"><i
                           class="fab fa-github"></i> code</a>
                       {% endif %}
+                      {% if publication.dataset != null %}
+                      <a style="font-size: small" class="links3" href="{{ publication.dataset }}"><i class="fa-solid fa-database"></i> dataset</a>
+                      {% endif %}
+                      {% if publication.dataset_vid != null %}
+                      <a style="font-size: small" class="links3" href="{{ publication.dataset_vid }}"><i class="fa-solid fa-database"></i> dataset (videos)</a>
+                      {% endif %}
+                      {% if publication.dataset_annotations != null %}
+                      <a style="font-size: small" class="links3" href="{{ publication.dataset_annotations }}"><i class="fa-solid fa-database"></i> dataset (labels)</a>
+                      {% endif %}
+                      {% if publication.ff != null %}
+                          <a class="links3" style="font-size: small;" href="{{ publication.ff }}"><i class="fa-solid fa-forward-fast"></i> TLDR</a>
+                      {% endif %}
+                      {% if publication.talk != null %}
+                          <a class="links3" style="font-size: small;" href="{{ publication.talk }}"><i class="fa-solid fa-person-chalkboard"></i> talk</a>
+                      {% endif %}
                       {% if publication.video != null %}
                       <a style="font-size: small" class="links3" href="{{ publication.video }}"><i
                           class="fas fa-video"></i> video</a>
@@ -505,10 +644,10 @@ layout: null
                       {% endif %}
                       <p></p>
                     </td>
-                    <td style="padding-left:10px;">
+                    <td id="timeline" style="padding-left:10px;">
                       {% if publication.highlightvideo != null %}
                       <a href="{{ publication.project_page }}">
-                        <video class="hoverable2" width=100% playsinline autoplay loop muted>
+                        <video style="border: solid black 1px;" class="hoverable2" width=100% playsinline autoplay loop muted>
                           <source src="images/{{ publication.highlightvideo }}" type="video/mp4">
                           Your browser does not support the video tag.
                         </video>
@@ -516,18 +655,24 @@ layout: null
                       {% endif %}
                     </td>
                   </tr>
+                  <!-- <tr>
+                    <td></td>
+                  </tr> -->
                   {% endif %}
                   {% endfor %}
 
                 </tbody>
               </table>
+              </div>
             </td>
           </tr>
+
+
 
           <!-- <tr>
             <td>
               <br>
-              <heading>Community Involvement</heading>
+              <heading>Service</heading>
               <hr id="myhr">
             </td>
           </tr>
@@ -538,21 +683,46 @@ layout: null
                 <tbody>
 
                   <tr>
-                    <th style="width:15%"></th>
-                    <th style="width:85%"></th>
+                    <th style="width:100%"></th>
                   </tr>
-                  {% for involvement in site.data.involvement %}
-                  <tr style="min-width:100%; width: 100%;">
-                    <td style="padding:5px;vertical-align:middle;">
-                      <div class="one" style="padding-right: 4px;">
-                        <img style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
-                          src="images/{{ involvement.image }}">
-                      </div>
+                  {% for service in site.data.service %}
+                  <tr>
+                    <td class="tdnews">
+                      <a class="links" href="{{ service.site }}"><strong>{{ service.venue }}</strong></a>, {{
+                      service.type }}
+                      <br>
+                      <em style="font-size:small;">{{ service.name }} | {{ service.year }}</em>
                     </td>
-                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
-                      <strong>{{ involvement.title }}</strong> | <em>{{ involvement.venue }} {{ involvement.year }}</em> <br>
-                      <a style="font-size: small" class="links3" href="{{ involvement.project_page }}"><i
-                        class="fas fa-globe"></i> webpage</a>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <br>
+              <heading>Press</heading>
+              <hr id="myhr">
+            </td>
+          </tr>
+          <tr style="padding:0px">
+            <td style="padding:0px">
+              <table
+                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                <tbody>
+                  <tr>
+                    <th style="width:100%"></th>
+                  </tr>
+                  {% for press in site.data.press %}
+                  <tr>
+                    <td class="tdnews">
+                      <a class="links" href="{{ press.site }}"><strong>{{ press.source }}</strong></a> | {{ press.title }}
+                      <br>
+                      <em style="font-size:small;">{{ press.year }}</em> <a class="links3" href="{{ press.site }}"><i
+                          class="fas fa-globe"></i> webpage</a>
                     </td>
                   </tr>
                   {% endfor %}
@@ -562,14 +732,16 @@ layout: null
             </td>
           </tr> -->
 
-          <tr>
+          <tr class="content-section section-spacing" id="experience-section">
             <td>
-              <br>
-              <heading>Experience</heading>
+              <div class="section-header-row">
+                <heading>Experience</heading>
+              </div>
+          
               <hr id="myhr">
             </td>
           </tr>
-          <tr style="padding:0px">
+          <tr class="content-section" id="experience-section-content" style="padding:0px">
             <td style="padding:0px">
               <table
                 style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
@@ -599,14 +771,16 @@ layout: null
             </td>
           </tr>
 
-          <tr>
+          <tr class="content-section section-spacing" id="teaching-section">
             <td>
-              <br>
-              <heading>Teaching</heading>
+              <!-- <br> -->
+              <div class="section-header-row">
+                <heading>Teaching</heading>
+              </div>
               <hr id="myhr">
             </td>
           </tr>
-          <tr style="padding:0px">
+          <tr class="content-section" id="teaching-section-content" style="padding:0px">
             <td style="padding:0px">
               <table
                 style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
@@ -643,7 +817,7 @@ layout: null
         
 
 
-        <table id="timeline"
+          <table id="timeline" class="content-section misc-section"
           style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
           <tbody>
             <tr>
@@ -659,25 +833,27 @@ layout: null
             </tr>
           </tbody>
         </table>
-        <table id="timeline"
+        <table id="timeline" class="content-section misc-section"
             style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
           <tbody>
             <tr>
               <th style="width:100%"></th>
             </tr>
             <tr>
-              <div class="image-row" style="max-width: 1000px; margin-left:12px;">
-                {% for misc in site.data.misc %}
-                {% if misc.img != null %}
-                  <div class="image-item" id="timeline">
-                    <a href="{{ misc.site }}">
-                      <img src="{{ misc.img }}" alt="Image 1" style="border: solid black 1px;">
-                      <div class="caption"><em>{{ misc.description }}</em></div>
-                    </a>
-                  </div>
-                {%endif%}
-                {% endfor %}  
-              </div>
+              <td>
+                <div class="image-row" style="max-width: 1000px; margin-left:12px;">
+                  {% for misc in site.data.misc %}
+                  {% if misc.img != null %}
+                    <div class="image-item" id="timeline">
+                      <a href="{{ misc.site }}">
+                        <img src="{{ misc.img }}" alt="Image 1" style="border: solid black 1px;">
+                        <div class="caption"><em>{{ misc.description }}</em></div>
+                      </a>
+                    </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -722,9 +898,91 @@ layout: null
   <script>
     //Add your images, we'll set the path in the next step
     var images = ['profile_headshot.JPG'];
-
-    //Build the img, then do a bit of maths to randomize load and append to a div. Add a touch off css to fade them badboys in all sexy like.
+  
     $('<img id="profile" style="width:100%;border-radius: 0; border: 1px solid black;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
+  
+    const allSections = ['publications', 'posters', 'experience', 'teaching'];
+  
+    function showAllSections() {
+      allSections.forEach(section => {
+        const els = document.querySelectorAll(
+          `#${section}-section, #${section}-section-content`
+        );
+  
+        els.forEach(el => el.classList.remove('hidden'));
+      });
+  
+      // show misc when all is selected
+      document.querySelectorAll('.misc-section').forEach(el => {
+        el.classList.remove('hidden');
+      });
+  
+      // activate all buttons
+      document.querySelectorAll('.section-toggle').forEach(btn => {
+        btn.classList.add('active');
+      });
+
+      document.body.classList.remove('single-section-mode');
+      moveButtonsToSection('publications');
+    }
+  
+    function toggleSection(sectionName, event) {
+      const clickedButton = event.currentTarget;
+  
+      // ALL button behavior
+      if (sectionName === 'all') {
+        showAllSections();
+        return;
+      }
+
+      document.body.classList.add('single-section-mode');
+      moveButtonsToSection(sectionName);
+  
+      // deactivate all buttons first
+      document.querySelectorAll('.section-toggle').forEach(btn => {
+        btn.classList.remove('active');
+      });
+  
+      clickedButton.classList.add('active');
+  
+      // hide all content sections
+      allSections.forEach(section => {
+        const els = document.querySelectorAll(
+          `#${section}-section, #${section}-section-content`
+        );
+  
+        els.forEach(el => el.classList.add('hidden'));
+      });
+  
+      // hide misc whenever filtering
+      document.querySelectorAll('.misc-section').forEach(el => {
+        el.classList.add('hidden');
+      });
+  
+      // show selected section
+      const selected = document.querySelectorAll(
+        `#${sectionName}-section, #${sectionName}-section-content`
+      );
+  
+      selected.forEach(el => el.classList.remove('hidden'));
+    }
+
+    function moveButtonsToSection(sectionName) {
+      const toggleContainer = document.getElementById('section-toggle-container');
+
+      const targetHeading = document.querySelector(
+        `#${sectionName}-section .section-header-row`
+      );
+
+      if (targetHeading && toggleContainer) {
+        targetHeading.appendChild(toggleContainer);
+      }
+    }
+  
+    // initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      showAllSections();
+    });
   </script>
 </body>
 

@@ -13,6 +13,11 @@
   title: sorting vis
   description: a visualization of sorting algorithms
   img: images/vis.png
+- id: mural
+  site: mural.html
+  title: mural
+  description: mural
+  img: images/mural_coverimage.png
 - id: rand
   site: ./resources.html
   title: "Useful Links"

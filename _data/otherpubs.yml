@@ -1,79 +1,175 @@
-# - id: sca23
-#   title: "Towards Learning and Generating Audience Motion from Video"
-#   venue: SCA
-#   venue_long: ACM SIGGRAPH/Eurographics Symposium on Computer Animation, Poster
-#   year: 2023
-#   description: "A dataset of audience videos."
-#   project_page: "projects/sca23/index.html"
-#   github: 
-#   arxiv: 
-#   pdf: assets/papers/sca23-4.pdf
-#   image: sca23.png
-#   bgcolor: 
-#   tag: "#C8E6C9"
-#   paper_image: 
-#   teaser_image: datagenpipeline-1.png
-#   yt_emb: 
-#   video: 
-#   authors:
-#     - kchen
-#     - nbadler
-#   affiliations:
-#     kchen:
-#       affiliation: Cesium 
-#     nbadler:
-#       affiliation: Cesium
-#   affiliation_images:
-#     - cesiumlogo.png
-#   bibtex: 
-#   abstract: "There has recently been an explosion of interest in creating large-scale shared virtual spaces for multiplayer content. However, rendering player-controllable avatars in real-time creates latency issues when scaling to thousands of players. We introduce a human audience video dataset to support applications in deep learning-based 2D video audience simulation, bypassing the need for background 3D virtual humans. This dataset consists of YouTube videos that depict audiences with diverse lighting conditions, color, dress, and movement patterns. We describe the dataset statistics, our implicit data collection strategy, and audience video extraction pipeline. We apply deep learning tasks on this data based on video prediction techniques, and propose a novel method for 2D audience simulations."
+- id: vss26
+  title: "Limits of Visual Saliency Models for AI-Generated Videos"
+  venue: JOV
+  venue_long: Poster at Vision Sciences Society
+  year: 2026
+  showyear: true
+  poster: 
+  poster_preview: 
+  description: ""
+  project_page: "projects/vss26/index.html"
+  pdf: 
+  image: 
+  tag: "#F6BEFF"
+  teaser_image: 
+  doi: 
+  hide: true
+  teaser_text: ""
+  authors:
+    - jkang
+    - nlwilliams
+    - mbsilva
+    - kchen
+    - psangkloy
+    - qsun
+  affiliation_images:
+    - nyu.png
+  bibtex: ""
+  abstract: "Diffusion models enable easy, detailed video generation but can produce atypical visual features that extend beyond conventional rendering artifacts. These manifest both spatially (distorted geometry and localized visual deformations) and temporally, (physically implausible motion, object identity drift, and temporal inconsistency). There is limited data and few established metrics for assessing AI-generated artifacts, and little understanding of how AI-generated videos influence human gaze behavior and visual saliency. To address this, we collected eye-tracking data from 13 participants viewing 72 AI-generated videos featuring different kinds of artifacts. Each trial began with participants fixating on a central crosshair for a randomized duration between 1.0 and 1.5 seconds, after which the video was presented. Participants were instructed to freely view the video and rate how well the video matched its generating text prompt and overall video quality using a 7-point Likert scale. From their recorded gaze data we computed empirical saliency maps and found that there was high consistency between participants’ gaze behavior, evaluated from averaging how well the gaze points from 1 human viewer predicted the gaze points of the rest of the 12 viewers for all videos using AU-ROC (0.89) and Normalized Scanpath Saliency (3.36). Accuracy metrics (from the MIT/Tuebingen Saliency Benchmark) for four saliency models (two classical, two deep learning) were inconsistent: four of the metrics indicated poor saliency prediction across all models, while the AUC metric ranged from poor to good (0.59-0.81) across the models. We found no correlation between saliency prediction accuracy and video features including optic flow magnitude, prompt complexity, video quality rating, and artifact category. This suggests that existing saliency models struggle to accurately predict gaze behavior on AI-generated videos, possibly because these models do not account for the unique visual features and temporal artifacts introduced by generative models."
+
+- id: i3d25
+  title: "BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models"
+  venue: ACM I3D
+  year: 2025
+  showyear: true
+  poster: assets/poster_i3d.png
+  poster_preview: assets/poster_i3d.png
+  description: "Diffusion models can be used to texture 3D models."
+  project_page: "projects/i3d25/index.html"
+  pdf: assets/papers/i3d25.pdf
+  image: blendfusion-long.png
+  tag: "#F6BEFF"
+  teaser_image: i3d-teaser.png
+  doi: 10.1145/3722564.3728376
+  award: Best Poster Award
+  video: images/i3d_video.mp4
+  hide: true
+  other: '<h3>
+            Award
+            <hr id="myhr">
+        </h3>
+
+        <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
+        <a href="../../images/i3daward.png">
+            <img style="border: 1px solid black;" width="100%" src="../../images/i3daward.png">
+        </a>
+        </p>'
+  teaser_text: "Our BlendFusion generative 3D mesh modeling
+framework. (a) shows the overall and zoomed-in 3D scene for
+re-texturing, (b) shows the modeled texture after 20 minutes
+by a professional designer, and (c) shows the results using our
+framework with an inference time of 2 minutes with prompt
+`a child drawing style of a cabinet in a cartoony kitchen'."
+  authors:
+    - qli
+    - ftorrens
+    - kchen
+    - qsun
+  affiliation_images:
+    - nyu.png
+  bibtex: "
+  @inproceedings{<br>
+    <tab>li2025blendfusion,<br>
+    <tab>author = {Li, Qinchan and Torrens, Finley and Chen, Kenneth and Sun, Qi},<br> 
+    <tab>title = {BlendFusion: Procedural 3D Texturing Assistant with View-Consistent Generative Models},<br> 
+    <tab>year = {2025},<br> 
+    <tab>isbn = {9798400718335},<br> 
+    <tab>publisher = {Association for Computing Machinery},<br> 
+    <tab>address = {New York, NY, USA},<br> 
+    <tab>url = {https://doi.org/10.1145/3722564.3728376},<br> 
+    <tab>doi = {10.1145/3722564.3728376},<br> 
+    <tab>booktitle = {Companion Proceedings of the ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games},<br> 
+    <tab>articleno = {3},<br> 
+    <tab>numpages = {3},<br> 
+    <tab>series = {I3D Companion '25}<br> 
+  }
+  "
+  abstract: "Modeling 3D assets is a universal in various applications, including animation and game development. However, a key challenge
+lies in the labor-intensive task of 3D texturing, where creators
+must repeatedly update textures to align with modified geometric shapes on the fly. This iterative workflow makes 3D texturing
+significantly more cumbersome and less efficient than 2D image
+painting. To address this, we introduce BlendFusion, an interactive
+framework that leverages generative diffusion models to streamline
+3D texturing. Unlike existing systems that generate textures from
+scratch, BlendFusion integrates the procedural nature of texturing
+by incorporating multi-view projection to guide the generation
+process, enhancing stylistic alignment with the creator's intent.
+Experimental results demonstrate the robustness and consistency
+of BlendFusion across both objective and subjective evaluations."
+
+- id: sca23
+  title: "Towards Learning and Generating Audience Motion from Video"
+  venue: ACM SCA
+  doi: 10.1145/3606037.3606839
+  venue_long: Poster
+  year: 2023
+  showyear: 2023
+  description: "A dataset of audience videos with application to audience synthesis."
+  project_page: "projects/sca23/index.html"
+  pdf: assets/papers/sca23-4.pdf
+  image: sca-long.png
+  tag: "#F6BEFF"
+  teaser_image: datagenpipeline-1.png
+  video: images/Audiences_SCA23.mp4
+  hide: true
+  poster: assets/sca23_poster_tall.pdf
+  poster_preview: assets/sca23_poster_tall.png
+  authors:
+    - kchen
+    - nbadler
+  affiliation_images:
+    - Cesium_dark_color.png
+  bibtex: "@inproceedings{<br>
+  <tab>chen2023towards,<br>
+  <tab>author = {Chen, Kenneth and Badler, Norman},<br>
+  <tab>title = {Towards Learning and Generating Audience Motion from Video},<br>
+  <tab>year = {2023},<br>
+  <tab>url = {https://doi.org/10.1145/3606037.3606839},<br>
+  <tab>booktitle = {Proceedings of the ACM SIGGRAPH/Eurographics Symposium on Computer Animation},<br>
+  <tab>articleno = {4},<br>
+  <tab>numpages = {2},<br>
+  <tab>series = {SCA '23}<br>
+}"
+  abstract: "There has recently been an explosion of interest in creating large-scale shared virtual spaces for multiplayer content. However, rendering player-controllable avatars in real-time creates latency issues when scaling to thousands of players. We introduce a human audience video dataset to support applications in deep learning-based 2D video audience simulation, bypassing the need for background 3D virtual humans. This dataset consists of YouTube videos that depict audiences with diverse lighting conditions, color, dress, and movement patterns. We describe the dataset statistics, our implicit data collection strategy, and audience video extraction pipeline. We apply deep learning tasks on this data based on video prediction techniques, and propose a novel method for 2D audience simulations."
 
 
-# - id: vr-energy-etech
-#   title: "Imperceptible Color Modulation for Power Saving in VR/AR"
-#   venue: SIGGRAPH
-#   venue_long: Emerging Technologies
-#   year: 2023
-#   description: "A demo of the display setup and model from our SIGGRAPH Asia '22 paper."
-#   project_page: "projects/vr-energy-etech/index.html"
-#   github: 
-#   arxiv: 
-#   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
-#   image: sigasia22.png
-#   bgcolor: 
-#   tag: "#FFCCBC"
-#   paper_image: vr-energy-etech.png
-#   teaser_image: etech23teaser.png
-#   yt_emb: 
-#   video: etech-video.mp4
-#   authors:
-#     - kchen
-#     - bduinkharjav
-#     - nujjainkar
-#     - eshahan
-#     - atyagi
-#     - jhe
-#     - yzhu
-#     - qsun
-#   affiliations:
-#     kchen:
-#       affiliation: New York University
-#     bduinkharjav:
-#       affiliation: New York University
-#     nujjainkar:
-#       affiliation: University of Rochester
-#     eshahan:
-#       affiliation: University of Rochester
-#     atyagi:
-#       affiliation: University of Rochester
-#     jhe:
-#       affiliation: University of Rochester
-#     yzhu:
-#       affiliation: University of Rochester
-#     qsun:
-#       affiliation: New York University
-#   affiliation_images:
-#     - nyulogo.png
-#     - uofr.png
-#   bibtex: 
-#   abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."
+- id: vr-energy-etech
+  title: "Imperceptible Color Modulation for Power Saving in VR/AR"
+  venue: ACM SIGGRAPH
+  venue_long: Emerging Technologies Demo
+  doi: 10.1145/3588037.3595388
+  hide: true
+  year: 2023
+  description: "A demo of the display setup and model from our SIGGRAPH Asia '22 paper."
+  project_page: "projects/vr-energy-etech/index.html"
+  papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2023/05/VR_Energy_E_Tech.pdf
+  image: sig23etech-long.png
+  tag: "#F6BEFF"
+  paper_image: vr-energy-etech.png
+  video: images/etech-video.mp4
+  teaser_image: etech23teaser.png
+  teaser_text: a) We develop a hardware prototype OLED VR display to capture power measurements when displaying different images. b) Participants view a panoramic scene in VR with our filter turned on, and are encouraged to rotate freely to view the scene in a natural manner. c) Filter intensity is increased over 10 seconds. Image credits to VR Gorilla.
+  authors:
+    - kchen
+    - bduinkharjav
+    - nujjainkar
+    - eshahan
+    - atyagi
+    - jhe
+    - yzhu
+    - qsun
+  affiliation_images:
+    - nyulogo.png
+    - uofr.png
+  bibtex: "@inproceedings{  <br>
+    <tab>chen2023imperceptible,<br>
+    <tab>author = {Chen, Kenneth and Duinkharjav, Budmonde and Ujjainkar, Nisarg and Shahan, Ethan and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},<br>
+    <tab>title = {Imperceptible Color Modulation for Power Saving in VR/AR},<br>
+    <tab>year = {2023},<br>
+    <tab>url = {https://doi.org/10.1145/3588037.3595388},<br>
+    <tab>booktitle = {ACM SIGGRAPH 2023 Emerging Technologies},<br>
+    <tab>articleno = {8},<br>
+    <tab>numpages = {2},<br>
+    <tab>series = {SIGGRAPH '23}<br>
+  }"
+  abstract: "Untethered VR/AR HMDs can only last 2-3 hours on a single charge. Toward resolving this issue, we develop a real-time gaze-contingent power saving filter which modulates peripheral pixel color while preserving visual fidelity. At SIGGRAPH 2023, participants will be able to view a short panoramic video within a VR HMD with our perceptually-aware power saving filter turned on. Participants will also have the opportunity to view the power output of scenes through our power measurement setup."

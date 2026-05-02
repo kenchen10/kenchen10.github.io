@@ -37,6 +37,12 @@ kchen:
       - New York University
     wihdirectview:
       - New York University
+    dichoptic:
+      - New York University
+    tmometric:
+      - New York University
+    dyndom:
+      - New York University
   is_me: true
 
 yzhang:
@@ -136,6 +142,12 @@ qsun:
       - New York University
     wihdirectview:
       - New York University
+    dichoptic:
+      - New York University
+    tmometric:
+      - New York University
+    dyndom:
+      - New York University
 
 yzhu:
   first_name: Yuhao
@@ -214,6 +226,8 @@ achapiro:
       - Meta
     wihdirectview:
       - Meta Reality Labs
+    tmometric:
+      - Reality Labs Research, Meta
 
 xpeng:
   first_name: Xi
@@ -409,6 +423,8 @@ jkang:
       - New York University
     fovgs:
       - New York University
+    dichoptic:
+      - New York University
 
 mbsilva:
   first_name: Maria Beatriz
@@ -465,8 +481,12 @@ ostaadt:
 cgroth:
   first_name: Colin
   last_name: Groth
-  website: 
+  website: https://colingroth.github.io
   affiliation: 
+    dichoptic:
+      - New York University
+    dyndom:
+      - New York University
 
 bmohanto:
   first_name: Bipul
@@ -491,3 +511,75 @@ dmartin:
   last_name: Martin
   website: 
   affiliation: 
+
+hkam:
+  first_name: Henry
+  last_name: Kam
+  website: https://gulpinhenry.github.io
+  affiliation: 
+    dichoptic:
+      - New York University
+
+psaraf:
+  first_name: Pratham
+  last_name: Saraf
+  website: https://prathamsaraf.dev
+  affiliation: 
+    dichoptic:
+      - New York University
+
+yasano:
+  first_name: Yuta
+  last_name: Asano
+  website: https://scholar.google.com/citations?user=N0WYkZkAAAAJ&hl=en
+  affiliation: 
+    tmometric:
+      - Reality Labs Research, Meta
+
+dkim:
+  first_name: Dongyeon
+  last_name: Kim
+  website: https://dongyeon93.github.io
+  affiliation: 
+    tmometric:
+      - University of Cambridge
+
+rmantiuk:
+  first_name: Rafał K.
+  last_name: Mantiuk
+  website: https://www.cl.cam.ac.uk/~rkm38/index.html
+  affiliation: 
+    tmometric:
+      - University of Cambridge
+
+djimeneznavarro:
+  first_name: Daniel
+  last_name: Jiménez Navarro
+  website: https://djimeneznavarro.github.io
+  affiliation: 
+    dyndom:
+      - Max Planck Institute for Informatics
+
+kmyszkowski:
+  first_name: Karol
+  last_name: Myszkowski
+  website: https://people.mpi-inf.mpg.de/~karol/
+  affiliation: 
+    dyndom:
+      - Max Planck Institute for Informatics
+
+hseidel:
+  first_name: Hans-Peter
+  last_name: Seidel
+  website: https://people.mpi-inf.mpg.de/~hpseidel/
+  affiliation: 
+    dyndom:
+      - Max Planck Institute for Informatics
+
+aserrano:
+  first_name: Ana
+  last_name: Serrano
+  website: https://ana-serrano.github.io
+  affiliation: 
+    dyndom:
+      - Universidad de Zaragoza

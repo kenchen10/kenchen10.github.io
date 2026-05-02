@@ -1,3 +1,12 @@
+- id: adobe
+  company: Adobe
+  mentor: ''
+  descriptions: 
+    - 
+  shortdescription: 
+  years: May 2026 - August 2026
+  role: Research Scientist Intern
+  img: Adobe_Corporate_Logo.png
 - id: cambridge
   company: University of Cambridge
   mentor: 'mentored by <a class="links" style="font-size: small;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>.'

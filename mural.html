@@ -1,0 +1,104 @@
+---
+layout: null
+---
+<!DOCTYPE HTML>
+<html lang="en"><head>
+  {% if site.google_analytics and jekyll.environment == 'production' %}
+  {% include analytics.html %}
+  {% endif %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>{{ site.title }}</title>
+  
+  <meta name="author" content="{{ site.title }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link rel="icon" href="./favicon.ico">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/fontin');
+
+    figure {
+      display: flex;
+      /* align-items: center; */
+    }
+  </style>
+</head>
+
+<body>
+  <table style="width:100%;max-width:1125px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+        
+        <!-- 
+          
+          Images
+        
+        -->
+        <br>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+            <td style="padding: 10px 20px 10px 20px;">
+              <heading>2nd Ave <heading style="color: orange;">F</heading> Stop Murals</heading> <br>
+              <em>
+                I take the F train almost every day, and this mural in front of the station changes often. I thought I'd document how it has changed over time!
+              </em>
+              <br><br>
+              <!-- <hr id="myhr"> -->
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>  
+          <tr>
+            <td style="padding: 10px 20px 10px 28px;">
+              <div class="image-row">
+                {% for item in site.data.mural %}
+                  <!-- <div class="image-container"><img src="{{ item }}" class="zoomable-image" onclick="zoomImage(this)"></div> -->
+                  <figure style="width: 100%;">
+                    <img src="{{ item.img }}" style="width: 35%; border: 2px solid black;">
+                    <div style="width: 65%; padding-left: 20px;">
+                      <!-- <h4 style="text-decoration: underline;">{{ item.name }}</h4> -->
+                      <figcaption>
+                        <!-- {{ item.location }}<br> -->
+                        {{ item.date }}
+                      </figcaption>
+                    </div>
+                  </figure>
+                  <br>
+                {% endfor %}
+              </div>
+            </td>
+          </tr>
+
+          
+        </tbody></table>
+
+        
+      </td>
+    </tr>
+  </table>
+
+  <!-- <div id="zoom-overlay" onclick="closeZoom()">
+    <img id="zoomed-img" />
+  </div> -->
+
+  <!-- <script>
+    function zoomImage(img) {
+      const zoomOverlay = document.getElementById('zoom-overlay');
+      const zoomedImg = document.getElementById('zoomed-img');
+      zoomedImg.src = img.src;
+      zoomOverlay.style.display = 'flex';
+    }
+
+    function closeZoom() {
+      document.getElementById('zoom-overlay').style.display = 'none';
+    }
+  </script> -->
+
+</body>
+
+</html>
