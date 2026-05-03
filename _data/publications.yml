@@ -6,7 +6,8 @@
   description: "Image/video quality metrics can be adapted to predict tone mapping quality."
   project_page: "projects/tmometric/index.html"
   github: 
-  arxiv: 
+  pdf: assets/papers/2026_siggraph_chen_main.pdf 
+  supp: assets/papers/2026_siggraph_chen_supplement.pdf 
   is_selected: true
   bgcolor: True
   image: sig26-long.png
