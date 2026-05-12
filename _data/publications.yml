@@ -66,6 +66,9 @@ metrics. Refer to our supplementary webpage for all data and stimuli."
   project_page: "projects/dichoptic/index.html"
   github: 
   arxiv: 
+  pdf: assets/papers/2026_siggraph_kam_main.pdf 
+  supp: https://gulpinhenry.github.io/media/dichoptic_foveation/dichoptic_supplementary/index.html
+  video: videos/2026_siggraph_kam_supplementary-video.mp4
   image: dichoptic-long.png
   tag: "#F6BEFF"
   teaser_image: dichoptic-teaser.png
@@ -98,6 +101,8 @@ We applied the model in a realistic VR scenario with free exploration of 360° v
   project_page: "projects/dyndom/index.html"
   github: 
   arxiv: 
+  pdf: assets/papers/2026_siggraph_jimenez-navarro_main.pdf 
+  supp: assets/papers/2026_siggraph_jimenez-navarro_supplement.pdf 
   image: dyndom-long.png
   tag: "#F6BEFF"
   teaser_image: dyndom-teaser.png
