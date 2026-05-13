@@ -68,7 +68,7 @@ metrics. Refer to our supplementary webpage for all data and stimuli."
   arxiv: 
   pdf: assets/papers/2026_siggraph_kam_main.pdf 
   supp: https://gulpinhenry.github.io/media/dichoptic_foveation/dichoptic_supplementary/index.html
-  video: videos/2026_siggraph_kam_supplementary-video.mp4
+  video: assets/videos/2026_siggraph_kam_supplementary-video.mp4
   image: dichoptic-long.png
   tag: "#F6BEFF"
   teaser_image: dichoptic-teaser.png
@@ -390,7 +390,7 @@ towards applications such as deepfake detection."
   showyear: 2025
   description: "A perceptual scale to describe human preference for contrast and luminance when viewing HDR."
   project_page: "projects/sig25/index.html"
-  highlightvideo: "sig25 (2).mp4"
+  highlightvideo: "sig25_highlight.mp4"
   github: NYU-ICL/what-is-hdr.git
   arxiv: 
   poster: assets/WIH-poster.pdf
@@ -476,7 +476,7 @@ and helps standardize the understanding of HDR."
   title: "Image-GS: Content-Adaptive Image Representation via 2D Gaussians"
   venue: ACM SIGGRAPH
   year: 2025
-  highlightvideo: "imggs (1).mp4"
+  highlightvideo: "imggs_highlight.mp4"
   video: images/imggs_ff.mp4
   description: "2D gaussians can serve as an effective technique for low bit rate image encoding."
   project_page: "projects/imggs/index.html"
