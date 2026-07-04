@@ -43,6 +43,8 @@ kchen:
       - New York University
     dyndom:
       - New York University
+    eccv26:
+      - New York University
   is_me: true
 
 yzhang:
@@ -60,6 +62,8 @@ yzhang:
       - New York University
     wihdirectview:
       - New York University and Meta Reality Labs
+    eccv26:
+      - New York University
 
 eshahan:
   first_name: Ethan
@@ -147,6 +151,8 @@ qsun:
     tmometric:
       - New York University
     dyndom:
+      - New York University
+    eccv26:
       - New York University
 
 yzhu:
@@ -338,6 +344,8 @@ bli:
   website: https://bingxuan-li.github.io
   affiliation: 
     imggs:
+      - New York University
+    eccv26:
       - New York University
 
 akuznetsov:
@@ -583,3 +591,43 @@ aserrano:
   affiliation: 
     dyndom:
       - Universidad de Zaragoza
+
+jwu:
+  first_name: Jiahao
+  last_name: Wu
+  website: https://scholar.google.com/citations?user=3RuEnDEAAAAJ&hl=en
+  affiliation: 
+    eccv26:
+      - Columbia University
+
+yxu:
+  first_name: Yuan
+  last_name: Xu
+  website: https://scholar.google.com/citations?user=BpHBGTkAAAAJ&hl=en
+  affiliation: 
+    eccv26:
+      - Columbia University
+
+zzhu:
+  first_name: Zezheng
+  last_name: Zhu
+  website: https://scholar.google.com/citations?user=fLBhbiMAAAAJ&hl=en
+  affiliation: 
+    eccv26:
+      - Columbia University
+
+yliang:
+  first_name: Yanqi
+  last_name: Liang
+  website: 
+  affiliation: 
+    eccv26:
+      - Columbia University
+
+nyu:
+  first_name: Nanfang
+  last_name: Yu
+  website: https://www.apam.columbia.edu/faculty/nanfang-yu
+  affiliation: 
+    eccv26:
+      - Columbia University

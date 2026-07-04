@@ -1,8 +1,55 @@
+- id: eccv26
+  title: "Physically Grounded Monocular Depth via Nanophotonic Wavefront Prompting"
+  venue: ECCV
+  year: 2026
+  showyear: true
+  description: "Metric depth prediction from a monocular capture using a metalens."
+  project_page: "projects/eccv26/index.html"
+  pdf: assets/papers/2026_ECCV_li.pdf 
+  is_selected: false
+  image: "NanoSense-SmallTeaser.png"
+  tag: "#F6BEFF"
+  teaser_image: eccv26_teaser.png
+  teaser_text: "Overview of our system and method. (a) Our birefringent metalens converts a
+3D scene into two polarized images, encoding depth information in pixel-wise shifts
+between the images (see Fig. 3c). (b) The compact 3-mm-diameter metalens (right)
+consists of a two-dimensional array of 700-nm-tall TiO2 nanopillars with anisotropic
+cross-sections, engineered to provide independent phase control for x- and y-polarized
+light. For scale, it is shown alongside a 1-inch plano-convex lens (left) and a U.S. 1-cent coin (middle). (c) These depth-dependent optical signals are converted into model
+inputs and processed by a fine-tuned depth foundation model. (d) Our method recovers
+metrically accurate depth by combining physical depth cues with learned image priors,
+enabling high-quality physically grounded monocular depth estimation."
+  authors:
+    - bli
+    - jwu
+    - yxu 
+    - zzhu
+    - yzhang 
+    - kchen
+    - yliang
+    - nyu
+    - qsun
+  affiliation_images:
+    - nyu.png
+    - cambridge.png
+    - meta.png
+  abstract: "Depth foundation models offer strong learned priors for 3D
+perception but lack physical depth cues, leading to ambiguities in metric scale. We introduce a birefringent metalens
+— a planar nanophotonic lens composed of subwavelength
+pixels for wavefront shaping with a thickness of 700 nm and
+a diameter of 3 mm — to physically prompt depth foundation models. In a single monocular shot, our metalens physically embeds depth information into two polarized optical
+wavefronts, which we decode through a lightweight prompting and fine-tuning framework that aligns depth foundation
+models with the optical signals. To scale the training data,
+we develop a light wave propagation simulator that synthesizes metalens responses from RGB-D datasets, incorporating key physical factors to minimize the sim-to-real gap.
+Simulated and physical experiments with our fabricated
+titanium-dioxide metalens demonstrate accurate and consistent metric depth over state-of-the-art monocular depth
+estimators. The research demonstrates that nanophotonic
+wavefront formation offers a promising bridge for grounding depth foundation models in physical depth sensing."
+
 - id: tmometric
   title: "Adapting Quality Metrics to Tone Mapping"
   venue: ACM SIGGRAPH
   year: 2026
-  showyear: true
   description: "Image/video quality metrics can be adapted to predict tone mapping quality."
   project_page: "projects/tmometric/index.html"
   github: 
@@ -390,7 +437,7 @@ towards applications such as deepfake detection."
   showyear: 2025
   description: "A perceptual scale to describe human preference for contrast and luminance when viewing HDR."
   project_page: "projects/sig25/index.html"
-  highlightvideo: "sig25_highlight.mp4"
+  highlightvideo: "sig25_highlight2.mp4"
   github: NYU-ICL/what-is-hdr.git
   arxiv: 
   poster: assets/WIH-poster.pdf
@@ -476,7 +523,7 @@ and helps standardize the understanding of HDR."
   title: "Image-GS: Content-Adaptive Image Representation via 2D Gaussians"
   venue: ACM SIGGRAPH
   year: 2025
-  highlightvideo: "imggs_highlight.mp4"
+  highlightvideo: "imggs_highlight2.mp4"
   video: images/imggs_ff.mp4
   description: "2D gaussians can serve as an effective technique for low bit rate image encoding."
   project_page: "projects/imggs/index.html"
@@ -769,7 +816,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   doi: 10.1145/3658126
   year: 2024
   showyear: 2024
-  highlightvideo: peapods.mp4
+  highlightvideo: peapods2.mp4
   description: "A subjective evaluation of display power optimization algorithms for wide FOV displays."
   project_page: "projects/sig24/index.html"
   github: NYU-ICL/pea-pods.git
@@ -1017,7 +1064,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   bgcolor: True
   is_selected: true
   tag: "#F6BEFF"
-  highlightvideo: "sigasia (1).mp4"
+  highlightvideo: "sigasia (1)2.mp4"
   teaser_text: "We present a perceptually-guided, real-time, and closed-form model for minimizing the power consumption of untethered VR displays while preserving visual fidelity. We apply a gaze-contingent shader onto the original frame ((a) left) to produce a more power efficient frame ((a) right) while preserving the luminance level and perceptual fidelity during active viewing. The dashed circles indicate the user's gaze. Our method is jointly motivated by prior literature revealing that: i) the power cost of displaying different colors on LEDs may vary significantly, even if the luminance levels remain unchanged [Dong and Zhong 2011]; ii) human color sensitivity decreases in peripheral [Hansen et al. 2009] and active vision [Cohen et al. 2020]. The color palette of the original frame is modulated using our peripheral filter and is shown in (a) for a visual comparison. While the color palettes appear different when gazed upon, an observer cannot discriminate between them when shown in their periphery. (b) visualizes how our model shifts the image's chromatic histograms to minimize the physically-measured power consumption. The blue LEDs consume more energy than the red/green in our experiment display panel. Image credits to Tim Caynes © 2012."
   paper_image: vrenergy_paper.png
   teaser_image: sigasia22_teaser.png
