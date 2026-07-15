@@ -52,9 +52,12 @@ wavefront formation offers a promising bridge for grounding depth foundation mod
   year: 2026
   description: "Image/video quality metrics can be adapted to predict tone mapping quality."
   project_page: "projects/tmometric/index.html"
-  github: 
+  github: NYU-ICL/TM-metric-adaptation
+  dataset: https://www.repository.cam.ac.uk/items/2f7c9a2a-ffe5-4d61-92b2-f6cb4928f119
   pdf: assets/papers/2026_siggraph_chen_main.pdf 
   supp: assets/papers/2026_siggraph_chen_supplement.pdf 
+  poster: ../assets/posters/sig26-poster.pdf
+  poster_preview: ../assets/posters/sig26-poster.png
   is_selected: true
   bgcolor: True
   image: sig26-long.png
