@@ -442,7 +442,7 @@ towards applications such as deepfake detection."
   project_page: "projects/sig25/index.html"
   highlightvideo: "sig25_highlight2.mp4"
   github: NYU-ICL/what-is-hdr.git
-  arxiv: 
+  dataset: https://drive.google.com/file/d/1gHDbzMzNX9ZoVXgoFo7woxbbTzubLEhB/view?usp=sharing
   poster: assets/WIH-poster.pdf
   poster_preview: assets/WIH-poster.png
   ff: images/sig25_ff.mp4
