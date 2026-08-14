@@ -1,3 +1,2 @@
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-videos/2026_siggraph_kam_supplementary-video.mp4 filter=lfs diff=lfs merge=lfs -text
-videos/papers_312.mp4 filter=lfs diff=lfs merge=lfs -text
+assets/videos/2026_siggraph_kam_supplementary-video.mp4 filter=lfs diff=lfs merge=lfs -text
+assets/videos/papers_312.mp4 filter=lfs diff=lfs merge=lfs -text
