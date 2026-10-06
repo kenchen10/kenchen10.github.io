@@ -1,3 +1,12 @@
+- id: google
+  company: Google Zǔrich
+  # mentor: 'with Jose Echevarria and Aaron Hertzmann.'
+  # descriptions: 
+    # - Working on design tools.
+  # shortdescription: Working on design tools
+  years: September 2026 - December 2026
+  role: Student Researcher
+  img: Google_2015_logo.png
 - id: adobe
   company: Adobe
   mentor: 'with Jose Echevarria and Aaron Hertzmann.'

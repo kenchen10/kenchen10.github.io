@@ -1,8 +1,29 @@
+- id: google
+  title: 'I started as a student researcher at Google Zürich!'
+  date: 2026-09
+  month: "09"
+  year: 2026
+  fill: "#BBDEFB"
+  tag: "#CFD8DC"
+
+- id: sfutalk
+  title: 'I gave a talk about my work at Simon Fraser University!'
+  date: 2026-08
+  month: "08"
+  fill: "#FFCCBC"
+  tag: "#CFD8DC"
+
+- id: adaptingqmetrics
+  title: 'I presented our <a class="links" style="font-size: 14px;" href="projects/tmometric/index.html" target="_blank">research on tone mapping quality metrics</a> at SIGGRAPH!'
+  date: 2026-07
+  month: "07"
+  fill: "#FFCCBC"
+  tag: "#CFD8DC"
+
 - id: hvmv
   title: 'We will be holding a <a class="links" style="font-size: 14px;" href="https://fromhv2mv.github.io" target="_blank">workshop</a> on the last day of SIGGRAPH 2026, stop by!'
   date: 2026-06
   month: "06"
-  year: 2026
   fill: "#FFE0B2"
   tag: "#CFD8DC"
 
@@ -11,6 +32,20 @@
   date: 2026-06
   month: "06"
   fill: "#FFE0B2"
+  tag: "#CFD8DC"
+
+- id: adobe
+  title: 'I started an internship at Adobe!'
+  date: 2026-05
+  month: "05"
+  fill: "#BBDEFB"
+  tag: "#CFD8DC"
+
+- id: eg26
+  title: 'I presented our work at Eurograhpics, and gave a short talk at the doctoral consortium!'
+  date: 2026-05
+  month: "05"
+  fill: "#FFCCBC"
   tag: "#CFD8DC"
 
 - id: sig26
