@@ -457,3 +457,15 @@ pre {
   transition: transform .3s ease;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
+/* consistent square crop for the sidebar photo grid */
+img.hoverable {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(40, 20, 50, 0.12) !important;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+img.hoverable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(40, 20, 50, 0.2) !important;
+}
