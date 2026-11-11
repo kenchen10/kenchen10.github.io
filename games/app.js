@@ -371,11 +371,13 @@
 
   // ---------- start ----------
   // A personal link like .../games/?me=Alex sets the name automatically.
-  const qName = new URLSearchParams(location.search).get('me');
-  if (qName) {
-    setName(qName);
-    history.replaceState(null, '', location.pathname);
-  }
+  const qs = new URLSearchParams(location.search);
+  const qName = qs.get('me');
+  if (qName) setName(qName);
+  // Web Share Target: the OS share sheet opens this page with ?title=&text=&url=
+  const shared = ['title', 'text', 'url'].map((k) => qs.get(k)).filter(Boolean).join('\n');
+  if (qName || shared) history.replaceState(null, '', location.pathname);
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
   $('#demo-banner').hidden = !DEMO;
   render();
   load()
@@ -384,5 +386,6 @@
     })
     .finally(() => {
       if (!getName()) askName();
+      else if (shared) submit(shared);
     });
 })();

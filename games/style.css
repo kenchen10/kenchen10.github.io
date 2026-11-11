@@ -79,3 +79,15 @@ dialog::backdrop { background: rgba(0,0,0,.4); }
 dialog input { width: 100%; padding: 12px; font-size: 1rem; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); margin: 8px 0 12px; }
 dialog menu { margin: 0; padding: 0; }
 .nowrap { white-space: nowrap; }
+
+/* Drifting emoji background */
+.bg-layer { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
+.bg-emoji {
+  position: absolute; opacity: .12; user-select: none; will-change: transform;
+  animation: drift 60s ease-in-out infinite alternate;
+}
+@media (prefers-color-scheme: dark) { .bg-emoji { opacity: .09; } }
+@keyframes drift {
+  from { transform: translate(0, 0) rotate(0deg); }
+  to   { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
+}
