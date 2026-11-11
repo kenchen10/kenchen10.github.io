@@ -9,6 +9,8 @@
   const DEMO = !API;
   const DEMO_KEY = 'lb_demo_rows';
   const NAME_KEY = 'lb_name';
+  const CACHE_KEY = 'lb_rows_cache';
+  const UNDO_WINDOW_MS = 24 * 3600 * 1000; // must match the backend
 
   const $ = (s) => document.querySelector(s);
   const esc = (s) =>
@@ -29,7 +31,8 @@
   let rows = []; // raw submissions: {ts, player, text}
   let entries = []; // parsed + de-duplicated results
   let displayName = {}; // normalized name -> name as first written
-  const state = { tab: 'overall', range: 'all', mode: 'points' };
+  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '' };
+  let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
 
   // ---------- identity ----------
   function getName() { return store.get(NAME_KEY) || ''; }
@@ -53,10 +56,20 @@
     if (DEMO) {
       rows = JSON.parse(store.get(DEMO_KEY) || '[]');
     } else {
-      const r = await fetch(API + (API.includes('?') ? '&' : '?') + 't=' + Date.now());
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const j = await r.json();
-      rows = j.rows || [];
+      try {
+        const r = await fetch(API + (API.includes('?') ? '&' : '?') + 't=' + Date.now());
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const j = await r.json();
+        rows = j.rows || [];
+        store.set(CACHE_KEY, JSON.stringify(rows));
+        $('#offline-banner').hidden = true;
+      } catch (e) {
+        // Offline or the backend is down: show the last results we saw.
+        const cached = store.get(CACHE_KEY);
+        if (!cached) throw e;
+        rows = JSON.parse(cached);
+        $('#offline-banner').hidden = false;
+      }
     }
     rebuild();
     render();
@@ -80,6 +93,29 @@
       }
     }
     entries = [...seen.values()];
+    dateIdx = {};
+    for (const e of entries) {
+      const m = (dateIdx[e.player] = dateIdx[e.player] || {});
+      for (const k of [e.game, '*']) (m[k] = m[k] || new Set()).add(e.date);
+    }
+  }
+
+  // Streaks of consecutive days played (any game with gameId = null).
+  // The current streak stays alive until the end of today, so it counts from yesterday if today isn't played yet.
+  function streakInfo(player, gameId) {
+    const set = (dateIdx[player] || {})[gameId || '*'];
+    if (!set) return { cur: 0, best: 0 };
+    const today = localDate(new Date());
+    let d = set.has(today) ? today : addDays(today, -1);
+    let cur = 0;
+    while (set.has(d)) { cur++; d = addDays(d, -1); }
+    let best = 0, run = 0, prev = null;
+    for (const x of [...set].sort()) {
+      run = prev && addDays(prev, 1) === x ? run + 1 : 1;
+      best = Math.max(best, run);
+      prev = x;
+    }
+    return { cur, best };
   }
 
   async function submit(text) {
@@ -139,6 +175,56 @@
     }
   }
 
+
+  // ---------- undo ----------
+  // Index into rows of this player's latest submission within the undo window, or -1.
+  function myRecentIdx() {
+    const me = normName(getName());
+    if (!me) return -1;
+    const cutoff = Date.now() - UNDO_WINDOW_MS;
+    let best = -1;
+    rows.forEach((r, i) => {
+      if (normName(r.player) !== me || Date.parse(r.ts) < cutoff) return;
+      if (best < 0 || r.ts >= rows[best].ts) best = i;
+    });
+    return best;
+  }
+
+  async function undoLast() {
+    const name = getName();
+    if (!name) return askName();
+    if (!confirm('Remove your most recent submission?')) return;
+    setBusy(true);
+    try {
+      let removed;
+      if (DEMO) {
+        const all = JSON.parse(store.get(DEMO_KEY) || '[]');
+        const me = normName(name);
+        let i = -1;
+        all.forEach((r, k) => { if (normName(r.player) === me && (i < 0 || r.ts >= all[i].ts)) i = k; });
+        if (i < 0) throw new Error('nothing to undo');
+        removed = all.splice(i, 1)[0];
+        store.set(DEMO_KEY, JSON.stringify(all));
+      } else {
+        const r = await fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'undo', player: name }),
+        });
+        const j = await r.json().catch(() => ({}));
+        if (!j.ok) throw new Error(j.error || 'the backend needs the latest Code.gs deployed');
+        removed = j.removed;
+      }
+      await load();
+      const what = parseShareText(removed.text).results.map((x) => `${GAME_BY_ID[x.game].name} ${x.display}`).join(', ');
+      toast('↩ Removed ' + (what || 'your last submission'));
+    } catch (e) {
+      toast("Couldn't undo (" + e.message + ').', true);
+    } finally {
+      setBusy(false);
+    }
+  }
+
   // ---------- scoring ----------
   function inRange(e) {
     if (state.range === 'all') return true;
@@ -176,7 +262,7 @@
     });
   }
 
-  function overall(es) {
+  function overall(es, mode = state.mode) {
     const stats = {};
     const S = (p) => (stats[p] = stats[p] || { player: p, points: 0, wins: 0, played: 0, normSum: 0 });
     for (const list of groupBy(es, (e) => e.game + '|' + e.puzzle).values()) {
@@ -190,7 +276,7 @@
       }
     }
     let list = Object.values(stats).map((s) => ({ ...s, avg: (100 * s.normSum) / s.played }));
-    if (state.mode === 'points') {
+    if (mode === 'points') {
       list.forEach((s) => (s.score = s.points));
       list.sort((a, b) => b.points - a.points || b.wins - a.wins || b.avg - a.avg);
       return ranked(list);
@@ -224,17 +310,21 @@
 
   // ---------- rendering ----------
   const medal = (r) => (r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : r ? r : '–');
-  const nameCell = (p) => {
+  const nameCell = (p, gameId) => {
     const me = normName(getName()) === p;
-    return `<td class="name${me ? ' is-me' : ''}">${esc(displayName[p] || p)}</td>`;
+    const cur = streakInfo(p, gameId).cur;
+    const flame = cur >= 2 ? ` <span class="streak" title="${cur} days in a row">🔥${cur}</span>` : '';
+    return `<td class="name${me ? ' is-me' : ''}"><button class="plink" data-player="${esc(p)}">${esc(displayName[p] || p)}</button>${flame}</td>`;
   };
 
   function renderTabs() {
-    const tabs = [{ id: 'overall', label: '🏆 Overall' }, ...GAMES.map((g) => ({ id: g.id, label: `${g.emoji} ${g.name}` })), { id: 'recent', label: '🗓️ Recent' }];
+    const tabs = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, ...GAMES.map((g) => ({ id: g.id, label: `${g.emoji} ${g.name}` })), { id: 'recent', label: '🗓️ Recent' }];
     $('#tabs').innerHTML = tabs
       .map((t) => `<button data-tab="${t.id}" class="${t.id === state.tab ? 'on' : ''}">${esc(t.label)}</button>`)
       .join('');
     $('#mode').style.display = state.tab === 'overall' ? '' : 'none';
+    const plain = state.tab === 'daily' || state.tab === 'profile'; // these ignore the time range
+    document.querySelector('.controls').hidden = plain;
   }
 
   function renderToday() {
@@ -244,7 +334,10 @@
       const done = entries.some((e) => e.player === p && e.game === g.id && e.date === today);
       return `<span class="chip${done ? ' done' : ''}">${done ? '✓' : '·'} ${esc(g.name)}</span>`;
     }).join('');
-    $('#today').innerHTML = p ? `<span class="muted">Today:</span> ${chips}` : '';
+    const cur = p ? streakInfo(p, null).cur : 0;
+    const streak = cur >= 2 ? `<span class="streak">🔥 ${cur}-day streak</span>` : '';
+    const undo = myRecentIdx() >= 0 ? '<button class="link" id="undo">↩ Undo last submission</button>' : '';
+    $('#today').innerHTML = p ? `<span class="muted">Today:</span> ${chips} ${streak} ${undo}` : '';
   }
 
   function renderOverall(es) {
@@ -272,7 +365,7 @@
     const head = `<tr><th></th><th>Player</th><th class="num">Avg ${esc(g.unit)}</th><th class="num">Best</th><th class="num">Wins</th><th class="num">Played</th></tr>`;
     const body = list
       .map(
-        (s) => `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player)}
+        (s) => `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player, g.id)}
         <td class="num strong">${g.formatValue(s.avg)}</td><td class="num">${(WORDLE_LIKE.has(g.id)) && s.best >= 7 ? 'X' : g.formatValue(s.best).replace(/\.00$/, '')}</td>
         <td class="num">${s.wins}</td><td class="num nowrap">${s.played}${s.fails ? ` <small class="muted">${s.fails}✗</small>` : ''}</td></tr>`
       )
@@ -300,6 +393,106 @@
       .join('');
   }
 
+
+  // ---------- daily recap ----------
+  function renderDaily() {
+    const today = localDate(new Date());
+    const date = state.day || today;
+    const nav = `<div class="daynav"><button data-day="${addDays(date, -1)}" aria-label="Previous day">‹</button>
+      <strong>${prettyDate(date)}</strong>
+      <button data-day="${addDays(date, 1)}" aria-label="Next day" ${date >= today ? 'disabled' : ''}>›</button></div>`;
+    const es = entries.filter((e) => e.date === date);
+    if (!es.length) return nav + empty('Nobody has played anything on this day.');
+
+    const board = overall(es, 'points')
+      .map((s) => `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player)}<td class="num strong">${s.points}</td><td class="num">${s.played}</td></tr>`)
+      .join('');
+    const top = `<h3>Day standings</h3><table><tr><th></th><th>Player</th><th class="num">Points</th><th class="num">Games</th></tr>${board}</table>`;
+
+    const cards = GAMES.filter((g) => es.some((e) => e.game === g.id))
+      .map((g) => {
+        const res = rankPuzzle(es.filter((e) => e.game === g.id), g);
+        const rowsHtml = res
+          .map((e) => `<tr><td class="rank">${medal(e.rank)}</td>${nameCell(e.player)}<td class="num strong">${esc(e.display)}</td></tr>`)
+          .join('');
+        return `<h3 class="game-h">${g.emoji} ${esc(g.name)}</h3><table>${rowsHtml}</table>`;
+      })
+      .join('');
+    return nav + top + cards;
+  }
+
+  // ---------- player profile ----------
+  function headToHead(a, b) {
+    const total = { a: 0, b: 0, tie: 0 };
+    const byGame = {};
+    const idx = new Map();
+    for (const e of entries) {
+      if (e.player !== a && e.player !== b) continue;
+      const k = e.game + '|' + e.puzzle;
+      if (!idx.has(k)) idx.set(k, {});
+      idx.get(k)[e.player] = e;
+    }
+    for (const [k, v] of idx) {
+      if (!v[a] || !v[b]) continue;
+      const g = GAME_BY_ID[k.split('|')[0]];
+      const diff = g.better === 'higher' ? v[a].value - v[b].value : v[b].value - v[a].value;
+      const t = (byGame[g.id] = byGame[g.id] || { a: 0, b: 0, tie: 0 });
+      const side = diff > 0 ? 'a' : diff < 0 ? 'b' : 'tie';
+      t[side]++;
+      total[side]++;
+    }
+    return { total, byGame };
+  }
+
+  function renderProfile() {
+    const p = state.profile;
+    const back = '<button class="link back" data-back="1">‹ Back</button>';
+    if (!p || !entries.some((e) => e.player === p)) return back + empty('No results for this player yet.');
+    const name = esc(displayName[p] || p);
+    const all = overall(entries, 'points');
+    const ov = all.find((s) => s.player === p);
+    const st = streakInfo(p, null);
+    const stats = [
+      ['Overall rank', ov.rank ? '#' + ov.rank : '–'],
+      ['Points', ov.points],
+      ['Wins', ov.wins],
+      ['Played', ov.played],
+      ['Streak', st.cur ? `🔥 ${st.cur}` : '0'],
+      ['Best streak', st.best],
+    ]
+      .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`)
+      .join('');
+
+    const gameRows = GAMES.map((g) => {
+      const list = perGame(entries, g);
+      const s = list.find((x) => x.player === p);
+      if (!s) return '';
+      const gs = streakInfo(p, g.id).cur;
+      const best = WORDLE_LIKE.has(g.id) && s.best >= 7 ? 'X' : g.formatValue(s.best).replace(/\.00$/, '');
+      return `<tr><td>${g.emoji} ${esc(g.name)}</td><td class="num">${medal(s.rank)}</td><td class="num strong">${g.formatValue(s.avg)}</td>
+        <td class="num">${best}</td><td class="num">${s.wins}</td><td class="num">${s.played}${gs >= 2 ? ` <span class="streak">🔥${gs}</span>` : ''}</td></tr>`;
+    }).join('');
+    const perGameTable = `<h3>By game (all time)</h3><table><tr><th>Game</th><th class="num">Rank</th><th class="num">Avg</th><th class="num">Best</th><th class="num">Wins</th><th class="num">Played</th></tr>${gameRows}</table>`;
+
+    const others = Object.keys(displayName).filter((x) => x !== p).sort((x, y) => displayName[x].localeCompare(displayName[y]));
+    const opts = ['<option value="">Pick a friend…</option>']
+      .concat(others.map((o) => `<option value="${esc(o)}"${o === state.h2h ? ' selected' : ''}>${esc(displayName[o])}</option>`))
+      .join('');
+    let h2h = '';
+    if (state.h2h && state.h2h !== p) {
+      const r = headToHead(p, state.h2h);
+      const other = esc(displayName[state.h2h] || state.h2h);
+      const line = (label, t) => `<tr><td>${label}</td><td class="num strong">${t.a}</td><td class="num strong">${t.b}</td><td class="num">${t.tie}</td></tr>`;
+      const games = GAMES.filter((g) => r.byGame[g.id]).map((g) => line(`${g.emoji} ${esc(g.name)}`, r.byGame[g.id])).join('');
+      const n = r.total.a + r.total.b + r.total.tie;
+      h2h = n
+        ? `<table><tr><th>Same puzzle</th><th class="num">${name}</th><th class="num">${other}</th><th class="num">Tie</th></tr>${games}${line('<b>Total</b>', r.total)}</table>`
+        : `<p class="muted empty">You haven't played any of the same puzzles yet.</p>`;
+    }
+    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${perGameTable}
+      <h3>Head to head</h3><select id="h2h" aria-label="Compare with">${opts}</select>${h2h}`;
+  }
+
   function render() {
     document.title = CFG.title + ' Leaderboard';
     $('#title').textContent = CFG.title;
@@ -310,11 +503,13 @@
     let html;
     if (state.tab === 'overall') html = renderOverall(es);
     else if (state.tab === 'recent') html = renderRecent(es);
+    else if (state.tab === 'daily') html = renderDaily();
+    else if (state.tab === 'profile') html = renderProfile();
     else html = renderGame(es, GAME_BY_ID[state.tab]);
     $('#board').innerHTML = html;
   }
 
-  const empty = () => '<p class="muted empty">No results in this range yet.</p>';
+  const empty = (msg) => `<p class="muted empty">${msg || 'No results in this range yet.'}</p>`;
   const ordinal = (n) => n + ({ 1: 'st', 2: 'nd', 3: 'rd' }[n] || 'th');
   function prettyDate(iso) {
     const today = localDate(new Date());
@@ -357,7 +552,27 @@
     const b = e.target.closest('button[data-tab]');
     if (!b) return;
     state.tab = b.dataset.tab;
+    if (state.tab === 'daily') state.day = null; // jump back to today
     render();
+  });
+  $('#today').addEventListener('click', (e) => { if (e.target.closest('#undo')) undoLast(); });
+  $('#board').addEventListener('click', (e) => {
+    const pl = e.target.closest('button[data-player]');
+    const day = e.target.closest('button[data-day]');
+    if (pl) {
+      state.profile = pl.dataset.player;
+      state.h2h = '';
+      state.tab = 'profile';
+    } else if (day && !day.disabled) {
+      state.day = day.dataset.day;
+    } else if (e.target.closest('[data-back]')) {
+      state.tab = 'overall';
+    } else return;
+    render();
+    window.scrollTo(0, 0);
+  });
+  $('#board').addEventListener('change', (e) => {
+    if (e.target.id === 'h2h') { state.h2h = e.target.value; render(); }
   });
   $('#range').addEventListener('change', (e) => { state.range = e.target.value; render(); });
   $('#mode').addEventListener('click', (e) => {
