@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Daily Games Leaderboard</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#16a34a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Leaderboard">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1 id="title">Daily Games</h1>
+    <div class="me">Playing as <strong id="me-name">—</strong> · <button class="link" id="change-name">change</button></div>
+  </header>
+
+  <div id="demo-banner" class="banner" hidden>
+    Demo mode: results are only saved in this browser. Add your Apps Script URL to <code>games/config.js</code> to share with friends.
+  </div>
+
+  <section class="submit">
+    <button id="submit-clip" class="big">📋 Submit from clipboard</button>
+    <p class="hint">Hit <em>Share</em> in the game, then tap the button. You can paste several games at once.</p>
+    <details id="manual">
+      <summary>Paste manually</summary>
+      <textarea id="paste" rows="5" placeholder="Paste your result(s) here…"></textarea>
+      <button id="submit-paste">Submit</button>
+    </details>
+    <div id="today" class="today"></div>
+  </section>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <nav class="tabs" id="tabs"></nav>
+
+  <div class="controls">
+    <select id="range" aria-label="Time range">
+      <option value="all">All time</option>
+      <option value="30">Last 30 days</option>
+      <option value="7">Last 7 days</option>
+      <option value="today">Today</option>
+    </select>
+    <div id="mode" class="seg" role="group" aria-label="Overall scoring">
+      <button data-mode="points" class="on">Points</button>
+      <button data-mode="average">Average</button>
+    </div>
+  </div>
+
+  <main id="board"><p class="muted">Loading…</p></main>
+
+  <dialog id="name-dialog">
+    <form method="dialog" id="name-form">
+      <h2>Who are you?</h2>
+      <p class="muted">Pick your name once; this phone will remember it.</p>
+      <input id="name-input" list="known-players" autocomplete="nickname" maxlength="30" placeholder="Your name" required>
+      <datalist id="known-players"></datalist>
+      <menu><button value="ok" class="big">Save</button></menu>
+    </form>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="games.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
