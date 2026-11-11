@@ -44,8 +44,7 @@ textarea { width: 100%; margin: 8px 0; padding: 8px; border-radius: 8px; border:
   background: var(--accent-soft); font-size: .9rem; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
 .toast.err { background: var(--err-soft); color: var(--err); }
 
-.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
-.tabs::-webkit-scrollbar { display: none; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
 .tabs button, .seg button {
   white-space: nowrap; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line);
   background: var(--card); color: var(--fg); font-size: .9rem;
