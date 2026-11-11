@@ -317,6 +317,17 @@
     return `<td class="name${me ? ' is-me' : ''}"><button class="plink" data-player="${esc(p)}">${esc(displayName[p] || p)}</button>${flame}</td>`;
   };
 
+  // Round profile button in the header: first letter of the name on a colour picked from the name.
+  function renderAvatar() {
+    const name = getName();
+    const el = $('#avatar');
+    el.textContent = name ? Array.from(name)[0].toUpperCase() : '?';
+    let hash = 0;
+    for (const ch of normName(name)) hash = (hash * 31 + ch.charCodeAt(0)) % 360;
+    el.style.background = name ? `hsl(${hash} 55% 45%)` : '';
+    $('#my-profile').classList.toggle('active', state.tab === 'profile' && state.profile === normName(name));
+  }
+
   function renderTabs() {
     const tabs = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, ...GAMES.map((g) => ({ id: g.id, label: `${g.emoji} ${g.name}` })), { id: 'recent', label: '🗓️ Recent' }];
     $('#tabs').innerHTML = tabs
@@ -444,6 +455,35 @@
     return { total, byGame };
   }
 
+  // Sparkline of a player's last 30 results in one game. Up is always better:
+  // values are scaled with the game's own normalize(), so "lower is better" games read the same way.
+  function trend(p, g) {
+    const mine = entries
+      .filter((e) => e.player === p && e.game === g.id)
+      .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0))
+      .slice(-30);
+    const pts = mine.map((e) => Math.max(0, Math.min(1, g.normalize(e.value, e))));
+    if (pts.length < 2) return '';
+    const W = 96, H = 22, pad = 3;
+    const x = (i) => pad + (i * (W - 2 * pad)) / (pts.length - 1);
+    const y = (v) => H - pad - v * (H - 2 * pad);
+    const line = pts.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+    const last = pts.length - 1;
+    // Recent form: last 5 results vs the 5 before them.
+    const avg = (a) => a.reduce((t, v) => t + v, 0) / a.length;
+    const recent = pts.slice(-5), before = pts.slice(-10, -5);
+    let arrow = '';
+    if (before.length >= 2) {
+      const d = avg(recent) - avg(before);
+      if (d > 0.04) arrow = '<span class="up" title="Improving">▲</span>';
+      else if (d < -0.04) arrow = '<span class="down" title="Slipping">▼</span>';
+    }
+    const label = `Last ${pts.length} results, up is better`;
+    return `<div class="trend"><svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${label}">
+      <title>${label}</title><polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="${x(last).toFixed(1)}" cy="${y(pts[last]).toFixed(1)}" r="2.4" fill="var(--accent)"/></svg>${arrow}</div>`;
+  }
+
   function renderProfile() {
     const p = state.profile;
     const back = '<button class="link back" data-back="1">‹ Back</button>';
@@ -469,7 +509,7 @@
       if (!s) return '';
       const gs = streakInfo(p, g.id).cur;
       const best = WORDLE_LIKE.has(g.id) && s.best >= 7 ? 'X' : g.formatValue(s.best).replace(/\.00$/, '');
-      return `<tr><td>${g.emoji} ${esc(g.name)}</td><td class="num">${medal(s.rank)}</td><td class="num strong">${g.formatValue(s.avg)}</td>
+      return `<tr><td>${g.emoji} ${esc(g.name)}${trend(p, g)}</td><td class="num">${medal(s.rank)}</td><td class="num strong">${g.formatValue(s.avg)}</td>
         <td class="num">${best}</td><td class="num">${s.wins}</td><td class="num">${s.played}${gs >= 2 ? ` <span class="streak">🔥${gs}</span>` : ''}</td></tr>`;
     }).join('');
     const perGameTable = `<h3>By game (all time)</h3><table><tr><th>Game</th><th class="num">Rank</th><th class="num">Avg</th><th class="num">Best</th><th class="num">Wins</th><th class="num">Played</th></tr>${gameRows}</table>`;
@@ -485,8 +525,14 @@
       const line = (label, t) => `<tr><td>${label}</td><td class="num strong">${t.a}</td><td class="num strong">${t.b}</td><td class="num">${t.tie}</td></tr>`;
       const games = GAMES.filter((g) => r.byGame[g.id]).map((g) => line(`${g.emoji} ${esc(g.name)}`, r.byGame[g.id])).join('');
       const n = r.total.a + r.total.b + r.total.tie;
+      const pct = (v) => ((100 * v) / n).toFixed(1);
+      const bar = n
+        ? `<div class="h2h-bar" role="img" aria-label="${name} won ${r.total.a}, ${other} won ${r.total.b}, ${r.total.tie} ties">
+            <span class="a" style="width:${pct(r.total.a)}%"></span><span class="t" style="width:${pct(r.total.tie)}%"></span><span class="b" style="width:${pct(r.total.b)}%"></span></div>
+           <div class="h2h-legend"><span>${name} ${pct(r.total.a)}%</span><span>${other} ${pct(r.total.b)}%</span></div>`
+        : '';
       h2h = n
-        ? `<table><tr><th>Same puzzle</th><th class="num">${name}</th><th class="num">${other}</th><th class="num">Tie</th></tr>${games}${line('<b>Total</b>', r.total)}</table>`
+        ? `${bar}<table><tr><th>Same puzzle</th><th class="num">${name}</th><th class="num">${other}</th><th class="num">Tie</th></tr>${games}${line('<b>Total</b>', r.total)}</table>`
         : `<p class="muted empty">You haven't played any of the same puzzles yet.</p>`;
     }
     return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${perGameTable}
@@ -497,6 +543,7 @@
     document.title = CFG.title + ' Leaderboard';
     $('#title').textContent = CFG.title;
     $('#me-name').textContent = getName() || '—';
+    renderAvatar();
     renderTabs();
     renderToday();
     const es = entries.filter(inRange);
@@ -547,6 +594,15 @@
   });
   $('#submit-paste').addEventListener('click', () => submit($('#paste').value));
   $('#change-name').addEventListener('click', askName);
+  $('#my-profile').addEventListener('click', () => {
+    const me = normName(getName());
+    if (!me) return askName();
+    state.profile = me;
+    state.h2h = '';
+    state.tab = 'profile';
+    render();
+    window.scrollTo(0, 0);
+  });
   $('#name-form').addEventListener('submit', () => { setName($('#name-input').value); render(); });
   $('#tabs').addEventListener('click', (e) => {
     const b = e.target.closest('button[data-tab]');
