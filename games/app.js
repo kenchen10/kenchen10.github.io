@@ -89,7 +89,7 @@
         const puzzle = r.puzzle != null ? r.puzzle : date;
         const key = `${p}|${g.id}|${puzzle}`;
         if (seen.has(key)) continue; // first submission for a puzzle counts
-        seen.set(key, { player: p, game: g.id, puzzle, date, value: r.value, par: r.par, display: r.display, ts: row.ts });
+        seen.set(key, { player: p, game: g.id, puzzle, date, value: r.value, par: r.par, display: r.display, detail: r.detail, ts: row.ts });
       }
     }
     entries = [...seen.values()];
@@ -395,7 +395,7 @@
             const res = rankPuzzle(list.filter((e) => e.game === g.id), g);
             const n = res.length;
             return `<div class="day-game"><span class="gname">${g.emoji} ${esc(g.name)}</span>${res
-              .map((e) => `<span class="res${e.rank === 1 && n > 1 ? ' win' : ''}">${esc(displayName[e.player] || e.player)} <b>${esc(e.display)}</b></span>`)
+              .map((e) => `<span class="res${e.rank === 1 && n > 1 ? ' win' : ''}">${esc(displayName[e.player] || e.player)} <b class="has-tip"${tipAttr(e)}>${esc(e.display)}</b></span>`)
               .join('')}</div>`;
           })
           .join('');
@@ -404,6 +404,45 @@
       .join('');
   }
 
+
+  // ---------- result details (hover / tap) ----------
+  let tips = []; // rebuilt on every render; elements point at an index
+  const tipAttr = (e) => {
+    const d = e.detail;
+    if (!d || !((d.grid && d.grid.length) || (d.rows && d.rows.length))) return '';
+    tips.push(e);
+    return ` data-tip="${tips.length - 1}" tabindex="0"`;
+  };
+
+  function tipHtml(e) {
+    const g = GAME_BY_ID[e.game];
+    const d = e.detail;
+    const rowsHtml = (d.rows || [])
+      .map((r) => `<tr><td>${esc(r.label)}</td><td class="tip-mark">${esc(r.mark || '')}</td><td class="num"><b>${esc(r.value)}</b></td></tr>`)
+      .join('');
+    const grid = (d.grid || []).map((l) => `<div>${esc(l)}</div>`).join('');
+    const legend = g.legend
+      ? `<div class="tip-legend">${Object.entries(g.legend).map(([k, v]) => `${esc(k)} ${esc(v)}`).join(' · ')}</div>`
+      : '';
+    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>
+      ${rowsHtml ? `<table>${rowsHtml}</table>` : ''}${grid ? `<div class="tip-grid">${grid}</div>` : ''}${d.note ? `<div class="tip-note">${esc(d.note)}</div>` : ''}${legend}`;
+  }
+
+  const tipEl = () => $('#tip');
+  function showTip(el) {
+    const e = tips[Number(el.dataset.tip)];
+    if (!e) return;
+    const t = tipEl();
+    t.innerHTML = tipHtml(e);
+    t.hidden = false;
+    const r = el.getBoundingClientRect(), tr = t.getBoundingClientRect();
+    const left = Math.max(8, Math.min(window.innerWidth - tr.width - 8, r.left + r.width / 2 - tr.width / 2));
+    const below = r.bottom + 8 + tr.height <= window.innerHeight || r.top - 8 - tr.height < 0;
+    t.style.left = left + 'px';
+    t.style.top = (below ? r.bottom + 8 : r.top - 8 - tr.height) + 'px';
+    t.dataset.for = el.dataset.tip;
+  }
+  const hideTip = () => { tipEl().hidden = true; tipEl().dataset.for = ''; };
 
   // ---------- daily recap ----------
   function renderDaily() {
@@ -424,12 +463,12 @@
       .map((g) => {
         const res = rankPuzzle(es.filter((e) => e.game === g.id), g);
         const rowsHtml = res
-          .map((e) => `<tr><td class="rank">${medal(e.rank)}</td>${nameCell(e.player)}<td class="num strong">${esc(e.display)}</td></tr>`)
+          .map((e) => `<tr><td class="rank">${medal(e.rank)}</td>${nameCell(e.player)}<td class="num strong"><span class="has-tip"${tipAttr(e)}>${esc(e.display)}</span></td></tr>`)
           .join('');
         return `<h3 class="game-h">${g.emoji} ${esc(g.name)}</h3><table>${rowsHtml}</table>`;
       })
       .join('');
-    return nav + top + cards;
+    return nav + top + cards + '<p class="note">Hover (or tap) a result to see the round-by-round details.</p>';
   }
 
   // ---------- player profile ----------
@@ -540,6 +579,8 @@
   }
 
   function render() {
+    tips = [];
+    hideTip();
     document.title = CFG.title + ' Leaderboard';
     $('#title').textContent = CFG.title;
     $('#me-name').textContent = getName() || '—';
@@ -611,6 +652,19 @@
     if (state.tab === 'daily') state.day = null; // jump back to today
     render();
   });
+  const canHover = window.matchMedia('(hover: hover)').matches;
+  document.addEventListener('mouseover', (e) => {
+    if (!canHover) return;
+    const el = e.target.closest('[data-tip]');
+    if (el) showTip(el); else if (!e.target.closest('#tip')) hideTip();
+  });
+  document.addEventListener('focusin', (e) => { const el = e.target.closest('[data-tip]'); if (el) showTip(el); else hideTip(); });
+  document.addEventListener('click', (e) => {
+    if (canHover) return;
+    const el = e.target.closest('[data-tip]');
+    if (el && tipEl().dataset.for !== el.dataset.tip) showTip(el); else hideTip(); // tap to open, tap again or elsewhere to close
+  });
+  window.addEventListener('scroll', hideTip, { passive: true });
   $('#today').addEventListener('click', (e) => { if (e.target.closest('#undo')) undoLast(); });
   $('#board').addEventListener('click', (e) => {
     const pl = e.target.closest('button[data-player]');

@@ -21,6 +21,25 @@
     const y = Math.floor(n / 10000), m = Math.floor(n / 100) % 100, d = n % 100;
     return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
   };
+  // Detail shown when hovering/tapping a result. parse() may return `detail`:
+  //   { grid: ['🟩🟨⬜…', …],                      emoji lines, shown as-is
+  //     rows: [{ label, value, mark }, …] }      e.g. one row per round
+  // A game may also define `legend: { '🫧': 'meaning', … }` to explain its emojis.
+  const gridLines = (s) =>
+    s.split('\n').map((l) => l.trim())
+      .filter((l) => l && !/[0-9A-Za-z]/.test(l) && /^[\p{Extended_Pictographic}️‍ ]+$/u.test(l));
+
+  // Krillion's "The Bearing": tier names for the answer emojis, and bands for the total score.
+  // (Emoji ↔ tier pairing read off the game's rules screen; the per-answer point cut-offs aren't published.)
+  const KRILLION_TIER_NAME = { '🫧': 'Plankton', '🐟': 'Schooler', '🏮': 'Rare', '🦑': 'Deep cut', '🦐': 'One in a krillion' };
+  const KRILLION_BEARING = [
+    { max: 150, name: 'Plankton', line: 'Plenty of ocean left down there.' },
+    { max: 250, name: 'Schooler', line: 'Swimming with the school.' },
+    { max: 350, name: 'Rare', line: 'Below the thermocline. Nice.' },
+    { max: 449, name: 'Deep cut', line: 'Seriously deep dive.' },
+    { max: Infinity, name: 'One in a krillion', line: 'Trench dweller. Absurd.' },
+  ];
+
   const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
   const GAMES = [
@@ -39,6 +58,7 @@
           puzzle: Number(m[1].replace(/\D/g, '')),
           value: guesses,
           display: (failed ? 'X' : guesses) + '/6' + (m[3] ? '*' : ''),
+          detail: { grid: gridLines(s) },
         };
       },
       better: 'lower',
@@ -58,7 +78,14 @@
         if (!m) return null;
         const pts = Number(m[2]);
         if (pts > 700) return null;
-        return { puzzle: Number(m[1]), value: pts, display: pts + ' pts' };
+        const answers = Array.from(gridLines(s)[0] || '')
+          .filter((ch) => ch !== '\uFE0F' && ch !== ' ')
+          .map((ch, i) => ({ label: 'Answer ' + (i + 1), mark: ch, value: KRILLION_TIER_NAME[ch] || '' }));
+        const bearing = KRILLION_BEARING.find((b) => pts <= b.max);
+        return {
+          puzzle: Number(m[1]), value: pts, display: pts + ' pts',
+          detail: { rows: answers, note: bearing ? `Bearing: ${bearing.name}. ${bearing.line}` : '' },
+        };
       },
       better: 'higher',
       unit: 'points',
@@ -105,7 +132,7 @@
         if (!m) return null;
         const failed = /x/i.test(m[2]);
         const guesses = failed ? 7 : Number(m[2]);
-        return { puzzle: Number(m[1]), value: guesses, display: (failed ? 'X' : guesses) + '/6' };
+        return { puzzle: Number(m[1]), value: guesses, display: (failed ? 'X' : guesses) + '/6', detail: { grid: gridLines(s) } };
       },
       better: 'lower',
       unit: 'guesses',
@@ -124,7 +151,7 @@
         if (!m) return null;
         const failed = /x/i.test(m[2]);
         const guesses = failed ? 7 : Number(m[2]);
-        return { puzzle: Number(m[1]), value: guesses, display: (failed ? 'X' : guesses) + '/6' };
+        return { puzzle: Number(m[1]), value: guesses, display: (failed ? 'X' : guesses) + '/6', detail: { grid: gridLines(s) } };
       },
       better: 'lower',
       unit: 'guesses',
@@ -144,7 +171,9 @@
         const d = s.match(/(\d{4})-(\d{2})-(\d{2})/);
         if (!sc || !d) return null;
         const value = Number(sc[1]);
-        return { puzzle: Number(d[1] + d[2] + d[3]), value, display: value + '/500' };
+        const rows = [...s.matchAll(/^\s*([\p{Extended_Pictographic}\uFE0F]+)\s+(\d{1,3})\s*$/gmu)]
+          .map((r, i) => ({ label: 'Round ' + (i + 1), value: Number(r[2]), mark: r[1] }));
+        return { puzzle: Number(d[1] + d[2] + d[3]), value, display: value + '/500', detail: { rows } };
       },
       better: 'higher',
       unit: 'points',
@@ -162,7 +191,7 @@
         const m = s.match(/No\.\s*(\d+)\s*[-–—]\s*(\d{1,3}(?:,\d{3})*|\d+)\s*m\b/i);
         if (!m) return null;
         const value = Number(m[2].replace(/,/g, ''));
-        return { puzzle: Number(m[1]), value, display: value.toLocaleString('en-US') + ' m' };
+        return { puzzle: Number(m[1]), value, display: value.toLocaleString('en-US') + ' m', detail: { grid: gridLines(s) } };
       },
       better: 'higher',
       unit: 'metres',
@@ -187,7 +216,9 @@
         let year = now.getFullYear();
         if (Date.UTC(year, month, day) - now.getTime() > 60 * DAY) year--;
         const value = Number(sc[1]);
-        return { puzzle: year * 10000 + (month + 1) * 100 + day, value, display: value + ' pts' };
+        const rounds = [...s.split(/Final/i)[0].matchAll(/(\d{1,3})\s*(\p{Extended_Pictographic}\uFE0F?)/gu)]
+          .map((r, i) => ({ label: 'Round ' + (i + 1), value: Number(r[1]), mark: r[2] }));
+        return { puzzle: year * 10000 + (month + 1) * 100 + day, value, display: value + ' pts', detail: { rows: rounds } };
       },
       better: 'higher',
       unit: 'points',
