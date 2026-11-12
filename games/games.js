@@ -431,6 +431,37 @@
       date: fromEpoch('2022-04-29'), // #1 = 2022-04-30 (the game's start date); #1658 = 2026-11-12
     },
     {
+      id: 'nerdle',
+      name: 'Nerdle',
+      emoji: '🧮',
+      url: 'https://nerdlegame.com/',
+      failValue: 7, // a failed puzzle (X/6) counts as 7
+      header: /nerdlegame\s+\d/gi,
+      // "nerdlegame 1758 3/6\n\n⬛🟪🟩⬛⬛🟩⬛🟪\n…\n🟩🟩🟩🟩🟩🟩🟩🟩"   (guess the hidden maths equation in 6 tries)
+      //   Each row is one 8-character guess: 🟩 right character in the right place, 🟪 in the equation but
+      //   in the wrong place, ⬛ not in it. X/6 = failed; a trailing * would mean hard mode.
+      parse(s) {
+        const m = s.match(/^nerdlegame\s+(\d{1,5})\s+([1-6Xx])\s*\/\s*6(\*?)/i);
+        if (!m) return null;
+        const failed = /x/i.test(m[2]);
+        const guesses = failed ? 7 : Number(m[2]);
+        return {
+          puzzle: Number(m[1]),
+          value: guesses,
+          display: (failed ? 'X' : guesses) + '/6' + (m[3] ? '*' : ''),
+          detail: { grid: gridLines(s) },
+        };
+      },
+      legend: { '🟩': 'right spot', '🟪': 'in it, wrong spot', '⬛': 'not in it' },
+      // Opening guess quality from the first grid row: 🟩 = 1, 🟪 = 0.5, else 0 (averaged over the row).
+      firstGuess: (d) => openingScore(d.grid && d.grid[0], { '🟩': 1, '🟪': 0.5 }),
+      better: 'lower',
+      unit: 'guesses',
+      formatValue: (v) => (v >= 7 ? 'X' : v.toFixed(2)),
+      normalize: (v) => (7 - v) / 6, // 1/6 -> 1.0, 6/6 -> 0.17, X -> 0
+      date: fromEpoch('2022-01-19'), // #1758 = 2026-11-12 (the day it was shared)
+    },
+    {
       id: 'maptap',
       name: 'MapTap',
       emoji: '📍',

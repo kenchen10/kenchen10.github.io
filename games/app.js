@@ -615,7 +615,7 @@
       .join('');
     const note = pts
       ? `Each puzzle: ${CFG.placementPoints.map((p, i) => `${ordinal(i + 1)} = ${p}`).join(', ')} pts among friends who played it. Wins = outright or tied 1st with 2+ players.`
-      : `Average of each result scaled 0–100 (100 = perfect; Wordle, Flagle or Tradle 1/6, Krillion 700, MapTap 1000, Magnitudle 500, Draw the Border 100, Perceptle 100, Peakle vs the day's best (min. 8 steps), Tiled Words vs the day's fastest time (benchmark kept between 2:00 and 6:00), Globle vs the day's fewest guesses (benchmark kept between 4 and 10), Spotle likewise (4 to 8), Noillirk 8,849 m, Poople at par). Fewer than ${CFG.minPlaysForAverage} plays are listed at the bottom.`;
+      : `Average of each result scaled 0–100 (100 = perfect; Wordle, Flagle, Tradle or Nerdle 1/6, Krillion 700, MapTap 1000, Magnitudle 500, Draw the Border 100, Perceptle 100, Peakle vs the day's best (min. 8 steps), Tiled Words vs the day's fastest time (benchmark kept between 2:00 and 6:00), Globle vs the day's fewest guesses (benchmark kept between 4 and 10), Spotle likewise (4 to 8), Noillirk 8,849 m, Poople at par). Fewer than ${CFG.minPlaysForAverage} plays are listed at the bottom.`;
     return `<table>${head}${body}</table><p class="note">${note}</p>`;
   }
 
@@ -924,9 +924,9 @@
           score: luck.score,
           emoji: luck.score >= 15 ? '✨' : luck.score <= -15 ? '🌧️' : '🎲',
           label: `Luck: ${luck.score >= 40 ? 'Very lucky starts' : luck.score >= 15 ? 'Lucky starts' : luck.score > -15 ? 'Average starts' : luck.score > -40 ? 'Unlucky starts' : 'Very unlucky starts'}`,
-          note: `Over their last ${luck.n} results, their opening guess was better than ${Math.round(luck.pct)}% of all openings on average. Based on the first guess in Wordle, Tradle, Spotle, Globle and Poople.`,
+          note: `Over their last ${luck.n} results, their opening guess was better than ${Math.round(luck.pct)}% of all openings on average. Based on the first guess in Wordle, Nerdle, Tradle, Spotle, Globle and Poople.`,
         })
-      : `<div class="form"><p class="note">Luck needs 3 results from games with a visible first guess (Wordle, Tradle, Spotle, Globle, Poople), and ${CFG.minForStartRank} openings in a game from everyone to compare against.</p></div>`;
+      : `<div class="form"><p class="note">Luck needs 3 results from games with a visible first guess (Wordle, Nerdle, Tradle, Spotle, Globle, Poople), and ${CFG.minForStartRank} openings in a game from everyone to compare against.</p></div>`;
     const badges = badgesOf(p);
     const earned = badges.filter((b) => b.got).length;
     const badgeHtml = `<h3>Badges <span class="muted">${earned} of ${badges.length}</span></h3><div class="badges">${badges
