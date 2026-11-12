@@ -44,3 +44,10 @@ Delete the row in the Google Sheet.
 - **Form:** on a profile, the average of their last 10 results' gaps, shown as −100…+100.
 - **Hot streak ⚡:** `hotStreakWins` (default 3) wins in a row in one game, among the puzzles that player played, with the latest result in the past 7 days. A win means 1st place (outright or tied) with at least 2 players on that puzzle.
 
+## First-guess luck, weekly recap, badges and rivalries
+
+- **First-guess luck (✨ / 🌧️):** for games whose share grid shows the first guess (Wordle, Tradle, Spotle, Globle, Poople), the opening guess is scored 0–1 and ranked against every opening ever shared for that game (needs `minForStartRank` openings, default 8). An opening in the top 15% gets ✨ on the Daily and Recent tabs, the bottom 15% gets 🌧️, and the hover says "better than N% of openings". A profile's **Luck** gauge averages their last 10 openings. To add a game, give its entry a `firstGuess(detail)` that returns 0–1 (see `games.js`).
+- **Weekly recap (📰):** the last 7 days (‹ › to go back), as cards: champion, most wins, biggest climber, best form, luckiest starts, best single result, longest win run, most days played and cold spell. A card only appears when there's enough data. **Copy this recap** puts the cards in your clipboard as text.
+- **Badges:** 13 badges on each profile (earned ones are lit, the rest are locked with a tooltip explaining how). They are computed from the results, so there is nothing to store.
+- **Rivalries:** each profile shows the closest rival, nemesis and favourite opponent, from head-to-head records over at least `minForRival` shared puzzles (default 5). Tap a name to open the comparison.
+

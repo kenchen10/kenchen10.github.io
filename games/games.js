@@ -6,6 +6,7 @@
 //   parse(s) – given the text from the header up to the next game's header,
 //              return { puzzle, value, display } or null if it can't be read
 //   better   – 'higher' or 'lower' (is a bigger value better?)
+//   firstGuess – optional (detail) -> 0..1, how good the opening guess was (feeds the first-guess luck meter)
 //   failValue – optional: the value a failed puzzle is stored as (shown as an X, counted in the ✗ column)
 //   normalize(v, entry) – map value to 0..1 (1 = perfect) for the overall board
 //   relative – optional { floor, cap }: instead of normalize(), score a result against the best that day
@@ -54,6 +55,13 @@
     { max: Infinity, name: 'One in a krillion', line: 'Trench dweller. Absurd.' },
   ];
 
+  // How good an opening guess was, 0..1 (1 = best), from a row of share-grid emoji. `points` maps an
+  // emoji to its value; anything else counts 0. Returns null when there's no row to read.
+  const openingScore = (row, points) => {
+    const cells = Array.from(row || '').filter((c) => c !== '\uFE0F' && c !== ' ');
+    return cells.length ? cells.reduce((t, c) => t + (points[c] || 0), 0) / cells.length : null;
+  };
+
   const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
   const GAMES = [
@@ -77,6 +85,8 @@
           detail: { grid: gridLines(s) },
         };
       },
+      // Opening guess quality from the first grid row: 🟩 = 1, 🟨 = 0.5, else 0 (averaged over the row).
+      firstGuess: (d) => openingScore(d.grid && d.grid[0], { '🟩': 1, '🟨': 0.5 }),
       better: 'lower',
       unit: 'guesses',
       formatValue: (v) => (v >= 7 ? 'X' : v.toFixed(2)),
@@ -130,6 +140,8 @@
           detail: { grid: gridLines(s), note: steps === par ? 'Perfect: matched the best solution.' : `${steps - par} over the best solution (${par}).` },
         };
       },
+      // grid[0] is the given starting word, so the first real guess is row 1: how many letters already match P-O-O-P.
+      firstGuess: (d) => openingScore(d.grid && d.grid[1], { '🟫': 1 }),
       better: 'lower',
       unit: 'guesses',
       formatValue: (v) => v.toFixed(2),
@@ -173,6 +185,7 @@
         const guesses = failed ? 7 : Number(m[2]);
         return { puzzle: Number(m[1]), value: guesses, display: (failed ? 'X' : guesses) + '/6', detail: { grid: gridLines(s) } };
       },
+      firstGuess: (d) => openingScore(d.grid && d.grid[0], { '🟩': 1, '🟨': 0.5 }),
       better: 'lower',
       unit: 'guesses',
       formatValue: (v) => (v >= 7 ? 'X' : v.toFixed(2)),
@@ -361,6 +374,8 @@
         };
       },
       legend: { '🟩': 'correct', '🟥': '<1,500 km', '🟧': '<3,750 km', '🟨': '<7,500 km', '⬜': 'farther' },
+      // First guess only: 🟩 hit it, 🟥 under 1,500 km, 🟧 under 3,750 km, 🟨 under 7,500 km, ⬜ farther.
+      firstGuess: (d) => openingScore(d.grid && Array.from(d.grid[0] || '')[0], { '🟩': 1, '🟥': 0.75, '🟧': 0.5, '🟨': 0.25 }),
       better: 'lower',
       unit: 'guesses',
       formatValue: (v) => v.toFixed(1),
@@ -405,6 +420,7 @@
         };
       },
       legend: { '🟩': 'correct', '🟨': 'close', '⬜': 'miss' },
+      firstGuess: (d) => openingScore(d.grid && d.grid[0], { '🟩': 1, '🟨': 0.5 }),
       better: 'lower',
       unit: 'guesses',
       formatValue: (v) => (v >= 11 ? 'X' : v.toFixed(1)),

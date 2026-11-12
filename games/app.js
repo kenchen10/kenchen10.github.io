@@ -1,6 +1,6 @@
 (function () {
   const CFG = Object.assign(
-    { apiUrl: '', title: 'Daily Games', minPlaysForAverage: 3, placementPoints: [3, 2, 1], minForUsual: 4, hotStreakWins: 3 },
+    { apiUrl: '', title: 'Daily Games', minPlaysForAverage: 3, placementPoints: [3, 2, 1], minForUsual: 4, hotStreakWins: 3, minForStartRank: 8, minForRival: 5 },
     window.LEADERBOARD_CONFIG || {}
   );
   const API = (CFG.apiUrl || '').trim();
@@ -29,7 +29,7 @@
   let rows = []; // raw submissions: {ts, player, text}
   let entries = []; // parsed + de-duplicated results
   let displayName = {}; // normalized name -> name as first written
-  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all' };
+  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null };
   let puzzleBest = {}; // game|puzzle -> best value (for games scored relative to the day's best)
   let winRun = {}; // player|game -> { n: current run of consecutive wins, date: date of their latest result }
   let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
@@ -102,10 +102,29 @@
       for (const k of [e.game, '*']) (m[k] = m[k] || new Set()).add(e.date);
     }
 
-    // Who won each puzzle (outright or tied 1st, with 2+ players).
+    // Who won each puzzle (outright or tied 1st, with 2+ players) and who finished last (3+ players).
     for (const list of groupBy(entries, (e) => e.game + '|' + e.puzzle).values()) {
       const ranked = rankPuzzle(list, GAME_BY_ID[list[0].game]);
-      for (const r of ranked) list.find((x) => x.player === r.player).won = r.rank === 1 && list.length > 1;
+      const lastRank = Math.max(...ranked.map((r) => r.rank));
+      for (const r of ranked) {
+        const e = list.find((x) => x.player === r.player);
+        e.won = r.rank === 1 && list.length > 1;
+        e.last = list.length >= 3 && r.rank === lastRank && r.rank > 1;
+      }
+    }
+
+    // First-guess luck: rank each opening guess against every opening ever shared for that game.
+    const pools = {};
+    for (const e of entries) {
+      const g = GAME_BY_ID[e.game];
+      const q = g.firstGuess && e.detail ? g.firstGuess(e.detail) : null;
+      if (q != null) { e.q = q; (pools[e.game] = pools[e.game] || []).push(q); }
+    }
+    for (const e of entries) {
+      const pool = pools[e.game];
+      if (e.q == null || pool.length < CFG.minForStartRank) continue;
+      const below = pool.filter((v) => v < e.q - 1e-9).length, same = pool.filter((v) => Math.abs(v - e.q) <= 1e-9).length;
+      e.start = { pct: Math.round((100 * (below + same / 2)) / pool.length), n: pool.length }; // 100 = best opening so far
     }
 
     // Per player and game, in puzzle order: each result vs the player's own earlier results ("usual"),
@@ -365,6 +384,90 @@
     return ranked(list);
   }
 
+
+  // ---------- first-guess luck, badges, rivalries ----------
+  const mean = (arr) => arr.reduce((t, v) => t + v, 0) / arr.length;
+
+  // Luck of a player's opening guesses over their last 10 results that have one: -100..+100.
+  function startLuck(p) {
+    const list = entries.filter((e) => e.player === p && e.start).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0)).slice(0, 10);
+    if (list.length < 3) return null;
+    const pct = mean(list.map((e) => e.start.pct));
+    return { score: Math.round((pct - 50) * 2), n: list.length, pct };
+  }
+
+  // 🎯-style gauge shared by "Form" and "Luck".
+  function meterHtml({ score, emoji, label, note }) {
+    return `<div class="form"><div class="form-head"><b>${emoji} ${label}</b><span class="${score >= 0 ? 'up' : 'down'}">${score > 0 ? '+' : score < 0 ? '−' : ''}${Math.abs(score)}</span></div>
+      <div class="gauge" role="img" aria-label="${esc(label)} ${score} on a scale of minus 100 to 100"><span class="mid"></span><span class="dot" style="left:${(score + 100) / 2}%"></span></div>
+      <div class="gauge-scale"><span>worse</span><span>better</span></div><p class="note">${note}</p></div>`;
+  }
+
+  const BADGES = [
+    { id: 'perfect', times: true, emoji: '💯', name: 'Perfectionist', desc: 'Get a perfect result (for example Wordle in 1).' },
+    { id: 'hole', times: true, emoji: '⛳', name: 'Hole in one', desc: 'Solve a guessing game in a single guess.' },
+    { id: 'summit', times: true, emoji: '🏔️', name: 'Summit', desc: 'Top out a Peakle climb.' },
+    { id: 'comeback', times: true, emoji: '🔄', name: 'Comeback', desc: 'Win a puzzle right after finishing last in the same game (3+ players).' },
+    { id: 'hot', emoji: '⚡', name: 'Hot hand', desc: `Win ${CFG.hotStreakWins} puzzles in a row in one game.` },
+    { id: 'special', emoji: '🎯', name: 'Specialist', desc: 'Win 5 puzzles in one game.' },
+    { id: 'busy', emoji: '🗓️', name: 'Busy day', desc: 'Play 5 different games in one day.' },
+    { id: 'week', emoji: '🔥', name: 'Week streak', desc: 'Play on 7 days in a row.' },
+    { id: 'month', emoji: '🌋', name: 'Month streak', desc: 'Play on 30 days in a row.' },
+    { id: 'regular', emoji: '📅', name: 'Regular', desc: 'Play 25 puzzles.' },
+    { id: 'veteran', emoji: '🎖️', name: 'Veteran', desc: 'Play 100 puzzles.' },
+    { id: 'lucky', times: true, emoji: '✨', name: 'Lucky start', desc: 'Open with a guess better than 95% of all openings.' },
+    { id: 'crown', emoji: '👑', name: 'On top', desc: 'Currently #1 on the Overall board (Points, all time).' },
+  ];
+
+  function badgesOf(p) {
+    const mine = entries.filter((e) => e.player === p);
+    const n = Object.fromEntries(BADGES.map((b) => [b.id, 0]));
+    const byGame = groupBy(mine, (e) => e.game);
+    for (const e of mine) {
+      const g = GAME_BY_ID[e.game];
+      if (!g.relative && norm(e, g) >= 0.999) n.perfect++;
+      if (g.unit === 'guesses' && g.id !== 'poople' && e.value === 1) n.hole++;
+      if (e.detail && (e.detail.rows || []).some((r) => /topped out/i.test(String(r.value)))) n.summit++;
+      if (e.start && e.start.pct >= 95) n.lucky++;
+    }
+    let bestRun = 0, bestWins = 0;
+    for (const list of byGame.values()) {
+      list.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.puzzle < b.puzzle ? -1 : 1));
+      let run = 0, wins = 0;
+      list.forEach((e, i) => {
+        run = e.won ? run + 1 : 0;
+        bestRun = Math.max(bestRun, run);
+        if (e.won) { wins++; if (i > 0 && list[i - 1].last) n.comeback++; }
+      });
+      bestWins = Math.max(bestWins, wins);
+    }
+    n.hot = bestRun >= CFG.hotStreakWins ? bestRun : 0;
+    n.special = bestWins >= 5 ? bestWins : 0;
+    n.busy = Math.max(0, ...[...groupBy(mine, (e) => e.date).values()].map((l) => new Set(l.map((e) => e.game)).size));
+    n.busy = n.busy >= 5 ? n.busy : 0;
+    const best = streakInfo(p, null).best;
+    n.week = best >= 7 ? best : 0;
+    n.month = best >= 30 ? best : 0;
+    n.regular = mine.length >= 25 ? mine.length : 0;
+    n.veteran = mine.length >= 100 ? mine.length : 0;
+    const top = overall(entries, 'points')[0];
+    n.crown = top && top.player === p && top.rank === 1 ? 1 : 0;
+    return BADGES.map((b) => ({ ...b, count: n[b.id], got: n[b.id] > 0 }));
+  }
+
+  // Rivalries from head-to-head records over puzzles both players played.
+  function rivalries(p) {
+    const rows = Object.keys(displayName)
+      .filter((o) => o !== p)
+      .map((o) => { const r = headToHead(p, o).total; return { o, a: r.a, b: r.b, tie: r.tie, n: r.a + r.b + r.tie }; })
+      .filter((x) => x.n >= CFG.minForRival);
+    if (!rows.length) return null;
+    const closest = [...rows].sort((x, y) => Math.abs(x.a - x.b) / x.n - Math.abs(y.a - y.b) / y.n || y.n - x.n)[0];
+    const nemesis = [...rows].filter((x) => x.b > x.a).sort((x, y) => y.b / y.n - x.b / x.n || y.n - x.n)[0];
+    const victim = [...rows].filter((x) => x.a > x.b).sort((x, y) => y.a / y.n - x.a / x.n || y.n - x.n)[0];
+    return { closest, nemesis, victim };
+  }
+
   // ---------- rendering ----------
   const medal = (r) => (r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : r ? r : '–');
   const nameCell = (p, gameId) => {
@@ -393,12 +496,12 @@
 
   function renderTabs() {
     const btn = (t) => `<button data-tab="${t.id}" class="${t.id === state.tab ? 'on' : ''}">${esc(t.label)}</button>`;
-    const stats = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, { id: 'recent', label: '🗓️ Recent' }];
+    const stats = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, { id: 'recent', label: '🗓️ Recent' }, { id: 'weekly', label: '📰 Weekly' }];
     const games = GAMES.map((g) => ({ id: g.id, label: `${g.emoji} ${g.name}` }));
     const group = (label, list) => `<div class="tab-group"><span class="tab-label">${label}</span><div class="tab-row">${list.map(btn).join('')}</div></div>`;
     $('#tabs').innerHTML = group('Stats', stats) + group('Games', games);
     $('#mode').style.display = state.tab === 'overall' ? '' : 'none';
-    const plain = state.tab === 'daily' || state.tab === 'profile'; // these ignore the time range
+    const plain = state.tab === 'daily' || state.tab === 'weekly' || state.tab === 'profile'; // these ignore the time range
     document.querySelector('.controls').hidden = plain;
   }
 
@@ -512,7 +615,7 @@
       )
       .join('');
     const note = g.better === 'higher' ? 'Higher is better.' : 'Lower is better.' + (g.failValue ? ` A failed puzzle counts as ${g.failValue}.` : '');
-    return `<table>${head}${body}</table><p class="note">${note}</p>`;
+    return `<table class="pg-table">${head}${body}</table><p class="note">${note}</p>`;
   }
 
   function renderRecent(es) {
@@ -525,7 +628,7 @@
             const res = rankPuzzle(list.filter((e) => e.game === g.id), g);
             const n = res.length;
             return `<div class="day-game"><span class="gname">${g.emoji} ${esc(g.name)}</span>${res
-              .map((e) => `<span class="res${e.rank === 1 && n > 1 ? ' win' : ''}">${esc(displayName[e.player] || e.player)} <b class="has-tip"${tipAttr(e)}>${esc(e.display)}</b>${vsMark(e)}</span>`)
+              .map((e) => `<span class="res${e.rank === 1 && n > 1 ? ' win' : ''}">${esc(displayName[e.player] || e.player)} <b class="has-tip"${tipAttr(e)}>${esc(e.display)}</b>${vsMark(e)}${startMark(e)}</span>`)
               .join('')}</div>`;
           })
           .join('');
@@ -535,11 +638,106 @@
   }
 
 
+
+  // ---------- weekly recap ----------
+  let lastRecapText = '';
+
+  function renderWeekly() {
+    const today = localDate(new Date());
+    const end = state.week || today;
+    const start = addDays(end, -6);
+    const pStart = addDays(end, -13), pEnd = addDays(end, -7);
+    const short = (iso) => new Date(iso + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    const nav = `<div class="daynav"><button data-week="${addDays(end, -7)}" aria-label="Previous week">‹</button>
+      <strong>${end === today ? 'Last 7 days' : `${short(start)} – ${short(end)}`}</strong>
+      <button data-week="${addDays(end, 7) > today ? today : addDays(end, 7)}" aria-label="Next week" ${end >= today ? 'disabled' : ''}>›</button></div>`;
+    const w = entries.filter((e) => e.date >= start && e.date <= end);
+    const prev = entries.filter((e) => e.date >= pStart && e.date <= pEnd);
+    if (!w.length) return nav + empty('Nobody played in this week.');
+
+    const nm = (p) => displayName[p] || p;
+    const cards = [];
+    const add = (emoji, title, players, sub) => players.length && cards.push({ emoji, title, players, sub });
+    const topBy = (items, key, min = -Infinity) => {
+      const ok = items.filter((x) => key(x) > min);
+      if (!ok.length) return null;
+      const best = Math.max(...ok.map(key));
+      return { best, items: ok.filter((x) => key(x) === best) };
+    };
+
+    const ov = overall(w, 'points');
+    const champ = topBy(ov, (s) => s.points, 0);
+    if (champ) add('👑', 'Champion', champ.items.map((s) => s.player), `${champ.best} points · ${champ.items[0].wins} win${champ.items[0].wins === 1 ? '' : 's'} from ${champ.items[0].played} played`);
+    const wins = topBy(ov, (s) => s.wins, 0);
+    if (wins) add('🏆', 'Most wins', wins.items.map((s) => s.player), `${wins.best} outright or tied win${wins.best === 1 ? '' : 's'}`);
+
+    const avgNorm = (list) => mean(list.map((e) => norm(e, GAME_BY_ID[e.game])));
+    const per = (list) => groupBy(list, (e) => e.player);
+    const thisW = per(w), lastW = per(prev);
+    const climbers = [...thisW.entries()]
+      .filter(([p, l]) => l.length >= 3 && (lastW.get(p) || []).length >= 3)
+      .map(([p, l]) => ({ p, now: avgNorm(l) * 100, before: avgNorm(lastW.get(p)) * 100 }))
+      .map((x) => ({ ...x, diff: x.now - x.before }));
+    const climb = topBy(climbers, (x) => Math.round(x.diff), 0);
+    if (climb) add('📈', 'Biggest climber', climb.items.map((x) => x.p), `+${climb.best} on the 0–100 scale vs the week before (${Math.round(climb.items[0].before)} → ${Math.round(climb.items[0].now)})`);
+
+    const forms = [...thisW.entries()]
+      .map(([p, l]) => ({ p, l: l.filter((e) => e.vs) }))
+      .filter((x) => x.l.length >= 3)
+      .map((x) => ({ p: x.p, score: Math.round(mean(x.l.map((e) => Math.max(-2, Math.min(2, e.vs.z)))) * 50), n: x.l.length }));
+    const form = topBy(forms, (x) => x.score, 0);
+    if (form) add('🍀', 'Best form', form.items.map((x) => x.p), `${form.best > 0 ? '+' : ''}${form.best} vs their usual over ${form.items[0].n} results`);
+
+    const starts = [...thisW.entries()]
+      .map(([p, l]) => ({ p, l: l.filter((e) => e.start) }))
+      .filter((x) => x.l.length >= 3)
+      .map((x) => ({ p: x.p, pct: Math.round(mean(x.l.map((e) => e.start.pct))), n: x.l.length }));
+    const lucky = topBy(starts, (x) => x.pct, 55);
+    if (lucky) add('✨', 'Luckiest starts', lucky.items.map((x) => x.p), `Opening guesses better than ${lucky.best}% of all openings, on average`);
+
+    const bestOne = topBy(w.filter((e) => !GAME_BY_ID[e.game].relative), (e) => norm(e, GAME_BY_ID[e.game]), 0.5);
+    if (bestOne) {
+      const e = bestOne.items[0];
+      add('⭐', 'Best single result', bestOne.items.slice(0, 3).map((x) => x.player), `${GAME_BY_ID[e.game].emoji} ${GAME_BY_ID[e.game].name} ${e.display}${bestOne.items.length > 1 ? ' (and others tied)' : ''}`);
+    }
+
+    let run = null;
+    for (const l of groupBy(w, (e) => e.player + '|' + e.game).values()) {
+      l.sort((x, y) => (x.date < y.date ? -1 : x.date > y.date ? 1 : x.puzzle < y.puzzle ? -1 : 1));
+      let r = 0;
+      for (const e of l) {
+        r = e.won ? r + 1 : 0;
+        if (r >= 2 && (!run || r > run.n)) run = { n: r, player: e.player, game: GAME_BY_ID[e.game] };
+      }
+    }
+    if (run) add('⚡', 'Longest win run', [run.player], `${run.n} wins in a row in ${run.game.emoji} ${run.game.name}`);
+
+    const days = topBy([...thisW.entries()].map(([p, l]) => ({ p, d: new Set(l.map((e) => e.date)).size })), (x) => x.d, 2);
+    if (days) add('🔥', 'Most days played', days.items.map((x) => x.p), `${days.best} of 7 days`);
+
+    const cold = forms.filter((x) => x.score <= -15).sort((x, y) => x.score - y.score)[0];
+    if (cold) add('☁️', 'Cold spell', [cold.p], `−${Math.abs(cold.score)} vs their usual. It happens.`);
+
+    const range = `${short(start)} – ${short(end)}`;
+    lastRecapText = `📰 ${CFG.title} — week of ${range}\n` + cards.map((c) => `${c.emoji} ${c.title}: ${c.players.map(nm).join(', ')} — ${c.sub}`).join('\n');
+    const html = cards
+      .map((c) => `<div class="wk-card"><div class="wk-emoji">${c.emoji}</div><div class="wk-body"><div class="wk-title">${esc(c.title)}</div>
+        <div class="wk-who">${c.players.map((p) => `<button class="plink" data-player="${esc(p)}">${esc(nm(p))}</button>`).join(', ')}</div><div class="wk-sub">${esc(c.sub)}</div></div></div>`)
+      .join('');
+    return `${nav}<div class="wk-grid">${html}</div>
+      <p class="note">${w.length} results from ${thisW.size} player${thisW.size === 1 ? '' : 's'} between ${range}. Cards only appear when there's enough data.</p>
+      <button class="big wk-copy" data-copy-week="1">📋 Copy this recap</button>`;
+  }
+
+  function copyWeek() {
+    navigator.clipboard.writeText(lastRecapText).then(() => toast('Recap copied. Paste it in your group chat.'), () => toast("Couldn't copy. Select the cards and copy by hand.", true));
+  }
+
   // ---------- result details (hover / tap) ----------
   let tips = []; // rebuilt on every render; elements point at an index
   const tipAttr = (e) => {
     const d = e.detail;
-    if (!e.vs && (!d || !((d.grid && d.grid.length) || (d.rows && d.rows.length)))) return '';
+    if (!e.vs && !e.start && (!d || !((d.grid && d.grid.length) || (d.rows && d.rows.length)))) return '';
     tips.push(e);
     return ` data-tip="${tips.length - 1}" tabindex="0"`;
   };
@@ -547,11 +745,17 @@
   // 🍀 / ☁️ next to a result that was clearly better / worse than that player's usual.
   const vsMark = (e) => (e.vs && Math.abs(e.vs.z) >= 1 ? ` <span class="luck" title="${e.vs.z > 0 ? 'Better' : 'Worse'} than their usual">${e.vs.z > 0 ? '🍀' : '☁️'}</span>` : '');
 
+  // ✨ / 🌧️ for an opening guess that was among the best / worst ever shared for that game.
+  const startMark = (e) => (e.start && (e.start.pct >= 85 || e.start.pct <= 15) ? ` <span class="luck" title="${e.start.pct >= 85 ? 'Lucky' : 'Unlucky'} opening guess">${e.start.pct >= 85 ? '✨' : '🌧️'}</span>` : '');
+
   function tipHtml(e) {
     const g = GAME_BY_ID[e.game];
     const d = e.detail || {};
     const vs = e.vs
-      ? `<div class="tip-vs ${e.vs.diff >= 0 ? 'up' : 'down'}">${e.vs.diff >= 0 ? '🍀' : '☁️'} ${e.vs.diff >= 0 ? '+' : '−'}${Math.abs(Math.round(e.vs.diff))} vs their usual (${Math.round(e.vs.usual)} on the 0–100 scale)</div>`
+      ? `<div class="tip-vs ${e.vs.diff >= 0 ? 'up' : 'down'}">${e.vs.diff >= 5 ? '🍀' : e.vs.diff <= -5 ? '☁️' : '😐'} ${e.vs.diff >= 0 ? '+' : '−'}${Math.abs(Math.round(e.vs.diff))} vs their usual (${Math.round(e.vs.usual)} on the 0–100 scale)</div>`
+      : '';
+    const start = e.start
+      ? `<div class="tip-vs ${e.start.pct >= 50 ? 'up' : 'down'}">${e.start.pct >= 85 ? '✨' : e.start.pct <= 15 ? '🌧️' : '🎲'} Opening guess better than ${e.start.pct}% of ${e.start.n} openings</div>`
       : '';
     const rowsHtml = (d.rows || [])
       .map((r) => `<tr><td>${esc(r.label)}</td><td class="tip-mark">${esc(r.mark || '')}</td><td class="num"><b>${esc(r.value)}</b></td></tr>`)
@@ -560,7 +764,7 @@
     const legend = g.legend
       ? `<div class="tip-legend">${Object.entries(g.legend).map(([k, v]) => `${esc(k)} ${esc(v)}`).join(' · ')}</div>`
       : '';
-    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>${vs}
+    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>${vs}${start}
       ${rowsHtml ? `<table>${rowsHtml}</table>` : ''}${grid ? `<div class="tip-grid">${grid}</div>` : ''}${d.note ? `<div class="tip-note">${esc(d.note)}</div>` : ''}${legend}`;
   }
 
@@ -599,7 +803,7 @@
       .map((g) => {
         const res = rankPuzzle(es.filter((e) => e.game === g.id), g);
         const rowsHtml = res
-          .map((e) => `<tr><td class="rank">${medal(e.rank)}</td>${nameCell(e.player)}<td class="num strong"><span class="has-tip"${tipAttr(e)}>${esc(e.display)}</span>${vsMark(e)}</td></tr>`)
+          .map((e) => `<tr><td class="rank">${medal(e.rank)}</td>${nameCell(e.player)}<td class="num strong"><span class="has-tip"${tipAttr(e)}>${esc(e.display)}</span>${vsMark(e)}${startMark(e)}</td></tr>`)
           .join('');
         return `<h3 class="game-h">${g.emoji} ${esc(g.name)}</h3><table>${rowsHtml}</table>`;
       })
@@ -681,11 +885,46 @@
     const form = formOf(p);
     const label = !form ? '' : form.score >= 40 ? 'Way above usual' : form.score >= 15 ? 'Above usual' : form.score > -15 ? 'Right at usual' : form.score > -40 ? 'Below usual' : 'Way below usual';
     const formHtml = form
-      ? `<div class="form"><div class="form-head"><b>${form.score >= 15 ? '🍀' : form.score <= -15 ? '☁️' : '😐'} Form: ${label}</b><span class="${form.score >= 0 ? 'up' : 'down'}">${form.score > 0 ? '+' : form.score < 0 ? '−' : ''}${Math.abs(form.score)}</span></div>
-          <div class="gauge" role="img" aria-label="Form ${form.score} on a scale of minus 100 to 100"><span class="mid"></span><span class="dot" style="left:${(form.score + 100) / 2}%"></span></div>
-          <div class="gauge-scale"><span>worse than usual</span><span>better than usual</span></div>
-          <p class="note">Their last ${form.n} results compared with their own earlier results in each game (${form.diff >= 0 ? '+' : '−'}${Math.abs(Math.round(form.diff))} points on average).</p></div>`
+      ? meterHtml({
+          score: form.score,
+          emoji: form.score >= 15 ? '🍀' : form.score <= -15 ? '☁️' : '😐',
+          label: `Form: ${label}`,
+          note: `Their last ${form.n} results compared with their own earlier results in each game (${form.diff >= 0 ? '+' : '−'}${Math.abs(Math.round(form.diff))} points on average).`,
+        })
       : `<div class="form"><p class="note">Form needs a few more plays: a game has to have ${CFG.minForUsual} earlier results before a new one can be compared with their usual.</p></div>`;
+    const luck = startLuck(p);
+    const luckHtml = luck
+      ? meterHtml({
+          score: luck.score,
+          emoji: luck.score >= 15 ? '✨' : luck.score <= -15 ? '🌧️' : '🎲',
+          label: `Luck: ${luck.score >= 40 ? 'Very lucky starts' : luck.score >= 15 ? 'Lucky starts' : luck.score > -15 ? 'Average starts' : luck.score > -40 ? 'Unlucky starts' : 'Very unlucky starts'}`,
+          note: `Over their last ${luck.n} results, their opening guess was better than ${Math.round(luck.pct)}% of all openings on average. Based on the first guess in Wordle, Tradle, Spotle, Globle and Poople.`,
+        })
+      : `<div class="form"><p class="note">Luck needs 3 results from games with a visible first guess (Wordle, Tradle, Spotle, Globle, Poople), and ${CFG.minForStartRank} openings in a game from everyone to compare against.</p></div>`;
+    const badges = badgesOf(p);
+    const earned = badges.filter((b) => b.got).length;
+    const badgeHtml = `<h3>Badges <span class="muted">${earned} of ${badges.length}</span></h3><div class="badges">${badges
+      .map((b) => `<span class="badge${b.got ? ' got' : ''}" title="${esc(b.desc)}${b.got && b.count > 1 ? (b.times ? ` Earned ${b.count} times.` : ` Best: ${b.count}.`) : ''}"><span class="be">${b.got ? b.emoji : '🔒'}</span> ${esc(b.name)}${b.got && b.times && b.count > 1 ? ` <small>×${b.count}</small>` : ''}</span>`)
+      .join('')}</div>`;
+    const rv = rivalries(p);
+    const nameOf = (o) => esc(displayName[o] || o);
+    let rivalBody = `<p class="muted empty">Needs ${CFG.minForRival} shared puzzles with someone.</p>`;
+    if (rv) {
+      // One row per opponent, even if they're both the closest rival and the nemesis.
+      const byOpp = new Map();
+      for (const [emoji, label, x] of [['⚔️', 'Closest rival', rv.closest], ['😤', 'Nemesis', rv.nemesis], ['😎', 'Favourite opponent', rv.victim]]) {
+        if (!x) continue;
+        if (!byOpp.has(x.o)) byOpp.set(x.o, { x, emojis: [], labels: [] });
+        byOpp.get(x.o).emojis.push(emoji);
+        byOpp.get(x.o).labels.push(label);
+      }
+      rivalBody = [...byOpp.values()]
+        .map(({ x, emojis, labels }) => `<div class="rival"><span class="re">${emojis.join('')}</span><div><span class="muted">${labels.join(' · ')}</span>
+          <button class="plink" data-rival="${esc(x.o)}"><b>${nameOf(x.o)}</b></button>
+          <div class="muted">${name} ${x.a} – ${x.b} ${nameOf(x.o)}${x.tie ? ` (${x.tie} tied)` : ''} over ${x.n} shared puzzles. Tap the name to compare.</div></div></div>`)
+        .join('');
+    }
+    const rivalHtml = `<h3>Rivalries</h3>${rivalBody}`;
     const hot = hotGames(p);
     const hotHtml = hot.length
       ? `<div class="hot-row">⚡ <b>Hot streak:</b> ${hot.map(([g, n]) => `${g.emoji} ${esc(g.name)} ×${n}`).join(' · ')}</div>`
@@ -699,9 +938,9 @@
       const hn = hotFor(p, g.id);
       const best = g.failValue && s.best >= g.failValue ? 'X' : g.formatValue(s.best).replace(/\.00$/, '');
       return `<tr><td>${g.emoji} ${esc(g.name)}${trend(p, g)}</td><td class="num">${medal(s.rank)}</td><td class="num strong">${g.formatValue(s.avg)}</td>
-        <td class="num">${best}</td><td class="num">${s.wins}</td><td class="num">${s.played}${gs >= 2 ? ` <span class="streak">🔥${gs}</span>` : ''}${hn ? ` <span class="hotb" title="${hn} wins in a row">⚡${hn}</span>` : ''}</td></tr>`;
+        <td class="num">${best}</td><td class="num">${s.wins}</td><td class="num">${s.played}${gs >= 2 || hn ? `<div class="badge-line">${gs >= 2 ? `<span class="streak">🔥${gs}</span>` : ''}${hn ? ` <span class="hotb" title="${hn} wins in a row">⚡${hn}</span>` : ''}</div>` : ''}</td></tr>`;
     }).join('');
-    const perGameTable = `<h3>By game (all time)</h3><table><tr><th>Game</th><th class="num">Rank</th><th class="num">Avg</th><th class="num">Best</th><th class="num">Wins</th><th class="num">Played</th></tr>${gameRows}</table>`;
+    const perGameTable = `<h3>By game (all time)</h3><table class="pg-table"><tr><th>Game</th><th class="num">Rank</th><th class="num">Avg</th><th class="num">Best</th><th class="num">Wins</th><th class="num">Played</th></tr>${gameRows}</table>`;
 
     const others = Object.keys(displayName).filter((x) => x !== p).sort((x, y) => displayName[x].localeCompare(displayName[y]));
     const opts = ['<option value="">Pick a friend…</option>']
@@ -724,7 +963,7 @@
         ? `${bar}<table><tr><th>Same puzzle</th><th class="num">${name}</th><th class="num">${other}</th><th class="num">Tie</th></tr>${games}${line('<b>Total</b>', r.total)}</table>`
         : `<p class="muted empty">You haven't played any of the same puzzles yet.</p>`;
     }
-    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${hotHtml}${formHtml}${perGameTable}
+    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${hotHtml}${formHtml}${luckHtml}${badgeHtml}${rivalHtml}${perGameTable}
       <h3>Head to head</h3><select id="h2h" aria-label="Compare with">${opts}</select>${h2h}`;
   }
 
@@ -742,6 +981,7 @@
     if (state.tab === 'overall') html = renderOverall(es);
     else if (state.tab === 'recent') html = renderRecent(es);
     else if (state.tab === 'daily') html = renderDaily();
+    else if (state.tab === 'weekly') html = renderWeekly();
     else if (state.tab === 'profile') html = renderProfile();
     else html = renderGame(es, GAME_BY_ID[state.tab]);
     $('#board').innerHTML = html;
@@ -800,6 +1040,7 @@
     if (!b) return;
     state.tab = b.dataset.tab;
     if (state.tab === 'daily') state.day = null; // jump back to today
+    if (state.tab === 'weekly') state.week = null;
     render();
   });
   const canHover = window.matchMedia('(hover: hover)').matches;
@@ -819,7 +1060,18 @@
   $('#board').addEventListener('click', (e) => {
     const pl = e.target.closest('button[data-player]');
     const day = e.target.closest('button[data-day]');
-    if (pl) {
+    const riv = e.target.closest('button[data-rival]');
+    const wk = e.target.closest('button[data-week]');
+    if (e.target.closest('[data-copy-week]')) return copyWeek();
+    if (riv) {
+      state.h2h = riv.dataset.rival;
+      render();
+      const h = document.querySelector('#h2h');
+      if (h) h.scrollIntoView({ block: 'center' });
+      return;
+    } else if (wk && !wk.disabled) {
+      state.week = wk.dataset.week;
+    } else if (pl) {
       state.profile = pl.dataset.player;
       state.h2h = '';
       state.tab = 'profile';

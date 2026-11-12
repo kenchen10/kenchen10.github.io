@@ -181,3 +181,23 @@ td.wr .wval { position: relative; }
 .wr-matrix th, .wr-matrix td { padding: 7px 3px; font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .wr-matrix th { font-size: .65rem; }
 .wr-matrix .wr-game-cell, .wr-matrix th:first-child { width: 34px; text-align: center; font-size: 1rem; }
+
+/* Weekly recap, badges, rivalries */
+.wk-grid { display: grid; gap: 10px; margin-top: 4px; }
+.wk-card { display: flex; gap: 12px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+.wk-emoji { font-size: 1.8rem; line-height: 1; width: 36px; text-align: center; }
+.wk-title { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.wk-who { font-size: 1.1rem; font-weight: 700; }
+.wk-who .plink { font-weight: 700; }
+.wk-sub { font-size: .85rem; color: var(--muted); }
+.wk-copy { margin-top: 12px; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; border: 1px dashed var(--line); color: var(--muted); font-size: .82rem; opacity: .7; }
+.badge.got { border: 1px solid var(--accent); background: var(--accent-soft); color: var(--fg); opacity: 1; font-weight: 600; }
+.badge small { color: var(--muted); }
+.rival { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.rival .re { font-size: 1.4rem; width: 32px; text-align: center; }
+.badge-line { font-size: .75rem; line-height: 1.2; white-space: nowrap; }
+.pg-table th, .pg-table td { padding: 8px 4px; font-size: .85rem; }
+.pg-table th { font-size: .65rem; white-space: normal; line-height: 1.15; vertical-align: bottom; }
+.pg-table .trend svg { width: 72px; height: auto; }

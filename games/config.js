@@ -20,4 +20,10 @@ window.LEADERBOARD_CONFIG = {
 
   // Show the ⚡ hot-streak badge after this many wins in a row in one game.
   hotStreakWins: 3,
+
+  // First-guess luck needs this many openings in a game (from everyone) to rank a new one against.
+  minForStartRank: 8,
+
+  // Rivalries need this many puzzles two players both played.
+  minForRival: 5,
 };
