@@ -1,6 +1,4 @@
 (function () {
-  // Games scored as guesses out of 6, where a failed puzzle (X/6) counts as 7.
-  const WORDLE_LIKE = new Set(['wordle', 'flagle', 'tradle']);
   const CFG = Object.assign(
     { apiUrl: '', title: 'Daily Games', minPlaysForAverage: 3, placementPoints: [3, 2, 1] },
     window.LEADERBOARD_CONFIG || {}
@@ -313,7 +311,7 @@
         s.sum += e.value;
         if (s.best === null || (g.better === 'higher' ? e.value > s.best : e.value < s.best)) s.best = e.value;
         if (e.rank === 1 && list.length > 1) s.wins++;
-        if ((WORDLE_LIKE.has(g.id)) && e.value >= 7) s.fails++;
+        if (g.failValue && e.value >= g.failValue) s.fails++;
       }
     }
     const list = Object.values(stats).map((s) => ({ ...s, avg: s.sum / s.played }));
@@ -381,7 +379,7 @@
       .join('');
     const note = pts
       ? `Each puzzle: ${CFG.placementPoints.map((p, i) => `${ordinal(i + 1)} = ${p}`).join(', ')} pts among friends who played it. Wins = outright or tied 1st with 2+ players.`
-      : `Average of each result scaled 0–100 (100 = perfect; Wordle, Flagle or Tradle 1/6, Krillion 700, MapTap 1000, Magnitudle 500, Draw the Border 100, Perceptle 100, Peakle vs the day's best (min. 8 steps), Tiled Words vs the day's fastest time (benchmark kept between 2:00 and 6:00), Noillirk 8,849 m, Poople at par). Fewer than ${CFG.minPlaysForAverage} plays are listed at the bottom.`;
+      : `Average of each result scaled 0–100 (100 = perfect; Wordle, Flagle or Tradle 1/6, Krillion 700, MapTap 1000, Magnitudle 500, Draw the Border 100, Perceptle 100, Peakle vs the day's best (min. 8 steps), Tiled Words vs the day's fastest time (benchmark kept between 2:00 and 6:00), Globle vs the day's fewest guesses (benchmark kept between 4 and 10), Spotle likewise (4 to 8), Noillirk 8,849 m, Poople at par). Fewer than ${CFG.minPlaysForAverage} plays are listed at the bottom.`;
     return `<table>${head}${body}</table><p class="note">${note}</p>`;
   }
 
@@ -392,11 +390,11 @@
     const body = list
       .map(
         (s) => `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player, g.id)}
-        <td class="num strong">${g.formatValue(s.avg)}</td><td class="num">${(WORDLE_LIKE.has(g.id)) && s.best >= 7 ? 'X' : g.formatValue(s.best).replace(/\.00$/, '')}</td>
+        <td class="num strong">${g.formatValue(s.avg)}</td><td class="num">${g.failValue && s.best >= g.failValue ? 'X' : g.formatValue(s.best).replace(/\.00$/, '')}</td>
         <td class="num">${s.wins}</td><td class="num nowrap">${s.played}${s.fails ? ` <small class="muted">${s.fails}✗</small>` : ''}</td></tr>`
       )
       .join('');
-    const note = g.better === 'higher' ? 'Higher is better.' : 'Lower is better.' + ((WORDLE_LIKE.has(g.id)) ? ' A failed puzzle (X/6) counts as 7.' : '');
+    const note = g.better === 'higher' ? 'Higher is better.' : 'Lower is better.' + (g.failValue ? ` A failed puzzle counts as ${g.failValue}.` : '');
     return `<table>${head}${body}</table><p class="note">${note}</p>`;
   }
 
@@ -562,7 +560,7 @@
       const s = list.find((x) => x.player === p);
       if (!s) return '';
       const gs = streakInfo(p, g.id).cur;
-      const best = WORDLE_LIKE.has(g.id) && s.best >= 7 ? 'X' : g.formatValue(s.best).replace(/\.00$/, '');
+      const best = g.failValue && s.best >= g.failValue ? 'X' : g.formatValue(s.best).replace(/\.00$/, '');
       return `<tr><td>${g.emoji} ${esc(g.name)}${trend(p, g)}</td><td class="num">${medal(s.rank)}</td><td class="num strong">${g.formatValue(s.avg)}</td>
         <td class="num">${best}</td><td class="num">${s.wins}</td><td class="num">${s.played}${gs >= 2 ? ` <span class="streak">🔥${gs}</span>` : ''}</td></tr>`;
     }).join('');

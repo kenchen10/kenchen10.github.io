@@ -6,6 +6,7 @@
 //   parse(s) – given the text from the header up to the next game's header,
 //              return { puzzle, value, display } or null if it can't be read
 //   better   – 'higher' or 'lower' (is a bigger value better?)
+//   failValue – optional: the value a failed puzzle is stored as (shown as an X, counted in the ✗ column)
 //   normalize(v, entry) – map value to 0..1 (1 = perfect) for the overall board
 //   relative – optional { floor, cap }: instead of normalize(), score a result against the best that day
 //                (higher-better: value / max(best, floor); lower-better: clamp(best, floor, cap) / value)
@@ -58,6 +59,7 @@
   const GAMES = [
     {
       id: 'wordle',
+      failValue: 7, // a failed puzzle (X/6) counts as 7
       name: 'Wordle',
       emoji: '🟩',
       url: 'https://www.nytimes.com/games/wordle/index.html',
@@ -136,6 +138,7 @@
     },
     {
       id: 'flagle',
+      failValue: 7, // a failed puzzle (X/6) counts as 7
       name: 'Flagle',
       emoji: '🚩',
       url: 'https://www.flagle.io/',
@@ -157,6 +160,7 @@
     },
     {
       id: 'tradle',
+      failValue: 7, // a failed puzzle (X/6) counts as 7
       name: 'Tradle',
       emoji: '🚢',
       url: 'https://oec.world/en/games/tradle',
@@ -323,6 +327,92 @@
       relative: { floor: 120, cap: 360 },
       normalize: (v) => Math.min(1, 120 / v), // fallback only
       date: fromYmd,
+    },
+    {
+      id: 'globle',
+      name: 'Globle',
+      emoji: '🌎',
+      url: 'https://globle-game.com/',
+      header: /🌎(?=\s*(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},)/gi, // 🌎 followed by the date (Spotle's header also ends in 🌎)
+      // "🌎 Nov 12, 2026 🌍\n🔥 1 | Avg. Guesses: 11\n🟥⬜🟥🟥🟥🟥🟥🟥\n🟥🟥🟩 = 11\n\nhttps://globle-game.com\n#globle"
+      //   Date = puzzle day. 🔥 = their Globle streak; "Avg. Guesses" = their all-time average (not today's).
+      //   Squares = every guess in order, 8 per row, ending 🟩 (the mystery country). Colour = how close
+      //   the guess was: 🟥 under 1,500 km, 🟧 under 3,750 km, 🟨 under 7,500 km, ⬜ farther.
+      //   "= 11" = guesses used today: the score (lower is better).
+      parse(s) {
+        const val = s.match(/=\s*(\d+)/);
+        const d = s.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})/i);
+        if (!val || !d) return null;
+        const value = Number(val[1]);
+        const month = MONTHS.indexOf(d[1].toLowerCase()) + 1;
+        const squares = s.match(/[🟩🟥🟧🟨⬜]/gu) || [];
+        const grid = [];
+        for (let i = 0; i < squares.length; i += 8) grid.push(squares.slice(i, i + 8).join(''));
+        const rows = [];
+        const streak = s.match(/🔥\s*(\d+)/);
+        if (streak) rows.push({ label: 'Their streak', value: streak[1] });
+        const avg = s.match(/Avg\.?\s*Guesses:\s*([\d.]+)/i);
+        if (avg) rows.push({ label: 'All-time avg', value: avg[1] });
+        return {
+          puzzle: Number(d[3]) * 10000 + month * 100 + Number(d[2]),
+          value,
+          display: value + (value === 1 ? ' guess' : ' guesses'),
+          detail: { rows, grid },
+        };
+      },
+      legend: { '🟩': 'correct', '🟥': '<1,500 km', '🟧': '<3,750 km', '🟨': '<7,500 km', '⬜': 'farther' },
+      better: 'lower',
+      unit: 'guesses',
+      formatValue: (v) => v.toFixed(1),
+      // No fixed best, so Average mode scores benchmark / your guesses, where the benchmark is the fewest
+      // guesses that day kept between 4 and 10: a lucky 1-guess day can't flatten everyone else, and a
+      // hard day (or a lone slow solver) can't give the winner 100.
+      relative: { floor: 4, cap: 10 },
+      normalize: (v) => Math.min(1, 6 / v), // fallback only
+      date: fromYmd,
+    },
+    {
+      id: 'spotle',
+      name: 'Spotle',
+      emoji: '🎵',
+      url: 'https://www.spotle.io/',
+      failValue: 11,
+      header: /Spotle\.io\s*#\s*\d/gi,
+      // "Spotle.io #1658  📅👥📈🚻💽🌎\n🟨🟩⬜⬜⬜🟩\n…\n🟩🟩🟩🟩🟩🟩"  (guess the artist; 10 guesses)
+      //   Header columns: 📅 debut album year, 👥 members, 📈 popularity (listener rank), 🚻 gender,
+      //   💽 genre, 🌎 country. Each row is one guess: 🟩 correct, 🟨 close, ⬜ miss.
+      //   Close = debut within 5 years, popularity rank within 50, or same continent.
+      //   The score is the number of rows (guesses); a last row that isn't all 🟩 means they failed.
+      //   (A Halloween edition swaps the header to 📅🦇📈👻💽🎃; "Spotle.io Challenge" has no number and is ignored.)
+      parse(s) {
+        const m = s.match(/^Spotle\.io\s*#\s*(\d+)/i);
+        if (!m) return null;
+        const squares = s.match(/[🟩🟨⬜]/gu) || [];
+        const guesses = [];
+        for (let i = 0; i + 6 <= squares.length; i += 6) guesses.push(squares.slice(i, i + 6).join(''));
+        if (!guesses.length) return null;
+        const solved = guesses[guesses.length - 1] === '🟩🟩🟩🟩🟩🟩';
+        const cols = [['📅', 'Debut year'], ['👥', 'Members'], ['📈', 'Popularity'], ['🚻', 'Gender'], ['💽', 'Genre'], ['🌎', 'Country']];
+        const rows = cols.map(([emoji, label], c) => {
+          const first = guesses.findIndex((row) => Array.from(row)[c] === '🟩');
+          return { label, mark: emoji, value: first < 0 ? '–' : 'guess ' + (first + 1) };
+        });
+        return {
+          puzzle: Number(m[1]),
+          value: solved ? guesses.length : 11,
+          display: solved ? guesses.length + (guesses.length === 1 ? ' guess' : ' guesses') : 'X (' + guesses.length + ')',
+          detail: { rows, grid: guesses, note: 'First guess each column went 🟩, then every guess below.' },
+        };
+      },
+      legend: { '🟩': 'correct', '🟨': 'close', '⬜': 'miss' },
+      better: 'lower',
+      unit: 'guesses',
+      formatValue: (v) => (v >= 11 ? 'X' : v.toFixed(1)),
+      // No fixed best, so Average mode scores benchmark / your guesses, where the benchmark is the fewest
+      // guesses that day kept between 4 and 8.
+      relative: { floor: 4, cap: 8 },
+      normalize: (v) => Math.max(0, Math.min(1, 6 / v)), // fallback only
+      date: fromEpoch('2022-04-29'), // #1 = 2022-04-30 (the game's start date); #1658 = 2026-11-12
     },
     {
       id: 'maptap',

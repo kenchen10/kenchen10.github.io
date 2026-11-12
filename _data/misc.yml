@@ -18,6 +18,11 @@
   title: mural
   description: mural
   img: images/mural_coverimage.png
+- id: games
+  site: games/
+  title: daily games
+  description: daily games leaderboard
+  img: games/icon-512.png
 - id: rand
   site: ./resources.html
   title: "Useful Links"
