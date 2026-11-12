@@ -7,6 +7,8 @@
 //              return { puzzle, value, display } or null if it can't be read
 //   better   – 'higher' or 'lower' (is a bigger value better?)
 //   normalize(v, entry) – map value to 0..1 (1 = perfect) for the overall board
+//   relative – optional { floor, cap }: instead of normalize(), score a result against the best that day
+//                (higher-better: value / max(best, floor); lower-better: clamp(best, floor, cap) / value)
 //   date(puzzle) – optional; puzzle number -> 'YYYY-MM-DD'. Without it, the
 //                  submission date is used.
 
@@ -15,6 +17,11 @@
   // Date of puzzle number `n`, given the date of puzzle 0.
   const fromEpoch = (zeroDate) => (n) =>
     new Date(Date.parse(zeroDate + 'T00:00:00Z') + n * DAY).toISOString().slice(0, 10);
+
+  const fmtTime = (secs) => {
+    const t = Math.round(secs), m = Math.floor(t / 60), r = t % 60;
+    return `${m}:${String(r).padStart(2, '0')}`;
+  };
 
   // Puzzle id for games without a puzzle number: the date as YYYYMMDD.
   const fromYmd = (n) => {
@@ -209,6 +216,112 @@
       formatValue: (v) => Math.round(v).toLocaleString('en-US'),
       normalize: (v) => Math.min(1, v / 8849), // assumes the cap is Everest's height; adjust if scores go higher
       date: fromEpoch('2026-09-26'), // assumes No. 46 = 2026-11-11 (the day it was shared)
+    },
+    {
+      id: 'drawtheborder',
+      name: 'Draw the Border',
+      emoji: '✏️',
+      url: 'https://drawtheborder.com/',
+      header: /Draw the Border\s*#\s*\d/gi,
+      // "Draw the Border #50 ✏️ 27/100\n🟩🟩🟨⬜⬜⬜⬜⬜⬜⬜\nBorder 18% · Overlap 55% · Size 32% · Shape 22%"
+      parse(s) {
+        const m = s.match(/^Draw the Border\s*#\s*(\d+)[^\n]*?(\d{1,3})\s*\/\s*100/i);
+        if (!m) return null;
+        const value = Number(m[2]);
+        const rows = [...s.matchAll(/([A-Za-z]+)\s+(\d{1,3})%/g)].map((r) => ({ label: r[1], value: r[2] + '%' }));
+        return { puzzle: Number(m[1]), value, display: value + '/100', detail: { rows, grid: gridLines(s) } };
+      },
+      better: 'higher',
+      unit: 'points',
+      formatValue: (v) => Math.round(v).toString(),
+      normalize: (v) => v / 100,
+      date: fromEpoch('2026-09-23'), // assumes #50 = 2026-11-12 (the day it was shared)
+    },
+    {
+      id: 'peakle',
+      name: 'Peakle',
+      emoji: '⛰️',
+      url: 'https://peakle.net/',
+      header: /Peakle\s*#\s*\d/gi,
+      // "Peakle #33 ⛰️ 4 steps (1,200 m)\n🟩🟩🟩🟩🟥\npeakle.net"
+      // Name answers each higher than the last; a lower or tied answer ends the climb (🟥).
+      // So MORE steps is better. Each step is 300 m. Naming the very highest answer shows
+      // "🏔️ Topped out!" instead of ⛰️. There is no fixed ceiling.
+      parse(s) {
+        const m = s.match(/^Peakle\s*#\s*(\d+)[^\n]*?(\d+)\s*steps?\b/i);
+        if (!m) return null;
+        const steps = Number(m[2]);
+        const topped = /🏔|topped/i.test(s.split('\n')[0]);
+        const rows = [{ label: 'Height', value: (steps * 300).toLocaleString('en-US') + ' m' }];
+        if (topped) rows.push({ label: 'Result', value: '🏔️ Topped out!' });
+        return { puzzle: Number(m[1]), value: steps, display: steps + (steps === 1 ? ' step' : ' steps') + (topped ? ' 🏔️' : ''), detail: { rows, grid: gridLines(s) } };
+      },
+      better: 'higher',
+      unit: 'steps',
+      formatValue: (v) => v.toFixed(1),
+      // No fixed ceiling, so Average mode scores each result against the best result on the same
+      // puzzle: steps / max(best of the day, floor). The floor stops a lone low result scoring 100.
+      relative: { floor: 8 },
+      normalize: (v) => Math.min(1, v / 10), // fallback only, when the puzzle's best isn't known
+      date: fromEpoch('2026-10-08'), // #1 = 2026-10-09 (the launch date); #34 = 2026-11-11, confirmed from peakle.net
+    },
+    {
+      id: 'perceptle',
+      name: 'Perceptle',
+      emoji: '👁️',
+      url: 'https://perceptle.com/',
+      header: /Perceptle\s*#\s*\d/gi,
+      // "Perceptle #116 - A (87)\n🔢 99  🎯 99  📐 99  🥁 70  ✂️ 66\nhttps://perceptle.com"
+      // Grade letter and an overall score out of 100 (the average of the five tests).
+      parse(s) {
+        const m = s.match(/^Perceptle\s*#\s*(\d+)\s*[-–—]\s*([A-Za-z][+-]?)\s*\(\s*(\d{1,3})\s*\)/);
+        if (!m) return null;
+        const value = Number(m[3]);
+        const rows = [{ label: 'Grade', value: m[2] }];
+        for (const r of s.split('\n').slice(1).join('\n').matchAll(/(\p{Extended_Pictographic}\uFE0F?)\s*(\d{1,3})(?!\d)/gu)) rows.push({ label: '', mark: r[1], value: Number(r[2]) });
+        return { puzzle: Number(m[1]), value, display: `${value} (${m[2]})`, detail: { rows } };
+      },
+      better: 'higher',
+      unit: 'points',
+      formatValue: (v) => v.toFixed(1),
+      normalize: (v) => v / 100,
+      date: fromEpoch('2026-07-19'), // assumes #116 = 2026-11-12 (the day it was shared)
+    },
+    {
+      id: 'tiledwords',
+      name: 'Tiled Words',
+      emoji: '🧩',
+      url: 'https://tiledwords.com/puzzles/daily',
+      header: /#TiledWords/gi,
+      // "I solved today's #TiledWords puzzle!\n\n0️⃣ “Zero”\n🕒 5 minutes, 41 seconds\n💡 0/3 reveals used\n\nhttps://tiledwords.com/puzzles/2026-11-10"
+      //   0️⃣ “Zero” = the puzzle's theme (not a score). Score = time to solve, lower is better.
+      //   Up to 3 words can be revealed per puzzle. The share can also include
+      //   "↗️ N moves used" and "🔄 N shuffles used". The puzzle is identified by the date in the link.
+      parse(s) {
+        const u = s.match(/tiledwords\.com\/puzzles\/(\d{4})-(\d{2})-(\d{2})/i);
+        const t = s.match(/🕒\s*(?:(\d+)\s*minutes?)?\s*,?\s*(?:(\d+)\s*seconds?)?/i);
+        if (!u || !t || (!t[1] && !t[2])) return null;
+        const seconds = Number(t[1] || 0) * 60 + Number(t[2] || 0);
+        const rows = [];
+        const theme = s.match(/^\s*(\S+)\s+“([^”]+)”/m);
+        if (theme) rows.push({ label: 'Theme', value: `${theme[1]} ${theme[2]}` });
+        const rev = s.match(/💡\s*(\d+)\s*\/\s*3/);
+        if (rev) rows.push({ label: 'Reveals', value: `${rev[1]}/3` });
+        const mv = s.match(/↗️?\s*(\d+)\s*moves?/);
+        if (mv) rows.push({ label: 'Moves', value: mv[1] });
+        const sh = s.match(/🔄\s*(\d+)\s*shuffles?/);
+        if (sh) rows.push({ label: 'Shuffles', value: sh[1] });
+        return { puzzle: Number(u[1] + u[2] + u[3]), value: seconds, display: fmtTime(seconds), detail: { rows } };
+      },
+      better: 'lower',
+      unit: 'time',
+      formatValue: (v) => fmtTime(v),
+      // No fixed best time, so Average mode scores benchmark / your time, where the benchmark is the
+      // fastest time that day kept between 2:00 and 6:00: a very fast solve can't push everyone else
+      // to ~0, and a slow day (or a lone slow solver) can't give the fastest 100.
+      relative: { floor: 120, cap: 360 },
+      normalize: (v) => Math.min(1, 120 / v), // fallback only
+      date: fromYmd,
     },
     {
       id: 'maptap',

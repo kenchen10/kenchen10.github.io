@@ -32,6 +32,7 @@
   let entries = []; // parsed + de-duplicated results
   let displayName = {}; // normalized name -> name as first written
   const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '' };
+  let puzzleBest = {}; // game|puzzle -> best value (for games scored relative to the day's best)
   let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
 
   // ---------- identity ----------
@@ -93,11 +94,24 @@
       }
     }
     entries = [...seen.values()];
+    puzzleBest = {};
     dateIdx = {};
     for (const e of entries) {
+      const g = GAME_BY_ID[e.game], k = e.game + '|' + e.puzzle;
+      if (g.relative && (puzzleBest[k] === undefined || (g.better === 'higher' ? e.value > puzzleBest[k] : e.value < puzzleBest[k]))) puzzleBest[k] = e.value;
       const m = (dateIdx[e.player] = dateIdx[e.player] || {});
       for (const k of [e.game, '*']) (m[k] = m[k] || new Set()).add(e.date);
     }
+  }
+
+  // 0..1 score of one result for the Average board and trend charts (1 = perfect).
+  function norm(e, g) {
+    const best = g.relative ? puzzleBest[e.game + '|' + e.puzzle] : undefined;
+    let v;
+    if (best === undefined) v = g.normalize(e.value, e);
+    else if (g.better === 'higher') v = e.value / Math.max(best, g.relative.floor); // best of the day = 100
+    else v = Math.min(Math.max(best, g.relative.floor), g.relative.cap ?? Infinity) / e.value; // lower is better: fastest of the day = 100, but never benchmarked slower than `cap`
+    return Math.max(0, Math.min(1, v));
   }
 
   // Streaks of consecutive days played (any game with gameId = null).
@@ -270,7 +284,7 @@
       for (const e of rankPuzzle(list, g)) {
         const s = S(e.player);
         s.played++;
-        s.normSum += Math.max(0, Math.min(1, g.normalize(e.value, e)));
+        s.normSum += norm(e, g);
         s.points += CFG.placementPoints[e.rank - 1] || 0;
         if (e.rank === 1 && list.length > 1) s.wins++;
       }
@@ -367,7 +381,7 @@
       .join('');
     const note = pts
       ? `Each puzzle: ${CFG.placementPoints.map((p, i) => `${ordinal(i + 1)} = ${p}`).join(', ')} pts among friends who played it. Wins = outright or tied 1st with 2+ players.`
-      : `Average of each result scaled 0–100 (100 = perfect; Wordle, Flagle or Tradle 1/6, Krillion 700, MapTap 1000, Magnitudle 500, Noillirk 8,849 m, Poople at par). Fewer than ${CFG.minPlaysForAverage} plays are listed at the bottom.`;
+      : `Average of each result scaled 0–100 (100 = perfect; Wordle, Flagle or Tradle 1/6, Krillion 700, MapTap 1000, Magnitudle 500, Draw the Border 100, Perceptle 100, Peakle vs the day's best (min. 8 steps), Tiled Words vs the day's fastest time (benchmark kept between 2:00 and 6:00), Noillirk 8,849 m, Poople at par). Fewer than ${CFG.minPlaysForAverage} plays are listed at the bottom.`;
     return `<table>${head}${body}</table><p class="note">${note}</p>`;
   }
 
@@ -502,7 +516,7 @@
       .filter((e) => e.player === p && e.game === g.id)
       .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0))
       .slice(-30);
-    const pts = mine.map((e) => Math.max(0, Math.min(1, g.normalize(e.value, e))));
+    const pts = mine.map((e) => norm(e, g));
     if (pts.length < 2) return '';
     const W = 96, H = 22, pad = 3;
     const x = (i) => pad + (i * (W - 2 * pad)) / (pts.length - 1);
