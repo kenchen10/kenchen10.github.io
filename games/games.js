@@ -204,9 +204,10 @@
       emoji: '🧗',
       url: 'https://playdaily.org/noillirk',
       header: /Noillirk\b(?=[^\n]*No\.)/gi,
-      // "Noillirk: The Daily Climb | No. 46 - 8,759m" (score = metres climbed)
+      // "Noillirk: The Daily Climb | No. 46 - 8,759m"  or  "Noillirk 🎈 The Daily Climb · No. 47 · 2,863m"
+      // (the game changed its separators between versions; score = metres climbed)
       parse(s) {
-        const m = s.match(/No\.\s*(\d+)\s*[-–—]\s*(\d{1,3}(?:,\d{3})*|\d+)\s*m\b/i);
+        const m = s.match(/No\.\s*(\d+)\D{1,6}?(\d[\d,]*)\s*m\b/i); // any separator: "- ", "· ", "| "
         if (!m) return null;
         const value = Number(m[2].replace(/,/g, ''));
         return { puzzle: Number(m[1]), value, display: value.toLocaleString('en-US') + ' m', detail: { grid: gridLines(s) } };
@@ -235,7 +236,7 @@
       unit: 'points',
       formatValue: (v) => Math.round(v).toString(),
       normalize: (v) => v / 100,
-      date: fromEpoch('2026-09-23'), // assumes #50 = 2026-11-12 (the day it was shared)
+      date: fromEpoch('2026-09-22'), // #51 = 2026-11-12, from submission times (#50 was submitted the evening before)
     },
     {
       id: 'peakle',
@@ -285,7 +286,7 @@
       unit: 'points',
       formatValue: (v) => v.toFixed(1),
       normalize: (v) => v / 100,
-      date: fromEpoch('2026-07-19'), // assumes #116 = 2026-11-12 (the day it was shared)
+      date: fromEpoch('2026-07-17'), // #118 = 2026-11-12, from submission times (#117 was submitted the evening before)
     },
     {
       id: 'tiledwords',
