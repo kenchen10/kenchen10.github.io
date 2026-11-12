@@ -1,6 +1,6 @@
 (function () {
   const CFG = Object.assign(
-    { apiUrl: '', title: 'Daily Games', minPlaysForAverage: 3, placementPoints: [3, 2, 1] },
+    { apiUrl: '', title: 'Daily Games', minPlaysForAverage: 3, placementPoints: [3, 2, 1], minForUsual: 4, hotStreakWins: 3 },
     window.LEADERBOARD_CONFIG || {}
   );
   const API = (CFG.apiUrl || '').trim();
@@ -31,6 +31,7 @@
   let displayName = {}; // normalized name -> name as first written
   const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '' };
   let puzzleBest = {}; // game|puzzle -> best value (for games scored relative to the day's best)
+  let winRun = {}; // player|game -> { n: current run of consecutive wins, date: date of their latest result }
   let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
 
   // ---------- identity ----------
@@ -100,6 +101,50 @@
       const m = (dateIdx[e.player] = dateIdx[e.player] || {});
       for (const k of [e.game, '*']) (m[k] = m[k] || new Set()).add(e.date);
     }
+
+    // Who won each puzzle (outright or tied 1st, with 2+ players).
+    for (const list of groupBy(entries, (e) => e.game + '|' + e.puzzle).values()) {
+      const ranked = rankPuzzle(list, GAME_BY_ID[list[0].game]);
+      for (const r of ranked) list.find((x) => x.player === r.player).won = r.rank === 1 && list.length > 1;
+    }
+
+    // Per player and game, in puzzle order: each result vs the player's own earlier results ("usual"),
+    // and the current run of consecutive wins.
+    winRun = {};
+    const mean = (a) => a.reduce((t, v) => t + v, 0) / a.length;
+    for (const list of groupBy(entries, (e) => e.player + '|' + e.game).values()) {
+      list.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.puzzle < b.puzzle ? -1 : a.puzzle > b.puzzle ? 1 : 0));
+      const g = GAME_BY_ID[list[0].game];
+      const prev = [];
+      let run = 0;
+      for (const e of list) {
+        const n = norm(e, g);
+        if (prev.length >= CFG.minForUsual) {
+          const recent = prev.slice(-30), m = mean(recent);
+          const sd = Math.sqrt(mean(recent.map((v) => (v - m) ** 2)));
+          e.vs = { diff: (n - m) * 100, usual: m * 100, z: (n - m) / Math.max(sd, 0.1) }; // sd floor: 10 points
+        }
+        prev.push(n);
+        run = e.won ? run + 1 : 0;
+      }
+      winRun[list[0].player + '|' + list[0].game] = { n: run, date: list[list.length - 1].date };
+    }
+  }
+
+  // Current hot streak (consecutive wins in one game) if it's long enough and recent, else 0.
+  function hotFor(p, gameId) {
+    const w = winRun[p + '|' + gameId];
+    if (!w || w.n < CFG.hotStreakWins) return 0;
+    return w.date >= addDays(localDate(new Date()), -7) ? w.n : 0;
+  }
+  const hotGames = (p) => GAMES.map((g) => [g, hotFor(p, g.id)]).filter(([, n]) => n > 0);
+
+  // "Form": how a player's last 10 results compare with their own usual, as -100..+100.
+  function formOf(p) {
+    const list = entries.filter((e) => e.player === p && e.vs).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0)).slice(0, 10);
+    if (list.length < 3) return null;
+    const z = list.reduce((t, e) => t + Math.max(-2, Math.min(2, e.vs.z)), 0) / list.length;
+    return { score: Math.round(z * 50), n: list.length, diff: list.reduce((t, e) => t + e.vs.diff, 0) / list.length };
   }
 
   // 0..1 score of one result for the Average board and trend charts (1 = perfect).
@@ -326,7 +371,13 @@
     const me = normName(getName()) === p;
     const cur = streakInfo(p, gameId).cur;
     const flame = cur >= 2 ? ` <span class="streak" title="${cur} days in a row">🔥${cur}</span>` : '';
-    return `<td class="name${me ? ' is-me' : ''}"><button class="plink" data-player="${esc(p)}">${esc(displayName[p] || p)}</button>${flame}</td>`;
+    const hot = gameId
+      ? [[GAME_BY_ID[gameId], hotFor(p, gameId)]].filter(([, n]) => n > 0)
+      : hotGames(p);
+    const bolt = hot.length
+      ? ` <span class="hotb" title="Hot streak: ${esc(hot.map(([g, n]) => `${g.name} ×${n}`).join(', '))}">⚡${Math.max(...hot.map(([, n]) => n))}</span>`
+      : '';
+    return `<td class="name${me ? ' is-me' : ''}"><button class="plink" data-player="${esc(p)}">${esc(displayName[p] || p)}</button>${flame}${bolt}</td>`;
   };
 
   // Round profile button in the header: first letter of the name on a colour picked from the name.
@@ -408,7 +459,7 @@
             const res = rankPuzzle(list.filter((e) => e.game === g.id), g);
             const n = res.length;
             return `<div class="day-game"><span class="gname">${g.emoji} ${esc(g.name)}</span>${res
-              .map((e) => `<span class="res${e.rank === 1 && n > 1 ? ' win' : ''}">${esc(displayName[e.player] || e.player)} <b class="has-tip"${tipAttr(e)}>${esc(e.display)}</b></span>`)
+              .map((e) => `<span class="res${e.rank === 1 && n > 1 ? ' win' : ''}">${esc(displayName[e.player] || e.player)} <b class="has-tip"${tipAttr(e)}>${esc(e.display)}</b>${vsMark(e)}</span>`)
               .join('')}</div>`;
           })
           .join('');
@@ -422,14 +473,20 @@
   let tips = []; // rebuilt on every render; elements point at an index
   const tipAttr = (e) => {
     const d = e.detail;
-    if (!d || !((d.grid && d.grid.length) || (d.rows && d.rows.length))) return '';
+    if (!e.vs && (!d || !((d.grid && d.grid.length) || (d.rows && d.rows.length)))) return '';
     tips.push(e);
     return ` data-tip="${tips.length - 1}" tabindex="0"`;
   };
 
+  // 🍀 / ☁️ next to a result that was clearly better / worse than that player's usual.
+  const vsMark = (e) => (e.vs && Math.abs(e.vs.z) >= 1 ? ` <span class="luck" title="${e.vs.z > 0 ? 'Better' : 'Worse'} than their usual">${e.vs.z > 0 ? '🍀' : '☁️'}</span>` : '');
+
   function tipHtml(e) {
     const g = GAME_BY_ID[e.game];
-    const d = e.detail;
+    const d = e.detail || {};
+    const vs = e.vs
+      ? `<div class="tip-vs ${e.vs.diff >= 0 ? 'up' : 'down'}">${e.vs.diff >= 0 ? '🍀' : '☁️'} ${e.vs.diff >= 0 ? '+' : '−'}${Math.abs(Math.round(e.vs.diff))} vs their usual (${Math.round(e.vs.usual)} on the 0–100 scale)</div>`
+      : '';
     const rowsHtml = (d.rows || [])
       .map((r) => `<tr><td>${esc(r.label)}</td><td class="tip-mark">${esc(r.mark || '')}</td><td class="num"><b>${esc(r.value)}</b></td></tr>`)
       .join('');
@@ -437,7 +494,7 @@
     const legend = g.legend
       ? `<div class="tip-legend">${Object.entries(g.legend).map(([k, v]) => `${esc(k)} ${esc(v)}`).join(' · ')}</div>`
       : '';
-    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>
+    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>${vs}
       ${rowsHtml ? `<table>${rowsHtml}</table>` : ''}${grid ? `<div class="tip-grid">${grid}</div>` : ''}${d.note ? `<div class="tip-note">${esc(d.note)}</div>` : ''}${legend}`;
   }
 
@@ -476,7 +533,7 @@
       .map((g) => {
         const res = rankPuzzle(es.filter((e) => e.game === g.id), g);
         const rowsHtml = res
-          .map((e) => `<tr><td class="rank">${medal(e.rank)}</td>${nameCell(e.player)}<td class="num strong"><span class="has-tip"${tipAttr(e)}>${esc(e.display)}</span></td></tr>`)
+          .map((e) => `<tr><td class="rank">${medal(e.rank)}</td>${nameCell(e.player)}<td class="num strong"><span class="has-tip"${tipAttr(e)}>${esc(e.display)}</span>${vsMark(e)}</td></tr>`)
           .join('');
         return `<h3 class="game-h">${g.emoji} ${esc(g.name)}</h3><table>${rowsHtml}</table>`;
       })
@@ -555,14 +612,28 @@
       .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`)
       .join('');
 
+    const form = formOf(p);
+    const label = !form ? '' : form.score >= 40 ? 'Way above usual' : form.score >= 15 ? 'Above usual' : form.score > -15 ? 'Right at usual' : form.score > -40 ? 'Below usual' : 'Way below usual';
+    const formHtml = form
+      ? `<div class="form"><div class="form-head"><b>${form.score >= 15 ? '🍀' : form.score <= -15 ? '☁️' : '😐'} Form: ${label}</b><span class="${form.score >= 0 ? 'up' : 'down'}">${form.score > 0 ? '+' : form.score < 0 ? '−' : ''}${Math.abs(form.score)}</span></div>
+          <div class="gauge" role="img" aria-label="Form ${form.score} on a scale of minus 100 to 100"><span class="mid"></span><span class="dot" style="left:${(form.score + 100) / 2}%"></span></div>
+          <div class="gauge-scale"><span>worse than usual</span><span>better than usual</span></div>
+          <p class="note">Their last ${form.n} results compared with their own earlier results in each game (${form.diff >= 0 ? '+' : '−'}${Math.abs(Math.round(form.diff))} points on average).</p></div>`
+      : `<div class="form"><p class="note">Form needs a few more plays: a game has to have ${CFG.minForUsual} earlier results before a new one can be compared with their usual.</p></div>`;
+    const hot = hotGames(p);
+    const hotHtml = hot.length
+      ? `<div class="hot-row">⚡ <b>Hot streak:</b> ${hot.map(([g, n]) => `${g.emoji} ${esc(g.name)} ×${n}`).join(' · ')}</div>`
+      : '';
+
     const gameRows = GAMES.map((g) => {
       const list = perGame(entries, g);
       const s = list.find((x) => x.player === p);
       if (!s) return '';
       const gs = streakInfo(p, g.id).cur;
+      const hn = hotFor(p, g.id);
       const best = g.failValue && s.best >= g.failValue ? 'X' : g.formatValue(s.best).replace(/\.00$/, '');
       return `<tr><td>${g.emoji} ${esc(g.name)}${trend(p, g)}</td><td class="num">${medal(s.rank)}</td><td class="num strong">${g.formatValue(s.avg)}</td>
-        <td class="num">${best}</td><td class="num">${s.wins}</td><td class="num">${s.played}${gs >= 2 ? ` <span class="streak">🔥${gs}</span>` : ''}</td></tr>`;
+        <td class="num">${best}</td><td class="num">${s.wins}</td><td class="num">${s.played}${gs >= 2 ? ` <span class="streak">🔥${gs}</span>` : ''}${hn ? ` <span class="hotb" title="${hn} wins in a row">⚡${hn}</span>` : ''}</td></tr>`;
     }).join('');
     const perGameTable = `<h3>By game (all time)</h3><table><tr><th>Game</th><th class="num">Rank</th><th class="num">Avg</th><th class="num">Best</th><th class="num">Wins</th><th class="num">Played</th></tr>${gameRows}</table>`;
 
@@ -587,7 +658,7 @@
         ? `${bar}<table><tr><th>Same puzzle</th><th class="num">${name}</th><th class="num">${other}</th><th class="num">Tie</th></tr>${games}${line('<b>Total</b>', r.total)}</table>`
         : `<p class="muted empty">You haven't played any of the same puzzles yet.</p>`;
     }
-    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${perGameTable}
+    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${hotHtml}${formHtml}${perGameTable}
       <h3>Head to head</h3><select id="h2h" aria-label="Compare with">${opts}</select>${h2h}`;
   }
 

@@ -37,3 +37,10 @@ Add an entry to `GAMES` in [`games.js`](games.js). It needs a `header` regex tha
 ## Removing a bad entry
 
 Delete the row in the Google Sheet.
+
+## Form, luck marks and hot streaks
+
+- **vs usual:** each result is compared with that player's own earlier results in the same game (scaled 0–100 like Average mode, last 30 results). A game needs `minForUsual` earlier results (default 4) before a new one can be compared. A result at least one "typical swing" (their own standard deviation, never less than 10 points) above or below usual gets a 🍀 or ☁️ on the Daily and Recent tabs, and the hover shows the exact gap.
+- **Form:** on a profile, the average of their last 10 results' gaps, shown as −100…+100.
+- **Hot streak ⚡:** `hotStreakWins` (default 3) wins in a row in one game, among the puzzles that player played, with the latest result in the past 7 days. A win means 1st place (outright or tied) with at least 2 players on that puzzle.
+

@@ -13,4 +13,11 @@ window.LEADERBOARD_CONFIG = {
 
   // Overall board, "Points" mode: points for 1st, 2nd, 3rd ... on each puzzle.
   placementPoints: [3, 2, 1],
+
+  // Profile "form" and the 🍀/☁️ marks compare a result with that player's own earlier results in the
+  // same game. A game needs this many earlier results before a new one can be compared.
+  minForUsual: 4,
+
+  // Show the ⚡ hot-streak badge after this many wins in a row in one game.
+  hotStreakWins: 3,
 };
