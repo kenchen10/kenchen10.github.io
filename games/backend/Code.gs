@@ -5,7 +5,7 @@
  * Deploy → New deployment → Web app (Execute as: Me, Who has access: Anyone).
  * Copy the web-app URL into games/config.js.
  *
- * The sheet just stores raw submissions (time, player, pasted text).
+ * The sheet just stores raw submissions (time, player, pasted text, time zone).
  * All parsing and scoring happens on the website, so adding a game or
  * fixing a parser never requires touching this script or the data.
  */
@@ -18,8 +18,10 @@ function sheet_() {
   let sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(SHEET_NAME);
-    sh.appendRow(['timestamp', 'player', 'text']);
+    sh.appendRow(['timestamp', 'player', 'text', 'tz']);
     sh.setFrozenRows(1);
+  } else if (sh.getRange(1, 4).getValue() !== 'tz') {
+    sh.getRange(1, 4).setValue('tz'); // older sheets: add the time-zone column header
   }
   return sh;
 }
@@ -57,7 +59,7 @@ function doGet() {
   const rows = values
     .filter(function (r) { return r[1] && r[2]; })
     .map(function (r) {
-      return { ts: new Date(r[0]).toISOString(), player: String(r[1]), text: String(r[2]) };
+      return { ts: new Date(r[0]).toISOString(), player: String(r[1]), text: String(r[2]), tz: String(r[3] || '') };
     });
   return json_({ rows: rows });
 }
@@ -86,12 +88,15 @@ function doPost(e) {
 
   const text = String(body.text || '').slice(0, MAX_TEXT);
   if (!player || !text.trim()) return json_({ ok: false, error: 'missing player or text' });
+  // The submitter's IANA time zone (e.g. America/New_York), so results count for the day they were played.
+  const tzRaw = String(body.tz || '').trim();
+  const tz = /^[A-Za-z_]+(\/[A-Za-z0-9_+-]+){0,2}$/.test(tzRaw) ? tzRaw.slice(0, 64) : '';
 
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     // Leading apostrophe stops Sheets from treating text as a formula.
-    sheet_().appendRow([new Date(), "'" + player, "'" + text]);
+    sheet_().appendRow([new Date(), "'" + player, "'" + text, tz]);
   } finally {
     lock.releaseLock();
   }

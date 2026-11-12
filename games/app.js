@@ -1,6 +1,6 @@
 (function () {
   const CFG = Object.assign(
-    { apiUrl: '', title: 'Daily Games', minPlaysForAverage: 3, placementPoints: [3, 2, 1], minForUsual: 4, hotStreakWins: 3, minForStartRank: 8, minForRival: 5 },
+    { apiUrl: '', title: 'Daily Games', minPlaysForAverage: 3, placementPoints: [3, 2, 1], minForUsual: 4, hotStreakWins: 3, minForStartRank: 8, minForRival: 5, playerTimezones: {} },
     window.LEADERBOARD_CONFIG || {}
   );
   const API = (CFG.apiUrl || '').trim();
@@ -20,6 +20,17 @@
   };
   const addDays = (iso, n) =>
     new Date(Date.parse(iso + 'T00:00:00Z') + n * 86400000).toISOString().slice(0, 10);
+  // This browser's IANA time zone, e.g. "America/New_York" ('' if it can't tell).
+  const myTimeZone = () => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } };
+  // Calendar day (YYYY-MM-DD) of a timestamp in a given time zone, or null if the zone is unknown/invalid.
+  const dayFormats = {};
+  function dayIn(ts, tz) {
+    if (!tz) return null;
+    try {
+      const f = dayFormats[tz] || (dayFormats[tz] = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }));
+      return f.format(new Date(ts));
+    } catch (e) { return null; }
+  }
   const normName = (s) => String(s || '').trim().replace(/\s+/g, ' ').toLowerCase();
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -85,11 +96,16 @@
       if (!displayName[p]) displayName[p] = String(row.player).trim().replace(/\s+/g, ' ');
       for (const r of parseShareText(row.text).results) {
         const g = GAME_BY_ID[r.game];
-        const date = r.puzzle != null && g.date ? g.date(r.puzzle) : localDate(row.ts);
+        // Day the puzzle belongs to (same worldwide) vs the day the player submitted it in their own zone.
+        // A result counts for the earlier of the two: someone in the US can get tomorrow's puzzle in their
+        // evening, and that evening is the day they played. Late backfills still count for the puzzle's day.
+        const puzzleDate = r.puzzle != null && g.date ? g.date(r.puzzle) : null;
+        const playedDate = dayIn(row.ts, row.tz || (CFG.playerTimezones || {})[p]);
+        const date = puzzleDate ? (playedDate && playedDate < puzzleDate ? playedDate : puzzleDate) : playedDate || localDate(row.ts);
         const puzzle = r.puzzle != null ? r.puzzle : date;
         const key = `${p}|${g.id}|${puzzle}`;
         if (seen.has(key)) continue; // first submission for a puzzle counts
-        seen.set(key, { player: p, game: g.id, puzzle, date, value: r.value, par: r.par, display: r.display, detail: r.detail, ts: row.ts });
+        seen.set(key, { player: p, game: g.id, puzzle, date, puzzleDate: puzzleDate || date, moved: !!puzzleDate && date !== puzzleDate, value: r.value, par: r.par, display: r.display, detail: r.detail, ts: row.ts });
       }
     }
     entries = [...seen.values()];
@@ -220,7 +236,7 @@
     }
     if (!fresh.length) return toast(`Already counted: ${dupes.join(', ')}`, true);
 
-    const row = { ts: new Date().toISOString(), player: name, text: text.slice(0, 2000) };
+    const row = { ts: new Date().toISOString(), player: name, text: text.slice(0, 2000), tz: myTimeZone() };
     setBusy(true);
     try {
       if (DEMO) {
@@ -231,7 +247,7 @@
         const r = await fetch(API, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids a CORS preflight
-          body: JSON.stringify({ player: name, text: row.text }),
+          body: JSON.stringify({ player: name, text: row.text, tz: row.tz }),
         });
         const j = await r.json().catch(() => ({}));
         if (j.ok === false) throw new Error(j.error || 'rejected');
@@ -625,11 +641,14 @@
       .map(([date, list]) => {
         const games = GAMES.filter((g) => list.some((e) => e.game === g.id))
           .map((g) => {
-            const res = rankPuzzle(list.filter((e) => e.game === g.id), g);
+            const groups = [...groupBy(list.filter((e) => e.game === g.id), (e) => e.puzzle).values()];
+            return groups.map((grp, gi) => {
+            const res = rankPuzzle(grp, g);
             const n = res.length;
-            return `<div class="day-game"><span class="gname">${g.emoji} ${esc(g.name)}</span>${res
+            return `<div class="day-game"><span class="gname">${gi === 0 ? `${g.emoji} ${esc(g.name)}` : '↳'}${groups.length > 1 ? ` <small class="muted">#${esc(grp[0].puzzle)}</small>` : ''}</span>${res
               .map((e) => `<span class="res${e.rank === 1 && n > 1 ? ' win' : ''}">${esc(displayName[e.player] || e.player)} <b class="has-tip"${tipAttr(e)}>${esc(e.display)}</b>${vsMark(e)}${startMark(e)}</span>`)
               .join('')}</div>`;
+            }).join('');
           })
           .join('');
         return `<div class="day"><h3>${prettyDate(date)}</h3>${games}</div>`;
@@ -737,7 +756,7 @@
   let tips = []; // rebuilt on every render; elements point at an index
   const tipAttr = (e) => {
     const d = e.detail;
-    if (!e.vs && !e.start && (!d || !((d.grid && d.grid.length) || (d.rows && d.rows.length)))) return '';
+    if (!e.vs && !e.start && !e.moved && (!d || !((d.grid && d.grid.length) || (d.rows && d.rows.length)))) return '';
     tips.push(e);
     return ` data-tip="${tips.length - 1}" tabindex="0"`;
   };
@@ -754,6 +773,9 @@
     const vs = e.vs
       ? `<div class="tip-vs ${e.vs.diff >= 0 ? 'up' : 'down'}">${e.vs.diff >= 5 ? '🍀' : e.vs.diff <= -5 ? '☁️' : '😐'} ${e.vs.diff >= 0 ? '+' : '−'}${Math.abs(Math.round(e.vs.diff))} vs their usual (${Math.round(e.vs.usual)} on the 0–100 scale)</div>`
       : '';
+    const moved = e.moved
+      ? `<div class="tip-note">📍 Counted for ${dayWord(e.date)}: they played it in the evening in their own time zone. The puzzle itself is ${dayWord(e.puzzleDate)}'s.</div>`
+      : '';
     const start = e.start
       ? `<div class="tip-vs ${e.start.pct >= 50 ? 'up' : 'down'}">${e.start.pct >= 85 ? '✨' : e.start.pct <= 15 ? '🌧️' : '🎲'} Opening guess better than ${e.start.pct}% of ${e.start.n} openings</div>`
       : '';
@@ -764,7 +786,7 @@
     const legend = g.legend
       ? `<div class="tip-legend">${Object.entries(g.legend).map(([k, v]) => `${esc(k)} ${esc(v)}`).join(' · ')}</div>`
       : '';
-    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>${vs}${start}
+    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>${vs}${start}${moved}
       ${rowsHtml ? `<table>${rowsHtml}</table>` : ''}${grid ? `<div class="tip-grid">${grid}</div>` : ''}${d.note ? `<div class="tip-note">${esc(d.note)}</div>` : ''}${legend}`;
   }
 
@@ -801,9 +823,13 @@
 
     const cards = GAMES.filter((g) => es.some((e) => e.game === g.id))
       .map((g) => {
-        const res = rankPuzzle(es.filter((e) => e.game === g.id), g);
-        const rowsHtml = res
+        // Normally one puzzle per game per day. If a result was moved here (played the evening before),
+        // rank each puzzle on its own and label them.
+        const groups = [...groupBy(es.filter((e) => e.game === g.id), (e) => e.puzzle).values()];
+        const rowsHtml = groups
+          .map((grp) => (groups.length > 1 ? `<tr><td colspan="3" class="muted sub">Puzzle #${esc(grp[0].puzzle)}</td></tr>` : '') + rankPuzzle(grp, g)
           .map((e) => `<tr><td class="rank">${medal(e.rank)}</td>${nameCell(e.player)}<td class="num strong"><span class="has-tip"${tipAttr(e)}>${esc(e.display)}</span>${vsMark(e)}${startMark(e)}</td></tr>`)
+          .join(''))
           .join('');
         return `<h3 class="game-h">${g.emoji} ${esc(g.name)}</h3><table>${rowsHtml}</table>`;
       })
@@ -989,6 +1015,8 @@
 
   const empty = (msg) => `<p class="muted empty">${msg || 'No results in this range yet.'}</p>`;
   const ordinal = (n) => n + ({ 1: 'st', 2: 'nd', 3: 'rd' }[n] || 'th');
+  // "yesterday" / "today" / "Thu, Nov 12", for use inside a sentence.
+  const dayWord = (iso) => { const w = prettyDate(iso); return w === 'Today' || w === 'Yesterday' ? w.toLowerCase() : w; };
   function prettyDate(iso) {
     const today = localDate(new Date());
     if (iso === today) return 'Today';

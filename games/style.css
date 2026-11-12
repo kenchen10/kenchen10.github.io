@@ -201,3 +201,4 @@ td.wr .wval { position: relative; }
 .pg-table th, .pg-table td { padding: 8px 4px; font-size: .85rem; }
 .pg-table th { font-size: .65rem; white-space: normal; line-height: 1.15; vertical-align: bottom; }
 .pg-table .trend svg { width: 72px; height: auto; }
+.sub { font-size: .75rem; padding-top: 8px; }
