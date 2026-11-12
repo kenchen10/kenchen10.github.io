@@ -58,9 +58,9 @@ layout: null
             <td style="padding: 10px 20px 10px 28px;">
               <div class="image-row">
                 {% for item in site.data.birds %}
-                  <!-- <div class="image-container"><img src="{{ item }}" class="zoomable-image" onclick="zoomImage(this)"></div> -->
+                  <!-- <div class="image-container"><img loading="lazy" decoding="async" src="{{ item }}" class="zoomable-image" onclick="zoomImage(this)"></div> -->
                   <figure style="width: 100%;">
-                    <img src="{{ item.img }}" style="width: 55%; border: 2px solid black;">
+                    <img loading="lazy" decoding="async" src="{{ item.img }}" style="width: 55%; border: 2px solid black;">
                     <div style="width: 45%; padding-left: 20px;">
                       <h4 style="text-decoration: underline;">{{ item.name }}</h4>
                       <figcaption>

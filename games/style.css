@@ -202,3 +202,13 @@ td.wr .wval { position: relative; }
 .pg-table th { font-size: .65rem; white-space: normal; line-height: 1.15; vertical-align: bottom; }
 .pg-table .trend svg { width: 72px; height: auto; }
 .sub { font-size: .75rem; padding-top: 8px; }
+
+/* profile history */
+.hist-day h4 { margin: 14px 0 6px; font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.hist-item { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.hist-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; flex-wrap: wrap; font-size: .9rem; }
+.hist-top .hplace { margin-left: auto; font-size: .8rem; white-space: nowrap; }
+.hchips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.hchip { font-size: .75rem; padding: 1px 7px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); }
+.hgrid { margin-top: 6px; font-size: .8rem; line-height: 1.15; letter-spacing: 1px; overflow-wrap: anywhere; }
+.hnote { font-size: .75rem; margin-top: 4px; }

@@ -40,7 +40,7 @@
   let rows = []; // raw submissions: {ts, player, text}
   let entries = []; // parsed + de-duplicated results
   let displayName = {}; // normalized name -> name as first written
-  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null };
+  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null, histN: 25 };
   let puzzleBest = {}; // game|puzzle -> best value (for games scored relative to the day's best)
   let winRun = {}; // player|game -> { n: current run of consecutive wins, date: date of their latest result }
   let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
@@ -889,6 +889,45 @@
       <circle cx="${x(last).toFixed(1)}" cy="${y(pts[last]).toFixed(1)}" r="2.4" fill="var(--accent)"/></svg>${arrow}</div>`;
   }
 
+  // Every result this player has submitted, newest first, with placement and details.
+  function renderHistory(p) {
+    const mine = entries
+      .filter((e) => e.player === p)
+      .sort((a, b) => (a.date !== b.date ? (a.date < b.date ? 1 : -1) : (a.ts < b.ts ? 1 : -1)));
+    if (!mine.length) return '';
+    const shown = mine.slice(0, state.histN);
+    const cache = new Map();
+    const placeOf = (e) => {
+      const k = e.game + '|' + e.puzzle;
+      if (!cache.has(k)) cache.set(k, rankPuzzle(entries.filter((x) => x.game === e.game && x.puzzle === e.puzzle), GAME_BY_ID[e.game]));
+      const list = cache.get(k);
+      const me = list.find((x) => x.player === p);
+      return { rank: me ? me.rank : 0, n: list.length };
+    };
+    const byDate = groupBy(shown, (e) => e.date);
+    const days = [...byDate.entries()]
+      .map(([date, list]) => {
+        const items = list
+          .map((e) => {
+            const g = GAME_BY_ID[e.game];
+            const d = e.detail || {};
+            const pl = placeOf(e);
+            const place = pl.n < 2 ? '<span class="muted">solo</span>' : `${medal(pl.rank)} <span class="muted">of ${pl.n}</span>`;
+            const rows = (d.rows || []).map((r) => `<span class="hchip">${esc(r.label)} ${esc(r.mark || '')} <b>${esc(r.value)}</b></span>`).join('');
+            const grid = (d.grid || []).length ? `<div class="hgrid">${d.grid.map((l) => `<div>${esc(l)}</div>`).join('')}</div>` : '';
+            const note = d.note ? `<div class="muted hnote">${esc(d.note)}</div>` : '';
+            return `<div class="hist-item"><div class="hist-top"><span>${g.emoji} ${esc(g.name)} <small class="muted">#${esc(e.puzzle)}</small></span>
+              <span><b class="has-tip"${tipAttr(e)}>${esc(e.display)}</b>${vsMark(e)}${startMark(e)}</span><span class="hplace">${place}</span></div>
+              ${rows ? `<div class="hchips">${rows}</div>` : ''}${grid}${note}</div>`;
+          })
+          .join('');
+        return `<div class="hist-day"><h4>${prettyDate(date)}</h4>${items}</div>`;
+      })
+      .join('');
+    const more = mine.length > shown.length ? `<button class="link" data-hist-more="1">Show more (${mine.length - shown.length} older)</button>` : '';
+    return `<h3>History <span class="muted">${mine.length} result${mine.length === 1 ? '' : 's'}</span></h3>${days}${more}`;
+  }
+
   function renderProfile() {
     const p = state.profile;
     const back = '<button class="link back" data-back="1">‹ Back</button>';
@@ -990,7 +1029,7 @@
         : `<p class="muted empty">You haven't played any of the same puzzles yet.</p>`;
     }
     return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${hotHtml}${formHtml}${luckHtml}${badgeHtml}${rivalHtml}${perGameTable}
-      <h3>Head to head</h3><select id="h2h" aria-label="Compare with">${opts}</select>${h2h}`;
+      <h3>Head to head</h3><select id="h2h" aria-label="Compare with">${opts}</select>${h2h}${renderHistory(p)}`;
   }
 
   function render() {
@@ -1091,6 +1130,7 @@
     const riv = e.target.closest('button[data-rival]');
     const wk = e.target.closest('button[data-week]');
     if (e.target.closest('[data-copy-week]')) return copyWeek();
+    if (e.target.closest('[data-hist-more]')) { state.histN += 50; render(); return; }
     if (riv) {
       state.h2h = riv.dataset.rival;
       render();
@@ -1102,6 +1142,7 @@
     } else if (pl) {
       state.profile = pl.dataset.player;
       state.h2h = '';
+      state.histN = 25;
       state.tab = 'profile';
     } else if (day && !day.disabled) {
       state.day = day.dataset.day;

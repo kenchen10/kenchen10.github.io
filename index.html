@@ -113,7 +113,7 @@ layout: null
                         <p>
                           <b>
                             <h3>{{ site.title }}</h3>
-                            <!-- <img id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;margin-left: -4px;" src="images/break2.svg"> -->
+                            <!-- <img loading="lazy" decoding="async" id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;margin-left: -4px;" src="images/break2.svg"> -->
                           </b>
                         </p>
                         <p class="text-justify" style="margin-left: auto; margin-right: auto;font-size: 14px; background-color: rgb(242, 235, 235); padding: 4px 6px; border-radius: 4px; border: solid 1px;">Hi! I'm a final year CS PhD at New York University, 
@@ -190,7 +190,7 @@ layout: null
             <tr style="padding:0px">
               <td style="padding-top:52px">
                 <a href="images.html">
-                  <img class="hoverable2" style="margin:auto;border: solid black 1px;" width=95% src="images/all-pics.png">
+                  <img loading="lazy" decoding="async" class="hoverable2" style="margin:auto;border: solid black 1px;" width=95% src="images/all-pics.png">
                 </a>
               </td>
             </tr>
@@ -207,7 +207,7 @@ layout: null
                     <a href="photos/{{ photo.id }}">
                       {% for img in photo.imgs limit : 1 %}
                       {% assign i = i | plus:1 %}
-                      {% if i < 16 and i > 2 %} <img class="hoverable" style="margin:5px;border: solid black 1px;" width=27% src="images/{{ img }}">
+                      {% if i < 16 and i > 2 %} <img loading="lazy" decoding="async" class="hoverable" style="margin:5px;border: solid black 1px;" width=27% src="images/{{ img }}">
                         {% endif %}
                         {% endfor %}
                     </a>
@@ -328,7 +328,7 @@ layout: null
                         </video>
                         {% endif %}
                         {% if publication.image != null %}
-                        <img style="border: 1px solid black;" width=100% height=100%
+                        <img loading="lazy" decoding="async" style="border: 1px solid black;" width=100% height=100%
                           src="images/{{ publication.image }}">
                         {% endif %}
                       </div>
@@ -359,7 +359,7 @@ layout: null
                       {% endfor %}
                       <br>
                       {% if publication.banner_venue != null %}
-                      <img style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
+                      <img loading="lazy" decoding="async" style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
                       {% endif %}
                       {% if publication.venue2 != null %}
                       <pub>
@@ -382,7 +382,7 @@ layout: null
                           <i class="fas fa-award"></i> {{ publication.award }} 
                         </venue>
                       </pub>
-                      {%endif%}{% for media in publication.media %} <a href="{{ media.link }}" target="_blank"><img style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a> {% endfor %}
+                      {%endif%}{% for media in publication.media %} <a href="{{ media.link }}" target="_blank"><img loading="lazy" decoding="async" style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a> {% endfor %}
                       {% if publication.description != null %}
                       <br>
                       <small style="font-size: small;">
@@ -525,7 +525,7 @@ layout: null
                         </video>
                         {% endif %}
                         {% if publication.image != null %}
-                        <img style="border: 1px solid black;" width=100% height=100%
+                        <img loading="lazy" decoding="async" style="border: 1px solid black;" width=100% height=100%
                           src="images/{{ publication.image }}">
                         {% endif %}
                       </div>
@@ -556,7 +556,7 @@ layout: null
                       {% endfor %}
                       <br>
                       {% if publication.banner_venue != null %}
-                      <img style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
+                      <img loading="lazy" decoding="async" style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
                       {% endif %}
                       {% if publication.venue2 != null %}
                       <pub>
@@ -579,7 +579,7 @@ layout: null
                           <i class="fas fa-award"></i> {{ publication.award }} 
                         </venue>
                       </pub>
-                      {%endif%}{% for media in publication.media %} <a href="{{ media.link }}" target="_blank"><img style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a> {% endfor %}
+                      {%endif%}{% for media in publication.media %} <a href="{{ media.link }}" target="_blank"><img loading="lazy" decoding="async" style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a> {% endfor %}
                       {% if publication.description != null %}
                       <br>
                       <small style="font-size: small;">
@@ -759,7 +759,7 @@ layout: null
                   <tr style="min-width:100%; width: 100%;">
                     <td style="padding:5px;vertical-align:middle;">
                       <div class="one" style="padding-right: 4px;">
-                        <img style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
+                        <img loading="lazy" decoding="async" style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
                           src="images/{{ work.img }}">
                       </div>
                     </td>
@@ -798,7 +798,7 @@ layout: null
                   <tr style="min-width:100%; width: 100%;">
                     <td style="padding:5px;vertical-align:middle;">
                       <div class="one" style="padding-right: 4px;">
-                        <img style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
+                        <img loading="lazy" decoding="async" style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
                           src="images/{{ teaching.image }}">
                       </div>
                     </td>
@@ -850,7 +850,7 @@ layout: null
                   {% if misc.img != null %}
                     <div class="image-item" id="timeline">
                       <a href="{{ misc.site }}">
-                        <img src="{{ misc.img }}" alt="Image 1" style="border: solid black 1px;">
+                        <img loading="lazy" decoding="async" src="{{ misc.img }}" alt="Image 1" style="border: solid black 1px;">
                         <div class="caption"><em>{{ misc.description }}</em></div>
                       </a>
                     </div>
