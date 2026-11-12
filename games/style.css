@@ -169,3 +169,11 @@ main h3 { margin-top: 16px; }
 .gauge .dot { position: absolute; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--fg); border: 3px solid var(--card); box-shadow: 0 1px 4px rgba(0,0,0,.35); }
 .gauge-scale { display: flex; justify-content: space-between; font-size: .7rem; color: var(--muted); }
 .form .note { margin: 8px 0 0; }
+
+/* Win % view */
+#wr-game { width: 100%; margin-bottom: 10px; }
+td.wr { position: relative; min-width: 86px; }
+td.wr .wbar { position: absolute; left: 6px; top: 7px; bottom: 7px; background: var(--accent-soft); border-radius: 6px; max-width: calc(100% - 12px); }
+td.wr .wval { position: relative; }
+.wr-matrix th, .wr-matrix td { padding: 7px 6px; font-size: .85rem; }
+.wr-matrix th { font-size: .7rem; }

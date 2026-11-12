@@ -29,7 +29,7 @@
   let rows = []; // raw submissions: {ts, player, text}
   let entries = []; // parsed + de-duplicated results
   let displayName = {}; // normalized name -> name as first written
-  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '' };
+  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all' };
   let puzzleBest = {}; // game|puzzle -> best value (for games scored relative to the day's best)
   let winRun = {}; // player|game -> { n: current run of consecutive wins, date: date of their latest result }
   let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
@@ -415,7 +415,73 @@
     $('#today').innerHTML = p ? `<span class="muted">Today:</span> ${chips} ${streak} ${undo}` : '';
   }
 
+  // Win ratio: wins / puzzles that at least one other friend also played (so a win was possible).
+  // Ties for 1st count as wins, like the Wins column elsewhere. Optionally limited to one game.
+  function winRates(es, gameId) {
+    const stats = {};
+    const pool = gameId === 'all' ? es : es.filter((e) => e.game === gameId);
+    for (const list of groupBy(pool, (e) => e.game + '|' + e.puzzle).values()) {
+      if (list.length < 2) continue; // nobody to beat
+      for (const e of rankPuzzle(list, GAME_BY_ID[list[0].game])) {
+        const s = (stats[e.player] = stats[e.player] || { player: e.player, wins: 0, contested: 0 });
+        s.contested++;
+        if (e.rank === 1) s.wins++;
+      }
+    }
+    return Object.values(stats).map((s) => ({ ...s, ratio: s.wins / s.contested }));
+  }
+
+  function renderWinRate(es) {
+    const sel = state.wrGame;
+    const picker = `<select id="wr-game" aria-label="Game">
+      <option value="all"${sel === 'all' ? ' selected' : ''}>All games</option>
+      ${GAMES.map((g) => `<option value="${g.id}"${sel === g.id ? ' selected' : ''}>${g.emoji} ${esc(g.name)}</option>`).join('')}</select>`;
+    const list = winRates(es, sel);
+    if (!list.length) return picker + empty('No puzzles where two or more friends played the same one yet.');
+    const ok = list.filter((s) => s.contested >= CFG.minPlaysForAverage);
+    const few = list.filter((s) => s.contested < CFG.minPlaysForAverage);
+    const order = (a, b) => b.ratio - a.ratio || b.wins - a.wins || b.contested - a.contested;
+    ok.sort(order);
+    few.sort(order);
+    let rank = 0;
+    const shown = [
+      ...ok.map((s, i) => { if (i === 0 || s.ratio !== ok[i - 1].ratio) rank = i + 1; return { ...s, rank }; }),
+      ...few.map((s) => ({ ...s, rank: null })),
+    ];
+    const body = shown
+      .map(
+        (s) => `<tr class="${s.rank === null ? 'dim' : ''}"><td class="rank">${medal(s.rank)}</td>${nameCell(s.player, sel === 'all' ? undefined : sel)}
+          <td class="num strong wr"><span class="wbar" style="width:${Math.round(s.ratio * 100)}%"></span><span class="wval">${Math.round(s.ratio * 100)}%</span></td>
+          <td class="num">${s.wins}</td><td class="num">${s.contested}</td></tr>`
+      )
+      .join('');
+    let table = `<table><tr><th></th><th>Player</th><th class="num">Win %</th><th class="num">Wins</th><th class="num">Contested</th></tr>${body}</table>`;
+
+    // "All games": also a breakdown with one row per game and one column per player.
+    let byGame = '';
+    if (sel === 'all') {
+      const players = shown.map((s) => s.player);
+      const perGame = GAMES.map((g) => [g, new Map(winRates(es, g.id).map((s) => [s.player, s]))]).filter(([, m]) => m.size);
+      if (perGame.length) {
+        const cells = (m) => {
+          const best = Math.max(...[...m.values()].map((s) => s.ratio));
+          return players
+            .map((p) => {
+              const s = m.get(p);
+              return s ? `<td class="num${s.ratio === best ? ' strong' : ''}" title="${s.wins} of ${s.contested}">${Math.round(s.ratio * 100)}%</td>` : '<td class="num muted">–</td>';
+            })
+            .join('');
+        };
+        byGame = `<h3 class="game-h">By game</h3><table class="wr-matrix"><tr><th></th>${players.map((p) => `<th class="num">${esc((displayName[p] || p).slice(0, 7))}</th>`).join('')}</tr>
+          ${perGame.map(([g, m]) => `<tr><td>${g.emoji} ${esc(g.name)}</td>${cells(m)}</tr>`).join('')}</table>`;
+      }
+    }
+    const note = `Win % = wins ÷ puzzles that at least one other friend also played. Ties for 1st count as wins. Fewer than ${CFG.minPlaysForAverage} such puzzles are listed at the bottom. Hover a number for wins out of contested.`;
+    return `${picker}${table}${byGame}<p class="note">${note}</p>`;
+  }
+
   function renderOverall(es) {
+    if (state.mode === 'winrate') return renderWinRate(es);
     const list = overall(es);
     if (!list.length) return empty();
     const pts = state.mode === 'points';
@@ -767,6 +833,7 @@
   });
   $('#board').addEventListener('change', (e) => {
     if (e.target.id === 'h2h') { state.h2h = e.target.value; render(); }
+    if (e.target.id === 'wr-game') { state.wrGame = e.target.value; render(); }
   });
   $('#range').addEventListener('change', (e) => { state.range = e.target.value; render(); });
   $('#mode').addEventListener('click', (e) => {
