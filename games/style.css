@@ -171,9 +171,13 @@ main h3 { margin-top: 16px; }
 .form .note { margin: 8px 0 0; }
 
 /* Win % view */
-#wr-game { width: 100%; margin-bottom: 10px; }
-td.wr { position: relative; min-width: 86px; }
+.wr-pick { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 8px 12px; border: 2px solid var(--accent); border-radius: 12px; background: var(--accent-soft); }
+.wr-pick span { font-weight: 700; font-size: .9rem; white-space: nowrap; }
+#wr-game { flex: 1; min-width: 0; font-weight: 600; }
+td.wr { position: relative; min-width: 76px; }
 td.wr .wbar { position: absolute; left: 6px; top: 7px; bottom: 7px; background: var(--accent-soft); border-radius: 6px; max-width: calc(100% - 12px); }
 td.wr .wval { position: relative; }
-.wr-matrix th, .wr-matrix td { padding: 7px 6px; font-size: .85rem; }
-.wr-matrix th { font-size: .7rem; }
+.wr-matrix { table-layout: fixed; }
+.wr-matrix th, .wr-matrix td { padding: 7px 3px; font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wr-matrix th { font-size: .65rem; }
+.wr-matrix .wr-game-cell, .wr-matrix th:first-child { width: 34px; text-align: center; font-size: 1rem; }

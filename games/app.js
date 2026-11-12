@@ -433,9 +433,9 @@
 
   function renderWinRate(es) {
     const sel = state.wrGame;
-    const picker = `<select id="wr-game" aria-label="Game">
+    const picker = `<label class="wr-pick"><span>Pick a game</span><select id="wr-game">
       <option value="all"${sel === 'all' ? ' selected' : ''}>All games</option>
-      ${GAMES.map((g) => `<option value="${g.id}"${sel === g.id ? ' selected' : ''}>${g.emoji} ${esc(g.name)}</option>`).join('')}</select>`;
+      ${GAMES.map((g) => `<option value="${g.id}"${sel === g.id ? ' selected' : ''}>${g.emoji} ${esc(g.name)}</option>`).join('')}</select></label>`;
     const list = winRates(es, sel);
     if (!list.length) return picker + empty('No puzzles where two or more friends played the same one yet.');
     const ok = list.filter((s) => s.contested >= CFG.minPlaysForAverage);
@@ -452,10 +452,10 @@
       .map(
         (s) => `<tr class="${s.rank === null ? 'dim' : ''}"><td class="rank">${medal(s.rank)}</td>${nameCell(s.player, sel === 'all' ? undefined : sel)}
           <td class="num strong wr"><span class="wbar" style="width:${Math.round(s.ratio * 100)}%"></span><span class="wval">${Math.round(s.ratio * 100)}%</span></td>
-          <td class="num">${s.wins}</td><td class="num">${s.contested}</td></tr>`
+          <td class="num nowrap" title="${s.wins} wins out of ${s.contested} puzzles that a friend also played">${s.wins}/${s.contested}</td></tr>`
       )
       .join('');
-    let table = `<table><tr><th></th><th>Player</th><th class="num">Win %</th><th class="num">Wins</th><th class="num">Contested</th></tr>${body}</table>`;
+    let table = `<table><tr><th></th><th>Player</th><th class="num">Win %</th><th class="num">Record</th></tr>${body}</table>`;
 
     // "All games": also a breakdown with one row per game and one column per player.
     let byGame = '';
@@ -472,11 +472,11 @@
             })
             .join('');
         };
-        byGame = `<h3 class="game-h">By game</h3><table class="wr-matrix"><tr><th></th>${players.map((p) => `<th class="num">${esc((displayName[p] || p).slice(0, 7))}</th>`).join('')}</tr>
-          ${perGame.map(([g, m]) => `<tr><td>${g.emoji} ${esc(g.name)}</td>${cells(m)}</tr>`).join('')}</table>`;
+        byGame = `<h3 class="game-h">By game</h3><table class="wr-matrix"><tr><th></th>${players.map((p) => `<th class="num">${esc((displayName[p] || p).slice(0, 6))}</th>`).join('')}</tr>
+          ${perGame.map(([g, m]) => `<tr><td class="wr-game-cell" title="${esc(g.name)}">${g.emoji}</td>${cells(m)}</tr>`).join('')}</table>`;
       }
     }
-    const note = `Win % = wins ÷ puzzles that at least one other friend also played. Ties for 1st count as wins. Fewer than ${CFG.minPlaysForAverage} such puzzles are listed at the bottom. Hover a number for wins out of contested.`;
+    const note = `Win % = wins ÷ puzzles that at least one other friend also played. Ties for 1st count as wins. Fewer than ${CFG.minPlaysForAverage} such puzzles are listed at the bottom. Record = wins / puzzles a friend also played. In the By game table, hover a game's emoji for its name.`;
     return `${picker}${table}${byGame}<p class="note">${note}</p>`;
   }
 
