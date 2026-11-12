@@ -329,10 +329,11 @@
   }
 
   function renderTabs() {
-    const tabs = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, ...GAMES.map((g) => ({ id: g.id, label: `${g.emoji} ${g.name}` })), { id: 'recent', label: '🗓️ Recent' }];
-    $('#tabs').innerHTML = tabs
-      .map((t) => `<button data-tab="${t.id}" class="${t.id === state.tab ? 'on' : ''}">${esc(t.label)}</button>`)
-      .join('');
+    const btn = (t) => `<button data-tab="${t.id}" class="${t.id === state.tab ? 'on' : ''}">${esc(t.label)}</button>`;
+    const stats = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, { id: 'recent', label: '🗓️ Recent' }];
+    const games = GAMES.map((g) => ({ id: g.id, label: `${g.emoji} ${g.name}` }));
+    const group = (label, list) => `<div class="tab-group"><span class="tab-label">${label}</span><div class="tab-row">${list.map(btn).join('')}</div></div>`;
+    $('#tabs').innerHTML = group('Stats', stats) + group('Games', games);
     $('#mode').style.display = state.tab === 'overall' ? '' : 'none';
     const plain = state.tab === 'daily' || state.tab === 'profile'; // these ignore the time range
     document.querySelector('.controls').hidden = plain;
@@ -343,7 +344,7 @@
     const today = localDate(new Date());
     const chips = GAMES.map((g) => {
       const done = entries.some((e) => e.player === p && e.game === g.id && e.date === today);
-      return `<span class="chip${done ? ' done' : ''}">${done ? '✓' : '·'} ${esc(g.name)}</span>`;
+      return `<a class="chip${done ? ' done' : ''}" href="${esc(g.url)}" target="_blank" rel="noopener" title="Play ${esc(g.name)}">${done ? '✓' : '·'} ${esc(g.name)}</a>`;
     }).join('');
     const cur = p ? streakInfo(p, null).cur : 0;
     const streak = cur >= 2 ? `<span class="streak">🔥 ${cur}-day streak</span>` : '';

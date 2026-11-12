@@ -37,14 +37,17 @@ summary { color: var(--muted); cursor: pointer; }
 textarea { width: 100%; margin: 8px 0; padding: 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font: 14px/1.4 ui-monospace, monospace; }
 #submit-paste { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--accent); background: none; color: var(--accent); font-weight: 600; }
 .today { margin-top: 10px; font-size: .85rem; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.chip { padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.chip { padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); text-decoration: none; }
+a.chip:hover { border-color: var(--accent); color: var(--fg); }
 .chip.done { background: var(--accent-soft); border-color: transparent; color: var(--fg); }
 
 .toast { position: sticky; top: 8px; z-index: 5; padding: 10px 12px; border-radius: 10px; margin-bottom: 12px;
   background: var(--accent-soft); font-size: .9rem; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
 .toast.err { background: var(--err-soft); color: var(--err); }
 
-.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tabs { display: flex; flex-direction: column; gap: 10px; }
+.tab-label { display: block; margin-bottom: 4px; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.tab-row { display: flex; flex-wrap: wrap; gap: 6px; }
 .tabs button, .seg button {
   white-space: nowrap; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line);
   background: var(--card); color: var(--fg); font-size: .9rem;

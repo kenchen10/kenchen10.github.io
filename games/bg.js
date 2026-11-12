@@ -6,7 +6,7 @@
   layer.className = 'bg-layer';
   layer.setAttribute('aria-hidden', 'true');
   const rand = (a, b) => a + Math.random() * (b - a);
-  const COPIES = 3; // emojis per game; raise for more, lower for less clutter
+  const COPIES = 6; // emojis per game; raise for more, lower for less clutter
 
   for (const g of window.GAMES) {
     for (let i = 0; i < COPIES; i++) {

@@ -1,7 +1,7 @@
 // Game definitions: how to recognise each game's share text and how to score it.
 //
 // To add a new game, add an object to GAMES with:
-//   id, name, emoji
+//   id, name, emoji, url (where to play it; linked from the "Today" pills)
 //   header   – regex that marks where this game's share text starts
 //   parse(s) – given the text from the header up to the next game's header,
 //              return { puzzle, value, display } or null if it can't be read
@@ -29,9 +29,15 @@
     s.split('\n').map((l) => l.trim())
       .filter((l) => l && !/[0-9A-Za-z]/.test(l) && /^[\p{Extended_Pictographic}️‍ ]+$/u.test(l));
 
-  // Krillion's "The Bearing": tier names for the answer emojis, and bands for the total score.
-  // (Emoji ↔ tier pairing read off the game's rules screen; the per-answer point cut-offs aren't published.)
-  const KRILLION_TIER_NAME = { '🫧': 'Plankton', '🐟': 'Schooler', '🏮': 'Rare', '🦑': 'Deep cut', '🦐': 'One in a krillion' };
+  // Krillion tiers: points per answer, and total-score bands ("The Bearing").
+  // 🫧10 + 🫧10 + 🦑60 + 🐟30 + 🏮85 + 🦑60 + 🐟30 = 285, which matches a real 285-point share.
+  const KRILLION_TIER = {
+    '🫧': { name: 'Plankton', pts: 10 },
+    '🐟': { name: 'Schooler', pts: 30 },
+    '🦑': { name: 'Rare', pts: 60 },
+    '🏮': { name: 'Deep cut', pts: 85 },
+    '🦐': { name: 'One in a krillion', pts: 100 },
+  };
   const KRILLION_BEARING = [
     { max: 150, name: 'Plankton', line: 'Plenty of ocean left down there.' },
     { max: 250, name: 'Schooler', line: 'Swimming with the school.' },
@@ -47,6 +53,7 @@
       id: 'wordle',
       name: 'Wordle',
       emoji: '🟩',
+      url: 'https://www.nytimes.com/games/wordle/index.html',
       header: /Wordle\s+\d/g,
       // "Wordle 1,234 3/6*"   (X/6 = failed, * = hard mode)
       parse(s) {
@@ -71,6 +78,7 @@
       id: 'krillion',
       name: 'Krillion',
       emoji: '🦐',
+      url: 'https://krillion.io/',
       header: /Krillion\s*#\s*\d/g,
       // "Krillion #119 🦐\n285\n\n🫧🫧🦑🐟🏮🦑🐟"
       parse(s) {
@@ -80,7 +88,7 @@
         if (pts > 700) return null;
         const answers = Array.from(gridLines(s)[0] || '')
           .filter((ch) => ch !== '\uFE0F' && ch !== ' ')
-          .map((ch, i) => ({ label: 'Answer ' + (i + 1), mark: ch, value: KRILLION_TIER_NAME[ch] || '' }));
+          .map((ch, i) => ({ label: 'Answer ' + (i + 1), mark: ch, value: KRILLION_TIER[ch] ? `${KRILLION_TIER[ch].name} · ${KRILLION_TIER[ch].pts}` : '' }));
         const bearing = KRILLION_BEARING.find((b) => pts <= b.max);
         return {
           puzzle: Number(m[1]), value: pts, display: pts + ' pts',
@@ -97,33 +105,33 @@
       id: 'poople',
       name: 'Poople',
       emoji: '💩',
-      header: /Poople/gi,
-      // TODO: confirm against a real Poople share text. This parser is a guess:
-      // it looks for a puzzle number (#123) and a step count ("5 steps",
-      // "5 moves", or "5/4" meaning steps/par), plus an optional "par 4".
+      url: 'https://poople.io/',
+      header: /Poople\s*#\s*\d/gi,
+      // "Poople #454 5/5\n🟫⬜⬜⬜\n…\n🟫🟫🟫🟫\n\nhttps://poople.io/"
+      //   guesses / best possible (par); 🟫 = letter already matches P-O-O-P.
       parse(s) {
-        const num = s.match(/#\s*(\d+)/);
-        let steps = null, par = null, m;
-        if ((m = s.match(/(\d+)\s*(?:steps?|moves?)/i))) steps = Number(m[1]);
-        else if ((m = s.match(/(\d+)\s*\/\s*(\d+)/))) { steps = Number(m[1]); par = Number(m[2]); }
-        if ((m = s.match(/par\s*:?\s*(\d+)/i))) par = Number(m[1]);
-        if (!steps) return null;
+        const m = s.match(/^Poople\s*#\s*(\d+)\s+(\d+)\s*\/\s*(\d+)/i);
+        if (!m) return null;
+        const steps = Number(m[2]), par = Number(m[3]);
         return {
-          puzzle: num ? Number(num[1]) : null,
+          puzzle: Number(m[1]),
           value: steps,
           par,
-          display: steps + ' steps' + (par ? ` (par ${par})` : ''),
+          display: `${steps}/${par}`,
+          detail: { grid: gridLines(s), note: steps === par ? 'Perfect: matched the best solution.' : `${steps - par} over the best solution (${par}).` },
         };
       },
       better: 'lower',
-      unit: 'steps',
+      unit: 'guesses',
       formatValue: (v) => v.toFixed(2),
-      normalize: (v, e) => Math.min(1, (e && e.par ? e.par : 4) / v),
+      normalize: (v, e) => Math.min(1, (e && e.par ? e.par : 4) / v), // 1.0 = matched the best solution
+      date: fromEpoch('2025-08-14'), // #1 = 2025-08-15; #454 = 2026-11-11 (matches the submissions)
     },
     {
       id: 'flagle',
       name: 'Flagle',
       emoji: '🚩',
+      url: 'https://www.flagle.io/',
       header: /Flagle\s*#\s*\d/gi,
       // "#Flagle #1724 (11.11.2026) 5/6"   (X/6 = failed). Date is ambiguous
       // (DD.MM vs MM.DD), so the puzzle number is used instead.
@@ -144,6 +152,7 @@
       id: 'tradle',
       name: 'Tradle',
       emoji: '🚢',
+      url: 'https://oec.world/en/games/tradle',
       header: /Tradle\s*#\s*\d/gi,
       // "#Tradle #1711 X/6"   (X/6 = failed)
       parse(s) {
@@ -163,6 +172,7 @@
       id: 'magnitudle',
       name: 'Magnitudle',
       emoji: '📏',
+      url: 'https://magnitudle.com/size-it-up',
       header: /Magnitudle(?![.\w])/gi,
       // "Magnitudle — Size It Up\n2026-11-11\n\nScore: 384/500"
       // No puzzle number, so the puzzle id is the date as YYYYMMDD.
@@ -185,6 +195,7 @@
       id: 'noillirk',
       name: 'Noillirk',
       emoji: '🧗',
+      url: 'https://playdaily.org/noillirk',
       header: /Noillirk\b(?=[^\n]*No\.)/gi,
       // "Noillirk: The Daily Climb | No. 46 - 8,759m" (score = metres climbed)
       parse(s) {
@@ -203,6 +214,7 @@
       id: 'maptap',
       name: 'MapTap',
       emoji: '📍',
+      url: 'https://www.maptap.gg/',
       header: /maptap\.gg(?![)\w\/])/gi,
       // "www.maptap.gg November 11\n93🏆 93🏆 97🔥 91👑 18😵\nFinal score: 707"
       // No puzzle number, so the puzzle id is the date as YYYYMMDD (the share
