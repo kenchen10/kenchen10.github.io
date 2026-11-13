@@ -213,3 +213,5 @@ td.wr .wval { position: relative; }
 .hgrid { margin-top: 6px; font-size: .8rem; line-height: 1.15; letter-spacing: 1px; overflow-wrap: anywhere; }
 .hnote { font-size: .75rem; margin-top: 4px; }
 .htime { font-size: .75rem; margin-top: 2px; }
+.hist-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 12px; }
+.hist-card .hist-item:last-child { border-bottom: 0; }

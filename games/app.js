@@ -921,7 +921,7 @@
           ${rows ? `<div class="hchips">${rows}</div>` : ''}${grid}${note}</div>`;
       })
       .join('');
-    return `<h3>History <span class="muted">${mine.length} result${mine.length === 1 ? '' : 's'} · ${days.length} day${days.length === 1 ? '' : 's'}</span></h3>${nav}${items}`;
+    return `<h3>History <span class="muted">${mine.length} result${mine.length === 1 ? '' : 's'} · ${days.length} day${days.length === 1 ? '' : 's'}</span></h3>${nav}<div class="hist-card">${items}</div>`;
   }
 
   function renderProfile() {
