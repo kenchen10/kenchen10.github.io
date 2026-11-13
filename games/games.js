@@ -289,10 +289,11 @@
       emoji: '👁️',
       url: 'https://perceptle.com/',
       header: /Perceptle\s*#\s*\d/gi,
+      // (A newer share adds an emoji after the number: "Perceptle #119 🃏 - A (91)")
       // "Perceptle #116 - A (87)\n🔢 99  🎯 99  📐 99  🥁 70  ✂️ 66\nhttps://perceptle.com"
       // Grade letter and an overall score out of 100 (the average of the five tests).
       parse(s) {
-        const m = s.match(/^Perceptle\s*#\s*(\d+)\s*[-–—]\s*([A-Za-z][+-]?)\s*\(\s*(\d{1,3})\s*\)/);
+        const m = s.match(/^Perceptle\s*#\s*(\d+)[^\w\n]{0,8}?[-–—]\s*([A-Za-z][+-]?)\s*\(\s*(\d{1,3})\s*\)/);
         if (!m) return null;
         const value = Number(m[3]);
         const rows = [{ label: 'Grade', value: m[2] }];
