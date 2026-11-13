@@ -44,6 +44,10 @@
   let puzzleBest = {}; // game|puzzle -> best value (for games scored relative to the day's best)
   let winRun = {}; // player|game -> { n: current run of consecutive wins, date: date of their latest result }
   let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
+  let winRunBest = {}; // player|game -> { n: longest run of consecutive wins, date: when it peaked }
+  let ratings = {}; // player -> { r: current Elo rating, n: matches, peak, peakDate, hist: [{date, r}] }
+  let puzzleDiff = {}; // game|puzzle -> { avg, n, z, tag: 'hard' | 'easy' | null } (2+ players)
+  let upsets = []; // { e: winning entry, loser: entry, gap: rating difference before the puzzle }
 
   // ---------- identity ----------
   function getName() { return store.get(NAME_KEY) || ''; }
@@ -146,6 +150,7 @@
     // Per player and game, in puzzle order: each result vs the player's own earlier results ("usual"),
     // and the current run of consecutive wins.
     winRun = {};
+    winRunBest = {};
     const mean = (a) => a.reduce((t, v) => t + v, 0) / a.length;
     for (const list of groupBy(entries, (e) => e.player + '|' + e.game).values()) {
       list.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.puzzle < b.puzzle ? -1 : a.puzzle > b.puzzle ? 1 : 0));
@@ -160,11 +165,83 @@
           e.vs = { diff: (n - m) * 100, usual: m * 100, z: (n - m) / Math.max(sd, 0.1) }; // sd floor: 10 points
         }
         prev.push(n);
+        e.runBefore = run;
         run = e.won ? run + 1 : 0;
+        e.runAfter = run;
+        const key = e.player + '|' + e.game;
+        if (run > 0 && (!winRunBest[key] || run > winRunBest[key].n)) winRunBest[key] = { n: run, date: e.date };
       }
       winRun[list[0].player + '|' + list[0].game] = { n: run, date: list[list.length - 1].date };
     }
+    computeRatings();
+    computeDifficulty();
   }
+
+  // Elo rating (start 1000, K = 32). Every puzzle that 2+ friends did is a match: each pair in it is a
+  // head-to-head game (win 1, tie ½, loss 0), averaged so a 5-player puzzle moves you as much as a 2-player one.
+  // Beating someone rated higher earns more than beating someone rated lower.
+  const ELO_START = 1000, ELO_K = 32;
+  function computeRatings() {
+    ratings = {};
+    upsets = [];
+    const R = (p) => (ratings[p] = ratings[p] || { r: ELO_START, n: 0, peak: ELO_START, peakDate: null, hist: [] });
+    const lastTs = (l) => l.reduce((m, e) => (e.ts > m ? e.ts : m), '');
+    const lastDate = (l) => l.reduce((m, e) => (e.date > m ? e.date : m), '');
+    const matches = [...groupBy(entries, (e) => e.game + '|' + e.puzzle).values()]
+      .filter((l) => l.length > 1)
+      .map((l) => ({ l, date: lastDate(l), ts: lastTs(l) }))
+      .sort((a, b) => (a.date !== b.date ? (a.date < b.date ? -1 : 1) : a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0));
+    for (const { l, date } of matches) {
+      const g = GAME_BY_ID[l[0].game];
+      const before = new Map(l.map((e) => [e.player, R(e.player).r]));
+      const score = (a, b) => { const d = g.better === 'higher' ? a.value - b.value : b.value - a.value; return d > 0 ? 1 : d < 0 ? 0 : 0.5; };
+      for (const e of l) {
+        let S = 0, E = 0;
+        for (const o of l) {
+          if (o === e) continue;
+          const sc = score(e, o);
+          S += sc;
+          E += 1 / (1 + 10 ** ((before.get(o.player) - before.get(e.player)) / 400));
+          if (sc === 1 && before.get(o.player) > before.get(e.player)) upsets.push({ e, loser: o, gap: before.get(o.player) - before.get(e.player) });
+        }
+        e.eloBefore = before.get(e.player);
+        e.eloDelta = (ELO_K * (S - E)) / (l.length - 1);
+      }
+      for (const e of l) {
+        const x = R(e.player);
+        x.r += e.eloDelta;
+        x.n++;
+        if (x.r > x.peak) { x.peak = x.r; x.peakDate = date; }
+        const h = x.hist;
+        if (h.length && h[h.length - 1].date === date) h[h.length - 1].r = x.r; else h.push({ date, r: x.r });
+      }
+    }
+  }
+  // A player's rating at the end of a given day (ELO_START before their first match).
+  const ratingOn = (p, date) => {
+    const h = (ratings[p] || {}).hist || [];
+    let v = ELO_START;
+    for (const x of h) { if (x.date > date) break; v = x.r; }
+    return v;
+  };
+
+  // Puzzle difficulty: the group's average result on a puzzle compared with that game's other puzzles.
+  // z > 0 = harder than usual. Needs 2+ players on the puzzle and 4+ such puzzles in the game to tag it.
+  function computeDifficulty() {
+    puzzleDiff = {};
+    const shared = [...groupBy(entries, (e) => e.game + '|' + e.puzzle).entries()].filter(([, l]) => l.length > 1);
+    for (const [gid, list] of groupBy(shared, ([k]) => k.split('|')[0])) {
+      const g = GAME_BY_ID[gid];
+      const avgs = list.map(([k, l]) => [k, l.reduce((t, e) => t + e.value, 0) / l.length, l.length]);
+      const m = avgs.reduce((t, a) => t + a[1], 0) / avgs.length;
+      const sd = Math.sqrt(avgs.reduce((t, a) => t + (a[1] - m) ** 2, 0) / avgs.length);
+      for (const [k, avg, n] of avgs) {
+        const z = avgs.length >= 4 && sd > 0 ? (g.better === 'higher' ? m - avg : avg - m) / sd : 0;
+        puzzleDiff[k] = { avg, n, z, tag: z >= 1 ? 'hard' : z <= -1 ? 'easy' : null };
+      }
+    }
+  }
+  const fmtAvg = (g, v) => (g.failValue && v >= g.failValue ? 'X' : g.formatValue(v));
 
   // Current hot streak (consecutive wins in one game) if it's long enough and recent, else 0.
   function hotFor(p, gameId) {
@@ -256,6 +333,12 @@
       rebuild();
       render();
       let msg = '✅ Saved: ' + fresh.join(', ');
+      // Tied or outright 1st among friends who've played it so far.
+      const won = entries.filter((e) => e.player === p && e.ts === row.ts && e.won);
+      if (won.length) {
+        msg = `🥇 You're 1st in ${won.map((e) => GAME_BY_ID[e.game].name).join(', ')} so far! ` + msg;
+        celebrate();
+      }
       if (dupes.length) msg += ` (already had ${dupes.join(', ')})`;
       if (unreadable.length) msg += ` — couldn't read ${unreadable.join(', ')}`;
       toast(msg);
@@ -512,12 +595,12 @@
 
   function renderTabs() {
     const btn = (t) => `<button data-tab="${t.id}" class="${t.id === state.tab ? 'on' : ''}">${esc(t.label)}</button>`;
-    const stats = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, { id: 'recent', label: '🗓️ Recent' }, { id: 'weekly', label: '📰 Weekly' }, { id: 'charts', label: '📊 Charts' }];
+    const stats = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, { id: 'recent', label: '🗓️ Recent' }, { id: 'weekly', label: '📰 Weekly' }, { id: 'charts', label: '📊 Charts' }, { id: 'records', label: '🏅 Records' }];
     const games = GAMES.map((g) => ({ id: g.id, label: `${g.emoji} ${g.name}` }));
     const group = (label, list) => `<div class="tab-group"><span class="tab-label">${label}</span><div class="tab-row">${list.map(btn).join('')}</div></div>`;
     $('#tabs').innerHTML = group('Stats', stats) + group('Games', games);
     $('#mode').style.display = state.tab === 'overall' ? '' : 'none';
-    const plain = state.tab === 'daily' || state.tab === 'weekly' || state.tab === 'profile'; // these ignore the time range
+    const plain = state.tab === 'daily' || state.tab === 'weekly' || state.tab === 'profile' || state.tab === 'records'; // these ignore the time range
     document.querySelector('.controls').hidden = plain;
   }
 
@@ -599,8 +682,48 @@
     return `${picker}${table}<p class="note">${note}</p>${renderRollingWin(es, sel)}${byGame}`;
   }
 
+  // Elo leaderboard. Ratings always use every result; the time range picks the window for "Change".
+  function renderElo() {
+    const players = Object.keys(ratings).filter((p) => ratings[p].n > 0);
+    if (!players.length) return empty('Ratings start once two friends have done the same puzzle.');
+    const today = localDate(new Date());
+    const since = state.range === 'all' ? null : state.range === 'today' ? addDays(today, -1) : addDays(today, -Number(state.range));
+    const MIN = 5;
+    const all = players
+      .map((p) => ({ p, ...ratings[p], ch: since ? ratings[p].r - ratingOn(p, since) : null }))
+      .sort((a, b) => b.r - a.r);
+    const ok = all.filter((x) => x.n >= MIN), few = all.filter((x) => x.n < MIN);
+    const arrow = (v) => (v == null ? '' : Math.round(v) === 0 ? '<span class="muted">±0</span>' : `<span class="${v > 0 ? 'up' : 'down'}">${v > 0 ? '▲' : '▼'}${Math.abs(Math.round(v))}</span>`);
+    const body = [...ok.map((x, i) => ({ ...x, rank: i + 1 })), ...few.map((x) => ({ ...x, rank: null }))]
+      .map((x) => `<tr class="${x.rank === null ? 'dim' : ''}"><td class="rank">${medal(x.rank)}</td>${nameCell(x.p)}<td class="num strong">${Math.round(x.r)}</td>
+        <td class="num nowrap elo-ch">${since ? arrow(x.ch) : `<span title="Highest rating, ${x.peakDate ? shortDate(x.peakDate) : ''}">${Math.round(x.peak)}</span>`}</td><td class="num">${x.n}</td></tr>`)
+      .join('');
+    const table = `<table><tr><th></th><th>Player</th><th class="num">Rating</th><th class="num">${since ? 'Change' : 'Peak'}</th><th class="num">Matches</th></tr>${body}</table>`;
+
+    // Rating over time for the selected range.
+    const first = players.reduce((m, p) => (ratings[p].hist[0].date < m ? ratings[p].hist[0].date : m), today);
+    const xs = datesBetween(since && addDays(since, 1) > first ? addDays(since, 1) : first, today);
+    const series = players.map((p) => {
+      const start = ratings[p].hist[0].date;
+      return { p, ys: xs.map((d) => (d < start ? null : ratingOn(p, d))) };
+    }).filter((s) => s.ys.some((v) => v != null));
+    const vals = series.flatMap((s) => s.ys.filter((v) => v != null));
+    let chart = '';
+    if (xs.length > 1 && vals.length) {
+      const lo = Math.min(...vals), hi = Math.max(...vals);
+      const step = niceStep(Math.max(20, hi - lo) / 4);
+      const yMin = Math.floor(lo / step) * step, yMax = Math.ceil(hi / step) * step + (Math.ceil(hi / step) * step === hi ? step : 0);
+      const yTicks = [];
+      for (let t = yMin; t <= yMax + 1e-9; t += step) yTicks.push(t);
+      chart = `<h3 class="game-h">📈 Rating over time</h3>${legendHtml(series.map((s) => s.p))}<div class="chart-wrap">${lineChart({ xs, series, yMin, yMax, yTicks, id: 'elo', label: 'Rating per player over time' })}</div>`;
+    }
+    const note = `Elo rating: everyone starts at ${ELO_START}. Each puzzle two or more friends did counts as a match against everyone else on it; beating a higher-rated player earns more than beating a lower-rated one, and losing to a lower-rated player costs more. Ratings use every result ever; the time range only changes the Change column and the chart. Fewer than ${MIN} matches are listed at the bottom.`;
+    return `${table}<p class="note">${note}</p>${chart}`;
+  }
+
   function renderOverall(es) {
     if (state.mode === 'winrate') return renderWinRate(es);
+    if (state.mode === 'elo') return renderElo();
     const list = overall(es);
     if (!list.length) return empty();
     const pts = state.mode === 'points';
@@ -756,7 +879,7 @@
   let tips = []; // rebuilt on every render; elements point at an index
   const tipAttr = (e) => {
     const d = e.detail;
-    if (!e.vs && !e.start && !e.moved && (!d || !((d.grid && d.grid.length) || (d.rows && d.rows.length)))) return '';
+    if (!e.vs && !e.start && !e.moved && e.eloDelta == null && (!d || !((d.grid && d.grid.length) || (d.rows && d.rows.length)))) return '';
     tips.push(e);
     return ` data-tip="${tips.length - 1}" tabindex="0"`;
   };
@@ -779,6 +902,9 @@
     const start = e.start
       ? `<div class="tip-vs ${e.start.pct >= 50 ? 'up' : 'down'}">${e.start.pct >= 85 ? '✨' : e.start.pct <= 15 ? '🌧️' : '🎲'} Opening guess better than ${e.start.pct}% of ${e.start.n} openings</div>`
       : '';
+    const elo = e.eloDelta != null
+      ? `<div class="tip-note">📈 Rating ${e.eloDelta >= 0 ? '+' : '−'}${Math.abs(Math.round(e.eloDelta))} (${Math.round(e.eloBefore)} → ${Math.round(e.eloBefore + e.eloDelta)})</div>`
+      : '';
     const rowsHtml = (d.rows || [])
       .map((r) => `<tr><td>${esc(r.label)}</td><td class="tip-mark">${esc(r.mark || '')}</td><td class="num"><b>${esc(r.value)}</b></td></tr>`)
       .join('');
@@ -786,7 +912,7 @@
     const legend = g.legend
       ? `<div class="tip-legend">${Object.entries(g.legend).map(([k, v]) => `${esc(k)} ${esc(v)}`).join(' · ')}</div>`
       : '';
-    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>${vs}${start}${moved}
+    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>${vs}${start}${moved}${elo}
       ${rowsHtml ? `<table>${rowsHtml}</table>` : ''}${grid ? `<div class="tip-grid">${grid}</div>` : ''}${d.note ? `<div class="tip-note">${esc(d.note)}</div>` : ''}${legend}`;
   }
 
@@ -820,6 +946,7 @@
       .map((s) => `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player)}<td class="num strong">${s.points}</td><td class="num">${s.played}</td></tr>`)
       .join('');
     const top = `<h3>Day standings</h3><table><tr><th></th><th>Player</th><th class="num">Points</th><th class="num">Games</th></tr>${board}</table>`;
+    const headline = dailyHeadline(es);
 
     const cards = GAMES.filter((g) => es.some((e) => e.game === g.id))
       .map((g) => {
@@ -831,10 +958,149 @@
           .map((e) => `<tr><td class="rank">${medal(e.rank)}</td>${nameCell(e.player)}<td class="num strong"><span class="has-tip"${tipAttr(e)}>${esc(e.display)}</span>${vsMark(e)}${startMark(e)}</td></tr>`)
           .join(''))
           .join('');
-        return `<h3 class="game-h">${g.emoji} ${esc(g.name)}</h3><table>${rowsHtml}</table>`;
+        return `<h3 class="game-h">${g.emoji} ${esc(g.name)}${diffTag(g, groups[0][0].puzzle)}</h3><table>${rowsHtml}</table>`;
       })
       .join('');
-    return nav + top + cards + '<p class="note">Hover (or tap) a result to see the round-by-round details.</p>';
+    return nav + headline + top + cards + '<p class="note">Hover (or tap) a result to see the round-by-round details. 🔥 Hard / 🍰 Easy compares the group\'s average on that puzzle with the game\'s other puzzles.</p>';
+  }
+
+  // "🔥 Hard" / "🍰 Easy" next to a game on the Daily tab, plus the group's average on that puzzle.
+  function diffTag(g, puzzle) {
+    const d = puzzleDiff[g.id + '|' + puzzle];
+    if (!d) return '';
+    const sd = Math.abs(d.z).toFixed(1);
+    const tag = d.tag === 'hard'
+      ? `<span class="dtag hard" title="The group did ${sd} standard deviations worse than on this game's usual puzzle">🔥 Hard</span>`
+      : d.tag === 'easy' ? `<span class="dtag easy" title="The group did ${sd} standard deviations better than on this game's usual puzzle">🍰 Easy</span>` : '';
+    return ` ${tag}<span class="dtag-avg">group avg ${esc(fmtAvg(g, d.avg))}</span>`;
+  }
+
+  // One auto-written line summing up a day: who topped it, plus up to two notable things that happened.
+  function dailyHeadline(es) {
+    if (!es.length) return '';
+    const nm = (p) => `<b>${esc(displayName[p] || p)}</b>`;
+    const gn = (e) => esc(GAME_BY_ID[e.game].name);
+    const names = (ps) => (ps.length <= 2 ? ps.map(nm).join(' and ') : ps.slice(0, -1).map(nm).join(', ') + ' and ' + nm(ps[ps.length - 1]));
+    const top = overall(es, 'points').filter((s) => s.rank === 1);
+    let lead = '';
+    if (top.length === 1) lead = `${nm(top[0].player)} tops the day with ${top[0].points} points${top[0].wins >= 2 ? ` and ${top[0].wins} wins` : ''}`;
+    else if (top.length > 1) lead = `${names(top.map((s) => s.player))} share the top spot on ${top[0].points} points`;
+    const size = {};
+    for (const e of entries) size[e.game + '|' + e.puzzle] = (size[e.game + '|' + e.puzzle] || 0) + 1;
+    const extras = [];
+    const ace = es.find((e) => GAME_BY_ID[e.game].failValue && e.value === 1)
+      || es.find((e) => { const g = GAME_BY_ID[e.game]; return !g.relative && !g.failValue && norm(e, g) >= 0.999; });
+    if (ace) extras.push(GAME_BY_ID[ace.game].failValue ? `${nm(ace.player)} gets ${gn(ace)} in one` : `a perfect ${gn(ace)} from ${nm(ace.player)}`);
+    const ended = es.filter((e) => e.runBefore >= CFG.hotStreakWins && !e.won && size[e.game + '|' + e.puzzle] > 1).sort((a, b) => b.runBefore - a.runBefore)[0];
+    if (ended) extras.push(`${nm(ended.player)}'s ${ended.runBefore}-game ${gn(ended)} win streak ends`);
+    const up = upsets.filter((u) => u.gap >= 40 && es.includes(u.e)).sort((a, b) => b.gap - a.gap)[0];
+    if (up) extras.push(`upset at ${gn(up.e)}: ${nm(up.e.player)} beats ${nm(up.loser.player)}, rated ${Math.round(up.gap)} higher`);
+    const ext = es.filter((e) => e.won && e.runAfter >= CFG.hotStreakWins).sort((a, b) => b.runAfter - a.runAfter)[0];
+    if (ext) extras.push(`${nm(ext.player)} makes it ${ext.runAfter} ${gn(ext)} wins in a row`);
+    const hard = [...new Set(es.map((e) => e.game + '|' + e.puzzle))].map((k) => [k, puzzleDiff[k]]).filter(([, d]) => d && d.tag === 'hard').sort((a, b) => b[1].z - a[1].z)[0];
+    if (hard) { const g = GAME_BY_ID[hard[0].split('|')[0]]; extras.push(`a tough ${esc(g.name)} (group avg ${esc(fmtAvg(g, hard[1].avg))})`); }
+    const parts = [lead, ...extras.slice(0, 2)].filter(Boolean);
+    if (!parts.length) return '';
+    let text = parts.join('; ') + '.';
+    text = text.replace(/^([a-z])/, (c) => c.toUpperCase());
+    return `<div class="headline"><span class="hl-icon">📰</span><span>${text}</span></div>`;
+  }
+
+  // ---------- records ----------
+  function renderRecords() {
+    if (!entries.length) return empty('No results yet.');
+    const nm = (p) => esc(displayName[p] || p);
+    const byDate = (a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.ts < b.ts ? -1 : 1);
+
+    // Best result ever in each game (ties: everyone who got it, earliest first).
+    const bestRows = GAMES.map((g) => {
+      const l = entries.filter((e) => e.game === g.id);
+      if (!l.length) return '';
+      const bv = g.better === 'higher' ? Math.max(...l.map((e) => e.value)) : Math.min(...l.map((e) => e.value));
+      const holders = l.filter((e) => e.value === bv).sort(byDate);
+      const who = [...new Set(holders.map((e) => e.player))];
+      return `<tr><td>${g.emoji} ${esc(g.name)}</td><td class="num strong nowrap"><span class="has-tip"${tipAttr(holders[0])}>${esc(holders[0].display)}</span></td>
+        <td>${who.map(nm).join(', ')}${holders.length > 1 ? ` <small class="muted">×${holders.length}</small>` : ''}<div class="muted rec-date">${holders.length > 1 ? 'first ' : ''}${shortDate(holders[0].date)}</div></td></tr>`;
+    }).join('');
+
+    // Player records: [emoji, title, value, sub, holders]
+    const recs = [];
+    const top = (items, key) => {
+      const ok = items.filter((x) => key(x) > 0);
+      if (!ok.length) return null;
+      const best = Math.max(...ok.map(key));
+      return { best, items: ok.filter((x) => key(x) === best) };
+    };
+    const players = Object.keys(displayName);
+    const peak = top(players.filter((p) => ratings[p] && ratings[p].n), (p) => ratings[p].peak);
+    if (peak) recs.push(['👑', 'Highest rating', String(Math.round(peak.best)), peak.items.map((p) => ratings[p].peakDate ? shortDate(ratings[p].peakDate) : '').join(', '), peak.items]);
+    const streak = top(players, (p) => streakInfo(p, null).best);
+    if (streak && streak.best > 1) recs.push(['🔥', 'Longest daily streak', `${streak.best} days`, 'days in a row with at least one game', streak.items]);
+    const runs = Object.entries(winRunBest).map(([k, v]) => ({ p: k.split('|')[0], g: GAME_BY_ID[k.split('|')[1]], ...v }));
+    const run = top(runs, (x) => x.n);
+    if (run && run.best > 1) recs.push(['⚡', 'Longest win run', `${run.best} in a row`, run.items.map((x) => `${x.g.emoji} ${esc(x.g.name)}, ${shortDate(x.date)}`).join(' · '), run.items.map((x) => x.p)]);
+    const days = [...groupBy(entries, (e) => e.player + '|' + e.date).entries()].map(([k, l]) => ({ p: k.split('|')[0], date: k.split('|')[1], wins: l.filter((e) => e.won).length, games: l.length }));
+    const wins = top(days, (x) => x.wins);
+    if (wins) recs.push(['🏆', 'Most wins in a day', String(wins.best), wins.items.map((x) => shortDate(x.date)).join(', '), wins.items.map((x) => x.p)]);
+    const games = top(days, (x) => x.games);
+    if (games) recs.push(['🎮', 'Most games in a day', String(games.best), games.items.map((x) => shortDate(x.date)).join(', '), games.items.map((x) => x.p)]);
+    const ptsDays = [...groupBy(entries, (e) => e.date).entries()].flatMap(([date, l]) => overall(l, 'points').map((s) => ({ p: s.player, date, pts: s.points })));
+    const pts = top(ptsDays, (x) => x.pts);
+    if (pts) recs.push(['💯', 'Most points in a day', String(pts.best), pts.items.map((x) => shortDate(x.date)).join(', '), pts.items.map((x) => x.p)]);
+    const up = upsets.slice().sort((a, b) => b.gap - a.gap)[0];
+    if (up) recs.push(['🎯', 'Biggest upset', `+${Math.round(up.gap)}`, `beat ${nm(up.loser.player)}, rated ${Math.round(up.gap)} higher, at ${GAME_BY_ID[up.e.game].emoji} ${esc(GAME_BY_ID[up.e.game].name)}, ${shortDate(up.e.date)}`, [up.e.player]]);
+    const recHtml = recs
+      .map(([emoji, title, value, sub, who]) => `<div class="rec"><span class="rec-e">${emoji}</span><div class="rec-body"><div class="rec-t">${title}</div>
+        <div><b>${[...new Set(who)].map(nm).join(', ')}</b> <span class="muted">· ${sub}</span></div></div><div class="rec-v">${value}</div></div>`)
+      .join('');
+
+    // Hardest and easiest puzzles across all games (needs 4+ shared puzzles in a game to compare).
+    const firstDate = {};
+    for (const e of entries) { const k = e.game + '|' + e.puzzle; if (!firstDate[k] || e.date < firstDate[k]) firstDate[k] = e.date; }
+    const ranked = Object.entries(puzzleDiff).filter(([, d]) => d.z !== 0);
+    const pRow = ([k, d]) => {
+      const [gid, puzzle] = k.split('|');
+      const g = GAME_BY_ID[gid];
+      const label = /^\d{4}-\d{2}-\d{2}$/.test(puzzle) ? '' : `#${esc(puzzle)}`;
+      return `<tr><td>${g.emoji} ${esc(g.name)} <small class="muted">${label} · ${shortDate(firstDate[k])}</small></td><td class="num strong">${esc(fmtAvg(g, d.avg))}</td><td class="num">${d.n}</td></tr>`;
+    };
+    const pTable = (list, title) => list.length
+      ? `<h3 class="game-h">${title}</h3><table class="pg-table"><tr><th>Puzzle</th><th class="num">Group avg</th><th class="num">Players</th></tr>${list.map(pRow).join('')}</table>`
+      : '';
+    const hardest = ranked.slice().sort((a, b) => b[1].z - a[1].z).filter(([, d]) => d.z > 0).slice(0, 5);
+    const easiest = ranked.slice().sort((a, b) => a[1].z - b[1].z).filter(([, d]) => d.z < 0).slice(0, 5);
+    const puzzles = hardest.length || easiest.length
+      ? pTable(hardest, '🔥 Hardest puzzles') + pTable(easiest, '🍰 Easiest puzzles') + '<p class="note">Compared with each game\'s other puzzles that two or more friends did (a game needs 4 of those first). Group avg is in the game\'s own units.</p>'
+      : '<h3 class="game-h">🔥 Hardest puzzles</h3><p class="muted empty">Needs 4 puzzles in a game that two or more friends did.</p>';
+
+    return `<h3>🏅 Player records</h3><div class="recs">${recHtml}</div>
+      <h3 class="game-h">⭐ Best ever, by game</h3><table class="pg-table"><tr><th>Game</th><th class="num">Record</th><th>Held by</th></tr>${bestRows}</table>
+      ${puzzles}`;
+  }
+
+  // ---------- win celebration ----------
+  function celebrate() {
+    try { if (navigator.vibrate) navigator.vibrate([40, 60, 40]); } catch (e) { /* not supported */ }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const box = document.createElement('div');
+    box.className = 'confetti';
+    box.setAttribute('aria-hidden', 'true');
+    const colors = ['--s1', '--s2', '--s3', '--s4', '--s5', '--s7'];
+    for (let i = 0; i < 90; i++) {
+      const c = document.createElement('i');
+      const st = c.style;
+      st.left = Math.random() * 100 + '%';
+      st.background = `var(${colors[i % colors.length]})`;
+      st.width = 6 + Math.random() * 6 + 'px';
+      st.height = 8 + Math.random() * 8 + 'px';
+      st.setProperty('--dx', Math.random() * 160 - 80 + 'px');
+      st.setProperty('--rot', Math.random() * 900 - 450 + 'deg');
+      st.animationDelay = Math.random() * 0.5 + 's';
+      st.animationDuration = 1.8 + Math.random() * 1.4 + 's';
+      box.appendChild(c);
+    }
+    document.body.appendChild(box);
+    setTimeout(() => box.remove(), 4200);
   }
 
   // ---------- player profile ----------
@@ -922,14 +1188,14 @@
 
   // Multi-series line chart. xs = ISO dates; series = [{p, ys: [number | null for each x]}].
   // Hover anywhere in a date's column for every player's value on that date.
-  function lineChart({ xs, series, yMax, yTicks, yFmt = (v) => String(Math.round(v)), id, replay, label }) {
+  function lineChart({ xs, series, yMin = 0, yMax, yTicks, yFmt = (v) => String(Math.round(v)), id, replay, label }) {
     const W = chartW(), H = 220;
     const padL = 36, padT = 12, padB = 24;
     const longest = Math.max(...series.map((s) => (displayName[s.p] || s.p).length));
     const padR = Math.min(92, 16 + longest * 6.6);
     const iw = W - padL - padR, ih = H - padT - padB, n = xs.length;
     const x = (i) => padL + (n === 1 ? iw / 2 : (i * iw) / (n - 1));
-    const y = (v) => padT + ih - (v / yMax) * ih;
+    const y = (v) => padT + ih - ((v - yMin) / (yMax - yMin)) * ih;
     const f = (v) => v.toFixed(1);
     const grid = yTicks
       .map((t) => `<line x1="${padL}" x2="${padL + iw}" y1="${f(y(t))}" y2="${f(y(t))}" class="grid"/><text x="${padL - 6}" y="${f(y(t) + 4)}" class="ax" text-anchor="end">${yFmt(t)}</text>`)
@@ -1225,6 +1491,22 @@
       <div class="cal-legend"><span>${mode === 'score' ? 'Low' : 'Fewer'}</span>${scale}<span>${mode === 'score' ? 'High' : 'More'}</span></div>`;
   }
 
+  // This player's Elo rating over time.
+  function renderRatingChart(p) {
+    const x = ratings[p];
+    if (!x || x.hist.length < 2) return '';
+    const today = localDate(new Date());
+    const xs = datesBetween(addDays(x.hist[0].date, -1), today);
+    const ys = xs.map((d) => ratingOn(p, d));
+    const lo = Math.min(...ys), hi = Math.max(...ys);
+    const step = niceStep(Math.max(20, hi - lo) / 4);
+    const yMin = Math.floor(lo / step) * step, yMax = Math.ceil(hi / step) * step + (Math.ceil(hi / step) * step === hi ? step : 0);
+    const yTicks = [];
+    for (let t = yMin; t <= yMax + 1e-9; t += step) yTicks.push(t);
+    return `<h3>📈 Rating</h3><div class="chart-wrap">${lineChart({ xs, series: [{ p, ys }], yMin, yMax, yTicks, id: 'p-elo', label: 'Rating over time' })}</div>
+      <p class="note">Elo rating from every puzzle a friend also did (everyone starts at ${ELO_START}). Peak ${Math.round(x.peak)}${x.peakDate ? ` on ${shortDate(x.peakDate)}` : ''}, over ${x.n} matches. See Overall → Rating for how it works.</p>`;
+  }
+
   // Radar: average score (0–100) in each game they play, against a friend (head to head pick) or the group.
   function renderRadar(p) {
     const avgOf = (pl, g) => {
@@ -1357,8 +1639,8 @@
       ['Points', ov.points],
       ['Wins', ov.wins],
       ['Played', ov.played],
-      ['Streak', st.cur ? `🔥 ${st.cur}` : '0'],
-      ['Best streak', st.best],
+      ['Streak', `${st.cur ? `🔥 ${st.cur}` : '0'}<small> best ${st.best}</small>`],
+      ['Rating', ratings[p] && ratings[p].n ? `${Math.round(ratings[p].r)}<small> peak ${Math.round(ratings[p].peak)}</small>` : '–'],
     ]
       .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`)
       .join('');
@@ -1475,7 +1757,7 @@
         ? `${bar}<table><tr><th>Same puzzle</th><th class="num">${name}</th><th class="num">${other}</th><th class="num">Tie</th></tr>${games}${line('<b>Total</b>', r.total)}</table>${hist}`
         : `<p class="muted empty">You haven't played any of the same puzzles yet.</p>`;
     }
-    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${hotHtml}${renderCalendar(p)}${formHtml}${luckHtml}${badgeHtml}${rivalHtml}${perGameTable}${renderRadar(p)}${renderDistributions(p)}
+    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${hotHtml}${renderCalendar(p)}${renderRatingChart(p)}${formHtml}${luckHtml}${badgeHtml}${rivalHtml}${perGameTable}${renderRadar(p)}${renderDistributions(p)}
       <h3>Head to head</h3><select id="h2h" aria-label="Compare with">${opts}</select>${h2h}${renderHistory(p)}`;
   }
 
@@ -1495,6 +1777,7 @@
     else if (state.tab === 'daily') html = renderDaily();
     else if (state.tab === 'weekly') html = renderWeekly();
     else if (state.tab === 'charts') html = renderCharts(es);
+    else if (state.tab === 'records') html = renderRecords();
     else if (state.tab === 'profile') html = renderProfile();
     else html = renderGame(es, GAME_BY_ID[state.tab]);
     $('#board').innerHTML = html;
