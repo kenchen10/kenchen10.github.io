@@ -40,7 +40,7 @@
   let rows = []; // raw submissions: {ts, player, text}
   let entries = []; // parsed + de-duplicated results
   let displayName = {}; // normalized name -> name as first written
-  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null, histN: 25 };
+  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null, histDay: null };
   let puzzleBest = {}; // game|puzzle -> best value (for games scored relative to the day's best)
   let winRun = {}; // player|game -> { n: current run of consecutive wins, date: date of their latest result }
   let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
@@ -889,43 +889,39 @@
       <circle cx="${x(last).toFixed(1)}" cy="${y(pts[last]).toFixed(1)}" r="2.4" fill="var(--accent)"/></svg>${arrow}</div>`;
   }
 
-  // Every result this player has submitted, newest first, with placement and details.
+  // One day of this player's results at a time (arrows step between days they played), with placement, time and details.
   function renderHistory(p) {
-    const mine = entries
-      .filter((e) => e.player === p)
-      .sort((a, b) => (a.date !== b.date ? (a.date < b.date ? 1 : -1) : (a.ts < b.ts ? 1 : -1)));
+    const mine = entries.filter((e) => e.player === p);
     if (!mine.length) return '';
-    const shown = mine.slice(0, state.histN);
-    const cache = new Map();
+    const days = [...new Set(mine.map((e) => e.date))].sort(); // oldest → newest
+    const date = days.includes(state.histDay) ? state.histDay : days[days.length - 1];
+    const i = days.indexOf(date);
+    const nav = `<div class="daynav"><button data-hist-day="${i > 0 ? days[i - 1] : ''}" aria-label="Earlier day" ${i === 0 ? 'disabled' : ''}>‹</button>
+      <strong>${prettyDate(date)}</strong>
+      <button data-hist-day="${i < days.length - 1 ? days[i + 1] : ''}" aria-label="Later day" ${i === days.length - 1 ? 'disabled' : ''}>›</button></div>`;
+    const list = mine.filter((e) => e.date === date).sort((a, b) => (a.ts < b.ts ? -1 : 1));
     const placeOf = (e) => {
-      const k = e.game + '|' + e.puzzle;
-      if (!cache.has(k)) cache.set(k, rankPuzzle(entries.filter((x) => x.game === e.game && x.puzzle === e.puzzle), GAME_BY_ID[e.game]));
-      const list = cache.get(k);
-      const me = list.find((x) => x.player === p);
-      return { rank: me ? me.rank : 0, n: list.length };
+      const l = rankPuzzle(entries.filter((x) => x.game === e.game && x.puzzle === e.puzzle), GAME_BY_ID[e.game]);
+      const me = l.find((x) => x.player === p);
+      return { rank: me ? me.rank : 0, n: l.length };
     };
-    const byDate = groupBy(shown, (e) => e.date);
-    const days = [...byDate.entries()]
-      .map(([date, list]) => {
-        const items = list
-          .map((e) => {
-            const g = GAME_BY_ID[e.game];
-            const d = e.detail || {};
-            const pl = placeOf(e);
-            const place = pl.n < 2 ? '<span class="muted">solo</span>' : `${medal(pl.rank)} <span class="muted">of ${pl.n}</span>`;
-            const rows = (d.rows || []).map((r) => `<span class="hchip">${esc(r.label)} ${esc(r.mark || '')} <b>${esc(r.value)}</b></span>`).join('');
-            const grid = (d.grid || []).length ? `<div class="hgrid">${d.grid.map((l) => `<div>${esc(l)}</div>`).join('')}</div>` : '';
-            const note = d.note ? `<div class="muted hnote">${esc(d.note)}</div>` : '';
-            return `<div class="hist-item"><div class="hist-top"><span>${g.emoji} ${esc(g.name)} <small class="muted">#${esc(e.puzzle)}</small></span>
-              <span><b class="has-tip"${tipAttr(e)}>${esc(e.display)}</b>${vsMark(e)}${startMark(e)}</span><span class="hplace">${place}</span></div>
-              ${rows ? `<div class="hchips">${rows}</div>` : ''}${grid}${note}</div>`;
-          })
-          .join('');
-        return `<div class="hist-day"><h4>${prettyDate(date)}</h4>${items}</div>`;
+    const items = list
+      .map((e) => {
+        const g = GAME_BY_ID[e.game];
+        const d = e.detail || {};
+        const pl = placeOf(e);
+        const place = pl.n < 2 ? '<span class="muted">solo</span>' : `${medal(pl.rank)} <span class="muted">of ${pl.n}</span>`;
+        const time = e.ts ? new Date(e.ts).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '';
+        const rows = (d.rows || []).map((r) => `<span class="hchip">${esc(r.label)} ${esc(r.mark || '')} <b>${esc(r.value)}</b></span>`).join('');
+        const grid = (d.grid || []).length ? `<div class="hgrid">${d.grid.map((l) => `<div>${esc(l)}</div>`).join('')}</div>` : '';
+        const note = d.note ? `<div class="muted hnote">${esc(d.note)}</div>` : '';
+        return `<div class="hist-item"><div class="hist-top"><span>${g.emoji} ${esc(g.name)} <small class="muted">#${esc(e.puzzle)}</small></span>
+          <span><b class="has-tip"${tipAttr(e)}>${esc(e.display)}</b>${vsMark(e)}${startMark(e)}</span><span class="hplace">${place}</span></div>
+          ${time ? `<div class="muted htime">⏱ Submitted ${esc(time)}${e.moved ? ` · puzzle is ${esc(dayWord(e.puzzleDate))}'s` : ''}</div>` : ''}
+          ${rows ? `<div class="hchips">${rows}</div>` : ''}${grid}${note}</div>`;
       })
       .join('');
-    const more = mine.length > shown.length ? `<button class="link" data-hist-more="1">Show more (${mine.length - shown.length} older)</button>` : '';
-    return `<h3>History <span class="muted">${mine.length} result${mine.length === 1 ? '' : 's'}</span></h3>${days}${more}`;
+    return `<h3>History <span class="muted">${mine.length} result${mine.length === 1 ? '' : 's'} · ${days.length} day${days.length === 1 ? '' : 's'}</span></h3>${nav}${items}`;
   }
 
   function renderProfile() {
@@ -1130,7 +1126,8 @@
     const riv = e.target.closest('button[data-rival]');
     const wk = e.target.closest('button[data-week]');
     if (e.target.closest('[data-copy-week]')) return copyWeek();
-    if (e.target.closest('[data-hist-more]')) { state.histN += 50; render(); return; }
+    const hd = e.target.closest('button[data-hist-day]');
+    if (hd) { if (hd.dataset.histDay) { state.histDay = hd.dataset.histDay; render(); } return; }
     if (riv) {
       state.h2h = riv.dataset.rival;
       render();
@@ -1142,7 +1139,7 @@
     } else if (pl) {
       state.profile = pl.dataset.player;
       state.h2h = '';
-      state.histN = 25;
+      state.histDay = null;
       state.tab = 'profile';
     } else if (day && !day.disabled) {
       state.day = day.dataset.day;

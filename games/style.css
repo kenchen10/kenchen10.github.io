@@ -212,3 +212,4 @@ td.wr .wval { position: relative; }
 .hchip { font-size: .75rem; padding: 1px 7px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); }
 .hgrid { margin-top: 6px; font-size: .8rem; line-height: 1.15; letter-spacing: 1px; overflow-wrap: anywhere; }
 .hnote { font-size: .75rem; margin-top: 4px; }
+.htime { font-size: .75rem; margin-top: 2px; }
