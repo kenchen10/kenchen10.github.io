@@ -40,7 +40,7 @@
   let rows = []; // raw submissions: {ts, player, text}
   let entries = []; // parsed + de-duplicated results
   let displayName = {}; // normalized name -> name as first written
-  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null, histDay: null };
+  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null, histDay: null, calMode: 'count' };
   let puzzleBest = {}; // game|puzzle -> best value (for games scored relative to the day's best)
   let winRun = {}; // player|game -> { n: current run of consecutive wins, date: date of their latest result }
   let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
@@ -105,7 +105,7 @@
         const puzzle = r.puzzle != null ? r.puzzle : date;
         const key = `${p}|${g.id}|${puzzle}`;
         if (seen.has(key)) continue; // first submission for a puzzle counts
-        seen.set(key, { player: p, game: g.id, puzzle, date, puzzleDate: puzzleDate || date, moved: !!puzzleDate && date !== puzzleDate, value: r.value, par: r.par, display: r.display, detail: r.detail, ts: row.ts });
+        seen.set(key, { player: p, game: g.id, puzzle, date, puzzleDate: puzzleDate || date, moved: !!puzzleDate && date !== puzzleDate, value: r.value, par: r.par, display: r.display, detail: r.detail, ts: row.ts, tz: row.tz || (CFG.playerTimezones || {})[p] || '' });
       }
     }
     entries = [...seen.values()];
@@ -512,7 +512,7 @@
 
   function renderTabs() {
     const btn = (t) => `<button data-tab="${t.id}" class="${t.id === state.tab ? 'on' : ''}">${esc(t.label)}</button>`;
-    const stats = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, { id: 'recent', label: '🗓️ Recent' }, { id: 'weekly', label: '📰 Weekly' }];
+    const stats = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, { id: 'recent', label: '🗓️ Recent' }, { id: 'weekly', label: '📰 Weekly' }, { id: 'charts', label: '📊 Charts' }];
     const games = GAMES.map((g) => ({ id: g.id, label: `${g.emoji} ${g.name}` }));
     const group = (label, list) => `<div class="tab-group"><span class="tab-label">${label}</span><div class="tab-row">${list.map(btn).join('')}</div></div>`;
     $('#tabs').innerHTML = group('Stats', stats) + group('Games', games);
@@ -596,7 +596,7 @@
       }
     }
     const note = `Win % = wins ÷ puzzles that at least one other friend also played. Ties for 1st count as wins. Fewer than ${CFG.minPlaysForAverage} such puzzles are listed at the bottom. Record = wins / puzzles a friend also played. In the By game table, hover a game's emoji for its name.`;
-    return `${picker}${table}${byGame}<p class="note">${note}</p>`;
+    return `${picker}${table}<p class="note">${note}</p>${renderRollingWin(es, sel)}${byGame}`;
   }
 
   function renderOverall(es) {
@@ -795,7 +795,7 @@
     const e = tips[Number(el.dataset.tip)];
     if (!e) return;
     const t = tipEl();
-    t.innerHTML = tipHtml(e);
+    t.innerHTML = e.html != null ? e.html : tipHtml(e);
     t.hidden = false;
     const r = el.getBoundingClientRect(), tr = t.getBoundingClientRect();
     const left = Math.max(8, Math.min(window.innerWidth - tr.width - 8, r.left + r.width / 2 - tr.width / 2));
@@ -841,6 +841,7 @@
   function headToHead(a, b) {
     const total = { a: 0, b: 0, tie: 0 };
     const byGame = {};
+    const matches = [];
     const idx = new Map();
     for (const e of entries) {
       if (e.player !== a && e.player !== b) continue;
@@ -856,8 +857,11 @@
       const side = diff > 0 ? 'a' : diff < 0 ? 'b' : 'tie';
       t[side]++;
       total[side]++;
+      const date = v[a].date > v[b].date ? v[a].date : v[b].date;
+      matches.push({ g, puzzle: v[a].puzzle, date, ea: v[a], eb: v[b], side });
     }
-    return { total, byGame };
+    matches.sort((x, y) => (x.date !== y.date ? (x.date < y.date ? -1 : 1) : x.puzzle - y.puzzle));
+    return { total, byGame, matches };
   }
 
   // Sparkline of a player's last 30 results in one game. Up is always better:
@@ -887,6 +891,422 @@
     return `<div class="trend"><svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${label}">
       <title>${label}</title><polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
       <circle cx="${x(last).toFixed(1)}" cy="${y(pts[last]).toFixed(1)}" r="2.4" fill="var(--accent)"/></svg>${arrow}</div>`;
+  }
+
+  // ---------- charts ----------
+  // Player colors: fixed categorical slots (--s1…--s8 in style.css), handed out in the order players
+  // first submitted, so someone's color never changes when a filter hides another player. Past 8: gray.
+  const colorOf = (p) => {
+    const i = Object.keys(displayName).indexOf(p);
+    return i >= 0 && i < 8 ? `var(--s${i + 1})` : 'var(--muted)';
+  };
+  const pname = (p) => esc(displayName[p] || p);
+  // Hover/tap details for chart marks reuse the result popover (#tip).
+  const ctip = (html) => { tips.push({ html }); return ` data-tip="${tips.length - 1}"`; };
+  const tipRow = (p, val) => `<div class="trow"><i class="key line" style="--c:${colorOf(p)}"></i><b>${val}</b> <span class="muted">${pname(p)}</span></div>`;
+  const legendHtml = (players, kind = 'line', extra = '') =>
+    `<div class="legend">${players.map((p) => `<span><i class="key ${kind}" style="--c:${colorOf(p)}"></i>${pname(p)}</span>`).join('')}${extra}</div>`;
+  // Charts are drawn at the board's real pixel width so text stays readable on phones.
+  const chartW = () => Math.max(280, Math.min(608, ($('#board') && $('#board').clientWidth) || 600));
+  const shortDate = (iso) => new Date(iso + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  const dowOf = (iso) => (new Date(iso + 'T12:00:00').getDay() + 6) % 7; // Monday = 0
+  const DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const niceStep = (v) => {
+    const p = 10 ** Math.floor(Math.log10(Math.max(v, 1e-9)));
+    for (const m of [1, 2, 5, 10]) if (m * p >= v) return m * p;
+    return 10 * p;
+  };
+  const datesBetween = (a, b) => { const out = []; for (let d = a; d <= b; d = addDays(d, 1)) out.push(d); return out; };
+  // Mix a color into the card background: pct 0 = card, 100 = full color. Keeps text readable on top.
+  const tint = (c, pct) => `color-mix(in srgb, ${c} ${Math.round(Math.max(0, Math.min(100, pct)))}%, var(--card))`;
+
+  // Multi-series line chart. xs = ISO dates; series = [{p, ys: [number | null for each x]}].
+  // Hover anywhere in a date's column for every player's value on that date.
+  function lineChart({ xs, series, yMax, yTicks, yFmt = (v) => String(Math.round(v)), id, replay, label }) {
+    const W = chartW(), H = 220;
+    const padL = 36, padT = 12, padB = 24;
+    const longest = Math.max(...series.map((s) => (displayName[s.p] || s.p).length));
+    const padR = Math.min(92, 16 + longest * 6.6);
+    const iw = W - padL - padR, ih = H - padT - padB, n = xs.length;
+    const x = (i) => padL + (n === 1 ? iw / 2 : (i * iw) / (n - 1));
+    const y = (v) => padT + ih - (v / yMax) * ih;
+    const f = (v) => v.toFixed(1);
+    const grid = yTicks
+      .map((t) => `<line x1="${padL}" x2="${padL + iw}" y1="${f(y(t))}" y2="${f(y(t))}" class="grid"/><text x="${padL - 6}" y="${f(y(t) + 4)}" class="ax" text-anchor="end">${yFmt(t)}</text>`)
+      .join('');
+    const xl = [...new Set([0, Math.floor((n - 1) / 2), n - 1])]
+      .map((i) => `<text x="${f(x(i))}" y="${H - 6}" class="ax" text-anchor="${n === 1 ? 'middle' : i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${shortDate(xs[i])}</text>`)
+      .join('');
+    const paths = series
+      .map((s) => {
+        let d = '', pen = false;
+        s.ys.forEach((v, i) => {
+          if (v == null) { pen = false; return; }
+          d += `${pen ? 'L' : 'M'}${f(x(i))},${f(y(v))}`;
+          pen = true;
+        });
+        return `<path d="${d}" class="ln" style="stroke:${colorOf(s.p)}"/>`;
+      })
+      .join('');
+    const ends = series
+      .map((s) => { let li = -1; s.ys.forEach((v, i) => { if (v != null) li = i; }); return { p: s.p, li, v: li >= 0 ? s.ys[li] : 0 }; })
+      .filter((e) => e.li >= 0);
+    const marks = ends.map((e) => `<circle cx="${f(x(e.li))}" cy="${f(y(e.v))}" r="4" class="mk" style="fill:${colorOf(e.p)}"/>`).join('');
+    // Direct labels at the right edge, nudged apart so they never overlap.
+    const labs = ends.map((e) => ({ ...e, ly: y(e.v) })).sort((a, b) => a.ly - b.ly);
+    for (let i = 1; i < labs.length; i++) labs[i].ly = Math.max(labs[i].ly, labs[i - 1].ly + 13);
+    const over = labs.length ? labs[labs.length - 1].ly - (padT + ih) : 0;
+    if (over > 0) labs.forEach((l) => (l.ly -= over));
+    const labels = labs.map((l) => `<text x="${padL + iw + 8}" y="${f(l.ly + 4)}" class="lab">${pname(l.p)}</text>`).join('');
+    const colW = n === 1 ? iw : iw / (n - 1);
+    const cols = xs
+      .map((d, i) => {
+        const rowsH = series
+          .map((s) => ({ p: s.p, v: s.ys[i] }))
+          .filter((r) => r.v != null)
+          .sort((a, b) => b.v - a.v)
+          .map((r) => tipRow(r.p, yFmt(r.v)))
+          .join('');
+        const x0 = Math.max(padL, x(i) - colW / 2), x1 = Math.min(padL + iw, x(i) + colW / 2);
+        return `<rect class="xcol" x="${f(x0)}" y="${padT}" width="${f(Math.max(1, x1 - x0))}" height="${ih}"${ctip(`<div class="tip-head"><b>${shortDate(d)}</b></div>${rowsH || '<span class="muted">No data yet</span>'}`)}/>`;
+      })
+      .join('');
+    const clip = replay
+      ? `<defs><clipPath id="${id}-clip"><rect x="0" y="0" width="${W}" height="${H}"><animate attributeName="width" from="${padL}" to="${W}" dur="5s" begin="indefinite" fill="freeze"/></rect></clipPath></defs>`
+      : '';
+    return `<svg class="chart" id="${id}" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(label)}">${clip}${grid}${xl}
+      <g${replay ? ` clip-path="url(#${id}-clip)"` : ''}>${paths}${marks}${labels}</g>${cols}</svg>`;
+  }
+
+  // Points race: cumulative points (same scoring as Points mode) per player over the selected range.
+  function renderRace(es) {
+    if (!es.length) return '';
+    const dates = [...new Set(es.map((e) => e.date))].sort();
+    const xs = datesBetween(dates[0], dates[dates.length - 1]);
+    const daily = {};
+    for (const list of groupBy(es, (e) => e.game + '|' + e.puzzle).values()) {
+      for (const e of rankPuzzle(list, GAME_BY_ID[list[0].game])) {
+        const m = (daily[e.player] = daily[e.player] || {});
+        m[e.date] = (m[e.date] || 0) + (CFG.placementPoints[e.rank - 1] || 0);
+      }
+    }
+    const players = Object.keys(displayName).filter((p) => daily[p]);
+    const series = players.map((p) => { let c = 0; return { p, ys: xs.map((d) => (c += daily[p][d] || 0)) }; });
+    const max = Math.max(1, ...series.map((s) => s.ys[s.ys.length - 1]));
+    const step = niceStep(max / 4);
+    const yMax = step * Math.ceil(max / step);
+    const yTicks = [];
+    for (let t = 0; t <= yMax; t += step) yTicks.push(t);
+    const chart = lineChart({ xs, series, yMax, yTicks, id: 'race', replay: true, label: 'Cumulative points per player over time' });
+    return `<div class="chart-head"><h3>🏁 Points race</h3>${xs.length > 1 ? '<button class="link" data-replay="race">▶ Replay</button>' : ''}</div>
+      ${legendHtml(players)}<div class="chart-wrap">${chart}</div>
+      <p class="note">Running total of points (${CFG.placementPoints.join('/')} for 1st/2nd/3rd on each puzzle) over the selected time range. Hover or tap a day for the standings then.</p>`;
+  }
+
+  // Rolling win %: each player's win rate over their last 10 puzzles that a friend also played.
+  function renderRollingWin(es, gameId) {
+    const pool = gameId === 'all' ? es : es.filter((e) => e.game === gameId);
+    const per = {};
+    for (const list of groupBy(pool, (e) => e.game + '|' + e.puzzle).values()) {
+      if (list.length < 2) continue;
+      for (const e of rankPuzzle(list, GAME_BY_ID[list[0].game])) (per[e.player] = per[e.player] || []).push({ date: e.date, win: e.rank === 1 });
+    }
+    const dates = [...new Set(Object.values(per).flat().map((r) => r.date))].sort();
+    if (dates.length < 2) return '';
+    const WIN = 10, MIN = 3;
+    const players = Object.keys(displayName).filter((p) => per[p]);
+    const series = players.map((p) => {
+      const list = per[p].sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+      return {
+        p,
+        ys: dates.map((d) => {
+          const upto = list.filter((r) => r.date <= d).slice(-WIN);
+          return upto.length >= MIN ? (100 * upto.filter((r) => r.win).length) / upto.length : null;
+        }),
+      };
+    }).filter((s) => s.ys.some((v) => v != null));
+    if (!series.length) return '';
+    const chart = lineChart({ xs: dates, series, yMax: 100, yTicks: [0, 25, 50, 75, 100], yFmt: (v) => Math.round(v) + '%', id: 'wr-roll', label: 'Rolling win percentage per player' });
+    return `<h3 class="game-h">📈 Win % over time</h3>${legendHtml(series.map((s) => s.p))}<div class="chart-wrap">${chart}</div>
+      <p class="note">Each player's win % over their last ${WIN} puzzles that a friend also played, as of each day. A line starts once they have ${MIN}. Rising = heating up.</p>`;
+  }
+
+  // Game popularity: plays per day for each game (small multiples on one shared scale), last 30 days of the range.
+  function renderPopularity(es) {
+    if (!es.length) return '';
+    const today = localDate(new Date());
+    const first = es.reduce((m, e) => (e.date < m ? e.date : m), today);
+    const last = es.reduce((m, e) => (e.date > m ? e.date : m), first);
+    const end = last > today ? last : today;
+    const start = first > addDays(end, -29) ? first : addDays(end, -29);
+    const days = datesBetween(start, end);
+    const byGame = groupBy(es, (e) => e.game);
+    const count = (list, d) => list.filter((e) => e.date === d);
+    const maxDay = Math.max(1, ...[...byGame.values()].flatMap((list) => days.map((d) => count(list, d).length)));
+    const W = Math.max(120, chartW() - 168), H = 28;
+    const bw = W / days.length;
+    const rows = GAMES.filter((g) => byGame.has(g.id))
+      .map((g) => ({ g, list: byGame.get(g.id) }))
+      .sort((a, b) => b.list.length - a.list.length)
+      .map(({ g, list }) => {
+        const bars = days
+          .map((d, i) => {
+            const day = count(list, d);
+            const h = day.length ? Math.max(3, (day.length / maxDay) * (H - 2)) : 0;
+            const who = day.map((e) => displayName[e.player] || e.player).join(', ');
+            const tip = ctip(`<div class="tip-head">${g.emoji} ${esc(g.name)} · ${shortDate(d)}</div><b>${day.length}</b> play${day.length === 1 ? '' : 's'}${who ? `<div class="muted">${esc(who)}</div>` : ''}`);
+            return `<g class="bar-hit"${tip}><rect x="${(i * bw).toFixed(1)}" y="0" width="${bw.toFixed(1)}" height="${H}" class="hit"/>${
+              h ? `<rect x="${(i * bw + 1).toFixed(1)}" y="${(H - h).toFixed(1)}" width="${Math.max(1, bw - 2).toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" class="bar"/>` : `<rect x="${(i * bw + 1).toFixed(1)}" y="${H - 1}" width="${Math.max(1, bw - 2).toFixed(1)}" height="1" class="zero"/>`
+            }</g>`;
+          })
+          .join('');
+        const recent = list.filter((e) => e.date > addDays(end, -7)).length;
+        const before = list.filter((e) => e.date > addDays(end, -14) && e.date <= addDays(end, -7)).length;
+        const trendTxt = before >= 3 && recent <= before / 2 ? '<span class="pop-trend down" title="Played less than half as much this week as last week">↘ fading</span>'
+          : recent >= 3 && recent >= before * 1.5 && before > 0 ? '<span class="pop-trend up" title="Played 50% more this week than last week">↗ rising</span>' : '';
+        return `<div class="pop-row"><span class="pop-name">${g.emoji} ${esc(g.name)}${trendTxt}</span>
+          <svg viewBox="0 0 ${W.toFixed(0)} ${H}" width="${W.toFixed(0)}" height="${H}" role="img" aria-label="${esc(g.name)} plays per day">${bars}</svg>
+          <span class="pop-n" title="Plays in the selected range">${list.length}</span></div>`;
+      })
+      .join('');
+    return `<h3>🎮 Game popularity</h3><div class="pop">${rows}</div>
+      <p class="note">Plays per day, ${shortDate(start)} – ${shortDate(end)}, every game on the same scale (tallest bar = ${maxDay}). The number is total plays in the selected range. ↘ fading / ↗ rising compares the last 7 days with the 7 before.</p>`;
+  }
+
+  // Who beats whom: every pair of players over the puzzles they both did.
+  function renderMatrix(es) {
+    const players = Object.keys(displayName).filter((p) => es.some((e) => e.player === p));
+    if (players.length < 2) return '';
+    const rec = {};
+    const R = (a, b) => ((rec[a] = rec[a] || {})[b] = rec[a][b] || { w: 0, l: 0, t: 0 });
+    for (const list of groupBy(es, (e) => e.game + '|' + e.puzzle).values()) {
+      if (list.length < 2) continue;
+      const g = GAME_BY_ID[list[0].game];
+      for (const a of list) for (const b of list) {
+        if (a.player === b.player) continue;
+        const diff = g.better === 'higher' ? a.value - b.value : b.value - a.value;
+        const r = R(a.player, b.player);
+        if (diff > 0) r.w++; else if (diff < 0) r.l++; else r.t++;
+      }
+    }
+    const short = (p) => esc((displayName[p] || p).slice(0, 7));
+    const head = `<tr><th></th>${players.map((p) => `<th class="num" title="${pname(p)}">${short(p)}</th>`).join('')}</tr>`;
+    const body = players
+      .map((a) => `<tr><th class="mx-row">${pname(a)}</th>${players
+        .map((b) => {
+          if (a === b) return '<td class="mx-self"></td>';
+          const r = rec[a] && rec[a][b];
+          const n = r ? r.w + r.l + r.t : 0;
+          if (!n) return '<td class="num muted">–</td>';
+          const share = (r.w + r.t / 2) / n;
+          const bg = tint(share >= 0.5 ? 'var(--div-pos)' : 'var(--div-neg)', Math.abs(share - 0.5) * 2 * 75);
+          const tip = ctip(`<div class="tip-head"><b>${pname(a)}</b> vs ${pname(b)}</div><b>${r.w}–${r.l}</b>${r.t ? `, ${r.t} tied` : ''} over ${n} shared puzzle${n === 1 ? '' : 's'}<div class="muted">Tap to compare them</div>`);
+          return `<td class="num mx-cell" style="background:${bg}" data-mx="${esc(a)}|${esc(b)}"${tip}>${Math.round(share * 100)}%</td>`;
+        })
+        .join('')}</tr>`)
+      .join('');
+    return `<h3>⚔️ Who beats whom</h3><div class="scroll-x"><table class="mx">${head}${body}</table></div>
+      <div class="div-legend"><span>Loses more</span><i></i><span>Wins more</span></div>
+      <p class="note">Each row is that player's share of meetings won against the column player, on puzzles they both did (ties count half). Tap a cell to open their head to head.</p>`;
+  }
+
+  // Day of week: average score (0–100) per weekday, colored by how it compares with that player's own average.
+  function renderWeekday(es) {
+    if (!es.length) return '';
+    const players = Object.keys(displayName).filter((p) => es.some((e) => e.player === p));
+    const sc = (e) => 100 * norm(e, GAME_BY_ID[e.game]);
+    const row = (label, list, who) => {
+      if (!list.length) return '';
+      const base = mean(list.map(sc));
+      const cells = DOW.map((d, i) => {
+        const day = list.filter((e) => dowOf(e.date) === i);
+        if (!day.length) return '<td class="num muted">–</td>';
+        const avg = mean(day.map(sc));
+        const diff = avg - base;
+        const few = day.length < 3;
+        const bg = tint(diff >= 0 ? 'var(--div-pos)' : 'var(--div-neg)', few ? 0 : Math.min(1, Math.abs(diff) / 15) * 75);
+        const tip = ctip(`<div class="tip-head">${who} on ${d}s</div><b>${Math.round(avg)}</b> average over ${day.length} result${day.length === 1 ? '' : 's'}<div class="muted">${diff >= 0 ? '+' : '−'}${Math.abs(Math.round(diff))} vs their overall ${Math.round(base)}${few ? ' · too few results to color' : ''}</div>`);
+        return `<td class="num hm-cell${few ? ' few' : ''}" style="background:${bg}"${tip}>${Math.round(avg)}</td>`;
+      }).join('');
+      return `<tr><th class="mx-row">${label}</th>${cells}</tr>`;
+    };
+    const body = row('<b>Everyone</b>', es, 'Everyone') + players.map((p) => row(pname(p), es.filter((e) => e.player === p), pname(p))).join('');
+    return `<h3>📆 Day of the week</h3><div class="scroll-x"><table class="mx hm"><tr><th></th>${DOW.map((d) => `<th class="num">${d}</th>`).join('')}</tr>${body}</table></div>
+      <div class="div-legend"><span>Worse than usual</span><i></i><span>Better than usual</span></div>
+      <p class="note">Average score on the 0–100 scale (as in Average mode) by the day the puzzle was for. Colors compare it with that row's own average; days with fewer than 3 results stay uncolored.</p>`;
+  }
+
+  // Time of day: when each player submits, in their own time zone.
+  const hourFormats = {};
+  function hourIn(ts, tz) {
+    try {
+      const k = tz || '';
+      const fmt = hourFormats[k] || (hourFormats[k] = new Intl.DateTimeFormat('en-US', { hour: 'numeric', hourCycle: 'h23', ...(tz ? { timeZone: tz } : {}) }));
+      return Number(fmt.format(new Date(ts))) % 24;
+    } catch (e) { return new Date(ts).getHours(); }
+  }
+  const fmtHour = (h) => `${h % 12 || 12}${h < 12 ? 'am' : 'pm'}`;
+  function renderTimeOfDay(es) {
+    const subs = new Map(); // one per submission, even if it held several games
+    for (const e of es) if (e.ts) subs.set(e.player + '|' + e.ts, e);
+    if (!subs.size) return '';
+    const counts = {};
+    for (const e of subs.values()) {
+      const c = (counts[e.player] = counts[e.player] || new Array(24).fill(0));
+      c[hourIn(e.ts, e.tz)]++;
+    }
+    const players = Object.keys(displayName).filter((p) => counts[p]);
+    const rows = players
+      .map((p) => {
+        const c = counts[p];
+        const max = Math.max(...c);
+        const total = c.reduce((a, b) => a + b, 0);
+        const peak = c.indexOf(max);
+        const cells = c
+          .map((v, h) => `<i class="tod-cell" style="background:${v ? tint(colorOf(p), 20 + 80 * (v / max)) : 'var(--line)'}"${ctip(`<div class="tip-head">${pname(p)} · ${fmtHour(h)}–${fmtHour((h + 1) % 24)}</div><b>${v}</b> of ${total} submission${total === 1 ? '' : 's'}`)}></i>`)
+          .join('');
+        return `<div class="tod-row"><span class="tod-name">${pname(p)}<small class="muted">usually ${fmtHour(peak)}</small></span><div class="tod-strip">${cells}</div></div>`;
+      })
+      .join('');
+    const axis = `<div class="tod-row tod-axis"><span class="tod-name"></span><div class="tod-strip">${[0, 6, 12, 18].map((h) => `<span style="grid-column:${h + 1} / span 6">${fmtHour(h)}</span>`).join('')}</div></div>`;
+    return `<h3>🕘 Time of day</h3><div class="tod">${rows}${axis}</div>
+      <p class="note">When each person submits, by hour in their own time zone (older submissions without a saved time zone use this device's). Each row is shaded against that person's busiest hour.</p>`;
+  }
+
+  function renderCharts(es) {
+    if (!es.length) return empty();
+    return [renderRace(es), renderPopularity(es), renderMatrix(es), renderWeekday(es), renderTimeOfDay(es)].filter(Boolean).join('');
+  }
+
+  // ---------- profile charts ----------
+  // Calendar heatmap: one square per day, GitHub style.
+  function renderCalendar(p) {
+    const mine = entries.filter((e) => e.player === p);
+    if (!mine.length) return '';
+    const byDay = groupBy(mine, (e) => e.date);
+    const today = localDate(new Date());
+    const W = chartW();
+    // From their first play (at least 8 weeks, so a new player still sees a calendar), up to what fits.
+    const first = mine.reduce((m, e) => (e.date < m ? e.date : m), today);
+    const since = Math.floor((new Date(today + 'T12:00:00') - new Date(first + 'T12:00:00')) / 864e5 / 7) + 2;
+    const weeks = Math.max(8, Math.min(since, 26, Math.floor((W - 34) / 16)));
+    const c = Math.min(15, Math.floor((W - 34) / weeks) - 3), gap = 3, top = 16, left = 30;
+    const start = addDays(today, -dowOf(today) - 7 * (weeks - 1));
+    const mode = state.calMode;
+    const sc = (e) => norm(e, GAME_BY_ID[e.game]);
+    const maxCount = Math.max(1, ...[...byDay.values()].map((l) => l.length));
+    let cells = '', months = '', lastMonth = '', lastLabelW = -9;
+    for (let w = 0; w < weeks; w++) {
+      const wkStart = addDays(start, w * 7);
+      const mo = new Date(wkStart + 'T12:00:00').toLocaleDateString(undefined, { month: 'short' });
+      if (mo !== lastMonth) {
+        // Label a month at its first week, as long as it doesn't crowd the previous label or the right edge.
+        if (w - lastLabelW >= 3 && w <= weeks - 2) { months += `<text x="${left + w * (c + gap)}" y="11" class="ax">${mo}</text>`; lastLabelW = w; }
+        lastMonth = mo;
+      }
+      for (let d = 0; d < 7; d++) {
+        const date = addDays(start, w * 7 + d);
+        if (date > today) continue;
+        const list = byDay.get(date) || [];
+        const avg = list.length ? 100 * mean(list.map(sc)) : 0;
+        const v = mode === 'score' ? avg / 100 : list.length / maxCount;
+        const fill = list.length ? tint('var(--s1)', 25 + 75 * v) : 'var(--line)';
+        const games = list.map((e) => GAME_BY_ID[e.game].emoji).join(' ');
+        const tip = ctip(`<div class="tip-head">${prettyDate(date)}</div>${list.length ? `<b>${list.length}</b> game${list.length === 1 ? '' : 's'} · average <b>${Math.round(avg)}</b><div>${games}</div>` : '<span class="muted">Nothing played</span>'}`);
+        cells += `<rect x="${left + w * (c + gap)}" y="${top + d * (c + gap)}" width="${c}" height="${c}" rx="3" class="cal${date === today ? ' today' : ''}" style="fill:${fill}"${tip}/>`;
+      }
+    }
+    const dl = [0, 2, 4].map((d) => `<text x="0" y="${top + d * (c + gap) + c - 3}" class="ax">${DOW[d]}</text>`).join('');
+    const SW = left + weeks * (c + gap), SH = top + 7 * (c + gap);
+    const seg = `<div class="seg small" role="group" aria-label="Color days by"><button data-cal="count" class="${mode !== 'score' ? 'on' : ''}">Games played</button><button data-cal="score" class="${mode === 'score' ? 'on' : ''}">Avg score</button></div>`;
+    const scale = [0, 0.25, 0.5, 0.75, 1].map((v, i) => `<i style="background:${i ? tint('var(--s1)', 25 + 75 * v) : 'var(--line)'}"></i>`).join('');
+    return `<div class="chart-head"><h3>🗓️ Activity</h3>${seg}</div>
+      <div class="scroll-x"><svg class="chart" viewBox="0 0 ${SW} ${SH}" width="${SW}" height="${SH}" role="img" aria-label="Days played over the last ${weeks} weeks">${months}${dl}${cells}</svg></div>
+      <div class="cal-legend"><span>${mode === 'score' ? 'Low' : 'Fewer'}</span>${scale}<span>${mode === 'score' ? 'High' : 'More'}</span></div>`;
+  }
+
+  // Radar: average score (0–100) in each game they play, against a friend (head to head pick) or the group.
+  function renderRadar(p) {
+    const avgOf = (pl, g) => {
+      const l = entries.filter((e) => e.player === pl && e.game === g.id);
+      return l.length ? { v: 100 * mean(l.map((e) => norm(e, g))), n: l.length } : null;
+    };
+    const games = GAMES.filter((g) => entries.some((e) => e.player === p && e.game === g.id));
+    if (games.length < 3) return `<h3>🕸️ Strengths</h3><p class="muted empty">Needs results in at least 3 different games.</p>`;
+    const friend = state.h2h && state.h2h !== p && entries.some((e) => e.player === state.h2h) ? state.h2h : null;
+    const mineV = games.map((g) => avgOf(p, g));
+    const otherV = games.map((g) => {
+      if (friend) return avgOf(friend, g);
+      const l = entries.filter((e) => e.game === g.id);
+      return { v: 100 * mean(l.map((e) => norm(e, g))), n: l.length };
+    });
+    const W = Math.min(chartW(), 380), H = W, cx = W / 2, cy = H / 2, R = W / 2 - 30;
+    const ang = (i) => -Math.PI / 2 + (2 * Math.PI * i) / games.length;
+    const pt = (i, v) => [cx + Math.cos(ang(i)) * R * (v / 100), cy + Math.sin(ang(i)) * R * (v / 100)];
+    const poly = (vals) => vals.map((o, i) => pt(i, o ? o.v : 0).map((n) => n.toFixed(1)).join(',')).join(' ');
+    const rings = [25, 50, 75, 100].map((r) => `<polygon points="${games.map((_, i) => pt(i, r).map((n) => n.toFixed(1)).join(',')).join(' ')}" class="ring"/>`).join('');
+    const ringLabels = [50, 100].map((r) => { const [x, y] = pt(0, r); return `<text x="${(x + 4).toFixed(1)}" y="${(y + 10).toFixed(1)}" class="ax">${r}</text>`; }).join('');
+    const spokes = games.map((_, i) => { const [x, y] = pt(i, 100); return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" class="ring"/>`; }).join('');
+    const otherName = friend ? pname(friend) : 'Group average';
+    const otherStyle = friend ? `stroke:${colorOf(friend)};fill:${tint(colorOf(friend), 12)}` : 'stroke:var(--muted);fill:none;stroke-dasharray:4 4';
+    const fmtV = (o) => (o ? `<b>${Math.round(o.v)}</b> <span class="muted">(${o.n} result${o.n === 1 ? '' : 's'})</span>` : '<span class="muted">not played</span>');
+    const axes = games
+      .map((g, i) => {
+        const [x, y] = pt(i, 118);
+        const tip = ctip(`<div class="tip-head">${g.emoji} ${esc(g.name)}</div><div class="trow"><i class="key line" style="--c:${colorOf(p)}"></i>${fmtV(mineV[i])} ${pname(p)}</div><div class="trow"><i class="key line" style="--c:${friend ? colorOf(friend) : 'var(--muted)'}"></i>${fmtV(otherV[i])} ${otherName}</div>`);
+        return `<g class="ax-hit"${tip}><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" class="hit"/><text x="${x.toFixed(1)}" y="${(y + 6).toFixed(1)}" text-anchor="middle" class="ax-emoji">${g.emoji}</text></g>`;
+      })
+      .join('');
+    const dots = mineV.map((o, i) => { const [x, y] = pt(i, o ? o.v : 0); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" class="mk" style="fill:${colorOf(p)}"/>`; }).join('');
+    const legend = `<div class="legend"><span><i class="key line" style="--c:${colorOf(p)}"></i>${pname(p)}</span><span><i class="key line${friend ? '' : ' dash'}" style="--c:${friend ? colorOf(friend) : 'var(--muted)'}"></i>${otherName}</span></div>`;
+    return `<h3>🕸️ Strengths</h3>${legend}<div class="chart-wrap center"><svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Average score per game">
+      ${rings}${spokes}${ringLabels}<polygon points="${poly(otherV)}" class="area" style="${otherStyle}"/><polygon points="${poly(mineV)}" class="area" style="stroke:${colorOf(p)};fill:${tint(colorOf(p), 22)}"/>${dots}${axes}</svg></div>
+      <p class="note">Average score on the 0–100 scale in each game (further out = better). ${friend ? 'Compared with the friend picked under Head to head.' : 'Pick a friend under Head to head to compare with them instead of the group.'} Hover or tap an emoji for the numbers.</p>`;
+  }
+
+  // Score distribution: how often they get each result, per game (small multiples).
+  function renderDistributions(p) {
+    const cards = GAMES.map((g) => {
+      const mine = entries.filter((e) => e.player === p && e.game === g.id);
+      if (mine.length < 3) return '';
+      const everyone = entries.filter((e) => e.game === g.id).map((e) => e.value);
+      const distinct = [...new Set(everyone)].sort((a, b) => a - b);
+      let bins;
+      if (g.failValue) {
+        bins = [];
+        for (let v = 1; v < g.failValue; v++) bins.push({ label: String(v), test: (x) => x === v });
+        bins.push({ label: 'X', test: (x) => x >= g.failValue });
+      } else if (distinct.every(Number.isInteger) && distinct[distinct.length - 1] - distinct[0] <= 12) { // small counts, e.g. steps or guesses
+        bins = distinct.map((v) => ({ label: String(v), test: (x) => x === v }));
+      } else {
+        const lo = Math.min(...everyone), hi = Math.max(...everyone), k = 6, w = (hi - lo) / k || 1;
+        bins = Array.from({ length: k }, (_, i) => {
+          const a = lo + i * w, b = i === k - 1 ? Infinity : lo + (i + 1) * w;
+          return { label: i === 0 ? g.formatValue(lo).replace(/\.0+$/, '') : i === k - 1 ? g.formatValue(hi).replace(/\.0+$/, '') : '', range: `${g.formatValue(a).replace(/\.0+$/, '')}–${g.formatValue(Math.min(hi, lo + (i + 1) * w)).replace(/\.0+$/, '')}`, test: (x) => x >= a && x < b };
+        });
+      }
+      const counts = bins.map((b) => mine.filter((e) => b.test(e.value)).length);
+      const max = Math.max(1, ...counts);
+      const W = 160, H = 72, top = 6, base = H - 16, bw = W / bins.length;
+      const bars = bins
+        .map((b, i) => {
+          const h = counts[i] ? Math.max(3, (counts[i] / max) * (base - top)) : 0;
+          const tip = ctip(`<div class="tip-head">${g.emoji} ${esc(g.name)} · ${esc(b.range || b.label)}</div><b>${counts[i]}</b> of ${mine.length} (${Math.round((100 * counts[i]) / mine.length)}%)`);
+          const showLab = !!b.label;
+          const anchor = b.range ? (i === 0 ? 'start' : 'end') : 'middle';
+          const lx = b.range ? (i === 0 ? i * bw + 2 : (i + 1) * bw - 2) : i * bw + bw / 2;
+          return `<g class="bar-hit"${tip}><rect x="${(i * bw).toFixed(1)}" y="0" width="${bw.toFixed(1)}" height="${H}" class="hit"/>${
+            h ? `<rect x="${(i * bw + 2).toFixed(1)}" y="${(base - h).toFixed(1)}" width="${(bw - 4).toFixed(1)}" height="${h.toFixed(1)}" rx="2" class="bar"/>` : `<rect x="${(i * bw + 2).toFixed(1)}" y="${base - 1}" width="${(bw - 4).toFixed(1)}" height="1" class="zero"/>`
+          }${showLab ? `<text x="${lx.toFixed(1)}" y="${H - 3}" text-anchor="${anchor}" class="ax">${esc(b.label)}</text>` : ''}</g>`;
+        })
+        .join('');
+      const dir = g.better === 'higher' ? 'better →' : '← better';
+      return `<div class="dist"><div class="dist-h">${g.emoji} ${esc(g.name)}<small class="muted">${mine.length} plays · ${dir}</small></div>
+        <svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(g.name)} score distribution">${bars}</svg></div>`;
+    }).filter(Boolean);
+    if (!cards.length) return '';
+    return `<h3>📊 Score spread</h3><div class="dist-grid">${cards.join('')}</div>
+      <p class="note">How often they got each result, for games with 3 or more plays. Hover or tap a bar for the count.</p>`;
   }
 
   // One day of this player's results at a time (arrows step between days they played), with placement, time and details.
@@ -1020,11 +1440,42 @@
             <span class="a" style="width:${pct(r.total.a)}%"></span><span class="t" style="width:${pct(r.total.tie)}%"></span><span class="b" style="width:${pct(r.total.b)}%"></span></div>
            <div class="h2h-legend"><span>${name} ${pct(r.total.a)}%</span><span>${other} ${pct(r.total.b)}%</span></div>`
         : '';
+      let hist = '';
+      if (n) {
+        const ms = r.matches;
+        const side = (m) => (m.side === 'a' ? 'a' : m.side === 'b' ? 'b' : 't');
+        const dot = (m) => `<span class="hd ${side(m)}" title="${esc(m.g.name)} #${esc(m.puzzle)} · ${prettyDate(m.date)}: ${esc(m.ea.display)} vs ${esc(m.eb.display)} (${m.side === 'a' ? 'you won' : m.side === 'b' ? 'they won' : 'tie'})"></span>`;
+        // current run and longest runs of outright wins
+        let cur = 0, curSide = '', bestA = 0, bestB = 0, runA = 0, runB = 0;
+        for (const m of ms) {
+          runA = m.side === 'a' ? runA + 1 : 0;
+          runB = m.side === 'b' ? runB + 1 : 0;
+          bestA = Math.max(bestA, runA);
+          bestB = Math.max(bestB, runB);
+        }
+        for (let i = ms.length - 1; i >= 0; i--) {
+          if (ms[i].side === 't') { if (!cur) continue; else break; }
+          if (!cur) { curSide = ms[i].side; }
+          if (ms[i].side !== curSide) break;
+          cur++;
+        }
+        const runLine = cur >= 2 ? `${curSide === 'a' ? name : other} has won the last ${cur} meetings. ` : '';
+        const strip = ms.slice(-40).map(dot).join('');
+        const recent = ms.slice(-10).reverse().map((m) => {
+          const mark = m.side === 'a' ? '🟢' : m.side === 'b' ? '🟣' : '⚪';
+          return `<tr><td>${mark}</td><td>${m.g.emoji} ${esc(m.g.name)} <small class="muted">#${esc(m.puzzle)} · ${prettyDate(m.date)}</small></td>
+            <td class="num"><span class="has-tip"${tipAttr(m.ea)}>${esc(m.ea.display)}</span></td><td class="num"><span class="has-tip"${tipAttr(m.eb)}>${esc(m.eb.display)}</span></td></tr>`;
+        }).join('');
+        hist = `<h4 class="h2h-sub">Meeting history</h4>
+          <div class="h2h-strip" aria-label="Each shared puzzle, oldest to newest">${strip}</div>
+          <p class="note">${ms.length > 40 ? 'Last 40 meetings, oldest → newest. ' : 'Oldest → newest. '}<span class="k a"></span> ${name} <span class="k b"></span> ${other} <span class="k t"></span> tie. ${runLine}Longest win runs: ${name} ${bestA}, ${other} ${bestB}.</p>
+          <table class="pg-table"><tr><th></th><th>Latest meetings</th><th class="num">${name}</th><th class="num">${other}</th></tr>${recent}</table>`;
+      }
       h2h = n
-        ? `${bar}<table><tr><th>Same puzzle</th><th class="num">${name}</th><th class="num">${other}</th><th class="num">Tie</th></tr>${games}${line('<b>Total</b>', r.total)}</table>`
+        ? `${bar}<table><tr><th>Same puzzle</th><th class="num">${name}</th><th class="num">${other}</th><th class="num">Tie</th></tr>${games}${line('<b>Total</b>', r.total)}</table>${hist}`
         : `<p class="muted empty">You haven't played any of the same puzzles yet.</p>`;
     }
-    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${hotHtml}${formHtml}${luckHtml}${badgeHtml}${rivalHtml}${perGameTable}
+    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${hotHtml}${renderCalendar(p)}${formHtml}${luckHtml}${badgeHtml}${rivalHtml}${perGameTable}${renderRadar(p)}${renderDistributions(p)}
       <h3>Head to head</h3><select id="h2h" aria-label="Compare with">${opts}</select>${h2h}${renderHistory(p)}`;
   }
 
@@ -1043,6 +1494,7 @@
     else if (state.tab === 'recent') html = renderRecent(es);
     else if (state.tab === 'daily') html = renderDaily();
     else if (state.tab === 'weekly') html = renderWeekly();
+    else if (state.tab === 'charts') html = renderCharts(es);
     else if (state.tab === 'profile') html = renderProfile();
     else html = renderGame(es, GAME_BY_ID[state.tab]);
     $('#board').innerHTML = html;
@@ -1119,6 +1571,15 @@
     if (el && tipEl().dataset.for !== el.dataset.tip) showTip(el); else hideTip(); // tap to open, tap again or elsewhere to close
   });
   window.addEventListener('scroll', hideTip, { passive: true });
+  // Charts are drawn at the board's pixel width, so redraw when it changes (rotating a phone, resizing).
+  let resizeTimer, lastBoardW = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const w = $('#board').clientWidth;
+      if (w !== lastBoardW) { lastBoardW = w; render(); }
+    }, 200);
+  });
   $('#today').addEventListener('click', (e) => { if (e.target.closest('#undo')) undoLast(); });
   $('#board').addEventListener('click', (e) => {
     const pl = e.target.closest('button[data-player]');
@@ -1126,6 +1587,19 @@
     const riv = e.target.closest('button[data-rival]');
     const wk = e.target.closest('button[data-week]');
     if (e.target.closest('[data-copy-week]')) return copyWeek();
+    const rp = e.target.closest('[data-replay]');
+    if (rp) { const a = document.querySelector(`#${rp.dataset.replay} animate`); if (a && a.beginElement) a.beginElement(); return; }
+    const cal = e.target.closest('button[data-cal]');
+    if (cal) { state.calMode = cal.dataset.cal; render(); return; }
+    const mx = e.target.closest('[data-mx]');
+    if (mx) {
+      const [a, b] = mx.dataset.mx.split('|');
+      state.profile = a; state.h2h = b; state.histDay = null; state.tab = 'profile';
+      render();
+      const h = document.querySelector('#h2h');
+      if (h) h.scrollIntoView({ block: 'center' });
+      return;
+    }
     const hd = e.target.closest('button[data-hist-day]');
     if (hd) { if (hd.dataset.histDay) { state.histDay = hd.dataset.histDay; render(); } return; }
     if (riv) {

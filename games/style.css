@@ -1,11 +1,16 @@
 :root {
   --bg: #fafaf9; --card: #fff; --fg: #1c1917; --muted: #78716c; --line: #e7e5e4;
   --accent: #16a34a; --accent-soft: #dcfce7; --err: #b91c1c; --err-soft: #fee2e2;
+  /* chart palette: one fixed color per player (validated categorical order), plus a blue/red diverging pair */
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #6250d6; --s8: #e34948;
+  --div-pos: #2a78d6; --div-neg: #e34948;
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
   :root { --bg: #0c0a09; --card: #1c1917; --fg: #f5f5f4; --muted: #a8a29e; --line: #292524;
-    --accent: #22c55e; --accent-soft: #14532d; --err: #fca5a5; --err-soft: #450a0a; }
+    --accent: #22c55e; --accent-soft: #14532d; --err: #fca5a5; --err-soft: #450a0a;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --div-pos: #3987e5; --div-neg: #e66767; }
 }
 * { box-sizing: border-box; }
 body {
@@ -215,3 +220,90 @@ td.wr .wval { position: relative; }
 .htime { font-size: .75rem; margin-top: 2px; }
 .hist-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 12px; }
 .hist-card .hist-item:last-child { border-bottom: 0; }
+
+/* head-to-head history */
+.h2h-sub { margin: 16px 0 6px; font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.h2h-strip { display: flex; flex-wrap: wrap; gap: 3px; }
+.hd { width: 12px; height: 22px; border-radius: 3px; background: var(--muted); opacity: .5; }
+.hd.a { background: var(--accent); opacity: 1; }
+.hd.b { background: #6366f1; opacity: 1; }
+.k { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; background: var(--muted); opacity: .5; }
+.k.a { background: var(--accent); opacity: 1; }
+.k.b { background: #6366f1; opacity: 1; }
+
+/* ---------- charts ---------- */
+.chart-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.chart-head h3 { margin-bottom: 6px; }
+.chart-wrap { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 0; overflow: hidden; }
+.chart-wrap.center { display: flex; justify-content: center; }
+.chart { display: block; max-width: 100%; height: auto; overflow: visible; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .ax { fill: var(--muted); font-size: 11px; }
+.chart .lab { fill: var(--fg); font-size: 11px; font-weight: 600; }
+.chart .ln { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .mk { stroke: var(--card); stroke-width: 2; }
+.chart .xcol { fill: var(--fg); opacity: 0; cursor: crosshair; }
+.chart .xcol:hover, .chart .xcol:focus { opacity: .06; }
+.hit { fill: transparent; }
+.bar { fill: var(--s1); }
+.zero { fill: var(--line); }
+.bar-hit { cursor: help; }
+.bar-hit:hover .bar { filter: brightness(1.15); }
+.bar-hit:hover .hit { fill: var(--fg); opacity: .05; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .8rem; color: var(--muted); margin: 0 0 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.key { display: inline-block; flex: none; }
+.key.line { width: 14px; height: 3px; border-radius: 2px; background: var(--c); }
+.key.line.dash { background: repeating-linear-gradient(90deg, var(--c) 0 4px, transparent 4px 7px); }
+.trow { display: flex; align-items: center; gap: 6px; }
+.scroll-x { overflow-x: auto; }
+
+/* game popularity (small multiples) */
+.pop { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 6px 10px; }
+.pop-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.pop-row + .pop-row { border-top: 1px solid var(--line); }
+.pop-name { width: 118px; flex: none; font-size: .8rem; line-height: 1.2; overflow: hidden; }
+.pop-row svg { flex: 1 1 auto; min-width: 0; display: block; }
+.pop-n { width: 26px; flex: none; text-align: right; font-size: .8rem; font-variant-numeric: tabular-nums; color: var(--muted); }
+.pop-trend { display: block; font-size: .7rem; color: var(--muted); }
+
+/* head-to-head matrix and weekday heatmap */
+table.mx { width: auto; min-width: 100%; }
+table.mx th, table.mx td { padding: 7px 6px; font-size: .8rem; text-align: center; }
+table.mx th.mx-row { text-align: left; text-transform: none; letter-spacing: 0; font-size: .8rem; color: var(--fg); font-weight: 600; white-space: nowrap; }
+.mx-self { background: var(--bg); }
+.mx-cell { cursor: pointer; font-weight: 600; }
+.mx-cell:hover, .hm-cell:hover { outline: 2px solid var(--fg); outline-offset: -2px; }
+.hm-cell { cursor: help; font-variant-numeric: tabular-nums; }
+.hm-cell.few { color: var(--muted); }
+.div-legend { display: flex; align-items: center; gap: 8px; font-size: .75rem; color: var(--muted); margin: 6px 0 0; }
+.div-legend i { flex: 0 1 140px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--div-neg), var(--card) 50%, var(--div-pos)); border: 1px solid var(--line); }
+
+/* time of day */
+.tod { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; }
+.tod-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; }
+.tod-name { width: 92px; flex: none; font-size: .8rem; font-weight: 600; line-height: 1.15; overflow: hidden; }
+.tod-name small { display: block; font-weight: 400; font-size: .7rem; }
+.tod-strip { flex: 1; display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; }
+.tod-cell { height: 20px; border-radius: 3px; cursor: help; }
+.tod-cell:hover { outline: 2px solid var(--fg); outline-offset: -1px; }
+.tod-axis .tod-strip span { font-size: .7rem; color: var(--muted); }
+
+/* profile: calendar, radar, distributions */
+.seg.small button { font-size: .75rem; padding: 4px 8px; }
+.chart .cal { cursor: help; }
+.chart .cal:hover { stroke: var(--fg); stroke-width: 1.5; }
+.chart .cal.today { stroke: var(--fg); stroke-width: 1; }
+.cal-legend { display: flex; align-items: center; justify-content: flex-end; gap: 3px; font-size: .7rem; color: var(--muted); margin-top: 4px; }
+.cal-legend i { width: 11px; height: 11px; border-radius: 3px; }
+.cal-legend span { margin: 0 3px; }
+.chart .ring { fill: none; stroke: var(--line); stroke-width: 1; }
+.chart .area { stroke-width: 2; stroke-linejoin: round; }
+.chart .ax-emoji { font-size: 16px; }
+.ax-hit { cursor: help; }
+.ax-hit:hover .hit { fill: var(--fg); opacity: .06; }
+.dist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.dist { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px 4px; }
+.dist-h { font-size: .8rem; font-weight: 600; margin-bottom: 4px; line-height: 1.25; }
+.dist-h small { display: block; font-weight: 400; font-size: .7rem; }
+.dist svg { display: block; overflow: visible; }
