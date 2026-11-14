@@ -38,6 +38,7 @@
   };
 
   let rows = []; // raw submissions: {ts, player, text}
+  let loaded = false; // false until the first load() finishes: the board shows a skeleton instead of "no results"
   let entries = []; // parsed + de-duplicated results
   let displayName = {}; // normalized name -> name as first written
   const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null, histDay: null, calMode: 'count', ptab: 'overview' };
@@ -86,9 +87,15 @@
         $('#offline-banner').hidden = false;
       }
     }
+    loaded = true;
     rebuild();
     render();
   }
+
+  // Grey placeholder rows shown while results load (same markup as the one in index.html).
+  const skeletonHtml = () => `<div class="skel" role="status" aria-label="Loading results"><div class="skel-table">${
+    [70, 55, 62, 48, 58].map((w) => `<div class="skel-row"><i class="sk-rank"></i><i class="sk-name" style="width:${w}%"></i><i class="sk-num"></i><i class="sk-num"></i></div>`).join('')
+  }</div></div>`;
 
   function rebuild() {
     const seen = new Map();
@@ -584,14 +591,15 @@
   const nameCell = (p, gameId) => {
     const me = normName(getName()) === p;
     const cur = streakInfo(p, gameId).cur;
-    const flame = cur >= 2 ? ` <span class="streak" title="${cur} days in a row">🔥${cur}</span>` : '';
+    const flame = cur >= 2 ? `<span class="streak" title="${cur} days in a row">🔥${cur}</span>` : '';
     const hot = gameId
       ? [[GAME_BY_ID[gameId], hotFor(p, gameId)]].filter(([, n]) => n > 0)
       : hotGames(p);
     const bolt = hot.length
-      ? ` <span class="hotb" title="Hot streak: ${esc(hot.map(([g, n]) => `${g.name} ×${n}`).join(', '))}">⚡${Math.max(...hot.map(([, n]) => n))}</span>`
+      ? `<span class="hotb" title="Hot streak: ${esc(hot.map(([g, n]) => `${g.name} ×${n}`).join(', '))}">⚡${Math.max(...hot.map(([, n]) => n))}</span>`
       : '';
-    return `<td class="name${me ? ' is-me' : ''}"><button class="plink" data-player="${esc(p)}">${esc(displayName[p] || p)}</button>${flame}${bolt}</td>`;
+    const marks = flame || bolt ? `<span class="marks">${flame}${bolt}</span>` : '';
+    return `<td class="name${me ? ' is-me' : ''}"><div class="name-wrap"><button class="plink" data-player="${esc(p)}"${me ? ' title="You"' : ''}>${esc(displayName[p] || p)}</button>${marks}</div></td>`;
   };
 
   // Round profile button in the header: first letter of the name on a colour picked from the name.
@@ -1802,6 +1810,7 @@
     renderAvatar();
     renderTabs();
     renderToday();
+    if (!loaded) { $('#board').innerHTML = skeletonHtml(); return; }
     const es = entries.filter(inRange);
     let html;
     if (state.tab === 'overall') html = renderOverall(es);
@@ -1813,6 +1822,49 @@
     else if (state.tab === 'profile') html = renderProfile();
     else html = renderGame(es, GAME_BY_ID[state.tab]);
     $('#board').innerHTML = html;
+    // Your own row stands out in every table.
+    for (const td of $('#board').querySelectorAll('td.name.is-me')) td.parentElement.classList.add('me-row');
+    animateView();
+  }
+
+  // ---------- transitions ----------
+  // When the view changes (tab, mode, range, player…), fade the board in and count the headline numbers up.
+  // Re-renders of the same view (resizing, toggling a chart option) don't animate.
+  let lastView = '';
+  function animateView() {
+    const key = [state.tab, state.mode, state.range, state.profile, state.ptab, state.wrGame, state.day, state.week, state.h2h, state.histDay].join('|');
+    if (key === lastView) return;
+    lastView = key;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const b = $('#board');
+    b.classList.remove('enter');
+    void b.offsetWidth; // restart the animation
+    b.classList.add('enter');
+    countUp(b);
+  }
+  function countUp(root) {
+    const els = [...root.querySelectorAll('td.num.strong, .stat > b, .rec-v')].slice(0, 60);
+    const jobs = [];
+    for (const el of els) {
+      const node = el.firstChild;
+      if (!node || node.nodeType !== 3) continue; // only plain numbers, not cells holding a popover
+      const m = node.textContent.trim().match(/^(#|\+)?(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(%)?$/);
+      if (!m) continue;
+      const target = Number((m[2] + (m[3] || '')).replace(/,/g, ''));
+      if (!(target > 0)) continue;
+      const dec = m[3] ? m[3].length - 1 : 0;
+      const comma = m[2].includes(',');
+      jobs.push({ node, target, dec, comma, pre: m[1] || '', post: m[4] || '' });
+    }
+    if (!jobs.length) return;
+    const t0 = performance.now(), dur = 450;
+    const fmt = (j, v) => j.pre + (j.comma ? Math.round(v).toLocaleString('en-US') : v.toFixed(j.dec)) + j.post;
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur), ease = 1 - (1 - k) ** 3;
+      for (const j of jobs) j.node.textContent = fmt(j, j.target * ease);
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   }
 
   const empty = (msg) => `<p class="muted empty">${msg || 'No results in this range yet.'}</p>`;
@@ -1972,6 +2024,7 @@
   render();
   load()
     .catch((e) => {
+      loaded = true; // stop showing the skeleton
       $('#board').innerHTML = `<p class="muted empty">Couldn't load results (${esc(e.message)}).</p>`;
     })
     .finally(() => {

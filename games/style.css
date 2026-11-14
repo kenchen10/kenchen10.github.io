@@ -78,7 +78,7 @@ th { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color:
 .strong { font-weight: 700; }
 .rank { width: 2.2em; text-align: center; }
 td.name { font-weight: 500; }
-td.name.is-me::after { content: " (you)"; color: var(--muted); font-weight: 400; font-size: .85em; }
+
 tr.dim td { color: var(--muted); }
 .note { font-size: .8rem; color: var(--muted); }
 .empty { text-align: center; padding: 24px 0; }
@@ -184,8 +184,9 @@ main h3 { margin-top: 16px; }
 .form .note { margin: 8px 0 0; }
 
 /* Win % view */
-.wr-pick { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 8px 12px; border: 2px solid var(--accent); border-radius: 12px; background: var(--accent-soft); }
-.wr-pick span { font-weight: 700; font-size: .9rem; white-space: nowrap; }
+.wr-pick { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 6px 6px 6px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); box-shadow: var(--shadow); }
+.wr-pick span { font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.wr-pick select { border: 0; background: var(--seg); font-weight: 600; }
 #wr-game { flex: 1; min-width: 0; font-weight: 600; }
 td.wr { position: relative; min-width: 76px; }
 td.wr .wbar { position: absolute; left: 6px; top: 7px; bottom: 7px; background: var(--accent-soft); border-radius: 6px; max-width: calc(100% - 12px); }
@@ -410,3 +411,32 @@ details.more .badges { margin-top: 8px; }
 .info-th .info { margin-left: 0; }
 .tip .info-body { line-height: 1.45; }
 .tip .info-body .k { margin: 0 2px; }
+
+/* ---------- name cell ---------- */
+.name-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 3px 8px; }
+.name-wrap .plink { font-weight: 600; overflow-wrap: anywhere; }
+.marks { display: inline-flex; align-items: center; gap: 6px; padding: 1px 7px; border-radius: 999px; background: var(--seg); font-size: .72rem; line-height: 1.5; white-space: nowrap; }
+.marks .streak, .marks .hotb { font-size: inherit; }
+
+/* ---------- your row ---------- */
+tr.me-row td { background: color-mix(in srgb, var(--accent) 8%, var(--card)); }
+tr.me-row td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+
+/* ---------- transitions ---------- */
+#board.enter { animation: board-in .24s ease-out; }
+@keyframes board-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { #board.enter { animation: none; } }
+
+/* ---------- loading skeleton ---------- */
+.skel-table { background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 4px 12px; }
+.skel-row { display: flex; align-items: center; gap: 12px; padding: 13px 0; }
+.skel-row + .skel-row { border-top: 1px solid var(--line); }
+.skel-row i { display: block; height: 12px; border-radius: 6px;
+  background: linear-gradient(90deg, var(--seg) 25%, color-mix(in srgb, var(--seg) 40%, var(--card)) 50%, var(--seg) 75%);
+  background-size: 300% 100%; animation: shimmer 1.3s ease-in-out infinite; }
+.skel-row .sk-rank { width: 18px; height: 18px; border-radius: 50%; flex: none; }
+.skel-row .sk-name { flex: 0 1 auto; max-width: 45%; }
+.skel-row .sk-num { width: 34px; flex: none; margin-left: auto; }
+.skel-row .sk-num + .sk-num { margin-left: 0; }
+@keyframes shimmer { from { background-position: 100% 0; } to { background-position: -50% 0; } }
+@media (prefers-reduced-motion: reduce) { .skel-row i { animation: none; } }
