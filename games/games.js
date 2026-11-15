@@ -20,6 +20,9 @@
   const fromEpoch = (zeroDate) => (n) =>
     new Date(Date.parse(zeroDate + 'T00:00:00Z') + n * DAY).toISOString().slice(0, 10);
 
+  // Magnitudle "Size It Up" puzzle numbers: #98 = 2026-11-15 (the day the numbered share format first appeared).
+  const MAGNITUDLE_EPOCH = '2026-08-09';
+
   const fmtTime = (secs) => {
     const t = Math.round(secs), m = Math.floor(t / 60), r = t % 60;
     return `${m}:${String(r).padStart(2, '0')}`;
@@ -197,12 +200,19 @@
       name: 'Magnitudle',
       emoji: '📏',
       url: 'https://magnitudle.com/size-it-up',
-      header: /Magnitudle(?![.\w])/gi,
-      // "Magnitudle — Size It Up\n2026-11-11\n\nScore: 384/500"
-      // No puzzle number, so the puzzle id is the date as YYYYMMDD.
+      // Two share formats:
+      //   old (until Nov 14 2026): "Magnitudle — Size It Up\n2026-11-11\n\nScore: 384/500 …"
+      //   new (from Nov 15 2026):  "Size It Up\n#98\n\nScore: 171/500 …\nhttps://magnitudle.com/size-it-up"
+      // The spin-offs ("Size It Up: Pop Culture", "Size It Up: Geography") are different puzzles and aren't matched.
+      // The puzzle id is the date as YYYYMMDD either way, so both formats rank together.
+      header: /Magnitudle(?![.\w])|^[ \t]*Size It Up[ \t]*$/gim,
       parse(s) {
         const sc = s.match(/Score\s*:?\s*(\d{1,3})\s*\/\s*500/i);
-        const d = s.match(/(\d{4})-(\d{2})-(\d{2})/);
+        let d = s.match(/(\d{4})-(\d{2})-(\d{2})/);
+        if (!d) {
+          const n = s.match(/^\s*#\s*(\d{1,5})\s*$/m);
+          if (n) d = fromEpoch(MAGNITUDLE_EPOCH)(Number(n[1])).match(/(\d{4})-(\d{2})-(\d{2})/);
+        }
         if (!sc || !d) return null;
         const value = Number(sc[1]);
         const rows = [...s.matchAll(/^\s*([\p{Extended_Pictographic}\uFE0F]+)\s+(\d{1,3})\s*$/gmu)]
