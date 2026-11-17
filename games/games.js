@@ -205,12 +205,14 @@
       //   new (from Nov 15 2026):  "Size It Up\n#98\n\nScore: 171/500 …\nhttps://magnitudle.com/size-it-up"
       // The spin-offs ("Size It Up: Pop Culture", "Size It Up: Geography") are different puzzles and aren't matched.
       // The puzzle id is the date as YYYYMMDD either way, so both formats rank together.
-      header: /Magnitudle(?![.\w])|^[ \t]*Size It Up[ \t]*$/gim,
+      // Copies from phones/chat apps can add an emoji or "> " in front of the title, or put
+      // the number on the same line ("Size It Up #99"); those are accepted too.
+      header: /Magnitudle(?![.\w])|^[^\S\n]*(?:[^\w\s][^\S\n]*)*Size It Up(?=[^\S\n]*(?:#[^\S\n]*\d+[^\S\n]*)?$)/gimu,
       parse(s) {
         const sc = s.match(/Score\s*:?\s*(\d{1,3})\s*\/\s*500/i);
         let d = s.match(/(\d{4})-(\d{2})-(\d{2})/);
         if (!d) {
-          const n = s.match(/^\s*#\s*(\d{1,5})\s*$/m);
+          const n = s.match(/(?:^|[^\S\n])#[^\S\n]*(\d{1,5})\b/m);  // "#99" on its own line or after the title
           if (n) d = fromEpoch(MAGNITUDLE_EPOCH)(Number(n[1])).match(/(\d{4})-(\d{2})-(\d{2})/);
         }
         if (!sc || !d) return null;
@@ -505,7 +507,10 @@
   // Split pasted text into per-game chunks and parse each.
   // Returns { results: [{game, puzzle, value, display, ...}], unreadable: [gameName] }
   function parseShareText(text) {
-    text = String(text || '').replace(/\r\n?/g, '\n');
+    text = String(text || '')
+      .replace(/\r\n?/g, '\n')
+      .replace(/[\u00a0\u2007\u202f]/g, ' ')   // non-breaking spaces (phones and chat apps add these)
+      .replace(/[\u200b\u2060\ufeff]/g, '');  // zero-width spaces (not \u200d, which joins emoji)
     const marks = [];
     for (const g of GAMES) {
       g.header.lastIndex = 0;

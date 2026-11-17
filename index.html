@@ -1,993 +1,281 @@
 ---
-layout: null
+layout: default
+icons: true
 ---
-<!DOCTYPE HTML>
-<html lang="en">
+<header class="home-top">
+  <div>
+    <div class="intro">
+      <div class="intro-photo">
+        <img src="images/profile_headshot.JPG" alt="Photo of {{ site.title }}">
+      </div>
+      <div class="intro-text">
+        <h1>{{ site.title }}</h1>
+        <p class="bio">Hi! I'm a final year CS PhD at New York University,
+          advised by <a class="links" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>.
+          I'm interested in studying how novel graphics, display, and AI systems can be optimized by understanding human perception.
+          I'm currently a student researcher at Google Zurich.
+          During my PhD, I spent a summer at Adobe Research (2026) with Jose Echevarria and Aaron Hertzmann, the University of Cambridge (2025) with <a class="links" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>, and interned twice at Meta RL (2023 &amp; 2024) with <a class="links" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>.
+        </p>
+        <p class="notice">
+          I'm on the academic and research job market! Feel free to contact me at <a class="links" href="mailto:{{ site.email }}">{{ site.email }}</a> if you think my work is relevant!
+        </p>
+        <p class="intro-links">
+          <a class="links3" href="mailto:{{ site.email }}"><i class="fas fa-envelope"></i> Email</a><span class="sep"> | </span>
+          <a class="links3" href="https://scholar.google.com/citations?hl=en&amp;user={{ site.scholar }}" target="_blank"><i class="fa-brands fa-google-scholar"></i> Google Scholar</a><span class="sep"> | </span>
+          <a class="links3" href="cv.html"><i class="fas fa-file"></i> CV</a>
+        </p>
+      </div>
+    </div>
 
-<head>
-  {% if site.google_analytics and jekyll.environment == 'production' %}
-  {% include analytics.html %}
-  {% endif %}
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <section class="timeline">
+      <div class="timeline-head">
+        <div class="section-header-row">
+          <h2 class="heading">Timeline</h2>
+          <a class="see-all" href="news.html">See all &rarr;</a>
+        </div>
+        <hr class="rule">
+      </div>
+      {% include news-list.html limit=9 %}
+    </section>
+  </div>
 
-  <title>{{ site.title }}</title>
+  <aside class="photo-sidebar">
+    <a href="images.html"><img class="all-pics" loading="lazy" decoding="async" src="images/all-pics.png" alt="Photography"></a>
+    {%- comment -%}
+      Album covers in rows of equal height, each photo as wide as its shape needs
+      (like Google Photos). Rows are filled greedily until their summed aspect
+      ratios get closest to `target`; a short last row isn't stretched.
+    {%- endcomment -%}
+    {%- assign target = 3.0 -%}
+    {%- assign row = "" -%}
+    {%- assign row_sum = 0.0 -%}
+    {%- assign i = 0 %}
+    <div class="photo-grid">
+      {%- for album in site.data.images -%}
+        {%- unless album.imgs -%}{%- continue -%}{%- endunless -%}
+        {%- assign i = i | plus: 1 -%}
+        {%- if i < 3 or i > 14 -%}{%- continue -%}{%- endif -%}
+        {%- assign cover = "images/" | append: album.imgs.first -%}
+        {%- assign base = album.imgs.first | split: "." | pop | join: "." -%}
+        {%- assign thumb = "images/thumbs/" | append: base | append: ".jpg" -%}
+        {%- assign size = site.data.image_sizes[thumb] | default: site.data.image_sizes[cover] -%}
+        {%- if size -%}{%- assign r = size[0] | times: 1.0 | divided_by: size[1] -%}{%- else -%}{%- assign r = 1.5 -%}{%- endif -%}
+        {%- assign over = row_sum | plus: r | minus: target -%}
+        {%- assign under = target | minus: row_sum -%}
+        {%- if row != "" and over > under %}
+      <div class="photo-row">{{ row }}</div>
+          {%- assign row = "" -%}{%- assign row_sum = 0.0 -%}
+        {%- endif -%}
+        {%- capture tile %}
+        <a href="photos/{{ album.id }}/" style="flex-grow: {{ r | round: 3 }}" title="{{ album.title }}">{% include photo.html src=cover thumb=true alt=album.title %}</a>
+        {%- endcapture -%}
+        {%- assign row = row | append: tile -%}
+        {%- assign row_sum = row_sum | plus: r -%}
+      {%- endfor -%}
+      {%- if row != "" -%}
+        {%- assign last_width = row_sum | divided_by: target | times: 100 | at_most: 100 | round: 1 %}
+      <div class="photo-row" style="width: {{ last_width }}%">{{ row }}</div>
+      {%- endif %}
+    </div>
+  </aside>
+</header>
 
-  <meta name="author" content="{{ site.title }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<main class="home-main">
+  {%- comment -%} Research Threads: papers over time across three areas (see assets/research-map.js). {%- endcomment -%}
+  {%- assign map_papers = site.data.publications | where_exp: "p", "p.hide == nil" | where_exp: "p", "p.workshop == nil" -%}
+  {%- assign map_posters = site.data.otherpubs | where_exp: "p", "p.hide" -%}
+  {%- assign map_all = map_papers | concat: map_posters %}
+  <section class="research-map" id="research-map" data-all-only>
+    <div class="section-header-row">
+      <h2 class="heading">Research Threads</h2>
+      <span class="threads-key"><span class="threads-key-dot"></span> paper <span class="threads-key-dot poster"></span> poster / demo</span>
+    </div>
+    <hr class="rule">
+    <div class="threads">
+      <div class="threads-labels"></div>
+      <div class="threads-scroll"><svg class="threads-svg" role="group" aria-label="Papers by year and research area"></svg></div>
+      <div class="threads-tip" hidden></div>
+    </div>
+    <p class="threads-filter" hidden>Showing papers in <strong></strong> · <button type="button">show all</button></p>
+    <script type="application/json" id="research-map-data">[
+      {%- for pub in map_all %}
+      {"title": {{ pub.title | strip_html | jsonify }}, "venue": {{ pub.venue | append: " " | append: pub.year | jsonify }}, "year": {{ pub.year | jsonify }}, "tag": {{ pub.tag | jsonify }}, "areas": {{ pub.areas | jsonify }}, "url": {{ pub.project_page | jsonify }}, "image": {{ pub.image | jsonify }}, "poster": {% if forloop.index > map_papers.size %}true{% else %}false{% endif %}}{% unless forloop.last %},{% endunless %}
+      {%- endfor %}
+    ]</script>
+  </section>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
-  <link rel="icon" href="./favicon.ico">
-  <style>
-    @import url('https://fonts.cdnfonts.com/css/fontin');
-    
-    /* Styles for the section toggle buttons */
-    .section-toggles {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
-      margin-top: 10px;
-    }
-    
-    .section-toggle {
-      display: inline-block;
-      padding: 4px 6px;
-      font-size: 13px;
-      font-weight: bold;
-      color: #333;
-      background-color: #f0f0f0;
-      border: 1px solid #9E9E9E;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      user-select: none;
-    }
-    
-    .section-toggle:hover {
-      background-color: #e0e0e0;
-    }
-    
-    .section-toggle.active {
-      background-color: rgb(230, 213, 213);
-      border-color: #9E9E9E;
-      color: #000;
-    }
-    
-    .content-section {
-      transition: opacity 0.3s ease;
-    }
-    
-    .content-section.hidden {
-      display: none;
-    }
+  <section class="content-section" data-section="publications">
+    <div class="section-header-row">
+      <h2 class="heading">Publications</h2>
+      <div class="section-toggles" id="section-toggles">
+        <button class="section-toggle active" data-target="all"><i class="fas fa-layer-group"></i> All</button>
+        {%- comment -%} Hidden for now; delete this comment wrapper to bring the filter back (the script below still supports it).
+        <button class="section-toggle active" data-target="selected"><i class="fas fa-star"></i> Selected</button>
+        {%- endcomment %}
+        <button class="section-toggle active" data-target="publications"><i class="fas fa-file-alt"></i> Publications</button>
+        <button class="section-toggle active" data-target="posters"><i class="fas fa-image"></i> Posters/Demos</button>
+        <button class="section-toggle active" data-target="experience"><i class="fas fa-briefcase"></i> Experience</button>
+        <button class="section-toggle active" data-target="teaching"><i class="fas fa-chalkboard-teacher"></i> Teaching</button>
+      </div>
+    </div>
+    <hr class="rule">
+    <p class="section-note">{{ site.research }}</p>
+    {%- assign first = true -%}
+    {%- for pub in site.data.publications -%}
+      {%- unless pub.hide or pub.workshop -%}
+        {% include pub-row.html pub=pub first=first %}
+        {%- assign first = false -%}
+      {%- endunless -%}
+    {%- endfor %}
+  </section>
 
-    .content-section.section-spacing td {
-      padding-top: 22px;
-    }
+  <section class="content-section" data-section="posters">
+    <div class="section-header-row">
+      <h2 class="heading">Short Papers, Posters, Demos, etc.</h2>
+    </div>
+    <hr class="rule">
+    {%- assign first = true -%}
+    {%- for pub in site.data.otherpubs -%}
+      {%- if pub.hide -%}
+        {% include pub-row.html pub=pub first=first %}
+        {%- assign first = false -%}
+      {%- endif -%}
+    {%- endfor %}
+  </section>
 
-    body.single-section-mode .content-section.section-spacing td {
-      padding-top: 0px;
-    }
+  <section class="content-section" data-section="experience">
+    <div class="section-header-row">
+      <h2 class="heading">Experience</h2>
+    </div>
+    <hr class="rule">
+    {%- for work in site.data.work %}
+    <div class="entry-row">
+      <div class="entry-logo"><img loading="lazy" decoding="async" src="images/{{ work.img }}" alt="{{ work.company }}"></div>
+      <div class="entry-body">
+        <div><strong>{{ work.company }}</strong> | {{ work.role }}, <em>{{ work.years }}</em></div>
+        <small>{{ work.shortdescription }}, <em>{{ work.mentor }}</em></small>
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
 
-    .section-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+  <section class="content-section" data-section="teaching">
+    <div class="section-header-row">
+      <h2 class="heading">Teaching</h2>
+    </div>
+    <hr class="rule">
+    {%- for teaching in site.data.teaching %}
+    <div class="entry-row">
+      <div class="entry-logo"><img loading="lazy" decoding="async" src="images/{{ teaching.image }}" alt="{{ teaching.institution }}"></div>
+      <div class="entry-body">
+        <div><a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{ teaching.institution }}</div>
+        <div><em>{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor %} | <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url %} | <a class="links3" href="{{ teaching.url }}"><i class="fab fa-slideshare"></i> [{{ teaching.urltitle }}]</a>{% endif %}</div>
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
 
-    .section-header-row .section-toggles {
-      margin: 0;
-    }
-  </style>
-</head>
+  <section class="misc-section">
+    <h2 class="heading">Miscellanea</h2>
+    <hr class="rule">
+    <div class="image-row">
+      {%- for misc in site.data.misc %}
+      {%- if misc.img %}
+      <div class="image-item">
+        <a href="{{ misc.site }}">
+          <img loading="lazy" decoding="async" src="{{ misc.img }}" alt="{{ misc.title }}">
+          <div class="caption"><em>{{ misc.description }}</em></div>
+        </a>
+      </div>
+      {%- endif %}
+      {%- endfor %}
+    </div>
+  </section>
+</main>
 
-<body>
-  <table style="margin-left: auto;margin-right: auto;padding-top: 20px;">
-    <tr>
-      <td>
-        <!-- <hr> -->
-        <table
-          style="vertical-align: top;max-width:750px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
-          <tbody>
-            <tr style="padding:0px">
-              <td style="padding:0px">
-                <table
-                  style="padding-left:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                  <tbody>
-                    <tr>
-                      <th style="width:30%"></th>
-                      <th style="width:70%"></th>
-                    </tr>
-                    <tr style="padding:0px">
-                      <td style="padding-left:10px;vertical-align:middle">
-                        <div id="banner-load"></div>
-                      </td>
-                      <td style="padding:20px;vertical-align:middle">
-                        <p>
-                          <b>
-                            <h3>{{ site.title }}</h3>
-                            <!-- <img loading="lazy" decoding="async" id="timeline" style="width:100%;vertical-align:middle; margin-top: -10px;margin-left: -4px;" src="images/break2.svg"> -->
-                          </b>
-                        </p>
-                        <p class="text-justify" style="margin-left: auto; margin-right: auto;font-size: 14px; background-color: rgb(242, 235, 235); padding: 4px 6px; border-radius: 4px; border: solid 1px;">Hi! I'm a final year CS PhD at New York University, 
-                          advised by <a class="links" style="font-size: 14px;" href="https://qisun.me" target="_blank">Prof. Qi Sun</a>. 
-                          I'm interested in studying how novel graphics, display, and AI systems can be optimized by understanding human perception.
-                          <!-- <br><br> -->
-                          I'm currently a student researcher at Google Zurich.
-                          During my PhD, I spent a summer at Adobe Research (2026) with Jose Echevarria and Aaron Hertzmann, the University of Cambridge (2025) with <a class="links" style="font-size: 14px;" href="https://www.cl.cam.ac.uk/~rkm38/index.html">Prof. Rafał Mantiuk</a>, and interned twice at Meta RL (2023 & 2024) with <a class="links" style="font-size: 14px;" href="https://achapiro.github.io/" target="_blank">Alex Chapiro</a>.
-                          <!-- Before my PhD, I did an MS at NYU (2023) and a BA at UC Berkeley (2021), both in computer science. -->
-                          <p class="text-justify" style="font-weight: bold; margin-left: auto; margin-right: auto;font-size: 14px; background-color: rgb(230, 213, 213); padding: 4px 6px; border-radius: 4px; border: red solid 2px;">
-                            I'm on the academic and research job market! Feel free to contact me at <a class="links" style="font-size: 14px;" href=mailto:kennychen@nyu.edu>kennychen@nyu.edu</a> if you think my work is relevant!
-                          </p>
-                        </p>
-                        
-                        <p>
-                          <a class="links3" style="font-size: 14px" href="mailto:{{ site.email }}"><i
-                              class="fas fa-envelope"></i> Email</a> |
-                          <a class="links3" style="font-size: 14px"
-                            href="https://scholar.google.com/citations?hl=en&user={{ site.scholar }}" target="_blank"><i
-                              class="fa-brands fa-google-scholar"></i> Google Scholar</a> |
-                          <a class="links3" style="font-size: 14px" href="cv.html"><i
-                              class="fas fa-file"></i> CV</a>
-                        </p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+<script>
+  // Section filter: "All" shows every section; "Selected" shows only papers marked
+  // `is_selected` in the data; any other button shows only that section.
+  (function () {
+    const toggles = document.getElementById('section-toggles');
+    const buttons = toggles.querySelectorAll('.section-toggle');
+    const sections = [...document.querySelectorAll('.content-section')];
+    const rows = document.querySelectorAll('.pub-row');
+    const yearBars = document.querySelectorAll('.year-bar');
+    const misc = document.querySelector('.misc-section');
 
-                <table id="timeline"
-                  style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto; margin-top: -20px">
-                  <tbody>
-                    <tr>
-                      <td style="padding: 10px;">
-                        <heading>Timeline</heading> <a class="links3" href="news.html">[See All]</a><br>
-                        <hr id="myhr">
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <table id="timeline"
-                  style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                  <!-- <p class="text-justify" style="margin-left: auto; margin-right: auto;font-size: 14px; background-color: rgb(242, 235, 235); padding: 4px 6px; border-radius: 4px; border: solid 1px;"> -->
-                    <tbody>
-                      {% for item in site.data.news limit : 9%}
-                      <tr>
-                        <td class="tdnews" width="10px" style="padding-left: 30px;">
-                          {% if item.year != null %}
-                          <venue
-                            style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.tag }};margin-left: 0;">
-                            {{ item.year }}</venue>
-                          {% endif %}
-                        </td>
-                        <td class="tdnews" width="10px">
-                          <venue
-                            style="font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.fill }};margin-left: 0;">
-                            {{ item.month }}</venue>
-                        </td>
-                        <td class="tdnews" style="font-size: 14px;">
-                          {{ item.title }}
-                        </td>
-                      </tr>
-                      {% endfor %}
+    toggles.addEventListener('click', function (e) {
+      const button = e.target.closest('.section-toggle');
+      if (!button) return;
+      const target = button.dataset.target;
+      const showAll = target === 'all';
+      const selectedOnly = target === 'selected';
 
-                    </tbody>
-                  <!-- </p> -->
-                </table>
-            </tr>
+      rows.forEach(r => r.classList.toggle('hidden', selectedOnly && r.dataset.selected !== 'true'));
+      sections.forEach(s => s.classList.toggle('hidden', selectedOnly
+        ? !s.querySelector('.pub-row:not(.hidden)')
+        : !showAll && s.dataset.section !== target));
 
-        </table>
-      </td>
-      <td style="vertical-align:top;">
-        <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;">
-          <tbody>
-            <tr style="padding:0px">
-              <td style="padding-top:52px">
-                <a href="images.html">
-                  <img loading="lazy" decoding="async" class="hoverable2" style="margin:auto;border: solid black 1px;" width=95% src="images/all-pics.png">
-                </a>
-              </td>
-            </tr>
-        </table>
-        <table id="photos" style="max-width:275px;border:0px;border-spacing:0px;border-collapse:separate;">
-          <tbody>
-            <tr style="padding:0px;">
-              <td style="padding-top:10px">
-                <table
-                  style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                  <tbody>
-                    {% assign i = 0 %}
-                    {% for photo in site.data.images %}
-                    <a href="photos/{{ photo.id }}">
-                      {% for img in photo.imgs limit : 1 %}
-                      {% assign i = i | plus:1 %}
-                      {% if i < 16 and i > 2 %} <img loading="lazy" decoding="async" class="hoverable" style="margin:5px;border: solid black 1px;" width=27% src="images/{{ img }}">
-                        {% endif %}
-                        {% endfor %}
-                    </a>
-                    {% endfor %}
-
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-
-  <!-- <br> -->
-  <!-- <hr style="color:black"> -->
-  <table style="margin-left: auto;margin-right: auto;vertical-align: top; margin-top: -20px">
-    <tr>
-      <td>
-        <!-- <hr> -->
-        <table style="padding-left:8px;padding-right:8px;max-width:1000px;display: inline-block;border:0px;border-spacing:0px;border-collapse:separate;">
-          <tr>
-            <td>
-              
-              <!-- <br> -->
-              <!-- <heading>Research Interests</heading>
-              <hr id="myhr">
-              <p style="padding-top: 10px">
-                I'm interest in applying studies of the human visual system to visual computing domains, including
-                <ul>
-                  <li>
-                    Graphics/HCI: Developing rendering, design algorithms that are better-aligned with human perception [SIGGRAPH 2023, WACV 2026].
-                  </li>
-                  <li>
-                    Displays: Modelling human vision for improvements in display performance [SIGGRAPH Asia 2022, SIGGRAPH 2024, SIGGRAPH 2025].
-                  </li>
-                  <li>
-                    Generative AI: Measuring human preference to certain AI-related artifacts [arxiv 2025, WACV 2026].
-                  </li>
-                </ul>
-              </p>
-              <br> -->
-            </td>
-          </tr>
-          
-          <br><br>
-
-          <tr class="content-section" id="publications-section">
-            <td>
-              <div class="section-header-row">
-                <heading>Publications</heading>
-          
-                <div class="section-toggles" id="section-toggle-container">
-                  <button class="section-toggle active" onclick="toggleSection('all', event)">
-                    <i class="fas fa-layer-group"></i> All
-                  </button>
-          
-                  <button class="section-toggle active" onclick="toggleSection('publications', event)">
-                    <i class="fas fa-file-alt"></i> Publications
-                  </button>
-          
-                  <button class="section-toggle active" onclick="toggleSection('posters', event)">
-                    <i class="fas fa-image"></i> Posters/Demos
-                  </button>
-          
-                  <button class="section-toggle active" onclick="toggleSection('experience', event)">
-                    <i class="fas fa-briefcase"></i> Experience
-                  </button>
-          
-                  <button class="section-toggle active" onclick="toggleSection('teaching', event)">
-                    <i class="fas fa-chalkboard-teacher"></i> Teaching
-                  </button>
-                </div>
-              </div>
-          
-              <hr id="myhr">
-              <p><small>{{ site.research }}</small></p>
-            </td>
-          </tr>
-          <tr class="content-section" id="publications-section-content" style="padding:0px">
-            <td style="padding:0px">
-              <div id="publications-container">
-              <table
-                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                <tbody>
-
-                  <tr>
-                    <th style="width:22%"></th>
-                    <th style="width:62%"></th>
-                    <th style="width:16%"></th>
-                  </tr>
-                  {% for publication in site.data.publications %}
-                  {% if publication.hide == null and publication.workshop == null %}
-                  {% if publication.showyear != null %}
-                  <tr class="publication-row year-row" data-selected="{{ publication.is_selected }}">
-                    <td>
-                      {% if forloop.first != true %}
-                      <div style="padding-top: 10px;">
-                        <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold; background-color: rgb(230, 213, 213); padding: 0px 86% 2px 5px; margin-left: 0;">
-                          {{ publication.year }}
-                        </venue>
-                      </div>
-                      {% else %}
-                      <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold; background-color: rgb(230, 213, 213); padding: 0px 86% 2px 5px; margin-left: 0;">
-                        {{ publication.year }}
-                      </venue>
-                      {% endif %}
-                    </td>
-                  </tr>
-                  {% endif %}
-                  <tr class="publication-row" data-selected="{{ publication.is_selected }}" style="min-width:100%; width: 100%;">
-                    <td style="padding:5px;vertical-align:middle;">
-                      <div class="one" style="padding-right: 4px;">
-                        {% if publication.teaser_vid != null %}
-                        <video style="border: 1px solid black;" width=100% height=100% playsinline autoplay loop muted>
-                          <source src="images/{{ publication.teaser_vid }}" type="video/mp4">
-                          Your browser does not support the video tag.
-                        </video>
-                        {% endif %}
-                        {% if publication.image != null %}
-                        <img loading="lazy" decoding="async" style="border: 1px solid black;" width=100% height=100%
-                          src="images/{{ publication.image }}">
-                        {% endif %}
-                      </div>
-                    </td>
-                    {% if publication.bgcolor!= null %}
-                    <td
-                      style="border-left: 1px solid rgb(154, 154, 154);padding-left:10px; padding-top: 4px; vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213)); border-radius: 0 10px 10px 0;">
-                      {%else%}
-                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
-                      {%endif%}
-                      <papertitle style="font-weight: bold;">{{ publication.title }}</papertitle>
-                      <br>
-                      {% for author_id in publication.authors %}
-                      {% assign author = site.data.authors[author_id] %}
-                      {% if author.is_me %}
-                      <u><strong style="font-size: small; font-style: italic;">{{ author.first_name }}
-                          {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if
-                      author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
-                      author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false
-                      %},{% endif %}
-                      {% else %}
-                      <a style="font-size: small" class="links" href="{{ author.website }}">{{ author.first_name }} {{
-                        author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if
-                        author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
-                        author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{%
-                      endif %}
-                      {% endif %}
-                      {% endfor %}
-                      <br>
-                      {% if publication.banner_venue != null %}
-                      <img loading="lazy" decoding="async" style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
-                      {% endif %}
-                      {% if publication.venue2 != null %}
-                      <pub>
-                        <venue
-                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag2 }};margin-left: 0;">
-                          {{ publication.venue2 }} {{ publication.year2 }}</venue>{% if publication.venue_long2 != null
-                        %} | <em>{{ publication.venue_long2 }}</em>{% endif %}
-                      </pub>
-                      <br>
-                      {%endif%}
-                      <pub>
-                        <venue
-                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">
-                          {{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %}
-                        | <em>{{ publication.venue_long }}</em>{% endif %}
-                      </pub>{% if publication.award != null %}
-                      <pub>
-                        <venue
-                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
-                          <i class="fas fa-award"></i> {{ publication.award }} 
-                        </venue>
-                      </pub>
-                      {%endif%}{% for media in publication.media %} <a href="{{ media.link }}" target="_blank"><img loading="lazy" decoding="async" style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a> {% endfor %}
-                      {% if publication.description != null %}
-                      <br>
-                      <small style="font-size: small;">
-                        <em>{{ publication.description }}</em>
-                      </small>
-                      {%endif%}
-                      <br>
-                      <!-- <i class="fa-solid fa-arrow-right"></i> -->
-                      {% if publication.project_page != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.project_page }}"><i
-                          class="fas fa-globe"></i> project page</a>
-                      {% endif %}
-                      {% if publication.arxiv != null %}
-                      <a style="font-size: small" class="links3"
-                        href="https://arxiv.org/abs/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
-                        PDF</a>
-                      {% endif %}
-                      {% if publication.pdf != null %}
-                      <a style="font-size: small" class="links3" href="{{publication.pdf}}"><i
-                          class="far fa-file-pdf"></i> PDF</a>
-                      {% endif %}
-                      {% if publication.papersite != null %}
-                      <a style="font-size: small" class="links3" href="{{publication.papersite}}"><i
-                          class="far fa-file-pdf"></i> PDF</a>
-                      {% endif %}
-                      {% if publication.doi != null %}
-                      <a style="font-size: small" class="links3" href="https://doi.org/{{ publication.doi }}"><i class="fa fa-link"></i> doi</a>
-                      {% endif %}
-                      {% if publication.github != null %}
-                      <a style="font-size: small" class="links3" href="https://github.com/{{ publication.github }}"><i
-                          class="fab fa-github"></i> code</a>
-                      {% endif %}
-                      {% if publication.dataset != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.dataset }}"><i class="fa-solid fa-database"></i> dataset</a>
-                      {% endif %}
-                      {% if publication.dataset_vid != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.dataset_vid }}"><i class="fa-solid fa-database"></i> dataset (videos)</a>
-                      {% endif %}
-                      {% if publication.dataset_annotations != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.dataset_annotations }}"><i class="fa-solid fa-database"></i> dataset (labels)</a>
-                      {% endif %}
-                      <!-- {% if publication.ff != null %}
-                          <a class="links3" style="font-size: small;" href="{{ publication.ff }}"><i class="fa-solid fa-forward-fast"></i> TLDR</a>
-                      {% endif %} -->
-                      <!-- {% if publication.talk != null %}
-                          <a class="links3" style="font-size: small;" href="{{ publication.talk }}"><i class="fa-solid fa-person-chalkboard"></i> talk</a>
-                      {% endif %} -->
-                      {% if publication.video != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.video }}"><i
-                          class="fas fa-video"></i> video</a>
-                      {% endif %}
-                      {% if publication.supp != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.supp }}"><i
-                          class="fas fa-paperclip"></i> supplement</a>
-                      {% endif %}
-                      {% if publication.poster != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.poster }}"><i
-                          class="fas fa-chess-board"></i> poster</a>
-                      {% endif %}
-                      <!-- {% if publication.award_link != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.award_link }}"><i
-                          class="fas fa-award"></i> award</a>
-                      {% endif %} -->
-                      {% if publication.project_page2 != null %}
-                      <a class="links3" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
-                      {% endif %}
-                      <p></p>
-                    </td>
-                    <td id="timeline" style="padding-left:10px;">
-                      {% if publication.highlightvideo != null %}
-                      <a href="{{ publication.project_page }}">
-                        <video style="border: solid black 1px;" class="hoverable2" width=100% playsinline autoplay loop muted>
-                          <source src="images/{{ publication.highlightvideo }}" type="video/mp4">
-                          Your browser does not support the video tag.
-                        </video>
-                      </a>
-                      {% endif %}
-                    </td>
-                  </tr>
-                  <!-- <tr>
-                    <td></td>
-                  </tr> -->
-                  {% endif %}
-                  {% endfor %}
-
-                </tbody>
-              </table>
-              </div>
-            </td>
-          </tr>
-
-          <!-- <br> -->
-          <tr class="content-section section-spacing" id="posters-section">
-            <td>
-              <!-- <br> -->
-              <div class="section-header-row">
-                <heading>Short Papers, Posters, Demos, etc.</heading>
-              </div>
-              <hr id="myhr">
-            </td>
-          </tr>
-          <tr class="content-section" id="posters-section-content" style="padding:0px">
-            <td style="padding:0px">
-              <div id="publications-container">
-              <table
-                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                <tbody>
-
-                  <tr>
-                    <th style="width:22%"></th>
-                    <th style="width:62%"></th>
-                    <th style="width:16%"></th>
-                  </tr>
-                  {% for publication in site.data.otherpubs %}
-                  {% if publication.hide %}
-                  {% if publication.showyear != null %}
-                  <tr class="publication-row year-row" data-selected="{{ publication.is_selected }}">
-                    <td>
-                      {% if forloop.first != true %}
-                      <div style="padding-top: 10px;">
-                        <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold; background-color: rgb(230, 213, 213); padding: 0px 86% 2px 5px; margin-left: 0;">
-                          {{ publication.year }}
-                        </venue>
-                      </div>
-                      {% else %}
-                      <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold; background-color: rgb(230, 213, 213); padding: 0px 86% 2px 5px; margin-left: 0;">
-                        {{ publication.year }}
-                      </venue>
-                      {% endif %}
-                    </td>
-                  </tr>
-                  {% endif %}
-                  <tr class="publication-row" data-selected="{{ publication.is_selected }}" style="min-width:100%; width: 100%;">
-                    <td style="padding:5px;vertical-align:middle;">
-                      <div class="one" style="padding-right: 4px;">
-                        {% if publication.teaser_vid != null %}
-                        <video style="border: 1px solid black;" width=100% height=100% playsinline autoplay loop muted>
-                          <source src="images/{{ publication.teaser_vid }}" type="video/mp4">
-                          Your browser does not support the video tag.
-                        </video>
-                        {% endif %}
-                        {% if publication.image != null %}
-                        <img loading="lazy" decoding="async" style="border: 1px solid black;" width=100% height=100%
-                          src="images/{{ publication.image }}">
-                        {% endif %}
-                      </div>
-                    </td>
-                    {% if publication.bgcolor!= null %}
-                    <td
-                      style="border-left: 1px solid rgb(154, 154, 154);padding-left:10px; padding-top: 4px; vertical-align:middle; background: linear-gradient(to right, #f9f1f3 , rgb(230, 213, 213)); border-radius: 0 10px 10px 0;">
-                      {%else%}
-                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
-                      {%endif%}
-                      <papertitle style="font-weight: bold;">{{ publication.title }}</papertitle>
-                      <br>
-                      {% for author_id in publication.authors %}
-                      {% assign author = site.data.authors[author_id] %}
-                      {% if author.is_me %}
-                      <u><strong style="font-size: small; font-style: italic;">{{ author.first_name }}
-                          {{author.middle_name}} {{ author.last_name }}</u>{% for equal_id in publication.equal %}{% if
-                      author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
-                      author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</strong>{% if forloop.last == false
-                      %},{% endif %}
-                      {% else %}
-                      <a style="font-size: small" class="links" href="{{ author.website }}">{{ author.first_name }} {{
-                        author.middle_name }} {{ author.last_name }}{% for equal_id in publication.equal %}{% if
-                        author_id == equal_id %}*{% endif %}{% endfor %}{% for equal_id in publication.equal_adv %}{% if
-                        author_id == equal_id %}<sup>†</sup>{% endif %}{% endfor %}</a>{% if forloop.last == false %},{%
-                      endif %}
-                      {% endif %}
-                      {% endfor %}
-                      <br>
-                      {% if publication.banner_venue != null %}
-                      <img loading="lazy" decoding="async" style="border-radius: 0;" height=20px src="images/{{ publication.banner_venue }}">
-                      {% endif %}
-                      {% if publication.venue2 != null %}
-                      <pub>
-                        <venue
-                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag2 }};margin-left: 0;">
-                          {{ publication.venue2 }} {{ publication.year2 }}</venue>{% if publication.venue_long2 != null
-                        %} | <em>{{ publication.venue_long2 }}</em>{% endif %}
-                      </pub>
-                      <br>
-                      {%endif%}
-                      <pub>
-                        <venue
-                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 1px 5px 1px 5px;background-color: {{ publication.tag }};margin-left: 0;">
-                          {{ publication.venue }} {{ publication.year }}</venue>{% if publication.venue_long != null %}
-                        | <em>{{ publication.venue_long }}</em>{% endif %}
-                      </pub>{% if publication.award != null %}
-                      <pub>
-                        <venue
-                          style="font-size: smaller; border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 2px 5px 2px 5px;background-color: rgb(255, 245, 178);margin-left: 0;">
-                          <i class="fas fa-award"></i> {{ publication.award }} 
-                        </venue>
-                      </pub>
-                      {%endif%}{% for media in publication.media %} <a href="{{ media.link }}" target="_blank"><img loading="lazy" decoding="async" style='border:2px solid white' height="22px" src="images/{{ media.img }}"></a> {% endfor %}
-                      {% if publication.description != null %}
-                      <br>
-                      <small style="font-size: small;">
-                        <em>{{ publication.description }}</em>
-                      </small>
-                      {%endif%}
-                      <br>
-                      <!-- <i class="fa-solid fa-arrow-right"></i> -->
-                      {% if publication.project_page != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.project_page }}"><i
-                          class="fas fa-globe"></i> project page</a>
-                      {% endif %}
-                      {% if publication.arxiv != null %}
-                      <a style="font-size: small" class="links3"
-                        href="https://arxiv.org/abs/{{ publication.arxiv }}.pdf"><i class="far fa-file-pdf"></i>
-                        PDF</a>
-                      {% endif %}
-                      {% if publication.pdf != null %}
-                      <a style="font-size: small" class="links3" href="{{publication.pdf}}"><i
-                          class="far fa-file-pdf"></i> PDF</a>
-                      {% endif %}
-                      {% if publication.papersite != null %}
-                      <a style="font-size: small" class="links3" href="{{publication.papersite}}"><i
-                          class="far fa-file-pdf"></i> PDF</a>
-                      {% endif %}
-                      {% if publication.doi != null %}
-                      <a style="font-size: small" class="links3" href="https://doi.org/{{ publication.doi }}"><i class="fa fa-link"></i> doi</a>
-                      {% endif %}
-                      {% if publication.github != null %}
-                      <a style="font-size: small" class="links3" href="https://github.com/{{ publication.github }}"><i
-                          class="fab fa-github"></i> code</a>
-                      {% endif %}
-                      {% if publication.dataset != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.dataset }}"><i class="fa-solid fa-database"></i> dataset</a>
-                      {% endif %}
-                      {% if publication.dataset_vid != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.dataset_vid }}"><i class="fa-solid fa-database"></i> dataset (videos)</a>
-                      {% endif %}
-                      {% if publication.dataset_annotations != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.dataset_annotations }}"><i class="fa-solid fa-database"></i> dataset (labels)</a>
-                      {% endif %}
-                      <!-- {% if publication.ff != null %}
-                          <a class="links3" style="font-size: small;" href="{{ publication.ff }}"><i class="fa-solid fa-forward-fast"></i> TLDR</a>
-                      {% endif %}
-                      {% if publication.talk != null %}
-                          <a class="links3" style="font-size: small;" href="{{ publication.talk }}"><i class="fa-solid fa-person-chalkboard"></i> talk</a>
-                      {% endif %} -->
-                      {% if publication.video != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.video }}"><i
-                          class="fas fa-video"></i> video</a>
-                      {% endif %}
-                      {% if publication.supp != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.supp }}"><i
-                          class="fas fa-paperclip"></i> supplement</a>
-                      {% endif %}
-                      {% if publication.poster != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.poster }}"><i
-                          class="fas fa-chess-board"></i> poster</a>
-                      {% endif %}
-                      <!-- {% if publication.award_link != null %}
-                      <a style="font-size: small" class="links3" href="{{ publication.award_link }}"><i
-                          class="fas fa-award"></i> award</a>
-                      {% endif %} -->
-                      {% if publication.project_page2 != null %}
-                      <a class="links3" href="{{ publication.project_page2 }}">{{ publication.project_page2_name }}</a>
-                      {% endif %}
-                      <p></p>
-                    </td>
-                    <td id="timeline" style="padding-left:10px;">
-                      {% if publication.highlightvideo != null %}
-                      <a href="{{ publication.project_page }}">
-                        <video style="border: solid black 1px;" class="hoverable2" width=100% playsinline autoplay loop muted>
-                          <source src="images/{{ publication.highlightvideo }}" type="video/mp4">
-                          Your browser does not support the video tag.
-                        </video>
-                      </a>
-                      {% endif %}
-                    </td>
-                  </tr>
-                  <!-- <tr>
-                    <td></td>
-                  </tr> -->
-                  {% endif %}
-                  {% endfor %}
-
-                </tbody>
-              </table>
-              </div>
-            </td>
-          </tr>
-
-
-
-          <!-- <tr>
-            <td>
-              <br>
-              <heading>Service</heading>
-              <hr id="myhr">
-            </td>
-          </tr>
-          <tr style="padding:0px">
-            <td style="padding:0px">
-              <table
-                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                <tbody>
-
-                  <tr>
-                    <th style="width:100%"></th>
-                  </tr>
-                  {% for service in site.data.service %}
-                  <tr>
-                    <td class="tdnews">
-                      <a class="links" href="{{ service.site }}"><strong>{{ service.venue }}</strong></a>, {{
-                      service.type }}
-                      <br>
-                      <em style="font-size:small;">{{ service.name }} | {{ service.year }}</em>
-                    </td>
-                  </tr>
-                  {% endfor %}
-
-                </tbody>
-              </table>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <br>
-              <heading>Press</heading>
-              <hr id="myhr">
-            </td>
-          </tr>
-          <tr style="padding:0px">
-            <td style="padding:0px">
-              <table
-                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                <tbody>
-                  <tr>
-                    <th style="width:100%"></th>
-                  </tr>
-                  {% for press in site.data.press %}
-                  <tr>
-                    <td class="tdnews">
-                      <a class="links" href="{{ press.site }}"><strong>{{ press.source }}</strong></a> | {{ press.title }}
-                      <br>
-                      <em style="font-size:small;">{{ press.year }}</em> <a class="links3" href="{{ press.site }}"><i
-                          class="fas fa-globe"></i> webpage</a>
-                    </td>
-                  </tr>
-                  {% endfor %}
-
-                </tbody>
-              </table>
-            </td>
-          </tr> -->
-
-          <tr class="content-section section-spacing" id="experience-section">
-            <td>
-              <div class="section-header-row">
-                <heading>Experience</heading>
-              </div>
-          
-              <hr id="myhr">
-            </td>
-          </tr>
-          <tr class="content-section" id="experience-section-content" style="padding:0px">
-            <td style="padding:0px">
-              <table
-                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                <tbody>
-
-                  <tr>
-                    <th style="width:15%"></th>
-                    <th style="width:85%"></th>
-                  </tr>
-                  {% for work in site.data.work %}
-                  <tr style="min-width:100%; width: 100%;">
-                    <td style="padding:5px;vertical-align:middle;">
-                      <div class="one" style="padding-right: 4px;">
-                        <img loading="lazy" decoding="async" style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
-                          src="images/{{ work.img }}">
-                      </div>
-                    </td>
-                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
-                      <strong>{{ work.company }}</strong> | {{ work.role }}, <em>{{ work.years }}</em> <br>
-                      <small>{{ work.shortdescription }}, <em>{{ work.mentor }}</em></small>
-                    </td>
-                  </tr>
-                  {% endfor %}
-
-                </tbody>
-              </table>
-            </td>
-          </tr>
-
-          <tr class="content-section section-spacing" id="teaching-section">
-            <td>
-              <!-- <br> -->
-              <div class="section-header-row">
-                <heading>Teaching</heading>
-              </div>
-              <hr id="myhr">
-            </td>
-          </tr>
-          <tr class="content-section" id="teaching-section-content" style="padding:0px">
-            <td style="padding:0px">
-              <table
-                style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-                <tbody>
-
-                  <tr>
-                    <th style="width:15%"></th>
-                    <th style="width:85%"></th>
-                  </tr>
-                  {% for teaching in site.data.teaching %}
-                  <tr style="min-width:100%; width: 100%;">
-                    <td style="padding:5px;vertical-align:middle;">
-                      <div class="one" style="padding-right: 4px;">
-                        <img loading="lazy" decoding="async" style="box-shadow: 2px 2px; border: 1px solid black;" width=100% height=100%
-                          src="images/{{ teaching.image }}">
-                      </div>
-                    </td>
-                    <td style="padding-left:10px; padding-top: 4px; vertical-align:middle; border-left: 1px solid rgb(154, 154, 154);">
-                      <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{
-                      teaching.institution }}{% if teaching.year != null %}{% endif %}
-                      <br>
-                      <em style="font-size:small;">{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor
-                      != null %} | <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %} | <a
-                        class="links3" style="font-size:small" href="{{ teaching.url }}"><i class="fab fa-slideshare"></i>
-                        [{{teaching.urltitle}}]</a>{% endif %}
-                    </td>
-                  </tr>
-                  {% endfor %}
-
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        
-
-
-          <table id="timeline" class="content-section misc-section"
-          style="padding-left:8px;padding-right:8px;width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr>
-              <td>
-                <br>
-                <heading>Miscellanea</heading>
-                <hr id="myhr">
-                <p><small></small></p>
-                <p><small></small></p>
-                <p><small></small></p>
-                <p><small></small></p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <table id="timeline" class="content-section misc-section"
-            style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr>
-              <th style="width:100%"></th>
-            </tr>
-            <tr>
-              <td>
-                <div class="image-row" style="max-width: 1000px; margin-left:12px;">
-                  {% for misc in site.data.misc %}
-                  {% if misc.img != null %}
-                    <div class="image-item" id="timeline">
-                      <a href="{{ misc.site }}">
-                        <img loading="lazy" decoding="async" src="{{ misc.img }}" alt="Image 1" style="border: solid black 1px;">
-                        <div class="caption"><em>{{ misc.description }}</em></div>
-                      </a>
-                    </div>
-                  {% endif %}
-                  {% endfor %}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-      </td>
-
-    </tr>
-  </table>
-
-  <!-- <br>
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-            <td>
-              <heading>WORK</heading>
-            </td>
-          </tr>
-        </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-					<tr>
-            <th style="width:100%"></th>
-          </tr>
-          {% for teaching in site.data.teaching %}
-            <tr>
-              <td class="tdnews">
-              <a class="links" href="{{ teaching.site }}"><strong>{{ teaching.course }}</strong></a>, {{ teaching.institution }}{% if teaching.year != null %}{% endif %}
-              <br>
-              <em style="font-size:small;">{{ teaching.title }} | {{ teaching.year }}</em>{% if teaching.instructor != null %}, <small>{{ teaching.instructor }}</small>{% endif %}{% if teaching.url != null %} | <a class="links2" href="{{ teaching.url }}">{{teaching.urltitle}}</a>{% endif %}
-              </td>
-            </tr>
-          {% endfor %}
-
-        </tbody></table> -->
-
-
-
-  </td>
-  </tr>
-  </table>
-  <br><br><br>
-
-
-  <script>
-    //Add your images, we'll set the path in the next step
-    var images = ['profile_headshot.JPG'];
-  
-    $('<img id="profile" style="width:100%;border-radius: 0; border: 1px solid black;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
-  
-    const allSections = ['publications', 'posters', 'experience', 'teaching'];
-  
-    function showAllSections() {
-      allSections.forEach(section => {
-        const els = document.querySelectorAll(
-          `#${section}-section, #${section}-section-content`
-        );
-  
-        els.forEach(el => el.classList.remove('hidden'));
-      });
-  
-      // show misc when all is selected
-      document.querySelectorAll('.misc-section').forEach(el => {
-        el.classList.remove('hidden');
-      });
-  
-      // activate all buttons
-      document.querySelectorAll('.section-toggle').forEach(btn => {
-        btn.classList.add('active');
+      // Hide a year label when none of the papers under it are showing
+      yearBars.forEach(bar => {
+        let el = bar.nextElementSibling, any = false;
+        while (el && !el.classList.contains('year-bar')) {
+          if (el.classList.contains('pub-row') && !el.classList.contains('hidden')) any = true;
+          el = el.nextElementSibling;
+        }
+        bar.classList.toggle('hidden', !any);
       });
 
-      document.body.classList.remove('single-section-mode');
-      moveButtonsToSection('publications');
-    }
-  
-    function toggleSection(sectionName, event) {
-      const clickedButton = event.currentTarget;
-  
-      // ALL button behavior
-      if (sectionName === 'all') {
-        showAllSections();
-        return;
-      }
+      misc.classList.toggle('hidden', !showAll);
+      document.querySelectorAll('[data-all-only]').forEach(el => el.classList.toggle('hidden', !showAll));
+      buttons.forEach(b => b.classList.toggle('active', showAll || b === button));
+      document.body.classList.toggle('single-section-mode', !showAll);
 
-      document.body.classList.add('single-section-mode');
-      moveButtonsToSection(sectionName);
-  
-      // deactivate all buttons first
-      document.querySelectorAll('.section-toggle').forEach(btn => {
-        btn.classList.remove('active');
-      });
-  
-      clickedButton.classList.add('active');
-  
-      // hide all content sections
-      allSections.forEach(section => {
-        const els = document.querySelectorAll(
-          `#${section}-section, #${section}-section-content`
-        );
-  
-        els.forEach(el => el.classList.add('hidden'));
-      });
-  
-      // hide misc whenever filtering
-      document.querySelectorAll('.misc-section').forEach(el => {
-        el.classList.add('hidden');
-      });
-  
-      // show selected section
-      const selected = document.querySelectorAll(
-        `#${sectionName}-section, #${sectionName}-section-content`
-      );
-  
-      selected.forEach(el => el.classList.remove('hidden'));
-    }
-
-    function moveButtonsToSection(sectionName) {
-      const toggleContainer = document.getElementById('section-toggle-container');
-
-      const targetHeading = document.querySelector(
-        `#${sectionName}-section .section-header-row`
-      );
-
-      if (targetHeading && toggleContainer) {
-        targetHeading.appendChild(toggleContainer);
-      }
-    }
-  
-    // initialize
-    document.addEventListener('DOMContentLoaded', function() {
-      showAllSections();
+      // Keep the buttons next to the heading of the first visible section
+      const first = sections.find(s => !s.classList.contains('hidden'));
+      first.querySelector('.section-header-row').appendChild(toggles);
     });
-  </script>
-</body>
+  })();
 
-</html>
+  // "cite" chip: copy the paper's BibTeX
+  document.addEventListener('click', function (e) {
+    const button = e.target.closest('.cite-btn');
+    if (!button) return;
+    const text = button.dataset.bibtex;
+    const done = () => {
+      const label = button.querySelector('span');
+      label.textContent = 'copied!';
+      button.classList.add('copied');
+      setTimeout(() => { label.textContent = 'cite'; button.classList.remove('copied'); }, 2000);
+    };
+    // Older fallback for browsers or contexts where the Clipboard API is unavailable
+    const fallback = () => {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.select();
+      const ok = document.execCommand('copy');
+      area.remove();
+      if (ok) done();
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, fallback);
+    else fallback();
+  });
+
+  // Make each highlight video exactly as tall as its row's thumbnail
+  (function () {
+    const pairs = [...document.querySelectorAll('.pub-row')]
+      .map(row => [row.querySelector('.pub-thumb img, .pub-thumb video'), row.querySelector('.pub-video video')])
+      .filter(([thumb, video]) => thumb && video);
+    const observer = new ResizeObserver(entries => entries.forEach(entry => {
+      const video = pairs.find(([thumb]) => thumb === entry.target)[1];
+      const h = entry.target.getBoundingClientRect().height;
+      if (h > 20) video.style.setProperty('--thumb-h', h + 'px');
+      else video.style.removeProperty('--thumb-h');
+    }));
+    pairs.forEach(([thumb]) => observer.observe(thumb));
+  })();
+</script>
+<script src="{{ '/assets/research-map.js' | relative_url }}" defer></script>

@@ -1,0 +1,15 @@
+{%- comment -%}
+  <img> for a photo, with its width/height (from _data/image_sizes.yml) so the page doesn't jump while it loads.
+  Params:
+    src   path from the site root, e.g. "images/birds/DSC_0261.JPG"
+    thumb true to use the small preview from images/thumbs/ (made by scripts/make_thumbs.rb), if it exists
+    alt, class (optional)
+{%- endcomment -%}
+{%- assign src = include.src -%}
+{%- if include.thumb -%}
+  {%- assign base = src | remove_first: "images/" | split: "." | pop | join: "." -%}
+  {%- assign thumb_src = "images/thumbs/" | append: base | append: ".jpg" -%}
+  {%- if site.data.image_sizes[thumb_src] -%}{%- assign src = thumb_src -%}{%- endif -%}
+{%- endif -%}
+{%- assign size = site.data.image_sizes[src] -%}
+<img{% if include.class %} class="{{ include.class }}"{% endif %} loading="lazy" decoding="async" src="{{ '/' | append: src | relative_url }}"{% if size %} width="{{ size[0] }}" height="{{ size[1] }}"{% endif %} alt="{{ include.alt | escape }}">

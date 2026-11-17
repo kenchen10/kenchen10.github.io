@@ -1,49 +1,17 @@
 ---
 permalink: /404.html
-layout: null
+layout: default
+title: Page not found
 ---
-<!DOCTYPE HTML>
-<html lang="en">
-  <head>
-    {% if site.google_analytics and jekyll.environment == 'production' %}
-    {% include analytics.html %}
-    {% endif %}
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-    <title>{{ site.title }}</title>
-
-    <meta name="author" content="{{ site.title }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" type="text/css" href="stylesheet.css">
-    <link rel="icon" href="./favicon.ico">
-    <style>
-      @import url('https://fonts.cdnfonts.com/css/fontin');
-      .container {
-        margin: 10px auto;
-        max-width: 600px;
-        text-align: center;
-        font-family: 'Fontin';
-      }
-      h1 {
-        margin: 30px 0;
-        font-size: 4em;
-        line-height: 1;
-        letter-spacing: -1px;
-      }
-    </style>
-  </head>
-
-  <div class="container">
-    <h1>404</h1>
-
-    <p><strong>Page not found :(</strong></p>
-    <p>The requested page could not be found.</p>
+<main class="not-found">
+  <img class="not-found-photo" src="{{ '/images/bird_coverimage.jpg' | relative_url }}" width="366" height="366" alt="Close-up of a long-billed bird">
+  <h1>404</h1>
+  <p class="not-found-lead">Looks like this page flew the nest.</p>
+  <p>The page you're looking for doesn't exist or has moved.</p>
+  <div class="not-found-links">
+    <a class="links3" href="{{ '/' | relative_url }}">Home</a>
+    <a class="links3" href="{{ '/cv.html' | relative_url }}">CV</a>
+    <a class="links3" href="{{ '/news.html' | relative_url }}">Timeline</a>
+    <a class="links3" href="{{ '/images.html' | relative_url }}">Photos</a>
   </div>
-</html>
+</main>

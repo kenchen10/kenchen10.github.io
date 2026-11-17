@@ -1,0 +1,23 @@
+{%- comment -%}
+  Author list for a publication.
+  Params: pub (publication), short (true = last names only, used on the CV;
+  otherwise first initial and last name, e.g. "K. Chen").
+  "*" marks equal contribution, "†" equal advising; the site owner is underlined.
+{%- endcomment -%}
+<span class="authors">
+{%- for author_id in include.pub.authors -%}
+  {%- assign author = site.data.authors[author_id] -%}
+  {%- capture mark -%}{% if include.pub.equal contains author_id %}*{% endif %}{% if include.pub.equal_adv contains author_id %}<sup>†</sup>{% endif %}{%- endcapture -%}
+  {%- if include.short -%}
+    {%- assign name = author.last_name -%}
+  {%- else -%}
+    {%- capture name -%}{{ author.first_name | slice: 0 }}. {{ author.last_name }}{%- endcapture -%}
+  {%- endif -%}
+  {%- if author.is_me -%}
+    <strong class="me"><u>{{ name }}</u>{{ mark }}</strong>
+  {%- else -%}
+    <a class="links" href="{{ author.website }}">{{ name }}{{ mark }}</a>
+  {%- endif -%}
+  {%- unless forloop.last %}, {% endunless -%}
+{%- endfor -%}
+</span>

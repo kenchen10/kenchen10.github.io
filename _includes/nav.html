@@ -1,0 +1,9 @@
+{%- comment -%} Top bar on every page except the home page. {%- endcomment -%}
+<nav class="site-nav">
+  <a class="site-nav-home" href="{{ '/' | relative_url }}">&larr; {{ site.title }}</a>
+  <span class="site-nav-links">
+    <a href="{{ '/cv.html' | relative_url }}">CV</a>
+    <a href="{{ '/news.html' | relative_url }}">Timeline</a>
+    <a href="{{ '/images.html' | relative_url }}">Photos</a>
+  </span>
+</nav>

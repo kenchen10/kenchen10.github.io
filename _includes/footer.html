@@ -1,0 +1,11 @@
+{%- comment -%} Bottom of every page except project pages. "Last updated" is the date the site was last built. {%- endcomment -%}
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <span>&copy; {{ site.time | date: "%Y" }} {{ site.title }} · Last updated {{ site.time | date: "%B %Y" }}</span>
+    <span class="site-footer-links">
+      <a href="mailto:{{ site.email }}">Email</a>
+      <a href="https://scholar.google.com/citations?hl=en&amp;user={{ site.scholar }}">Google Scholar</a>
+      <a href="https://github.com/{{ site.github_username }}">GitHub</a>
+    </span>
+  </div>
+</footer>

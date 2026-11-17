@@ -1,4 +1,6 @@
+# `areas` places a paper in the Research Map on the home page: any of hardware, software, perception.
 - id: eccv26
+  areas: [hardware, software]
   title: "Physically Grounded Monocular Depth via Nanophotonic Wavefront Prompting"
   venue: ECCV
   year: 2026
@@ -47,6 +49,7 @@ estimators. The research demonstrates that nanophotonic
 wavefront formation offers a promising bridge for grounding depth foundation models in physical depth sensing."
 
 - id: tmometric
+  areas: [software, perception]
   title: "Adapting Quality Metrics to Tone Mapping"
   venue: ACM SIGGRAPH
   year: 2026
@@ -109,6 +112,7 @@ and provide an improved protocol for evaluating future tone mapping quality
 metrics. Refer to our supplementary webpage for all data and stimuli."
 
 - id: dichoptic
+  areas: [software, perception]
   title: "Dichoptic Foveation"
   venue: ACM SIGGRAPH
   year: 2026
@@ -144,6 +148,7 @@ Study data were scaled to a perceptual just objectionable difference (JOD) scale
 We applied the model in a realistic VR scenario with free exploration of 360° videos to improve a base foveated rendering system by enhancing high frequency information dichoptically."
 
 - id: dyndom
+  areas: [software, perception]
   title: "Dynamic Visual Dominance in Stereoscopic Foveation"
   venue: ACM SIGGRAPH
   year: 2026
@@ -173,6 +178,7 @@ We applied the model in a realistic VR scenario with free exploration of 360° v
   abstract: "In human vision, the inputs perceived by each eye do not contribute equally to the final percept. Instead, visual dominance influences how these inputs are fused, giving more weight to one eye view over the other.  While eye dominance has been traditionally treated as a static, eye-fixed property, recent evidence suggests that dominance can vary with viewing conditions. In this work, we systematically characterize dynamic visual dominance across the visual field, with a particular focus on peripheral vision, where perceptual asymmetries are most relevant for stereoscopic rendering. Through two complementary psychophysical experiments, we first show that tolerance to eye-asymmetric blur at the fovea under binocular viewing depends on gaze direction, confirming that eye dominance is not spatially invariant. We then show that peripheral dominance is primarily governed by retinal eccentricity, with consistent naso-temporal asymmetries and dominance reversals around the blind spots. We leverage our insights in a dominance-contingent rendering application, where additional blur is selectively applied to the perceptually non-dominant eye regions under binocular viewing. Compared to static dominance approaches, our method enables stronger localized quality reductions, illustrating the practical relevance of dynamic peripheral dominance for stereoscopic foveated rendering. Thus, our goal through this work is to show how visual dominance behaves dynamically in both fovea and periphery, indicating how foveation techniques could benefit from it."
 
 - id: catimage
+  areas: [software]
   title: "Cost-Aware Routing for Efficient Text-To-Image Generation"
   venue: TMLR
   year: 2026
@@ -214,19 +220,18 @@ sophisticated prompts. We empirically demonstrate on COCO and DiffusionDB
 that by learning to route to nine already-trained text-to-image models, our approach
 is able to deliver an average quality that is higher than that achievable by any of
 these models alone."
-  bibtex: "
-    @article{<br>
-      <tab>li2026costaware,<br>
-      <tab>title={Cost-Aware Routing for Efficient Text-To-Image Generation},<br>
-      <tab>author={Qinchan Li and Kenneth Chen and Changyue Su and Wittawat Jitkrittum and Qi Sun and Patsorn Sangkloy},<br>
-      <tab>journal={Transactions on Machine Learning Research},<br>
-      <tab>issn={2835-8856},<br>
-      <tab>year={2026},<br>
-      <tab>url={https://openreview.net/forum?id=Jbe9AVsYS6}<br>
-      }
-  "
+  bibtex: |
+    @article{li2026costaware,
+      title={Cost-Aware Routing for Efficient Text-To-Image Generation},
+      author={Qinchan Li and Kenneth Chen and Changyue Su and Wittawat Jitkrittum and Qi Sun and Patsorn Sangkloy},
+      journal={Transactions on Machine Learning Research},
+      issn={2835-8856},
+      year={2026},
+      url={https://openreview.net/forum?id=Jbe9AVsYS6}
+    }
 
 - id: mlpea
+  areas: [hardware, software, perception]
   title: "ML-PEA: Machine Learning-Based Perceptual Algorithms for Display Power Optimization"
   venue: Eurographics
   year: 2026
@@ -261,21 +266,20 @@ these models alone."
   This pipeline was validated via quantitative analysis using metrics and through a subjective study.
   Our results show that participants prefer our technique over a uniform dimming baseline for high target power saving conditions.
   In the future, this work should serve as a template and baseline for future applications of deep learning for display power optimization."
-  bibtex: "
-  @article{<br>
-    <tab>chen2026MLPEA,<br>
-    <tab>author = {Chen, Kenneth and Matsuda, Nathan and Wan, Thomas and Ninan, Ajit and Chapiro, Alexandre and Sun, Qi},<br>
-    <tab>title = {ML-PEA: Machine Learning-Based Perceptual Algorithms for Display Power Optimization},<br>
-    <tab>journal = {Computer Graphics Forum},<br>
-    <tab>pages = {e70369},<br>
-    <tab>keywords = {CCS Concepts, • Computing methodologies → Virtual reality, Mixed / augmented reality, Perception, Machine learning},<br>
-    <tab>doi = {https://doi.org/10.1111/cgf.70369},<br>
-    <tab>url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.70369},<br>
-    <tab>eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/cgf.70369}<br>
-  }
-  "
+  bibtex: |
+    @article{chen2026MLPEA,
+      author = {Chen, Kenneth and Matsuda, Nathan and Wan, Thomas and Ninan, Ajit and Chapiro, Alexandre and Sun, Qi},
+      title = {ML-PEA: Machine Learning-Based Perceptual Algorithms for Display Power Optimization},
+      journal = {Computer Graphics Forum},
+      pages = {e70369},
+      keywords = {CCS Concepts, • Computing methodologies → Virtual reality, Mixed / augmented reality, Perception, Machine learning},
+      doi = {https://doi.org/10.1111/cgf.70369},
+      url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.70369},
+      eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/cgf.70369}
+    }
 
 - id: wihdirectview
+  areas: [hardware, perception]
   title: "Perceptual Impact of Peak Luminance and Contrast in Direct View HDR Display"
   venue: IS&T HVEI
   is_selected: true
@@ -309,23 +313,22 @@ these models alone."
   just-objectionable-difference (JOD) scale to quantify preference scores. This is accomplished by studying contrast and peak luminance conditions across several orders of magnitude, 
   shown on a professional HDR display with peak luminance of 1,000 nits and 1,000,000:1 contrast.
   The data is used to develop a computational model that can drive display design and future standardization of the definition of HDR, in terms of human preference."
-  bibtex: "
-  @article{<br>
-    <tab>chen2026wihdirectview,<br>
-    <tab>author = {Kenneth Chen and Yunxiang Zhang and Qi Sun and Alexandre Chapiro},<br>
-    <tab>title = {Perceptual Impact of Peak Luminance and Contrast in Direct View HDR Display},<br>
-    <tab>journal = {Electronic Imaging},<br>
-    <tab>volume = {38},<br>
-    <tab>number = {10},<br>
-    <tab>pages = {222-1--222-1},<br>
-    <tab>keywords = {Applied Perception, High Dynamic Range, Display Technology, Tone Mapping, Psychophysics},<br>
-    <tab>doi = {10.2352/EI.2026.38.10.HVEI-222},<br>
-    <tab>url = {https://library.imaging.org/ei/articles/38/10/HVEI-222},<br>
-    <tab>year = {2026},<br>
-  }
-  "
+  bibtex: |
+    @article{chen2026wihdirectview,
+      author = {Kenneth Chen and Yunxiang Zhang and Qi Sun and Alexandre Chapiro},
+      title = {Perceptual Impact of Peak Luminance and Contrast in Direct View HDR Display},
+      journal = {Electronic Imaging},
+      volume = {38},
+      number = {10},
+      pages = {222-1--222-1},
+      keywords = {Applied Perception, High Dynamic Range, Display Technology, Tone Mapping, Psychophysics},
+      doi = {10.2352/EI.2026.38.10.HVEI-222},
+      url = {https://library.imaging.org/ei/articles/38/10/HVEI-222},
+      year = {2026},
+    }
 
 - id: fovgs
+  areas: [software, perception]
   title: "Perceptually Guided 3DGS Streaming and Rendering for Virtual Reality"
   venue: IEEE/CVF WACV
   year: 2026
@@ -370,19 +373,18 @@ perceived visual quality. To support low-power, untethered VR setups, we introdu
 work that partially offloads computation to the cloud. The framework self-adapts to any edge device's network bandwidth and compute capabilities without requiring tedious
 retraining. Objective metrics and VR user study evidence that, compared to vanilla and foveated LOD baselines, our
 method achieves superior trade-offs between computational efficiency and perceptual quality."
-  bibtex: "
-    @InProceedings{<br>
-      <tab>Zhang_2026_WACV,<br>
-      <tab>author = {Zhang, Yunxiang and Mupparaju, Sai Harsha and Chen, Kenneth and Kang, Jenna and Zhang, Xinyu and Omori, Maito and Arimatsu, Kazuyuki and Sun, Qi},<br>
-      <tab>title = {Perceptually Guided 3DGS Streaming and Rendering for Mixed Reality},<br>
-      <tab>booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},<br>
-      <tab>month = {March},<br>
-      <tab>year = {2026},<br>
-      <tab>pages = {4212-4222}<br>
-  }
-  "
+  bibtex: |
+    @InProceedings{Zhang_2026_WACV,
+      author = {Zhang, Yunxiang and Mupparaju, Sai Harsha and Chen, Kenneth and Kang, Jenna and Zhang, Xinyu and Omori, Maito and Arimatsu, Kazuyuki and Sun, Qi},
+      title = {Perceptually Guided 3DGS Streaming and Rendering for Mixed Reality},
+      booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+      month = {March},
+      year = {2026},
+      pages = {4212-4222}
+    }
 
 - id: geneva
+  areas: [software, perception]
   title: "GeneVA: A Dataset of Human Annotations for Generative Text to Video Artifacts"
   venue: IEEE/CVF WACV
   # venue_long: Winter Conference on Applications of Computer Vision
@@ -420,19 +422,18 @@ the VidProM [41] dataset, with text prompts from this dataset then used to gener
 Sora. We trained an artifact detector and caption generator using a pre-trained image-based model, and a custom
 temporal fusion module. The dataset can be found at dummylink.com. We hope that datasets like GeneVA will encourage improvements in artifact detection in AI-generated video
 towards applications such as deepfake detection."
-  bibtex: "
-    @InProceedings{<br>
-      <tab>Kang_2026_WACV,<br>
-      <tab>author = {Kang, Jenna and Silva, Maria Beatriz and Sangkloy, Patsorn and Chen, Kenneth and Williams, Niall L. and Sun, Qi},<br>
-      <tab>title = {GeneVA: A Dataset of Human Annotations for Generative Text to Video Artifacts},<br>
-      <tab>booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},<br>
-      <tab>month = {March},<br>
-      <tab>year = {2026},<br>
-      <tab>pages = {6174-6183}<br>
-  }
-  "
+  bibtex: |
+    @InProceedings{Kang_2026_WACV,
+      author = {Kang, Jenna and Silva, Maria Beatriz and Sangkloy, Patsorn and Chen, Kenneth and Williams, Niall L. and Sun, Qi},
+      title = {GeneVA: A Dataset of Human Annotations for Generative Text to Video Artifacts},
+      booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+      month = {March},
+      year = {2026},
+      pages = {6174-6183}
+    }
 
 - id: sig25
+  areas: [hardware, perception]
   title: "What is HDR? Perceptual Impact of Luminance and Contrast in Immersive Displays"
   venue: ACM SIGGRAPH
   doi: 10.1145/3721238.3730629
@@ -489,24 +490,22 @@ supplementary webpage for representative content."
   equal_adv:
     - achapiro
     - qsun
-  bibtex: "
-  @inproceedings{<br>
-    <tab>chen2025whatishdr,<br>
-    <tab>author = {Chen, Kenneth and Matsuda, Nathan and McElvain, Jon and Zhao, Yang and Wan, Thomas and Sun, Qi and Chapiro, Alexandre},<br>
-    <tab>title = {What is HDR? Perceptual Impact of Luminance and Contrast in Immersive Displays},<br>
-    <tab>year = {2025},<br>
-    <tab>isbn = {9798400715402},<br>
-    <tab>publisher = {Association for Computing Machinery},<br>
-    <tab>address = {New York, NY, USA},<br>
-    <tab>url = {https://doi.org/10.1145/3721238.3730629},<br>
-    <tab>doi = {10.1145/3721238.3730629},<br>
-    <tab>booktitle = {Proceedings of the Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers},<br>
-    <tab>articleno = {40},<br>
-    <tab>numpages = {11},<br>
-    <tab>keywords = {High Dynamic Range, Displays, Visual Perception, Virtual Reality},<br>
-    <tab>series = {SIGGRAPH Conference Papers '25}<br>
-  }
-  "
+  bibtex: |
+    @inproceedings{chen2025whatishdr,
+      author = {Chen, Kenneth and Matsuda, Nathan and McElvain, Jon and Zhao, Yang and Wan, Thomas and Sun, Qi and Chapiro, Alexandre},
+      title = {What is HDR? Perceptual Impact of Luminance and Contrast in Immersive Displays},
+      year = {2025},
+      isbn = {9798400715402},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3721238.3730629},
+      doi = {10.1145/3721238.3730629},
+      booktitle = {Proceedings of the Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers},
+      articleno = {40},
+      numpages = {11},
+      keywords = {High Dynamic Range, Displays, Visual Perception, Virtual Reality},
+      series = {SIGGRAPH Conference Papers '25}
+    }
   abstract: "The contrast and luminance capabilities of a display are central to the quality
 of the image. High dynamic range (HDR) displays have high luminance and
 contrast, but it can be difficult to ascertain whether a given set of characteristics qualifies for this label. This is especially unclear for new display modes,
@@ -523,6 +522,7 @@ display (HMD). Our model helps provide guidance for future display design,
 and helps standardize the understanding of HDR."
 
 - id: imggs
+  areas: [software]
   title: "Image-GS: Content-Adaptive Image Representation via 2D Gaussians"
   venue: ACM SIGGRAPH
   year: 2025
@@ -544,24 +544,22 @@ and helps standardize the understanding of HDR."
       img: learnOpenCV.png
   doi: 10.1145/3721238.3730596
   teaser_image: imggs_teaser.png
-  bibtex: "
-  @inproceedings{<br>
-    <tab>zhang2025imggs,<br>
-    <tab>author = {Zhang, Yunxiang and Li, Bingxuan and Kuznetsov, Alexandr and Jindal, Akshay and Diolatzis, Stavros and Chen, Kenneth and Sochenov, Anton and Kaplanyan, Anton and Sun, Qi},<br>
-    <tab>title = {Image-GS: Content-Adaptive Image Representation via 2D Gaussians},<br>
-    <tab>year = {2025},<br>
-    <tab>isbn = {9798400715402},<br>
-    <tab>publisher = {Association for Computing Machinery},<br>
-    <tab>address = {New York, NY, USA},<br>
-    <tab>url = {https://doi.org/10.1145/3721238.3730596},<br>
-    <tab>doi = {10.1145/3721238.3730596},<br>
-    <tab>booktitle = {Proceedings of the Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers},<br>
-    <tab>articleno = {102},<br>
-    <tab>numpages = {11},<br>
-    <tab>keywords = {Image and texture representation},<br>
-    <tab>series = {SIGGRAPH Conference Papers '25}<br>
-  }
-  "
+  bibtex: |
+    @inproceedings{zhang2025imggs,
+      author = {Zhang, Yunxiang and Li, Bingxuan and Kuznetsov, Alexandr and Jindal, Akshay and Diolatzis, Stavros and Chen, Kenneth and Sochenov, Anton and Kaplanyan, Anton and Sun, Qi},
+      title = {Image-GS: Content-Adaptive Image Representation via 2D Gaussians},
+      year = {2025},
+      isbn = {9798400715402},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3721238.3730596},
+      doi = {10.1145/3721238.3730596},
+      booktitle = {Proceedings of the Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers},
+      articleno = {102},
+      numpages = {11},
+      keywords = {Image and texture representation},
+      series = {SIGGRAPH Conference Papers '25}
+    }
   teaser_text: "Content-adaptive image representation with Image-GS. Leveraging a tailored differentiable renderer, Image-GS adaptively distributes and progressively
 optimizes a set of 2D Gaussians to fit a target image. Image-GS shows high memory & computation e!iciency, supports fast random pixel access, and o!ers a
 natural level of detail. (a) shows the learned Gaussian position distribution (green dots); 20% of Gaussians are plotted for better visibility. (b) Compared to
@@ -594,6 +592,7 @@ Our method achieves superior visual fidelity over state-of-the-art neural image 
 run-time efficiency, which we demonstrate in machine vision and image restoration tasks."
 
 - id: oe25
+  areas: [hardware, software]
   title: "View Synthesis for 3D Computer-Generated Holograms Using Deep Neural Fields"
   venue: Optics Express
   venue_long: 
@@ -633,29 +632,28 @@ run-time efficiency, which we demonstrate in machine vision and image restoratio
   affiliation_images:
     - nyu.png
     - UNC-Logo.png
-  bibtex: "
-    @article{<br>
-      <tab>chen2025neuralholographicfields,<br>
-      <tab>author = {Kenneth Chen and Anzhou Wen and Yunxiang Zhang and Praneeth Chakravarthula and Qi Sun},<br>
-      <tab>journal = {Opt. Express},<br>
-      <tab>keywords = {Holographic displays; Imaging techniques; Light propagation; Neural networks; Spatial light modulators; Wave propagation},<br>
-      <tab>number = {9},<br>
-      <tab>pages = {19399--19408},<br>
-      <tab>publisher = {Optica Publishing Group},<br>
-      <tab>title = {View synthesis for 3D computer-generated holograms using deep neural fields},<br>
-      <tab>volume = {33},<br>
-      <tab>month = {May},<br>
-      <tab>year = {2025},<br>
-      <tab>url = {https://opg.optica.org/oe/abstract.cfm?URI=oe-33-9-19399},<br>
-      <tab>doi = {10.1364/OE.559364}<br>
+  bibtex: |
+    @article{chen2025neuralholographicfields,
+      author = {Kenneth Chen and Anzhou Wen and Yunxiang Zhang and Praneeth Chakravarthula and Qi Sun},
+      journal = {Opt. Express},
+      keywords = {Holographic displays; Imaging techniques; Light propagation; Neural networks; Spatial light modulators; Wave propagation},
+      number = {9},
+      pages = {19399--19408},
+      publisher = {Optica Publishing Group},
+      title = {View synthesis for 3D computer-generated holograms using deep neural fields},
+      volume = {33},
+      month = {May},
+      year = {2025},
+      url = {https://opg.optica.org/oe/abstract.cfm?URI=oe-33-9-19399},
+      doi = {10.1364/OE.559364}
     }
-  "
   abstract: "Computer-generated holography (CGH) simulates the propagation and interference of complex light waves, allowing it to reconstruct realistic images captured from a specific viewpoint by solving the corresponding Maxwell equations.
 However, in applications such as virtual and augmented reality, viewers should freely observe holograms from arbitrary viewpoints, much as how we naturally see the physical world.  
 In this work, we train a neural network to generate holograms at any view in a scene.
 Our result is the Neural Holographic Field: the first artificial-neural-network-based representation for light wave propagation in free space and transform sparse 2D photos into holograms that are not only 3D but also freely viewable from any perspective. We demonstrate by visualizing various smartphone-captured scenes from arbitrary six-degree-of-freedom viewpoints on a prototype holographic display. To this end, we encode the measured light intensity from photos into a neural network representation of underlying wavefields. Our method implicitly learns the amplitude and phase surrogates of the underlying incoherent light waves under coherent light display conditions. During playback, the learned model predicts the underlying continuous complex wavefront propagating to arbitrary views to generate holograms."
 
 - id: isca25
+  areas: [hardware, software, perception]
   title: "Process Only Where You Look: Hardware and Algorithm Co-optimization for Efficient Gaze-Tracked Image Rendering in Virtual Reality"
   venue: ACM/IEEE ISCA
   venue_long: 
@@ -673,24 +671,22 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   yt_emb: 
   video: 
   teaser_text:
-  bibtex: "
-  @inproceedings{<br>
-    <tab>wang2025polo,<br>
-    <tab>author = {Wang, Haiyu and Liu, Wenxuan and Chen, Kenneth and Sun, Qi and Zhang, Sai Qian},<br>
-    <tab>title = {Process Only Where You Look: Hardware and Algorithm Co-optimization for Efficient Gaze-Tracked Foveated Rendering in Virtual Reality},<br>
-    <tab>year = {2025},<br>
-    <tab>isbn = {9798400712616},<br>
-    <tab>publisher = {Association for Computing Machinery},<br>
-    <tab>address = {New York, NY, USA},<br>
-    <tab>url = {https://doi.org/10.1145/3695053.3731110},<br>
-    <tab>doi = {10.1145/3695053.3731110},<br>
-    <tab>booktitle = {Proceedings of the 52nd Annual International Symposium on Computer Architecture},<br>
-    <tab>pages = {344-358},<br>
-    <tab>numpages = {15},<br>
-    <tab>keywords = {Foveated Rendering, Gaze Tracking, Saccade Detection, Hardware Accelerator, Virtual Reality},<br>
-    <tab>series = {ISCA '25}<br>
-  }
-  "
+  bibtex: |
+    @inproceedings{wang2025polo,
+      author = {Wang, Haiyu and Liu, Wenxuan and Chen, Kenneth and Sun, Qi and Zhang, Sai Qian},
+      title = {Process Only Where You Look: Hardware and Algorithm Co-optimization for Efficient Gaze-Tracked Foveated Rendering in Virtual Reality},
+      year = {2025},
+      isbn = {9798400712616},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3695053.3731110},
+      doi = {10.1145/3695053.3731110},
+      booktitle = {Proceedings of the 52nd Annual International Symposium on Computer Architecture},
+      pages = {344-358},
+      numpages = {15},
+      keywords = {Foveated Rendering, Gaze Tracking, Saccade Detection, Hardware Accelerator, Virtual Reality},
+      series = {ISCA '25}
+    }
   authors:
     - hwang
     - wliu
@@ -705,6 +701,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   Integrated with the POLO accelerator as a plug-in for VR HMD SoCs, this approach significantly lowers image rendering costs, achieving up to a 3.9x reduction in end-to-end latency compared to the latest gaze tracking methods."
 
 - id: vr25
+  areas: [software, perception]
   title: "Perceptually-Guided Acoustic ``Foveation''"
   venue: IEEE VR
   doi: 10.1109/VR59515.2025.00069
@@ -730,18 +727,16 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
     - nyu.png
     - marl.png
     - UNC-Logo.png
-  bibtex: "
-    @INPROCEEDINGS{<br>
-      <tab>peng25acousticfoveation,<br>
-      <tab>author={Peng, Xi and Chen, Kenneth and Roman, Iran and Bello, Juan Pablo and Sun, Qi and Chakravarthula, Praneeth},<br>
-      <tab>booktitle={2025 IEEE Conference Virtual Reality and 3D User Interfaces (VR)},<br> 
-      <tab>title={Perceptually-Guided Acoustic \"Foveation\"},<br> 
-      <tab>year={2025},<br>
-      <tab>pages={450-460},<br>
-      <tab>keywords={Solid modeling;Visualization;Sensitivity;Computational modeling;Virtual environments;Rendering (computer graphics);Acoustics;Real-time systems;Psychophysics;Spatial resolution;Perception;Virtual reality;Mixed/Augmented reality},<br>
-      <tab>doi={10.1109/VR59515.2025.00069},<br>
+  bibtex: |
+    @INPROCEEDINGS{peng25acousticfoveation,
+      author={Peng, Xi and Chen, Kenneth and Roman, Iran and Bello, Juan Pablo and Sun, Qi and Chakravarthula, Praneeth},
+      booktitle={2025 IEEE Conference Virtual Reality and 3D User Interfaces (VR)},
+      title={Perceptually-Guided Acoustic "Foveation"},
+      year={2025},
+      pages={450-460},
+      keywords={Solid modeling;Visualization;Sensitivity;Computational modeling;Virtual environments;Rendering (computer graphics);Acoustics;Real-time systems;Psychophysics;Spatial resolution;Perception;Virtual reality;Mixed/Augmented reality},
+      doi={10.1109/VR59515.2025.00069},
     }
-  "
   abstract: "Realistic spatial audio rendering improves immersion in virtual environments. However, the computational complexity of acoustic propagation increases linearly with the number of sources. Consequently, real-time accurate acoustic rendering becomes challenging in highly dynamic scenarios such as virtual and augmented reality (VR/AR). Exploiting the fact that human spatial sensitivity of acoustic sources is not equal at azimuth eccentricities in the horizontal plane, we introduce a perceptually-aware acoustic “foveation” guidance model to the audio rendering pipeline, which can integrate audio sources that are not spatially resolvable by human listeners. To this end, we first conduct a series of psychophysical studies to measure the minimum resolvable audible angular distance under various spatial and background conditions. We leverage this data to derive an azimuth-characterized real-time acoustic foveation algorithm. Numerical analysis and subjective user studies in VR environments demonstrate our method’s effectiveness in significantly reducing acoustic rendering workload, without compromising users’ spatial perception of audio sources. We believe that the presented research will motivate future investigation into the new frontier of modeling and leveraging human multimodal per- ceptual limitations — beyond the extensively studied visual acuity — for designing efficient VR/AR systems."
 
 # - id: i3d25
@@ -813,6 +808,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
 # of BlendFusion across both objective and subjective evaluations."
 
 - id: sig24
+  areas: [hardware, perception]
   title: "<b style='color:#4CBB17;'>PEA-PODs</b>: <b style='color:#4CBB17;'>P</b>erceptual <b style='color:#4CBB17;'>E</b>valuation of <b style='color:#4CBB17;'>A</b>lgorithms for <b style='color:#4CBB17;'>P</b>ower <b style='color:#4CBB17;'>O</b>ptimization in XR <b style='color:#4CBB17;'>D</b>isplay<b style='color:#4CBB17;'>s</b>"
   venue: ACM SIGGRAPH
   venue_long:
@@ -861,26 +857,24 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   affiliation_images:
     - nyu.png
     - meta.png
-  bibtex: "
-  @article{ <br>
-    <tab>chen2024peapods,<br>
-    <tab>author = {Chen, Kenneth and Wan, Thomas and Matsuda, Nathan and Ninan, Ajit and Chapiro, Alexandre and Sun, Qi},<br>
-    <tab>title = {PEA-PODs: Perceptual Evaluation of Algorithms for Power Optimization in XR Displays},<br>
-    <tab>year = {2024},<br>
-    <tab>issue_date = {July 2024},<br>
-    <tab>publisher = {Association for Computing Machinery},<br>
-    <tab>address = {New York, NY, USA},<br>
-    <tab>volume = {43},<br>
-    <tab>number = {4},<br>
-    <tab>issn = {0730-0301},<br>
-    <tab>url = {https://doi.org/10.1145/3658126},<br>
-    <tab>doi = {10.1145/3658126},<br>
-    <tab>journal = {ACM Trans. Graph.},<br>
-    <tab>month = {jul},<br>
-    <tab>articleno = {67},<br>
-    <tab>numpages = {17},<br>
-  }
-  "
+  bibtex: |
+    @article{chen2024peapods,
+      author = {Chen, Kenneth and Wan, Thomas and Matsuda, Nathan and Ninan, Ajit and Chapiro, Alexandre and Sun, Qi},
+      title = {PEA-PODs: Perceptual Evaluation of Algorithms for Power Optimization in XR Displays},
+      year = {2024},
+      issue_date = {July 2024},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      volume = {43},
+      number = {4},
+      issn = {0730-0301},
+      url = {https://doi.org/10.1145/3658126},
+      doi = {10.1145/3658126},
+      journal = {ACM Trans. Graph.},
+      month = {jul},
+      articleno = {67},
+      numpages = {17},
+    }
   abstract: "Display power consumption is an emerging concern for untethered devices. This goes double for augmented and virtual extended reality (XR) displays, which target high refresh rates and high resolutions while conforming to an ergonomically light form factor.
 A number of image mapping techniques have been proposed to extend battery usage. However, there is currently no comprehensive quantitative understanding of how the power savings provided by these methods compare to their impact on visual quality. We set out to answer this question.
 <br><br>
@@ -891,6 +885,7 @@ The resulting JOD-to-Milliwatt transfer function provides a first-of-its-kind lo
 Finally, we leverage our study data and power models to address important display power applications like the choice of display primary, power implications of eye tracking, and more."
 
 - id: asplos24
+  areas: [hardware, software, perception]
   title: "Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality"
   venue: ACM ASPLOS
   # venue_long: Architectural Support for Programming Languages and Operating Systems
@@ -917,20 +912,21 @@ Finally, we leverage our study data and power models to address important displa
   affiliation_images:
     - uofr.png
     - nyulogo.png
-  bibtex: "@inproceedings{<br>
-    <tab>ujjainkar2024exploiting, <br>
-    <tab>author = {Ujjainkar, Nisarg and Shahan, Ethan and Chen, Kenneth and Duinkharjav, Budmonde and Sun, Qi and Zhu, Yuhao}, <br>
-    <tab>title = {Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality}, <br>
-    <tab>year = {2024}, <br>
-    <tab>url = {https://doi.org/10.1145/3617232.3624860}, <br>
-    <tab>booktitle = {Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 1}, <br>
-    <tab>pages = {166–180}, <br>
-    <tab>numpages = {15}, <br>
-    <tab>series = {ASPLOS '24}<br>
-    }"
+  bibtex: |
+    @inproceedings{ujjainkar2024exploiting,
+      author = {Ujjainkar, Nisarg and Shahan, Ethan and Chen, Kenneth and Duinkharjav, Budmonde and Sun, Qi and Zhu, Yuhao},
+      title = {Exploiting Human Color Discrimination for Memory- and Energy-Efficient Image Encoding in Virtual Reality},
+      year = {2024},
+      url = {https://doi.org/10.1145/3617232.3624860},
+      booktitle = {Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 1},
+      pages = {166–180},
+      numpages = {15},
+      series = {ASPLOS '24}
+    }
   abstract: "Virtual Reality (VR) has the potential of becoming the next ubiquitous computing platform. Continued progress in the burgeoning field of VR depends critically on an efficient computing substrate. In particular, DRAM access energy is known to contribute to a significant portion of system energy. Today’s framebuffer compression system alleviates the DRAM traffic by using a numerically lossless compression algorithm. We observe that being numerically lossless is unnecessary to preserve perceptual quality for users. This paper proposes a perceptually lossless, but numerically lossy, system to compress DRAM traffics. Our idea builds on top of long-established psychophysical studies that humans cannot discriminate colors that are close to each other. The discrimination ability becomes even weaker (i.e., more colors are perceptually undistinguishable) in our peripheral vision. Leveraging the color discrimination (in)ability, we propose an algorithm that adjusts pixel colors to minimize the bit encoding cost without introducing visible artifacts. The algorithm is coupled with lightweight architectural support that, in real-time, reduces the DRAM traffic by 66.9% and outperforms existing framebuffer compression mechanisms by up to 20.4%. Psychophysical studies on human participants show that our system introduce little to no perceptual fidelity degradation."
 
 - id: emg-energy
+  areas: [software, perception]
   title: "Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction"
   venue: ACM SIGGRAPH
   doi: 10.1145/3588432.3591495
@@ -953,23 +949,23 @@ Finally, we leverage our study data and power models to address important displa
     - qsun
   affiliation_images:
     - nyulogo.png
-  bibtex: "@inproceedings{<br>
-    <tab>zhang2023toward,<br>
-    <tab>author = {Zhang, Yunxiang and Chen, Kenneth and Sun, Qi},<br>
-    <tab>title = {Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction},<br>
-    <tab>year = {2023},<br>
-    <tab>isbn = {9798400701597},<br>
-    <tab>publisher = {Association for Computing Machinery},<br>
-    <tab>address = {New York, NY, USA},<br>
-    <tab>url = {https://doi.org/10.1145/3588432.3591495},<br>
-    <tab>doi = {10.1145/3588432.3591495},<br>
-    <tab>booktitle = {ACM SIGGRAPH 2023 Conference Proceedings},<br>
-    <tab>articleno = {27},<br>
-    <tab>numpages = {12},<br>
-    <tab>keywords = {Electromyography, Ergonomics, Head-Mounted Display},<br>
-    <tab>location = {Los Angeles, CA, USA},<br>
-    <tab>series = {SIGGRAPH '23}<br>
-    }"
+  bibtex: |
+    @inproceedings{zhang2023toward,
+      author = {Zhang, Yunxiang and Chen, Kenneth and Sun, Qi},
+      title = {Toward Optimized VR/AR Ergonomics: Modeling and Predicting User Neck Muscle Contraction},
+      year = {2023},
+      isbn = {9798400701597},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3588432.3591495},
+      doi = {10.1145/3588432.3591495},
+      booktitle = {ACM SIGGRAPH 2023 Conference Proceedings},
+      articleno = {27},
+      numpages = {12},
+      keywords = {Electromyography, Ergonomics, Head-Mounted Display},
+      location = {Los Angeles, CA, USA},
+      series = {SIGGRAPH '23}
+    }
   abstract: "Ergonomic-friendly usage is essential to mass and prolonged adoption of virtual/augmented reality (VR/AR) head-mounted displays (HMDs). Unlike conventional displays, VR/AR HMDs unlock users' wide-range, frequent, and natural head movements for viewing. Although neck comfort is inevitably compromised due to HMDs' hardware weight, we still have little quantitative knowledge of the resulting additional muscular workload.
 <br><br>
 Leveraging electromyography devices, we measure, model, and predict users' neck muscle contraction level while they rotate their heads to interact with surrounding objects in VR. Specifically, learning from the data obtained in our physiological pilot study, we establish a bio-physically inspired model for both stationary and dynamic head status. It 1) models quantified muscle contraction level given a complete head motion trajectory, and 2) predicts potential discomfort before a head movement occurs. We validate our model with a series of objective evaluation and user study. The results demonstrate its prediction accuracy for unseen movements, and capability in reducing muscular efforts and thus discomfort by altering the layout of virtual targets. We hope this research will motivate new ergonomic-centered designs and metrics for VR/AR and interactive computer graphics applications."
@@ -1051,6 +1047,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
 
 
 - id: vrenergy
+  areas: [hardware, software, perception]
   title: "Color-Perception-Guided Display Power Reduction for Virtual Reality"
   affiliation_images:
     - nyulogo.png
@@ -1086,25 +1083,25 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   equal_adv:
     - yzhu
     - qsun
-  bibtex: "@article{<br>
-    <tab>duinkharjav2022color,<br>
-    <tab>author = {Duinkharjav, Budmonde and Chen, Kenneth and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},<br>
-    <tab>title = {Color-Perception-Guided Display Power Reduction for Virtual Reality},<br>
-    <tab>year = {2022},<br>
-    <tab>issue_date = {December 2022},<br>
-    <tab>publisher = {Association for Computing Machinery},<br>
-    <tab>address = {New York, NY, USA},<br>
-    <tab>volume = {41},<br>
-    <tab>number = {6},<br>
-    <tab>issn = {0730-0301},<br>
-    <tab>url = {https://doi.org/10.1145/3550454.3555473},<br>
-    <tab>doi = {10.1145/3550454.3555473},<br>
-    <tab>journal = {ACM Trans. Graph.},<br>
-    <tab>month = nov,<br>
-    <tab>articleno = {210},<br>
-    <tab>numpages = {16},<br>
-    <tab>keywords = {VR/AR, color perception, gaze-contingent rendering, power consumption, visual perception}<br>
-    }"
+  bibtex: |
+    @article{duinkharjav2022color,
+      author = {Duinkharjav, Budmonde and Chen, Kenneth and Tyagi, Abhishek and He, Jiayi and Zhu, Yuhao and Sun, Qi},
+      title = {Color-Perception-Guided Display Power Reduction for Virtual Reality},
+      year = {2022},
+      issue_date = {December 2022},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      volume = {41},
+      number = {6},
+      issn = {0730-0301},
+      url = {https://doi.org/10.1145/3550454.3555473},
+      doi = {10.1145/3550454.3555473},
+      journal = {ACM Trans. Graph.},
+      month = nov,
+      articleno = {210},
+      numpages = {16},
+      keywords = {VR/AR, color perception, gaze-contingent rendering, power consumption, visual perception}
+    }
   abstract: "Battery life is an increasingly urgent challenge for today's untethered VR and AR devices.
 However, the power efficiency of head-mounted displays is naturally at odds with growing computational requirements driven by better resolution, refresh rate, and dynamic ranges, all of which reduce the sustained usage time of untethered AR/VR devices.
 For instance, Oculus Quest 2, under a fully-charged battery, can sustain only 2 to 3 hours of operation time.

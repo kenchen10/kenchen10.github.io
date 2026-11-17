@@ -1,0 +1,40 @@
+{%- comment -%}
+  Timeline entries, grouped by year, on a vertical rail with a dot per entry.
+  The dot colour comes from the entry's category, which _data/news.yml encodes as `fill`.
+  Params: limit (optional number of entries), images (true to include entries' `image:`,
+  shown inline on phones and in a side panel on wider screens; see assets/timeline-images.js).
+{%- endcomment -%}
+{%- assign limit = include.limit | default: site.data.news.size -%}
+{%- assign months = "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec" | split: "," -%}
+{%- assign current_year = "" -%}
+<div class="timeline-list">
+{%- for item in site.data.news limit: limit -%}
+  {%- assign year = item.date | slice: 0, 4 -%}
+  {%- if year != current_year -%}
+    {%- unless forloop.first %}
+  </div>
+    {%- endunless %}
+  <div class="tl-year">{{ year }}</div>
+  <div class="tl-group">
+    {%- assign current_year = year -%}
+  {%- endif -%}
+  {%- assign m = item.month | plus: 0 | minus: 1 -%}
+  {%- case item.fill -%}
+    {%- when "#B2DFDB" -%}{%- assign cat = "academic" -%}
+    {%- when "#BBDEFB" -%}{%- assign cat = "work" -%}
+    {%- when "#FFCCBC" -%}{%- assign cat = "talk" -%}
+    {%- else -%}{%- assign cat = "research" -%}
+  {%- endcase %}
+    <div class="tl-item tl-{{ cat }}"{% if include.images and item.image %} data-image{% endif %}>
+      <span class="tl-month">{{ months[m] }}</span>
+      <span class="tl-text">{{ item.title }}</span>
+      {%- if include.images and item.image %}
+      {%- assign img = "images/" | append: item.image %}
+      <span class="tl-thumb">{% include photo.html src=img alt="" %}</span>
+      {%- endif %}
+    </div>
+  {%- if forloop.last %}
+  </div>
+  {%- endif -%}
+{%- endfor %}
+</div>

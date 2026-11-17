@@ -1,78 +1,52 @@
+{%- comment -%} One photo album. Looks up the page's `id` in _data/images.yml. {%- endcomment -%}
+{%- for a in site.data.images -%}
+  {%- if a.id == page.id -%}
+    {%- assign album = a -%}
+    {%- assign i = forloop.index0 -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign newer_i = i | minus: 1 -%}
+{%- assign older_i = i | plus: 1 -%}
+{%- if i > 0 -%}{%- assign newer = site.data.images[newer_i] -%}{%- endif -%}
+{%- assign older = site.data.images[older_i] -%}
 <!DOCTYPE html>
-<html>
-{% for img in site.data.images %}
-{% assign img_id = img.id %}
-            
-<head lang="en">
-    {% if site.google_analytics and jekyll.environment == 'production' %}
-    {% include analytics.html %}
-    {% endif %}
-    <meta charset="UTF-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-    <title>{{ publication.id }}</title>
-
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
-    <link rel="stylesheet" href="../../stylesheet.css">
-    <link rel="icon" href="../../favicon.ico">
-    <style>
-        @import url('https://fonts.cdnfonts.com/css/fontin');
-      </style>
+<html lang="en">
+<head>
+{% include head.html title=album.title %}
 </head>
-
-{% if img_id == page.id %}
 <body>
-    <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-        <tr style="padding:0px">
-          <td style="padding:0px">
-            
-            <!-- 
-              
-              Images
-            
-            -->
-            <br>
-            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-              <tr>
-                <td style="padding: 10px;">
-                  <heading>{{ img.title }}</heading>{% if img.location != null %}, {{img.location}}{% endif %}{% if img.date != null %}<div style="float: right; line-height: 33px;">{{img.date}}</div>{% endif %}
-                  {% if img.description != null %}
-                    <br><br>
-                    <em>{{img.description}}</em>
-                  {% endif %}
-                </td>
-              </tr>
-            </tbody></table>
-            <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-              {% for item in img.imgs %}
-              <div style="padding:20px;position: relative;">
-                <img loading="lazy" decoding="async" style="border: 2px solid black;width:100%;vertical-align:middle" src="../../images/{{item}}">
-                <!-- <div style="position: absolute; bottom: 25px; right: 25px; font-size: 18px;"></div> -->
-              </div>
-              {% endfor %}
+{% include nav.html %}
+<main class="page">
+  <div class="album-head">
+    <h1 class="heading">{{ album.title }}</h1>
+    <div class="album-meta">{% if album.location %}{{ album.location }} · {% endif %}{{ album.date }}</div>
+    {%- if album.description %}
+    <p class="album-description"><em>{{ album.description }}</em></p>
+    {%- endif %}
+  </div>
 
-              {% for item in img.vids %}
-              <div style="padding:20px;position: relative;">
-                <video style="border: 2px solid black;width:100%;vertical-align:middle" autoplay controls muted>
-                  <source src="../../images/{{item}}" type="video/mp4">
-                </video>
-                <!-- <div style="position: absolute; bottom: 25px; right: 25px; font-size: 18px;"></div> -->
-              </div>
-              {% endfor %}
-    
-              
-            </tbody></table>
-    
-            
-          </td>
-        </tr>
-      </table>
+  {%- comment -%}
+    Every photo gets the same width. The page script (assets/album.js) arranges them into
+    two columns on wide screens, each photo going to the shorter column, and opens a
+    full-screen viewer on click. Without the script they're one column, linking to the files.
+  {%- endcomment %}
+  <div class="album-photos" id="album-photos">
+    {%- for item in album.imgs %}
+    {%- assign src = "images/" | append: item %}
+    <a class="album-item" href="{{ '/' | append: src | relative_url }}">{% include photo.html src=src alt=album.title %}</a>
+    {%- endfor %}
+    {%- for item in album.vids %}
+    <div class="album-item"><video autoplay controls muted playsinline width="16" height="9"><source src="{{ '/images/' | append: item | relative_url }}" type="video/mp4"></video></div>
+    {%- endfor %}
+  </div>
+
+  <nav class="album-pager">
+    <span>{% if newer %}<a href="{{ '/photos/' | append: newer.id | append: '/' | relative_url }}">&larr; {{ newer.title }}</a>{% endif %}</span>
+    <a class="album-all" href="{{ '/images.html' | relative_url }}">All photos</a>
+    <span>{% if older %}<a href="{{ '/photos/' | append: older.id | append: '/' | relative_url }}">{{ older.title }} &rarr;</a>{% endif %}</span>
+  </nav>
+</main>
+{% include footer.html %}
+<script src="{{ '/assets/album.js' | relative_url }}" defer></script>
 </body>
 </html>
-{% endif %} 
-{% endfor %}

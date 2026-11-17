@@ -1,91 +1,21 @@
 ---
-layout: null
+layout: default
+title: Timeline
 ---
-<!DOCTYPE HTML>
-<html lang="en"><head>
-  {% if site.google_analytics and jekyll.environment == 'production' %}
-  {% include analytics.html %}
-  {% endif %}
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-  <title>{{ site.title }}</title>
-  
-  <meta name="author" content="{{ site.title }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
-	<link rel="icon" href="./favicon.ico">
-  <style>
-    @import url('https://fonts.cdnfonts.com/css/fontin');
-  </style>
-</head>
-
-<body>
-  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-    <tr style="padding:0px">
-      <td style="padding:0px">
-        <!-- <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <a href="images.html"><img style="border-radius: 3px;padding:0px 20px 5px 20px;width:100%;vertical-align:middle" src="images/all-pics.png"></a>
-        </tbody></table> -->
-       <br><br>
-        <!-- 
-          
-          News
-        
-        -->
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-          <td style="padding: 10px 20px 10px 20px;">
-            <heading>Timeline</heading>
-            <!-- <hr id="myhr"> -->
-            <br>
-            <div style="float: left; line-height: 25px;">
-              <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #B2DFDB;">academic</venue> |
-              <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #BBDEFB;">work</venue> |
-              <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #FFE0B2;">research</venue> |
-              <venue style="font-weight: bold;padding: 2px 5px 4px 5px; background-color: #FFCCBC;">talk</venue>
-              <!-- <a class="links" href="news.html">[All]</a>  -->
-            </div>
-            <br><br>
-          </td>
-        </tr>
-      </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px 0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          {% for item in site.data.news %}
-          <tr>
-            <td class="tdnews">
-              {% if item.year != null %}
-              <venue style="border: solid #9E9E9E; border-width: 1px; font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.tag }};margin-left: 0;">{{ item.year }}</venue>
-              {% endif %}
-            </td>
-            <td class="tdnews">
-              <venue style="font-weight: bold;padding: 0px 5px 2px 5px;background-color: {{ item.fill }};margin-left: 0;">{{ item.month }}</venue>
-            </td>
-            <td class="tdnews" style="font-size: 14px;">
-              {{ item.title }}
-            </td>
-          </tr>
-          {% endfor %}
-          
-        </tbody></table>
-
-        
-
-        
-      </td>
-    </tr>
-  </table>
-  <script>
-    //Add your images, we'll set the path in the next step
-        var images = ['profile1.JPG', 'profile3.JPG', 'profile5.jpg', 'profile7.jpg', 'profile13.JPG', 'profile14.jpg'];
-        
-    //Build the img, then do a bit of maths to randomize load and append to a div. Add a touch off css to fade them badboys in all sexy like.
-        $('<img style="width:100%;border-radius: 3px;" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
-    </script>
-</body>
-
-</html>
+<main class="page">
+  <div class="page-header">
+    <h1 class="heading">Timeline</h1>
+    <div class="legend">
+      <span class="tl-academic">academic</span>
+      <span class="tl-work">work</span>
+      <span class="tl-research">research</span>
+      <span class="tl-talk">talk</span>
+    </div>
+  </div>
+  <div class="timeline-wrap" id="timeline-wrap">
+    {% include news-list.html images=true %}
+    <div class="timeline-panel"></div>
+    <svg class="timeline-links" aria-hidden="true"></svg>
+  </div>
+</main>
+<script src="{{ '/assets/timeline-images.js' | relative_url }}" defer></script>

@@ -1,0 +1,21 @@
+{%- comment -%}
+  Shared <head> contents for every page.
+  Params: title (optional page title), icons (true to load Font Awesome).
+{%- endcomment -%}
+{%- assign page_title = include.title | default: page.title -%}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if page_title %}{{ page_title | strip_html }} | {% endif %}{{ site.title }}</title>
+<meta name="author" content="{{ site.title }}">
+<meta name="description" content="{{ site.description | strip_html | normalize_whitespace | truncate: 160 }}">
+<link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin>
+<link rel="stylesheet" href="{{ '/stylesheet.css' | relative_url }}">
+{%- if include.icons or page.icons %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+{%- endif %}
+<link rel="icon" href="{{ '/favicon.ico' | relative_url }}">
+<link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png' | relative_url }}">
+<link rel="manifest" href="{{ '/site.webmanifest' | relative_url }}">
+{%- if site.google_analytics and jekyll.environment == 'production' %}
+{% include analytics.html %}
+{%- endif %}

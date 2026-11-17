@@ -1,3 +1,4 @@
+# Optional `image:` (a file in images/) shows that picture beside the entry on the Timeline page.
 - id: google
   title: 'I started as a student researcher at Google Zürich!'
   date: 2026-09
@@ -14,6 +15,7 @@
   tag: "#CFD8DC"
 
 - id: adaptingqmetrics
+  image: sig26-long.png
   title: 'I presented our <a class="links" style="font-size: 14px;" href="projects/tmometric/index.html" target="_blank">research on tone mapping quality metrics</a> at SIGGRAPH!'
   date: 2026-07
   month: "07"
@@ -28,6 +30,7 @@
   tag: "#CFD8DC"
 
 - id: eccv26
+  image: NanoSense-SmallTeaser.png
   title: 'A <a class="links" style="font-size: 14px;" href="projects/eccv26/index.html" target="_blank">paper on metalens depth imaging</a> was accepted to ECCV 2026.'
   date: 2026-06
   month: "06"
@@ -49,6 +52,7 @@
   tag: "#CFD8DC"
 
 - id: sig26
+  image: dichoptic-long.png
   title: 'Three papers were conditionally accepted to SIGGRAPH 2026!'
   date: 2026-04
   month: "04"
@@ -70,6 +74,7 @@
   tag: "#CFD8DC"
 
 - id: tmlr26
+  image: catimg-long.png
   title: 'Our <a class="links" style="font-size: 14px;" href="projects/catimage/index.html" target="_blank">paper on model routing</a> was accepted to TMLR!'
   date: 2026-03
   month: "03"
@@ -91,6 +96,7 @@
   tag: "#CFD8DC"
 
 - id: wihdirectview
+  image: wihdirectview-long.png
   title: 'A <a class="links" style="font-size: 14px;" href="projects/wihdirectview/index.html" target="_blank">follow-up work</a> to our <a class="links" style="font-size: 14px;" href="projects/sig25/index.html" target="_blank">"What is HDR?" paper</a> was accepted to HVEI 2026.'
   date: 2026-01
   month: "01"
@@ -98,6 +104,7 @@
   tag: "#CFD8DC"
 
 - id: mlpea
+  image: mlpea-long.png
   title: 'A <a class="links" style="font-size: 14px;" href="projects/mlpea/index.html" target="_blank">paper on ML-based display power optimization</a> was accepted to Eurographics 2026.'
   date: 2025-12
   month: "12"
@@ -113,6 +120,7 @@
   tag: "#CFD8DC"
 
 - id: wacv26
+  image: fovgs-long.png
   title: 'Two papers, <a class="links" style="font-size: 14px;" href="projects/geneva/index.html" target="_blank">GeneVA</a> and <a class="links" style="font-size: 14px;" href="projects/fovgs/index.html" target="_blank">Perceptual 3DGS</a>, were accepted to WACV 2026.'
   date: 2025-11
   month: "11"
@@ -120,6 +128,7 @@
   tag: "#CFD8DC"
 
 - id: imggstwominpapers
+  image: imggs-long.png
   title: '<a class="links" style="font-size: 14px;" href="projects/imggs/index.html" target="_blank">Image-GS</a> was featured on <a class="links" style="font-size: 14px;" target="_blank" href="https://youtu.be/_WjU5d26Cc4">Two Minute Papers</a>!'
   date: 2025-09
   month: "09"
@@ -169,6 +178,7 @@
   tag: "#CFD8DC"
 
 - id: oe25
+  image: nhf-long.png
   title: 'A <a class="links" style="font-size: 14px;" href="projects/oe25/index.html" target="_blank">project</a> on computer-generated holography was accepted to Optics Express.'
   date: 2025-04
   month: "04"
@@ -176,6 +186,7 @@
   tag: "#CFD8DC"
 
 - id: sig25
+  image: wih-long.png
   title: 'My internship project, <a class="links" style="font-size: 14px;" href="projects/sig25/index.html" target="_blank">"What is HDR?"</a>, was accepted to SIGGRAPH 2025!'
   date: 2025-04
   month: "04"
@@ -190,6 +201,7 @@
   tag: "#CFD8DC"
 
 - id: i3d25
+  image: blendfusion-long.png
   title: 'A <a class="links" style="font-size: 14px;" href="projects/i3d25/index.html" target="_blank">poster</a> was accepted to I3D 2025.'
   date: 2025-03
   month: "03"
@@ -197,6 +209,7 @@
   tag: "#CFD8DC"
 
 - id: isca25
+  image: polo-long.png
   title: '<a class="links" style="font-size: 14px;" href="projects/isca25/index.html" target="_blank">Collaboration work</a> on eye tracking was accepted to ISCA 2025.'
   date: 2025-03
   month: "03"
@@ -204,6 +217,7 @@
   tag: "#CFD8DC"
 
 - id: vr25
+  image: audiofov-long.png
   title: 'Our <a class="links" style="font-size: 14px;" href="projects/vr25/index.html" target="_blank">audio perception paper</a> was accepted to IEEE VR 2025.'
   date: 2025-01
   month: "01"
@@ -243,6 +257,7 @@
   fill: "#B2DFDB"
 
 - id: sig24
+  image: peapods-long.png
   title: 'My internship project, <a class="links" style="font-size: 14px;" href="projects/sig24/index.html" target="_blank">PEA-PODs</a>, was accepted as a journal paper to SIGGRAPH 2024!'
   date: 2024-03
   month: "03"
@@ -263,12 +278,14 @@
   fill: "#B2DFDB"
 
 - id: asplos24
+  image: asplos-long.png
   title: 'Our <a class="links" style="font-size: 14px;" href="projects/asplos24/index.html" target="_blank">collaboration</a> with UofR was accepted to ASPLOS 2024!'
   date: 2023-08
   month: "08"
   fill: "#FFE0B2"
 
 - id: sca23
+  image: sca-long.png
   title: '<a class="links" style="font-size: 14px;" href="projects/sca23/index.html" target="_blank">Our work</a> during my internship at Cesium was accepted as a poster to SCA.'
   date: 2023-06
   month: "06"
@@ -282,6 +299,7 @@
   fill: "#BBDEFB"
 
 - id: sig23
+  image: sig23etech-long.png
   title: 'One <a class="links" style="font-size: 14px;" href="projects/emg-energy/index.html" target="_blank">conference paper</a> and an <a class="links" style="font-size: 14px;" href="projects/vr-energy-etech/index.html" target="_blank">E-Tech demo</a> accepted to SIGGRAPH 2023!'
   date: 2023-05
   month: "05"
@@ -308,6 +326,7 @@
   fill: "#FFCCBC"
 
 - id: sigasia22
+  image: vrenergy-long.png
   title: '<a class="links" style="font-size: 14px;" href="projects/vrenergy/index.html" target="_blank">Our paper</a> was accepted to SIGGRAPH Asia 2022 journal track!'
   date: 2022-08
   month: "08"

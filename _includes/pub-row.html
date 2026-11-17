@@ -1,0 +1,63 @@
+{%- comment -%}
+  One publication row on the home page.
+  Params: pub (entry from _data/publications.yml or _data/otherpubs.yml), first (true for the first entry of a list).
+{%- endcomment -%}
+{%- assign pub = include.pub -%}
+{%- if pub.showyear -%}
+<div class="year-bar{% if include.first %} first{% endif %}">{{ pub.year }}</div>
+{%- endif %}
+{%- comment -%} Papers with `bgcolor` are shaded; a highlight video sits inside the card either way. {%- endcomment %}
+<div class="pub-row{% if pub.bgcolor %} highlighted{% endif %}" data-selected="{{ pub.is_selected | default: false }}" data-areas="{{ pub.areas | join: ' ' }}">
+  <div class="pub-thumb">
+    {%- if pub.teaser_vid %}
+    <video playsinline autoplay loop muted><source src="images/{{ pub.teaser_vid }}" type="video/mp4"></video>
+    {%- endif %}
+    {%- if pub.image %}
+    {%- assign thumb = "images/" | append: pub.image %}
+    {% include photo.html src=thumb alt="" %}
+    {%- endif %}
+  </div>
+  <div class="pub-body">
+    <div class="pub-text">
+    <div class="pub-title">{{ pub.title }}</div>
+    <div>{% include authors.html pub=pub %}</div>
+    {%- if pub.banner_venue %}
+    <div><img loading="lazy" decoding="async" class="pub-banner" src="images/{{ pub.banner_venue }}" alt=""></div>
+    {%- endif %}
+    {%- if pub.venue2 %}
+    <div class="pub"><span class="badge" style="background-color: {{ pub.tag2 }}">{{ pub.venue2 }} {{ pub.year2 }}</span>{% if pub.venue_long2 %} | <em>{{ pub.venue_long2 }}</em>{% endif %}</div>
+    {%- endif %}
+    <div>
+      <span class="pub"><span class="badge" style="background-color: {{ pub.tag }}">{{ pub.venue }} {{ pub.year }}</span>{% if pub.venue_long %} | <em>{{ pub.venue_long }}</em>{% endif %}</span>
+      {%- if pub.award %}
+      <span class="pub"><span class="badge award"><i class="fas fa-award"></i> {{ pub.award }}</span></span>
+      {%- endif %}
+      {%- for media in pub.media %}
+      <a href="{{ media.link }}" target="_blank" rel="noopener"><img loading="lazy" decoding="async" class="pub-media" src="images/{{ media.img }}" alt=""></a>
+      {%- endfor %}
+    </div>
+    {%- if pub.description %}
+    <div class="pub-desc">{{ pub.description }}</div>
+    {%- endif %}
+    <div class="pub-links">
+      {%- if pub.project_page %} <a class="links3" href="{{ pub.project_page }}"><i class="fas fa-globe"></i> webpage</a>{% endif %}
+      {%- if pub.arxiv %} <a class="links3" href="https://arxiv.org/abs/{{ pub.arxiv }}.pdf"><i class="far fa-file-pdf"></i> PDF</a>{% endif %}
+      {%- if pub.pdf %} <a class="links3" href="{{ pub.pdf }}"><i class="far fa-file-pdf"></i> PDF</a>{% endif %}
+      {%- if pub.papersite %} <a class="links3" href="{{ pub.papersite }}"><i class="far fa-file-pdf"></i> PDF</a>{% endif %}
+      {%- if pub.doi %} <a class="links3" href="https://doi.org/{{ pub.doi }}"><i class="fa fa-link"></i> doi</a>{% endif %}
+      {%- if pub.github %} <a class="links3" href="https://github.com/{{ pub.github }}"><i class="fab fa-github"></i> code</a>{% endif %}
+      {%- if pub.dataset %} <a class="links3" href="{{ pub.dataset }}"><i class="fa-solid fa-database"></i> dataset</a>{% endif %}
+      {%- if pub.dataset_vid %} <a class="links3" href="{{ pub.dataset_vid }}"><i class="fa-solid fa-database"></i> dataset (videos)</a>{% endif %}
+      {%- if pub.dataset_annotations %} <a class="links3" href="{{ pub.dataset_annotations }}"><i class="fa-solid fa-database"></i> dataset (labels)</a>{% endif %}
+      {%- if pub.video %} <a class="links3" href="{{ pub.video }}"><i class="fas fa-video"></i> video</a>{% endif %}
+      {%- if pub.supp %} <a class="links3" href="{{ pub.supp }}"><i class="fas fa-paperclip"></i> supplement</a>{% endif %}
+      {%- if pub.poster %} <a class="links3" href="{{ pub.poster }}"><i class="fas fa-chess-board"></i> poster</a>{% endif %}
+      {%- if pub.bibtex and pub.bibtex != "" %} <button type="button" class="links3 cite-btn" data-bibtex="{{ pub.bibtex | strip | escape }}"><i class="fas fa-quote-right"></i> <span>cite</span></button>{% endif %}
+      {%- if pub.project_page2 %} <a class="links3" href="{{ pub.project_page2 }}">{{ pub.project_page2_name }}</a>{% endif %}
+    </div>
+    </div>
+    {%- if pub.highlightvideo %}
+    <a class="pub-video" href="{{ pub.project_page }}" aria-label="{{ pub.title | strip_html | escape }} project page"><video playsinline autoplay loop muted><source src="images/{{ pub.highlightvideo }}" type="video/mp4"></video></a>
+    {%- endif %}
+  </div>
+</div>

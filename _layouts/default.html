@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% include head.html %}
+</head>
+<body{% if page.body_class %} class="{{ page.body_class }}"{% endif %}>
+{%- unless page.url == "/" or page.url == "/index.html" %}
+{% include nav.html %}
+{%- endunless %}
+{{ content }}
+{% include footer.html %}
+</body>
+</html>
