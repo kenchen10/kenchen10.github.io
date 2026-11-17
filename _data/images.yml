@@ -1,3 +1,55 @@
+- id: saxerlucke
+  title: Saxer Lücke
+  date: November 15, 2026
+  location: Switzerland
+  imgs: 
+    - saxerlucke/DSC01567.jpg
+    - saxerlucke/DSC01572.jpg
+    - saxerlucke/DSC01594.jpg
+    - saxerlucke/DSC01602.jpg
+    - saxerlucke/DSC01625-2.jpg
+- id: zermatt
+  title: Zermatt
+  date: November 8, 2026
+  location: Switzerland
+  imgs: 
+    - zermatt/DSC01473.jpg
+    - zermatt/DSC01500.jpg
+    - zermatt/DSC01529.jpg
+- id: oeschinensee
+  title: Lake Oeschinensee
+  date: October 31, 2026
+  location: Switzerland
+  imgs: 
+    - oeschinensee/DSC01353.jpg
+    - oeschinensee/DSC01376.jpg
+    - oeschinensee/DSC01392.jpg
+    - oeschinensee/DSC01402.jpg
+- id: lauterbrunnen
+  title: Lauterbrunnen, Mürren, Gimmelwald
+  date: October 17, 2026
+  location: Switzerland
+  imgs: 
+    - lauterbrunnen/DSC01163-2.png
+    - lauterbrunnen/DSC01230.png
+    - lauterbrunnen/DSC01237.png
+    - lauterbrunnen/DSC01259.avif
+    - lauterbrunnen/DSC01276.png
+- id: bern
+  title: Bern
+  date: October 4, 2026
+  location: Switzerland
+  imgs: 
+    - bern/DSC01082.png
+    - bern/DSC01083.png
+- id: lucerne
+  title: Lausanne and Mt. Pilatus
+  date: October 2, 2026
+  location: Switzerland
+  imgs: 
+    - lucerne/DSC00968.png
+    - lucerne/DSC00982.avif
+    - lucerne/DSC01049.png
 - id: nycsnow26
   title: NYC Snow
   date: January 26, 2026
