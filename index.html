@@ -54,7 +54,7 @@ icons: true
       {%- for album in site.data.images -%}
         {%- unless album.imgs -%}{%- continue -%}{%- endunless -%}
         {%- assign i = i | plus: 1 -%}
-        {%- if i < 1 or i > 15 -%}{%- continue -%}{%- endif -%}
+        {%- if i < 1 or i > 10 -%}{%- continue -%}{%- endif -%}
         {%- assign cover = "images/" | append: album.imgs.first -%}
         {%- assign base = album.imgs.first | split: "." | pop | join: "." -%}
         {%- assign thumb = "images/thumbs/" | append: base | append: ".jpg" -%}

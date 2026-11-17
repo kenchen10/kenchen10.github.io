@@ -50,6 +50,14 @@
     - lucerne/DSC00968.png
     - lucerne/DSC00982.avif
     - lucerne/DSC01049.png
+- id: centralparksept26
+  title: The Pool, Central Park
+  date: September 4, 2026
+  location: New York City
+  imgs: 
+    - centralparksept26/DSC_2711.png
+    - centralparksept26/DSC_2739.png
+    - centralparksept26/DSC_2746.png
 - id: nycsnow26
   title: NYC Snow
   date: January 26, 2026
