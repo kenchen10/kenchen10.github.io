@@ -20,6 +20,18 @@
   };
   const addDays = (iso, n) =>
     new Date(Date.parse(iso + 'T00:00:00Z') + n * 86400000).toISOString().slice(0, 10);
+  // This browser's local date and time with its UTC offset, e.g. "2026-11-17T15:04:12-08:00".
+  // Sent with each submission and stored as-is, so a result counts for the day it was on the
+  // player's own clock — no conversion to anyone else's time zone.
+  const localStamp = (d = new Date()) => {
+    const off = -d.getTimezoneOffset(), a = Math.abs(off);
+    return `${localDate(d)}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}` +
+      `${off >= 0 ? '+' : '-'}${pad(Math.floor(a / 60))}:${pad(a % 60)}`;
+  };
+  // Date and hour from a stored local stamp (null for older rows that don't have one).
+  const LOCAL_RE = /^(\d{4}-\d{2}-\d{2})T(\d{2})/;
+  const localDay = (s) => { const m = LOCAL_RE.exec(s || ''); return m ? m[1] : null; };
+  const localHour = (s) => { const m = LOCAL_RE.exec(s || ''); return m ? Number(m[2]) % 24 : null; };
   // This browser's IANA time zone, e.g. "America/New_York" ('' if it can't tell).
   const myTimeZone = () => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } };
   // Calendar day (YYYY-MM-DD) of a timestamp in a given time zone, or null if the zone is unknown/invalid.
@@ -111,12 +123,14 @@
         // A result counts for the earlier of the two: someone in the US can get tomorrow's puzzle in their
         // evening, and that evening is the day they played. Late backfills still count for the puzzle's day.
         const puzzleDate = r.puzzle != null && g.date ? g.date(r.puzzle) : null;
-        const playedDate = dayIn(row.ts, row.tz || (CFG.playerTimezones || {})[p]);
+        // Prefer the player's own local date (sent with the submission); older rows fall back to
+        // their time zone, then to config.js playerTimezones.
+        const playedDate = localDay(row.local) || dayIn(row.ts, row.tz || (CFG.playerTimezones || {})[p]);
         const date = puzzleDate ? (playedDate && playedDate < puzzleDate ? playedDate : puzzleDate) : playedDate || localDate(row.ts);
         const puzzle = r.puzzle != null ? r.puzzle : date;
         const key = `${p}|${g.id}|${puzzle}`;
         if (seen.has(key)) continue; // first submission for a puzzle counts
-        seen.set(key, { player: p, game: g.id, puzzle, date, puzzleDate: puzzleDate || date, moved: !!puzzleDate && date !== puzzleDate, value: r.value, par: r.par, display: r.display, detail: r.detail, ts: row.ts, tz: row.tz || (CFG.playerTimezones || {})[p] || '' });
+        seen.set(key, { player: p, game: g.id, puzzle, date, puzzleDate: puzzleDate || date, moved: !!puzzleDate && date !== puzzleDate, value: r.value, par: r.par, display: r.display, detail: r.detail, ts: row.ts, local: row.local || '', tz: row.tz || (CFG.playerTimezones || {})[p] || '' });
       }
     }
     entries = [...seen.values()];
@@ -321,7 +335,7 @@
     }
     if (!fresh.length) return toast(`Already counted: ${dupes.join(', ')}`, true);
 
-    const row = { ts: new Date().toISOString(), player: name, text: text.slice(0, 2000), tz: myTimeZone() };
+    const row = { ts: new Date().toISOString(), player: name, text: text.slice(0, 2000), tz: myTimeZone(), local: localStamp() };
     setBusy(true);
     try {
       if (DEMO) {
@@ -332,7 +346,7 @@
         const r = await fetch(API, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids a CORS preflight
-          body: JSON.stringify({ player: name, text: row.text, tz: row.tz }),
+          body: JSON.stringify({ player: name, text: row.text, tz: row.tz, local: row.local }),
         });
         const j = await r.json().catch(() => ({}));
         if (j.ok === false) throw new Error(j.error || 'rejected');
@@ -1449,7 +1463,8 @@
     const counts = {};
     for (const e of subs.values()) {
       const c = (counts[e.player] = counts[e.player] || new Array(24).fill(0));
-      c[hourIn(e.ts, e.tz)]++;
+      const h = localHour(e.local);
+      c[h != null ? h : hourIn(e.ts, e.tz)]++;
     }
     const players = Object.keys(displayName).filter((p) => counts[p]);
     const rows = players

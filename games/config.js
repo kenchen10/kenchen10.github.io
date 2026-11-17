@@ -31,6 +31,10 @@ window.LEADERBOARD_CONFIG = {
   // record it automatically). Key = player name in lower case; value = an IANA zone. A result counts
   // for the day it was played in that zone, e.g. a US friend who got tomorrow's puzzle in the evening.
   playerTimezones: {
-    steph: 'America/New_York', // Steph's Tradle #1712 was played the evening of Nov 11 (submitted 02:05 UTC); any US zone gives Nov 11
+    kenny: 'Europe/Zurich',
+    will: 'America/Los_Angeles',
+    amanda: 'America/Los_Angeles',
+    steph: 'America/Los_Angeles',
+    '54e4thapt10': 'America/New_York',
   },
 };

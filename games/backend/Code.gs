@@ -5,7 +5,8 @@
  * Deploy → New deployment → Web app (Execute as: Me, Who has access: Anyone).
  * Copy the web-app URL into games/config.js.
  *
- * The sheet just stores raw submissions (time, player, pasted text, time zone).
+ * The sheet just stores raw submissions (time, player, pasted text, time zone, and the
+ * player's own local date-time, which decides which day a result counts for).
  * All parsing and scoring happens on the website, so adding a game or
  * fixing a parser never requires touching this script or the data.
  */
@@ -18,10 +19,12 @@ function sheet_() {
   let sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(SHEET_NAME);
-    sh.appendRow(['timestamp', 'player', 'text', 'tz']);
+    sh.appendRow(['timestamp', 'player', 'text', 'tz', 'local']);
     sh.setFrozenRows(1);
-  } else if (sh.getRange(1, 4).getValue() !== 'tz') {
-    sh.getRange(1, 4).setValue('tz'); // older sheets: add the time-zone column header
+  } else {
+    // Older sheets: add the newer column headers
+    if (sh.getRange(1, 4).getValue() !== 'tz') sh.getRange(1, 4).setValue('tz');
+    if (sh.getRange(1, 5).getValue() !== 'local') sh.getRange(1, 5).setValue('local');
   }
   return sh;
 }
@@ -59,12 +62,12 @@ function doGet() {
   const rows = values
     .filter(function (r) { return r[1] && r[2]; })
     .map(function (r) {
-      return { ts: new Date(r[0]).toISOString(), player: String(r[1]), text: String(r[2]), tz: String(r[3] || '') };
+      return { ts: new Date(r[0]).toISOString(), player: String(r[1]), text: String(r[2]), tz: String(r[3] || ''), local: String(r[4] || '') };
     });
   return json_({ rows: rows });
 }
 
-// POST {player, text} → append one row.
+// POST {player, text, tz, local} → append one row.
 function doPost(e) {
   let body;
   try {
@@ -91,12 +94,16 @@ function doPost(e) {
   // The submitter's IANA time zone (e.g. America/New_York), so results count for the day they were played.
   const tzRaw = String(body.tz || '').trim();
   const tz = /^[A-Za-z_]+(\/[A-Za-z0-9_+-]+){0,2}$/.test(tzRaw) ? tzRaw.slice(0, 64) : '';
+  // The submitter's own clock, e.g. "2026-11-17T15:04:12-08:00". Stored as text, never converted.
+  const localRaw = String(body.local || '').trim();
+  const local = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?([+-]\d{2}:\d{2}|Z)?$/.test(localRaw) ? localRaw : '';
 
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     // Leading apostrophe stops Sheets from treating text as a formula.
-    sheet_().appendRow([new Date(), "'" + player, "'" + text, tz]);
+    // (The apostrophe on `local` also stops Sheets from turning it into a date in its own time zone.)
+    sheet_().appendRow([new Date(), "'" + player, "'" + text, tz, local ? "'" + local : '']);
   } finally {
     lock.releaseLock();
   }

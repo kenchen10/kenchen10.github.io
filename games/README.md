@@ -53,8 +53,8 @@ Delete the row in the Google Sheet.
 
 ## Time zones: which day a result counts for
 
-A puzzle belongs to the same day for everyone, but some games switch puzzles at midnight UTC (7pm US East, 4pm US West), so a US friend can get "tomorrow's" puzzle in their evening. To keep streaks, the "Today" pills and the Daily and Recent tabs honest, every new submission records the sender's browser time zone (a `tz` column in the sheet), and a result counts for the **earlier** of the puzzle's day and the day it was submitted in the sender's own zone. Ranking is still by puzzle number, and late backfills still count for the puzzle's day. Hover a result that was moved to see why.
+A puzzle belongs to the same day for everyone, but some games switch puzzles at midnight UTC (7pm US East, 4pm US West), so a US friend can get "tomorrow's" puzzle in their evening. To keep streaks, the "Today" pills and the Daily and Recent tabs honest, every new submission records the sender's own local date and time exactly as their device shows it (a `local` column in the sheet, e.g. `2026-11-17T15:04:12-08:00`, stored as text and never converted), plus their time zone (`tz`). A result counts for the **earlier** of the puzzle's day and the day on the sender's own clock. Ranking is still by puzzle number, and late backfills still count for the puzzle's day. Hover a result that was moved to see why.
 
-- **Turn it on:** after updating `backend/Code.gs`, use *Deploy → Manage deployments → Edit → New version*. Until then everything still works; results just don't carry a time zone.
+- **Turn it on:** after updating `backend/Code.gs`, use *Deploy → Manage deployments → Edit → New version*. Until then everything still works, but results don't carry the sender's local time, so they're dated by the viewer's clock (a US evening result can land on the next day for viewers in Europe).
 - **Older results** have no recorded zone. Give a friend's zone in `playerTimezones` in `config.js` (player in lower case, an IANA name such as `America/Los_Angeles`) and their older results are treated the same way. Any US zone gives the same answer for results submitted in the evening there.
 

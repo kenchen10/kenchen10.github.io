@@ -787,9 +787,33 @@ body.paper-page { background-color: white; }
 .paper-venue { font-size: 20px; font-style: italic; }
 .paper-venue .badge { font-size: 20px; font-weight: 700; padding: 1px 5px; border-radius: 4px; }
 .paper-award { margin-top: 4px; font-size: 18px; color: coral; }
-.paper-authors { margin-top: 10px; }
-.paper-authors li { display: block; }
-.paper-authors em { color: rgb(130, 130, 130); }
+.paper-authors { margin-top: 14px; font-size: 16px; line-height: 1.6; }
+.paper-author { white-space: nowrap; }
+.paper-author a { font-size: 16px; }
+.paper-author sup { margin-left: 1px; color: var(--muted); font-size: 70%; }
+.paper-author-sep { margin-right: 6px; }
+.paper-affils { display: flex; flex-wrap: wrap; gap: 2px 16px; margin: 4px 0 10px; font-size: 14px; color: rgb(120, 120, 120); }
+.paper-affils sup { margin-right: 2px; }
+.paper-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+.paper-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #444;
+  background: #fff;
+  border: 1px solid var(--chip-border);
+  border-radius: 999px;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.paper-btn i { color: var(--accent); }
+.paper-btn:hover { color: var(--accent); background-color: var(--rose); border-color: var(--accent); }
+.paper-btn.primary { color: #fff; background-color: var(--accent); border-color: var(--accent); }
+.paper-btn.primary i { color: #fff; }
+.paper-btn.primary:hover { color: #fff; background-color: var(--accent-hover); border-color: var(--accent-hover); }
+.affiliation-logos { margin: 8px 0 2px; }
 .affiliation-logos img { height: 40px; margin-right: 8px; }
 .paper-teaser { width: 99%; margin: 20px auto 0; }
 .paper-caption { width: 98%; margin: 0 auto 10px; padding-top: 8px; font-size: smaller; font-style: italic; text-align: justify; }
@@ -940,5 +964,7 @@ body.paper-page { background-color: white; }
   .paper-venue, .paper-venue .badge { font-size: 16px; }
   .paper-award { font-size: 16px; }
   .affiliation-logos img { height: 30px; }
+  .paper-authors, .paper-author a { font-size: 15px; }
+  .paper-btn { padding: 5px 12px; font-size: 13px; }
   .bibtexcontainer { width: 100%; }
 }

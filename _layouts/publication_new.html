@@ -27,15 +27,47 @@
     <p class="paper-award">&#127942; {{ publication.award }}</p>
     {%- endif %}
 
-    <ul class="list-inline paper-authors">
+    {%- comment -%}
+      Authors on wrapped lines with numbered affiliations underneath. Each author's affiliation
+      text for this paper (_data/authors.yml) is split on "&" so combined entries like
+      "New York University & Meta" become two numbered institutions.
+    {%- endcomment -%}
+    {%- assign affs = "" | split: "" -%}
+    {%- for author_id in publication.authors -%}
+      {%- assign author = site.data.authors[author_id] -%}
+      {%- assign parts = author.affiliation[publication.id] | join: " " | split: "&" -%}
+      {%- for part in parts -%}
+        {%- assign aff = part | strip -%}
+        {%- if aff != "" -%}{%- unless affs contains aff -%}{%- assign affs = affs | push: aff -%}{%- endunless -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endfor %}
+    <div class="paper-authors">
       {%- for author_id in publication.authors %}
-      {%- assign author = site.data.authors[author_id] %}
-      <li>
-        <a class="links" href="{{ author.website }}">{{ author.first_name }}{% if author.middle_name %} {{ author.middle_name }}{% endif %} {{ author.last_name }}{% if publication.equal contains author_id %}*{% endif %}{% if publication.equal_adv contains author_id %}<sup>†</sup>{% endif %}</a>,
-        {%- for affiliation in author.affiliation[publication.id] %} <em>{{ affiliation }}</em>{% endfor %}
-      </li>
+      {%- assign author = site.data.authors[author_id] -%}
+      {%- assign parts = author.affiliation[publication.id] | join: " " | split: "&" -%}
+      {%- capture nums -%}
+        {%- for part in parts -%}
+          {%- assign aff = part | strip -%}
+          {%- for a in affs -%}{%- if a == aff -%}{{ forloop.index }},{%- endif -%}{%- endfor -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- assign nums = nums | split: "," | join: "," %}
+      <span class="paper-author"><a class="links" href="{{ author.website }}">{{ author.first_name }}{% if author.middle_name %} {{ author.middle_name }}{% endif %} {{ author.last_name }}</a>
+        {%- if affs.size > 1 and nums != "" %}<sup>{{ nums }}</sup>{% endif -%}
+        {%- if publication.equal contains author_id %}<sup>*</sup>{% endif -%}
+        {%- if publication.equal_adv contains author_id %}<sup>†</sup>{% endif -%}
+      </span>{% unless forloop.last %}<span class="paper-author-sep">,</span>{% endunless %}
       {%- endfor %}
-    </ul>
+    </div>
+    {%- if affs.size > 0 %}
+    <div class="paper-affils">
+      {%- for aff in affs %}
+      <span>{% if affs.size > 1 %}<sup>{{ forloop.index }}</sup>{% endif %}{{ aff }}</span>
+      {%- endfor %}
+      {%- if publication.equal %}<span><sup>*</sup>equal contribution</span>{% endif %}
+      {%- if publication.equal_adv %}<span><sup>†</sup>equal advising</span>{% endif %}
+    </div>
+    {%- endif %}
 
     {%- if publication.affiliation_images %}
     <div class="affiliation-logos">
@@ -44,6 +76,24 @@
       {%- endfor %}
     </div>
     {%- endif %}
+
+    {%- comment -%} The main links, as buttons right under the authors {%- endcomment %}
+    <div class="paper-buttons">
+      {%- if publication.arxiv %} <a class="paper-btn primary" href="https://arxiv.org/abs/{{ publication.arxiv }}"><i class="far fa-file-pdf"></i> Paper</a>{% endif %}
+      {%- if publication.pdf %} <a class="paper-btn primary" href="{{ pdf_url }}"><i class="far fa-file-pdf"></i> Paper</a>{% endif %}
+      {%- if publication.papersite %} <a class="paper-btn primary" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> Paper</a>{% endif %}
+      {%- if publication.github %} <a class="paper-btn" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> Code</a>{% endif %}
+      {%- if publication.video %} <a class="paper-btn" href="{{ video_url }}"><i class="fas fa-video"></i> Video</a>{% endif %}
+      {%- if publication.ff %} <a class="paper-btn" href="{{ ff_url }}"><i class="fa-solid fa-forward-fast"></i> TL;DR</a>{% endif %}
+      {%- if publication.talk %} <a class="paper-btn" href="{{ publication.talk }}"><i class="fa-solid fa-person-chalkboard"></i> Talk</a>{% endif %}
+      {%- if publication.dataset %} <a class="paper-btn" href="{{ publication.dataset }}"><i class="fa-solid fa-database"></i> Data</a>{% endif %}
+      {%- if publication.dataset_vid %} <a class="paper-btn" href="{{ publication.dataset_vid }}"><i class="fa-solid fa-database"></i> Data (videos)</a>{% endif %}
+      {%- if publication.dataset_annotations %} <a class="paper-btn" href="{{ publication.dataset_annotations }}"><i class="fa-solid fa-database"></i> Data (labels)</a>{% endif %}
+      {%- if publication.supp %} <a class="paper-btn" href="{{ supp_url }}"><i class="fas fa-paperclip"></i> Supplement</a>{% endif %}
+      {%- if publication.poster %} <a class="paper-btn" href="{{ poster_url }}"><i class="fas fa-chess-board"></i> Poster</a>{% endif %}
+      {%- if publication.doi %} <a class="paper-btn" href="https://doi.org/{{ publication.doi }}"><i class="fa fa-link"></i> DOI</a>{% endif %}
+    </div>
+
 
     {%- if publication.teaser_image %}
     <img class="img-responsive paper-teaser" src="{{ root }}images/{{ publication.teaser_image }}" alt="Overview">
@@ -63,7 +113,7 @@
 
   <aside class="paper-side">
     {%- if publication.bibtex and publication.bibtex != "" %}
-    <div class="bibtexcontainer">
+    <div class="bibtexcontainer" id="bibtex-box">
       <div class="bibtex-header" id="bibtex-header">
         <button class="copy-button" onclick="copyBibtex(this)">copy bibtex</button>
       </div>
@@ -71,22 +121,6 @@
     </div>
     {%- endif %}
 
-    <h3>Links <hr class="rule"></h3>
-    <div class="paper-links">
-      {%- if publication.arxiv %} <a class="links3" href="https://arxiv.org/abs/{{ publication.arxiv }}"><i class="far fa-file-pdf"></i> paper</a>{% endif %}
-      {%- if publication.pdf %} <a class="links3" href="{{ pdf_url }}"><i class="far fa-file-pdf"></i> paper</a>{% endif %}
-      {%- if publication.papersite %} <a class="links3" href="{{ publication.papersite }}"><i class="far fa-file-pdf"></i> paper</a>{% endif %}
-      {%- if publication.doi %} <a class="links3" href="https://doi.org/{{ publication.doi }}"><i class="fa fa-link"></i> doi</a>{% endif %}
-      {%- if publication.supp %} <a class="links3" href="{{ supp_url }}"><i class="fas fa-paperclip"></i> supplement</a>{% endif %}
-      {%- if publication.github %} <a class="links3" href="https://github.com/{{ publication.github }}"><i class="fab fa-github"></i> code</a>{% endif %}
-      {%- if publication.dataset %} <a class="links3" href="{{ publication.dataset }}"><i class="fa-solid fa-database"></i> dataset</a>{% endif %}
-      {%- if publication.dataset_vid %} <a class="links3" href="{{ publication.dataset_vid }}"><i class="fa-solid fa-database"></i> dataset (videos)</a>{% endif %}
-      {%- if publication.dataset_annotations %} <a class="links3" href="{{ publication.dataset_annotations }}"><i class="fa-solid fa-database"></i> dataset (labels)</a>{% endif %}
-      {%- if publication.ff %} <a class="links3" href="{{ ff_url }}"><i class="fa-solid fa-forward-fast"></i> TLDR</a>{% endif %}
-      {%- if publication.talk %} <a class="links3" href="{{ publication.talk }}"><i class="fa-solid fa-person-chalkboard"></i> talk</a>{% endif %}
-      {%- if publication.video %} <a class="links3" href="{{ video_url }}"><i class="fas fa-video"></i> video</a>{% endif %}
-      {%- if publication.poster %} <a class="links3" href="{{ poster_url }}"><i class="fas fa-chess-board"></i> poster</a>{% endif %}
-    </div>
 
     {%- if publication.ff %}
     <h3>Fast Forward (TLDR) <hr class="rule"></h3>
