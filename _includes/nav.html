@@ -1,9 +1,22 @@
-{%- comment -%} Top bar on every page except the home page. {%- endcomment -%}
+{%- comment -%}
+  Top bar on every page except the home page.
+  Params: back_url + back_label (optional): make the main left-hand link go there instead of
+  the home page (album pages use this to go back to All photos); Home then moves to the right.
+{%- endcomment -%}
 <nav class="site-nav">
+  {%- if include.back_url %}
+  <a class="site-nav-home" href="{{ include.back_url | relative_url }}">&larr; {{ include.back_label }}</a>
+  {%- else %}
   <a class="site-nav-home" href="{{ '/' | relative_url }}">&larr; {{ site.title }}</a>
+  {%- endif %}
   <span class="site-nav-links">
+    {%- if include.back_url %}
+    <a href="{{ '/' | relative_url }}">Home</a>
+    {%- endif %}
     <a href="{{ '/cv.html' | relative_url }}">CV</a>
     <a href="{{ '/news.html' | relative_url }}">Timeline</a>
+    {%- unless include.back_url == '/images.html' %}
     <a href="{{ '/images.html' | relative_url }}">Photos</a>
+    {%- endunless %}
   </span>
 </nav>

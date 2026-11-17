@@ -9,6 +9,7 @@
     - saxerlucke/DSC01602.jpg
     - saxerlucke/DSC01625-2.jpg
 - id: zermatt
+  trail: zermatt  # draws trails/zermatt.gpx on the album page (run scripts/make_trails.rb after adding a GPX)
   title: Zermatt
   date: November 8, 2026
   location: Switzerland

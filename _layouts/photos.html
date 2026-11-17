@@ -15,10 +15,23 @@
 {% include head.html title=album.title %}
 </head>
 <body>
-{% include nav.html %}
+{% include nav.html back_url="/images.html" back_label="All photos" %}
 <main class="page">
   <div class="album-head">
-    <h1 class="heading">{{ album.title }}</h1>
+    <div class="album-title-row">
+      <h1 class="heading">{{ album.title }}</h1>
+      {%- if newer or older %}
+      <nav class="album-nav" aria-label="Other albums">
+        {%- if newer %}
+        <a href="{{ '/photos/' | append: newer.id | append: '/' | relative_url }}">&larr; {{ newer.title }}</a>
+        {%- endif %}
+        {%- if newer and older %}<span class="album-nav-sep">·</span>{% endif %}
+        {%- if older %}
+        <a href="{{ '/photos/' | append: older.id | append: '/' | relative_url }}">{{ older.title }} &rarr;</a>
+        {%- endif %}
+      </nav>
+      {%- endif %}
+    </div>
     <div class="album-meta">{% if album.location %}{{ album.location }} · {% endif %}{{ album.date }}</div>
     {%- if album.description %}
     <p class="album-description"><em>{{ album.description }}</em></p>
@@ -40,13 +53,25 @@
     {%- endfor %}
   </div>
 
-  <nav class="album-pager">
-    <span>{% if newer %}<a href="{{ '/photos/' | append: newer.id | append: '/' | relative_url }}">&larr; {{ newer.title }}</a>{% endif %}</span>
-    <a class="album-all" href="{{ '/images.html' | relative_url }}">All photos</a>
-    <span>{% if older %}<a href="{{ '/photos/' | append: older.id | append: '/' | relative_url }}">{{ older.title }} &rarr;</a>{% endif %}</span>
-  </nav>
+
+  {%- comment -%} Route map + elevation profile for albums with `trail:` (see scripts/make_trails.rb) {%- endcomment -%}
+  {%- if album.trail %}{% assign trail = site.data.trails[album.trail] %}{% endif %}
+  {%- if trail %}
+  <section class="trail" id="trail">
+    <div class="trail-head">
+      <span class="trail-name">{{ trail.name }}</span>
+      <span class="trail-stats">{{ trail.distance_km }} km · &uarr; {{ trail.ascent_m }} m · &darr; {{ trail.descent_m }} m · {{ trail.min_ele_m }}–{{ trail.max_ele_m }} m</span>
+    </div>
+    <div class="trail-map" id="trail-map" role="img" aria-label="Map of the {{ trail.name }} route"></div>
+    <svg class="trail-profile" id="trail-profile" role="img" aria-label="Elevation profile"></svg>
+    <script type="application/json" id="trail-data">{{ trail | jsonify }}</script>
+  </section>
+  {%- endif %}
 </main>
 {% include footer.html %}
 <script src="{{ '/assets/album.js' | relative_url }}" defer></script>
+{%- if trail %}
+<script src="{{ '/assets/trail-map.js' | relative_url }}" defer></script>
+{%- endif %}
 </body>
 </html>

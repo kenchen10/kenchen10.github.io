@@ -67,7 +67,10 @@ icons: true
           {%- assign row = "" -%}{%- assign row_sum = 0.0 -%}
         {%- endif -%}
         {%- capture tile %}
-        <a href="photos/{{ album.id }}/" style="flex-grow: {{ r | round: 3 }}" title="{{ album.title }}">{% include photo.html src=cover thumb=true alt=album.title %}</a>
+        {%- comment -%} A small, fixed "random" tilt (about ±3°) and nudge (±3px) per photo {%- endcomment -%}
+        {%- assign tilt = i | times: 47 | modulo: 11 | minus: 5 | times: 0.6 | round: 1 -%}
+        {%- assign nudge = i | times: 3 | modulo: 7 | minus: 3 %}
+        <a href="photos/{{ album.id }}/" style="flex-grow: {{ r | round: 3 }}; --rot: {{ tilt }}deg; --dy: {{ nudge }}px" title="{{ album.title }}">{% include photo.html src=cover thumb=true alt=album.title %}</a>
         {%- endcapture -%}
         {%- assign row = row | append: tile -%}
         {%- assign row_sum = row_sum | plus: r -%}
