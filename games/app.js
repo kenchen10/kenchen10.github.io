@@ -470,31 +470,23 @@
     });
   }
 
-  function overall(es, mode = state.mode) {
+  // Overall points: on every puzzle, 1st/2nd/3rd among the friends who played it score placementPoints.
+  function overall(es) {
     const stats = {};
-    const S = (p) => (stats[p] = stats[p] || { player: p, points: 0, wins: 0, played: 0, normSum: 0 });
+    const S = (p) => (stats[p] = stats[p] || { player: p, points: 0, wins: 0, played: 0 });
     for (const list of groupBy(es, (e) => e.game + '|' + e.puzzle).values()) {
       const g = GAME_BY_ID[list[0].game];
       for (const e of rankPuzzle(list, g)) {
         const s = S(e.player);
         s.played++;
-        s.normSum += norm(e, g);
         s.points += CFG.placementPoints[e.rank - 1] || 0;
         if (e.rank === 1 && list.length > 1) s.wins++;
       }
     }
-    let list = Object.values(stats).map((s) => ({ ...s, avg: (100 * s.normSum) / s.played }));
-    if (mode === 'points') {
-      list.forEach((s) => (s.score = s.points));
-      list.sort((a, b) => b.points - a.points || b.wins - a.wins || b.avg - a.avg);
-      return ranked(list);
-    }
-    const ok = list.filter((s) => s.played >= CFG.minPlaysForAverage);
-    const few = list.filter((s) => s.played < CFG.minPlaysForAverage);
-    ok.forEach((s) => (s.score = Math.round(s.avg * 10)));
-    ok.sort((a, b) => b.avg - a.avg || b.played - a.played);
-    few.sort((a, b) => b.played - a.played || b.avg - a.avg);
-    return [...ranked(ok), ...few.map((s) => ({ ...s, rank: null }))];
+    const list = Object.values(stats);
+    list.forEach((s) => (s.score = s.points));
+    list.sort((a, b) => b.points - a.points || b.wins - a.wins || a.played - b.played);
+    return ranked(list);
   }
 
   function perGame(es, g) {
@@ -582,7 +574,7 @@
     n.month = best >= 30 ? best : 0;
     n.regular = mine.length >= 25 ? mine.length : 0;
     n.veteran = mine.length >= 100 ? mine.length : 0;
-    const top = overall(entries, 'points')[0];
+    const top = overall(entries)[0];
     n.crown = top && top.player === p && top.rank === 1 ? 1 : 0;
     return BADGES.map((b) => ({ ...b, count: n[b.id], got: n[b.id] > 0 }));
   }
@@ -765,19 +757,14 @@
     if (state.mode === 'elo') return renderElo();
     const list = overall(es);
     if (!list.length) return empty();
-    const pts = state.mode === 'points';
-    const head = pts
-      ? '<tr><th></th><th>Player</th><th class="num">Points</th><th class="num">Wins</th><th class="num">Played</th></tr>'
-      : '<tr><th></th><th>Player</th><th class="num">Avg</th><th class="num">Wins</th><th class="num">Played</th></tr>';
+    const head = '<tr><th></th><th>Player</th><th class="num">Points</th><th class="num">Wins</th><th class="num">Played</th></tr>';
     const body = list
       .map(
-        (s) => `<tr class="${s.rank === null ? 'dim' : ''}"><td class="rank">${medal(s.rank)}</td>${nameCell(s.player)}
-          <td class="num strong">${pts ? s.points : s.avg.toFixed(1)}</td><td class="num">${s.wins}</td><td class="num">${s.played}</td></tr>`
+        (s) => `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player)}
+          <td class="num strong">${s.points}</td><td class="num">${s.wins}</td><td class="num">${s.played}</td></tr>`
       )
       .join('');
-    const note = pts
-      ? `Each puzzle: ${CFG.placementPoints.map((p, i) => `${ordinal(i + 1)} = ${p}`).join(', ')} pts among friends who played it. Wins = outright or tied 1st with 2+ players.`
-      : `Average of each result scaled 0–100 (100 = perfect; Wordle, Flagle, Tradle or Nerdle 1/6, Krillion 700, MapTap 1000, Magnitudle 500, Draw the Border 100, Perceptle 100, Peakle vs the day's best (min. 8 steps), Tiled Words vs the day's fastest time (benchmark kept between 2:00 and 6:00), Globle vs the day's fewest guesses (benchmark kept between 4 and 10), Spotle likewise (4 to 8), Noillirk 8,849 m, Poople at par). Fewer than ${CFG.minPlaysForAverage} plays are listed at the bottom.`;
+    const note = `Each puzzle: ${CFG.placementPoints.map((p, i) => `${ordinal(i + 1)} = ${p}`).join(', ')} pts among friends who played it. Wins = outright or tied 1st with 2+ players.`;
     return withInfo(`<table>${head}${body}</table>`, note);
   }
 
@@ -847,7 +834,7 @@
       return { best, items: ok.filter((x) => key(x) === best) };
     };
 
-    const ov = overall(w, 'points');
+    const ov = overall(w);
     const champ = topBy(ov, (s) => s.points, 0);
     if (champ) add('👑', 'Champion', champ.items.map((s) => s.player), `${champ.best} points · ${champ.items[0].wins} win${champ.items[0].wins === 1 ? '' : 's'} from ${champ.items[0].played} played`);
     const wins = topBy(ov, (s) => s.wins, 0);
@@ -981,7 +968,7 @@
     const es = entries.filter((e) => e.date === date);
     if (!es.length) return nav + empty('Nobody has played anything on this day.');
 
-    const board = overall(es, 'points')
+    const board = overall(es)
       .map((s) => `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player)}<td class="num strong">${s.points}</td><td class="num">${s.played}</td></tr>`)
       .join('');
     const top = `<h3>Day standings ${info("Points per puzzle: 3 for 1st, 2 for 2nd, 1 for 3rd. Hover (or tap) a result for the round-by-round details. 🔥 Hard / 🍰 Easy compares the group's average on that puzzle with the game's other puzzles.")}</h3><table><tr><th></th><th>Player</th><th class="num">Points</th><th class="num">Games</th></tr>${board}</table>`;
@@ -1020,7 +1007,7 @@
     const nm = (p) => `<b>${esc(displayName[p] || p)}</b>`;
     const gn = (e) => esc(GAME_BY_ID[e.game].name);
     const names = (ps) => (ps.length <= 2 ? ps.map(nm).join(' and ') : ps.slice(0, -1).map(nm).join(', ') + ' and ' + nm(ps[ps.length - 1]));
-    const top = overall(es, 'points').filter((s) => s.rank === 1);
+    const top = overall(es).filter((s) => s.rank === 1);
     let lead = '';
     if (top.length === 1) lead = `${nm(top[0].player)} tops the day with ${top[0].points} points${top[0].wins >= 2 ? ` and ${top[0].wins} wins` : ''}`;
     else if (top.length > 1) lead = `${names(top.map((s) => s.player))} share the top spot on ${top[0].points} points`;
@@ -1089,7 +1076,7 @@
     if (wins) recs.push(['🏆', 'Most wins in a day', String(wins.best), dateList(wins.items), wins.items.map((x) => x.p)]);
     const games = top(days, (x) => x.games);
     if (games) recs.push(['🎮', 'Most games in a day', String(games.best), dateList(games.items), games.items.map((x) => x.p)]);
-    const ptsDays = [...groupBy(entries, (e) => e.date).entries()].flatMap(([date, l]) => overall(l, 'points').map((s) => ({ p: s.player, date, pts: s.points })));
+    const ptsDays = [...groupBy(entries, (e) => e.date).entries()].flatMap(([date, l]) => overall(l).map((s) => ({ p: s.player, date, pts: s.points })));
     const pts = top(ptsDays, (x) => x.pts);
     if (pts) recs.push(['💯', 'Most points in a day', String(pts.best), dateList(pts.items), pts.items.map((x) => x.p)]);
     const up = upsets.slice().sort((a, b) => b.gap - a.gap)[0];
@@ -1672,7 +1659,7 @@
     const back = '<button class="link back" data-back="1">‹ Back</button>';
     if (!p || !entries.some((e) => e.player === p)) return back + empty('No results for this player yet.');
     const name = esc(displayName[p] || p);
-    const all = overall(entries, 'points');
+    const all = overall(entries);
     const ov = all.find((s) => s.player === p);
     const st = streakInfo(p, null);
     const stats = [

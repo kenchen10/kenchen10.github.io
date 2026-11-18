@@ -234,17 +234,25 @@
       url: 'https://playdaily.org/noillirk',
       header: /Noillirk\b(?=[^\n]*No\.)/gi,
       // "Noillirk: The Daily Climb | No. 46 - 8,759m"  or  "Noillirk 🎈 The Daily Climb · No. 47 · 2,863m"
-      // (the game changed its separators between versions; score = metres climbed)
+      // or (newer) "Noillirk 🎈 The Daily Climb · No. 53 · 10 km"
+      // (the game changed its separators and units between versions; score = metres climbed)
       parse(s) {
-        const m = s.match(/No\.\s*(\d+)\D{1,6}?(\d[\d,]*)\s*m\b/i); // any separator: "- ", "· ", "| "
+        const m = s.match(/No\.\s*(\d+)\D{1,6}?(\d[\d,]*(?:\.\d+)?)\s*(k?m)\b/i); // any separator: "- ", "· ", "| "
         if (!m) return null;
-        const value = Number(m[2].replace(/,/g, ''));
-        return { puzzle: Number(m[1]), value, display: value.toLocaleString('en-US') + ' m', detail: { grid: gridLines(s) } };
+        const n = Number(m[2].replace(/,/g, ''));
+        const km = m[3].toLowerCase() === 'km';
+        const value = km ? n * 1000 : n;
+        const display = km ? n.toLocaleString('en-US') + ' km' : value.toLocaleString('en-US') + ' m';
+        return { puzzle: Number(m[1]), value, display, detail: { grid: gridLines(s) } };
       },
       better: 'higher',
       unit: 'metres',
       formatValue: (v) => Math.round(v).toLocaleString('en-US'),
-      normalize: (v) => Math.min(1, v / 8849), // assumes the cap is Everest's height; adjust if scores go higher
+      // No fixed ceiling (scores passed Everest's 8,849 m, then switched to km), so Average mode scores
+      // each result against the best on the same puzzle: metres / max(best of the day, floor).
+      // The floor stops a lone low result scoring 100; daily bests have been ~8-9 km.
+      relative: { floor: 6000 },
+      normalize: (v) => Math.min(1, v / 10000), // fallback only, when the puzzle's best isn't known
       date: fromEpoch('2026-09-26'), // assumes No. 46 = 2026-11-11 (the day it was shared)
     },
     {

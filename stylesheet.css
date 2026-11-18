@@ -142,8 +142,6 @@ pre code { padding: 0; font-size: inherit; color: inherit; white-space: pre-wrap
 
 /* Bootstrap helpers still referenced in page/data content */
 .text-justify { text-align: justify; }
-.list-inline { padding-left: 0; margin-left: -5px; list-style: none; }
-.list-inline > li { display: inline-block; padding: 0 5px; }
 .img-responsive { display: block; max-width: 100%; height: auto; }
 .hidden { display: none !important; }
 
@@ -154,8 +152,6 @@ a:focus, a:hover { color: var(--accent-hover); text-decoration: none; }
 a.links { color: black; font-weight: 500; }
 a.links:focus, a.links:hover { color: var(--accent-hover); }
 
-a.links2 { color: black; text-decoration: underline; font-weight: 700; padding-right: 4px; }
-a.links2:hover { color: var(--accent-hover); }
 
 a.links3 { color: var(--accent); font-weight: 700; font-size: medium; padding-right: 4px; }
 a.links3:hover { color: var(--accent-hover); }
@@ -163,7 +159,6 @@ a.links3:hover { color: var(--accent-hover); }
 /* Paper links as small rounded chips */
 .pub-links a.links3,
 .pub-links .cite-btn,
-.paper-links a.links3,
 .not-found-links a.links3 {
   display: inline-flex;
   align-items: center;
@@ -180,11 +175,9 @@ a.links3:hover { color: var(--accent-hover); }
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 .pub-links a.links3 i,
-.pub-links .cite-btn i,
-.paper-links a.links3 i { color: var(--accent); }
+.pub-links .cite-btn i { color: var(--accent); }
 .pub-links a.links3:hover,
 .pub-links .cite-btn:hover,
-.paper-links a.links3:hover,
 .not-found-links a.links3:hover {
   color: var(--accent);
   background-color: var(--rose);

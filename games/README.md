@@ -27,7 +27,6 @@ If you later change `Code.gs`, use *Deploy → Manage deployments → Edit → N
 - **Duplicates:** only the first submission per player, game and puzzle counts, so re-pasting does nothing.
 - **Per-game boards:** average result (Wordle guesses with X = 7, Krillion points, Poople steps), best result, wins (outright or tied 1st with 2+ players) and games played.
 - **Overall, Points mode** (default): on every puzzle, 1st/2nd/3rd among friends who played it get 3/2/1 points (configurable in `config.js`). This rewards both playing and doing well.
-- **Overall, Average mode:** every result is scaled to 0–100 (Wordle 1/6 = 100 and X = 0; Krillion = points/7; Poople = par/steps) and averaged. Players under `minPlaysForAverage` plays are listed at the bottom.
 - **Time ranges:** all time, last 30 days, last 7 days or today. Dates come from the puzzle number (Wordle, Krillion), otherwise from the submission date.
 
 ## Adding a game

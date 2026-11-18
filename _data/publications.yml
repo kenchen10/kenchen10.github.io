@@ -59,8 +59,8 @@ wavefront formation offers a promising bridge for grounding depth foundation mod
   dataset: https://www.repository.cam.ac.uk/items/2f7c9a2a-ffe5-4d61-92b2-f6cb4928f119
   pdf: assets/papers/2026_siggraph_chen_main.pdf 
   supp: assets/papers/2026_siggraph_chen_supplement.pdf 
-  poster: ../assets/posters/sig26-poster.pdf
-  poster_preview: ../assets/posters/sig26-poster.png
+  poster: assets/posters/sig26-poster.pdf
+  poster_preview: assets/posters/sig26-poster.png
   is_selected: true
   bgcolor: True
   image: sig26-long.png
@@ -292,8 +292,8 @@ these models alone."
   teaser_text: "In this plot, we show that the existing standard for HDR, DisplayHDR, is not spaced in equal perceptual units (JODs) as defined by our model.
     Red X marks are equally spaced as evaluated by this model."
   image: wihdirectview-long.png
-  poster: ../assets/posters/HVEI26-poster.pdf
-  poster_preview: ../assets/posters/HVEI26-poster.png
+  poster: assets/posters/HVEI26-poster.pdf
+  poster_preview: assets/posters/HVEI26-poster.png
   doi: 10.2352/EI.2026.38.10.HVEI-222
   tag: "#F6BEFF"
   authors:
@@ -338,8 +338,8 @@ these models alone."
   tag: "#F6BEFF"
   teaser_image: fovgs_teaser.png
   github: NYU-ICL/perceptual-3dgs
-  poster: ../assets/posters/wacv-poster.pdf
-  poster_preview: ../assets/posters/wacv-poster.png
+  poster: assets/posters/wacv-poster.pdf
+  poster_preview: assets/posters/wacv-poster.png
   video: https://youtu.be/2qGCfs54fAQ
   yt_emb: https://www.youtube.com/embed/2qGCfs54fAQ
   pdf: assets/papers/Zhang_Perceptually_Guided_3DGS_Streaming_and_Rendering_for_Mixed_Reality_WACV_2026_paper.pdf
