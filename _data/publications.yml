@@ -6,6 +6,9 @@
   year: 2026
   showyear: true
   description: "Metric depth prediction from a monocular capture using a metalens."
+  code: bingxuan-li/metasurface-depth-eccv2026
+  video: https://youtu.be/Qkb4nXjKlwU
+  yt_emb: https://www.youtube.com/embed/Qkb4nXjKlwU
   project_page: "projects/eccv26/index.html"
   pdf: assets/papers/2026_ECCV_li.pdf 
   is_selected: false
@@ -47,6 +50,15 @@ Simulated and physical experiments with our fabricated
 titanium-dioxide metalens demonstrate accurate and consistent metric depth over state-of-the-art monocular depth
 estimators. The research demonstrates that nanophotonic
 wavefront formation offers a promising bridge for grounding depth foundation models in physical depth sensing."
+  bibtex: |
+    @inproceedings{li2026physically,
+      title={Physically Grounded Monocular Depth via Nanophotonic Wavefront Encoding},
+      author={Li, Bingxuan and Wu, Jiahao and Xu, Yuan and Zhu, Zezheng and Zhang, Yunxiang and Chen, Kenneth and Liang, Yanqi and Yu, Nanfang and Sun, Qi},
+      booktitle={European Conference on Computer Vision},
+      pages={528--548},
+      year={2026},
+      organization={Springer}
+    }
 
 - id: tmometric
   areas: [software, perception]
@@ -72,7 +84,7 @@ wavefront formation offers a promising bridge for grounding depth foundation mod
     </h3>
 
     <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
-        Our <a class="links3" href="interactive_webpage/index.html">[supplementary webpage]</a> is meant to accomodate the "Adapting Quality Metrics to Tone Mapping" paper by showcasing granular, per-dataset metric evaluation results and user study stimuli.
+        Our <a class="links3" href="interactive_webpage/index.html">[supplementary webpage]</a> is meant to accompany the "Adapting Quality Metrics to Tone Mapping" paper by showcasing granular, per-dataset metric evaluation results and user study stimuli.
     </p>'
   # bibtex: ""
   teaser_text: "In tone mapping, the absolute luminance of HDR reference and tone-mapped test can differ significantly. To accurately predict quality, our display model maps display-encoded content to photometric values, given the specifications of the display. The colormap represents the photometric values in nits. Next, a perceptual transfer function, P() maps these values to a shared display-encoded representation (e.g. 0-1), usable by the quality metric."
@@ -467,7 +479,7 @@ towards applications such as deepfake detection."
     </h3>
 
     <p class="text-justify" style="width: 98%; margin-left: auto; margin-right: auto;">
-        Our <a class="links3" href="interactive_webpage/index.html">[supplementary webpage]</a> is meant to accomodate the "What is HDR?" paper by showcasing still frames from HDR video stimuli used in our user study. HDR content was tested in Google Chrome on a Macbook Pro M3, and can only be viewed accurately on an HDR display.
+        Our <a class="links3" href="interactive_webpage/index.html">[supplementary webpage]</a> is meant to accompany the "What is HDR?" paper by showcasing still frames from HDR video stimuli used in our user study. HDR content was tested in Google Chrome on a Macbook Pro M3, and can only be viewed accurately on an HDR display.
     </p>'
   video: images/wih_supp_video.mp4
   teaser_text: "A model to predict perceptual impact (in Just-Objectionable-Differences, or JODs) is derived from HDR preference data for combinations of display
@@ -702,7 +714,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
 
 - id: vr25
   areas: [software, perception]
-  title: "Perceptually-Guided Acoustic ``Foveation''"
+  title: "Perceptually-Guided Acoustic “Foveation”"
   venue: IEEE VR
   doi: 10.1109/VR59515.2025.00069
   year: 2025
@@ -1056,7 +1068,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
   doi: 10.1145/3550454.3555473
   showyear: 2022
   year: 2022
-  description: "VR display power can be reduce by modulating peripheral colors, via a color discrimination model."
+  description: "VR display power can be reduced by modulating peripheral colors, via a color discrimination model."
   project_page: "projects/vrenergy/index.html"
   github: NYU-ICL/vr-power-saver
   papersite: https://www.immersivecomputinglab.org/wp-content/uploads/2024/11/vr_energy_siga_22.pdf
@@ -1107,7 +1119,7 @@ However, the power efficiency of head-mounted displays is naturally at odds with
 For instance, Oculus Quest 2, under a fully-charged battery, can sustain only 2 to 3 hours of operation time.
 Prior display power reduction techniques mostly target smartphone displays.
 Directly applying smartphone display power reduction techniques, however, degrades the visual perception in AR/VR with noticeable artifacts.
-For instance, the ``power-saving mode'' on smartphones <em>uniformly</em> lowers the pixel luminance across the display and, as a result, presents an overall darkened visual perception to users if directly applied to VR content.
+For instance, the “power-saving mode” on smartphones <em>uniformly</em> lowers the pixel luminance across the display and, as a result, presents an overall darkened visual perception to users if directly applied to VR content.
 <br><br>
 Our key insight is that VR display power reduction must be cognizant of the gaze-contingent nature of high field-of-view VR displays. To that end, we present a gaze-contingent system that, without degrading luminance, minimizes the display power consumption while presenting an indiscriminable visual perception.
 This is enabled by constructing 1) a gaze-contingent color discrimination model through psychophysical studies, and 2) a display power model (with respect to pixel color) through real-device measurements. Critically, due to the careful design decisions made in constructing the two models, our algorithm is cast as a constrained optimization problem with a <em>closed-form</em> solution, which can be implemented as a real-time, image-space shader.
