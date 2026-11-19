@@ -73,6 +73,7 @@ wavefront formation offers a promising bridge for grounding depth foundation mod
   supp: assets/papers/2026_siggraph_chen_supplement.pdf 
   poster: assets/posters/sig26-poster.pdf
   poster_preview: assets/posters/sig26-poster.png
+  doi: 10.1145/3799902.3811107
   is_selected: true
   bgcolor: True
   image: sig26-long.png
@@ -122,6 +123,22 @@ which shows greatly improved performance and accepts photometric values
 as input. These results highlight the robustness of our adaptation technique
 and provide an improved protocol for evaluating future tone mapping quality
 metrics. Refer to our supplementary webpage for all data and stimuli."
+  bibtex: |
+    @inproceedings{chen2026adapting,
+      author = {Chen, Kenneth and Kim, Dongyeon and Asano, Yuta and Chapiro, Alexandre and Sun, Qi and Mantiuk, Rafa{\l} K.},
+      title = {Adapting Quality Metrics to Tone Mapping},
+      year = {2026},
+      isbn = {9798400725548},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3799902.3811107},
+      doi = {10.1145/3799902.3811107},
+      booktitle = {Proceedings of the Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers},
+      articleno = {181},
+      numpages = {11},
+      location = {Los Angeles, CA, USA},
+      series = {SIGGRAPH Conference Papers '26}
+    }
 
 - id: dichoptic
   areas: [software, perception]
@@ -168,6 +185,7 @@ We applied the model in a realistic VR scenario with free exploration of 360° v
   project_page: "projects/dyndom/index.html"
   github: 
   arxiv: 
+  doi: 10.1145/3799902.3811164
   pdf: assets/papers/2026_siggraph_jimenez-navarro_main.pdf 
   supp: assets/papers/2026_siggraph_jimenez-navarro_supplement.pdf 
   image: dyndom-long.png
