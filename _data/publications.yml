@@ -6,11 +6,11 @@
   year: 2026
   showyear: true
   description: "Metric depth prediction from a monocular capture using a metalens."
-  code: bingxuan-li/metasurface-depth-eccv2026
+  github: bingxuan-li/metasurface-depth-eccv2026
   video: https://youtu.be/Qkb4nXjKlwU
   yt_emb: https://www.youtube.com/embed/Qkb4nXjKlwU
   project_page: "projects/eccv26/index.html"
-  pdf: assets/papers/2026_ECCV_li.pdf 
+  pdf: assets/papers/2026_eccv_li_main.pdf 
   is_selected: false
   image: "NanoSense-SmallTeaser.png"
   tag: "#F6BEFF"
@@ -188,6 +188,22 @@ We applied the model in a realistic VR scenario with free exploration of 360° v
     - LogoUZ.png
     - nyu.png
   abstract: "In human vision, the inputs perceived by each eye do not contribute equally to the final percept. Instead, visual dominance influences how these inputs are fused, giving more weight to one eye view over the other.  While eye dominance has been traditionally treated as a static, eye-fixed property, recent evidence suggests that dominance can vary with viewing conditions. In this work, we systematically characterize dynamic visual dominance across the visual field, with a particular focus on peripheral vision, where perceptual asymmetries are most relevant for stereoscopic rendering. Through two complementary psychophysical experiments, we first show that tolerance to eye-asymmetric blur at the fovea under binocular viewing depends on gaze direction, confirming that eye dominance is not spatially invariant. We then show that peripheral dominance is primarily governed by retinal eccentricity, with consistent naso-temporal asymmetries and dominance reversals around the blind spots. We leverage our insights in a dominance-contingent rendering application, where additional blur is selectively applied to the perceptually non-dominant eye regions under binocular viewing. Compared to static dominance approaches, our method enables stronger localized quality reductions, illustrating the practical relevance of dynamic peripheral dominance for stereoscopic foveated rendering. Thus, our goal through this work is to show how visual dominance behaves dynamically in both fovea and periphery, indicating how foveation techniques could benefit from it."
+  bibtex: |
+    @inproceedings{jimenez-navarro2026dynamic,
+      author = {Jim{\'e}nez-Navarro, Daniel and Groth, Colin and Chen, Kenneth and Sun, Qi and Myszkowski, Karol and Seidel, Hans-Peter and Serrano, Ana},
+      title = {Dynamic Visual Dominance in Stereoscopic Foveation},
+      year = {2026},
+      isbn = {9798400725548},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3799902.3811164},
+      doi = {10.1145/3799902.3811164},
+      booktitle = {Proceedings of the Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers},
+      articleno = {141},
+      numpages = {11},
+      location = {Los Angeles, CA, USA},
+      series = {SIGGRAPH Conference Papers '26}
+    }
 
 - id: catimage
   areas: [software]
@@ -197,7 +213,7 @@ We applied the model in a realistic VR scenario with free exploration of 360° v
   description: "Routing text prompts to different text-to-image models can save on compute time."
   project_page: "projects/catimage/index.html"
   github: 
-  pdf: assets/papers/6538_Cost_Aware_Routing_for_Ef.pdf
+  pdf: assets/papers/2026_tmlr_li_main.pdf
   image: catimg-long.png
   tag: "#F6BEFF"
   teaser_image: catimg_teaser.png
@@ -254,8 +270,8 @@ these models alone."
   doi: 10.1111/cgf.70369
   image: mlpea-long.png
   tag: "#F6BEFF"
-  pdf: assets/papers/eg26.pdf
-  supp: assets/papers/paper1054_2_MM1.pdf
+  pdf: assets/papers/2026_eurographics_chen_main.pdf
+  supp: assets/papers/2026_eurographics_chen_supplement.pdf
   teaser_image: mlpea-teaser.png
   teaser_text: "Our pipeline generates images which consume less power than the original when shown on a display, while minimizing perceptual impact. 
   Here, we show an example of an image generated with our technique compared to the reference and its uniformly dimmed version.
@@ -299,7 +315,7 @@ these models alone."
   description: "A follow-up to our 'What is HDR?' paper, adapted for direct-view displays."
   project_page: "projects/wihdirectview/index.html"
   teaser_image: wihdirectview-teaser.png
-  pdf: assets/papers/hvei26.pdf
+  pdf: assets/papers/2026_hvei_chen_main.pdf
   github: NYU-ICL/what-is-hdr
   teaser_text: "In this plot, we show that the existing standard for HDR, DisplayHDR, is not spaced in equal perceptual units (JODs) as defined by our model.
     Red X marks are equally spaced as evaluated by this model."
@@ -354,7 +370,7 @@ these models alone."
   poster_preview: assets/posters/wacv-poster.png
   video: https://youtu.be/2qGCfs54fAQ
   yt_emb: https://www.youtube.com/embed/2qGCfs54fAQ
-  pdf: assets/papers/Zhang_Perceptually_Guided_3DGS_Streaming_and_Rendering_for_Mixed_Reality_WACV_2026_paper.pdf
+  pdf: assets/papers/2026_wacv_zhang_main.pdf
   teaser_text: "The proposed perceptually guided, adaptive level-of-detail 3DGS streaming and rendering framework for virtual reality."
   authors:
     - yzhang
@@ -402,8 +418,8 @@ method achieves superior trade-offs between computational efficiency and percept
   # venue_long: Winter Conference on Applications of Computer Vision
   year: 2026
   # arxiv: 2509.08818
-  pdf: assets/papers/Kang_GeneVA_A_Dataset_of_Human_Annotations_for_Generative_Text_to_WACV_2026_paper.pdf
-  supp: assets/papers/Kang_GeneVA_A_Dataset_WACV_2026_supplemental.pdf
+  pdf: assets/papers/2026_wacv_kang_main.pdf
+  supp: assets/papers/2026_wacv_kang_supplement.pdf
   description: "A large-scale dataset of bounding boxes, ratings, descriptions of artifacts in AI videos."
   project_page: "projects/geneva/index.html"
   image: geneva-long.png
@@ -459,8 +475,8 @@ towards applications such as deepfake detection."
   poster: assets/WIH-poster.pdf
   poster_preview: assets/WIH-poster.png
   ff: images/sig25_ff.mp4
-  pdf: assets/papers/WIH_Part1.pdf
-  supp: assets/papers/WIH_Part2.pdf
+  pdf: assets/papers/2025_siggraph_chen_main.pdf
+  supp: assets/papers/2025_siggraph_chen_supplement.pdf
   talk: https://www.youtube.com/embed/tbyemMp3V0Y
   is_selected: true
   papersite: 
@@ -617,8 +633,8 @@ run-time efficiency, which we demonstrate in machine vision and image restoratio
   doi: 10.1364/OE.559364
   arxiv: 
   poster: 
-  pdf: assets/papers/oe-33-9-19399.pdf
-  supp: assets/papers/7444817.pdf
+  pdf: assets/papers/2025_optics-express_chen_main.pdf
+  supp: assets/papers/2025_optics-express_chen_supplement.pdf
   papersite: 
   teaser_vid: 
   award: 
@@ -674,7 +690,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   project_page: "projects/isca25/index.html"
   github: 
   doi: 10.1145/3695053.3731110
-  pdf: "assets/papers/ISCA_2025_POLO_final.pdf"
+  pdf: "assets/papers/2025_isca_wang_main.pdf"
   teaser_vid: 
   image: polo-long.png
   bgcolor: 
@@ -720,7 +736,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   year: 2025
   description: A sound source clustering technique based on a model of minimum audible angle.
   project_page: "projects/vr25/index.html"
-  pdf: "assets/papers/audio_foveation-1.pdf"
+  pdf: "assets/papers/2025_ieee-vr_peng_main.pdf"
   image: audiofov-long.png
   tag: "#F6BEFF"
   teaser_image: vr25_teaser-modified.png
@@ -759,7 +775,7 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
 #   poster_preview: assets/poster_i3d.png
 #   description: "Diffusion models can be used to texture 3D models."
 #   project_page: "projects/i3d25/index.html"
-#   pdf: assets/papers/i3d25.pdf
+#   pdf: assets/papers/2025_i3d_li_main.pdf
 #   image: blendfusion-long.png
 #   tag: "#F6BEFF"
 #   teaser_image: i3d-teaser.png
@@ -833,8 +849,8 @@ Our result is the Neural Holographic Field: the first artificial-neural-network-
   github: NYU-ICL/pea-pods.git
   poster: assets/PEAPODs-Poster.pdf
   poster_preview: assets/PEAPODs-Poster.png
-  pdf: assets/papers/peapods_manuscript_Part1.pdf
-  supp: assets/papers/peapods_manuscript_Part2.pdf
+  pdf: assets/papers/2024_siggraph_chen_main.pdf
+  supp: assets/papers/2024_siggraph_chen_supplement.pdf
   is_selected: true
   award: Best Paper Award (Honorable Mention)
   award_link: https://blog.siggraph.org/2024/06/siggraph-2024-technical-papers-awards-best-papers-honorable-mentions-and-test-of-time.html/
@@ -990,7 +1006,7 @@ Leveraging electromyography devices, we measure, model, and predict users' neck 
 #   year: 2023
 #   description: "A dataset of audience videos with application to audience synthesis."
 #   project_page: "projects/sca23/index.html"
-#   pdf: assets/papers/sca23-4.pdf
+#   pdf: assets/papers/2023_sca_chen_main.pdf
 #   image: sca-long.png
 #   tag: "#F6BEFF"
 #   teaser_image: datagenpipeline-1.png
