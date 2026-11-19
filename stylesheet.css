@@ -78,6 +78,11 @@ sup { position: relative; top: -.5em; font-size: 75%; line-height: 0; vertical-a
 img { border: 0; vertical-align: middle; }
 img, video, embed, iframe { max-width: 100%; }
 img[width][height], video[width][height] { height: auto; }  /* keep aspect ratio when width/height attributes are set */
+/* Images that haven't loaded yet (class set by a script in _includes/head.html): a soft tint, not an empty framed box */
+img.is-loading { background-color: var(--rose); border-color: transparent !important; box-shadow: none !important; animation: img-loading 1.4s ease-in-out infinite; }
+.entry-logo img.is-loading { aspect-ratio: 4; }  /* logos have no width/height attributes; roughly their shape */
+@keyframes img-loading { 50% { opacity: 0.55; } }
+@media (prefers-reduced-motion: reduce) { img.is-loading { animation: none; } }
 video { display: inline-block; vertical-align: baseline; }
 figure { margin: 1em 40px; }
 label { display: inline-block; max-width: 100%; margin-bottom: 5px; font-weight: 700; }
@@ -311,7 +316,7 @@ a.links3:hover { color: var(--accent-hover); }
 }
 
 /* The rail, with one dot per entry */
-.tl-group { margin-left: 6px; padding: 2px 0; border-left: 2px solid var(--rail); }
+.tl-group { margin-left: 20px; padding: 2px 0; border-left: 2px solid var(--rail); }  /* indented under its year */
 .tl-item {
   position: relative;
   display: grid;
@@ -583,9 +588,15 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
 .image-row { display: flex; flex-wrap: wrap; gap: 16px; margin: 10px 0 0 12px; }
 .image-item { width: 125px; }
 .image-item a { display: block; color: inherit; }
-.image-item img { display: block; width: 100%; border: 1px solid black; transition: transform 0.2s ease; }
+.image-item img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid black; transition: transform 0.2s ease; }
 .image-item img:hover { transform: scale(1.03); }
 .caption { margin-top: 4px; font-size: 14px; }
+
+/* ---------- Useful links (resources.html) ---------- */
+.page-intro { margin: 6px 0 0; color: var(--muted); font-style: italic; }
+.link-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.link-list li { padding: 10px 2px; border-bottom: 1px solid var(--rose); }
+.link-meta { margin-top: 2px; font-size: small; color: var(--muted); }
 
 /* ---------- CV ---------- */
 .cv-name { margin: 24px 0 10px; font-size: 25px; font-weight: 700; }

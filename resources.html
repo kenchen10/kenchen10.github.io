@@ -3,14 +3,17 @@ layout: default
 title: Useful Links
 ---
 <main class="page">
-  <a href="images.html"><img class="img-responsive" style="padding: 0 20px 5px; border-radius: 3px" src="images/all-pics.png" alt="Photography"></a>
   <div class="page-header">
     <h1 class="heading">Useful Links</h1>
-    <hr class="rule">
+    <p class="page-intro">A somewhat-random assortment of useful links.</p>
   </div>
-  <ul style="list-style: none">
+  <ul class="link-list">
     {%- for item in site.data.resources %}
-    <li><a class="links" href="{{ item.link }}"><strong>{{ item.title }}</strong></a>, <em>{{ item.author }}</em></li>
+    {%- assign domain = item.link | split: "//" | last | split: "/" | first | remove_first: "www." %}
+    <li>
+      <a class="links" href="{{ item.link }}"><strong>{{ item.title }}</strong></a>
+      <div class="link-meta">{{ item.author }} · {{ domain }}</div>
+    </li>
     {%- endfor %}
   </ul>
 </main>

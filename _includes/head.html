@@ -10,6 +10,18 @@
 <meta name="description" content="{{ site.description | strip_html | normalize_whitespace | truncate: 160 }}">
 <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin>
 <link rel="stylesheet" href="{{ '/stylesheet.css' | relative_url }}">
+<script>
+  // Mark images that are still loading so the stylesheet can show a soft placeholder (img.is-loading)
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('img').forEach(function (img) {
+      if (img.complete) return;
+      img.classList.add('is-loading');
+      var done = function () { img.classList.remove('is-loading'); };
+      img.addEventListener('load', done, { once: true });
+      img.addEventListener('error', done, { once: true });
+    });
+  });
+</script>
 {%- if include.icons or page.icons %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 {%- endif %}

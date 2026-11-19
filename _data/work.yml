@@ -1,5 +1,5 @@
 - id: google
-  company: Google Zǔrich
+  company: Google Zürich
   mentor: 'TBD'
   descriptions: 
     - TBD
@@ -33,7 +33,7 @@
     - Developed perceptual tone mapping algorithms for HDR video.
     - Resulted in a SIGGRAPH 2025 paper.
   shortdescription: Studied/modeled contrast and luminance preferences in HDR displays
-  years: June 2024- January 2025
+  years: June 2024 - January 2025
   role: Research Scientist Intern
   img: meta.png
 - id: meta1

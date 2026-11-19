@@ -19,6 +19,7 @@
   description: mural
   img: images/mural_coverimage.png
 - id: rand
-  site: ./resources.html
+  site: resources.html
   title: "Useful Links"
   description: "a collection of useful links/resources"
+  img: images/links_coverimage.svg
