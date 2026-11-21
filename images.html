@@ -6,9 +6,10 @@ icons: true
 <main class="page">
   <div class="page-header photo-header">
     <h1 class="heading">Photography</h1>
-    {%- comment -%} Albums | Map. The map view is assets/photo-map.js; /images.html#map opens it directly. {%- endcomment %}
+    {%- comment -%} Albums | All photos | Map, switched by assets/photo-map.js; /images.html#all and #map open those views directly. {%- endcomment %}
     <div class="section-toggles photo-views" role="group" aria-label="View">
       <button type="button" class="section-toggle active" data-view="albums" aria-pressed="true"><i class="fas fa-images"></i> Albums</button>
+      <button type="button" class="section-toggle" data-view="all" aria-pressed="false"><i class="fas fa-table-cells"></i> All photos</button>
       <button type="button" class="section-toggle" data-view="map" aria-pressed="false"><i class="fas fa-map-location-dot"></i> Map</button>
     </div>
   </div>
@@ -44,6 +45,30 @@ icons: true
   {%- endfor %}
   </div>
 
+  {%- comment -%}
+    Every photo in rows of equal height (CSS: .photo-grid), each as wide as its shape needs.
+    --ar is the photo's width/height from _data/image_sizes.yml. assets/photo-grid.js shuffles
+    them on every visit and picks the row breaks so photos are cropped as little as possible.
+    Hovering shows where and when it was taken; clicking opens it full-screen, with a button to
+    its album (href, which is also where it goes without the script).
+  {%- endcomment %}
+  <div id="photo-all" class="photo-grid" hidden>
+  {%- for album in site.data.images -%}
+    {%- assign place = album.title -%}
+    {%- if album.location and album.location != album.title %}{% assign place = place | append: ", " | append: album.location %}{% endif -%}
+    {%- for item in album.imgs -%}
+      {%- assign src = item.src | default: item | prepend: "images/" -%}
+      {%- assign size = site.data.image_sizes[src] -%}
+      {%- if size %}{% assign ar = size[0] | times: 1.0 | divided_by: size[1] | round: 3 %}{% else %}{% assign ar = 1.5 %}{% endif -%}
+      {%- assign href = "/photos/" | append: album.id | append: "/#photo-" | append: forloop.index | relative_url %}
+    <a class="grid-photo" href="{{ href }}" data-full="{{ '/' | append: src | relative_url }}" data-place="{{ place | escape }}" data-date="{{ album.date | escape }}" style="--ar: {{ ar }}" aria-label="{{ place | escape }}, {{ album.date | escape }}">
+      {%- include photo.html src=src thumb=true alt="" -%}
+      <span class="grid-caption" aria-hidden="true"><span class="grid-place">{{ place }}</span><span class="grid-date">{{ album.date }}</span></span>
+    </a>
+    {%- endfor -%}
+  {%- endfor %}
+  </div>
+
   <div id="photo-map" class="photo-map" hidden role="region" aria-label="Map of photos"></div>
   {%- comment -%}
     Every photo with `coords` in _data/images.yml. `href` opens the photo on its album page.
@@ -63,4 +88,5 @@ icons: true
   {%- endfor -%}
   ]</script>
 </main>
+<script src="{{ '/assets/photo-grid.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/photo-map.js' | relative_url }}" defer></script>

@@ -21,12 +21,12 @@
     return n;
   };
   const fmtKm = d => (d < 10 ? d.toFixed(1) : Math.round(d)) + ' km';
-  const fmtM = m => Math.round(m).toLocaleString('en-US') + ' m';
+  const fmtM = m => (Math.round(m) || 0).toLocaleString('en-US') + ' m';  // || 0 avoids "-0 m"
 
   // ---- Elevation profile ----
   let cursor = null, xOf, yOf;
   function drawProfile() {
-    const W = svg.clientWidth || 600, H = 96, padT = 8, padB = 18, padL = 44, padR = 6;
+    const W = svg.clientWidth || 600, H = svg.clientHeight || 96, padT = 8, padB = 18, padL = 44, padR = 6;
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.innerHTML = '';
     const total = pts[pts.length - 1][3];
@@ -34,6 +34,9 @@
     const lo = Math.min(...eles), hi = Math.max(...eles), span = Math.max(hi - lo, 1);
     xOf = d => padL + (d / total) * (W - padL - padR);
     yOf = e => padT + (1 - (e - lo) / span) * (H - padT - padB);
+    // Light axes (left and bottom) and a faint line at the highest point
+    el('line', { x1: padL, x2: W - padR, y1: padT, y2: padT, class: 'trail-grid' }, svg);
+    el('path', { d: `M${padL} ${padT} V${H - padB} H${W - padR}`, class: 'trail-axis-line' }, svg);
     const line = pts.map((p, i) => `${i ? 'L' : 'M'}${xOf(p[3]).toFixed(1)} ${yOf(p[2]).toFixed(1)}`).join(' ');
     el('path', { d: `${line} L${xOf(total)} ${H - padB} L${padL} ${H - padB} Z`, class: 'trail-area' }, svg);
     el('path', { d: line, class: 'trail-line' }, svg);

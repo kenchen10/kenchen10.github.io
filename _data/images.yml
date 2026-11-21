@@ -97,7 +97,7 @@
   imgs: 
     - src: muirwoods/DSC00890.jpg
       coords: [37.893388, -122.573351]
-    - src: muirwoods/DSC00905.jpg
+    - src: muirwoods/DSC00905.png
       coords: [37.893388, -122.573351]
     - src: muirwoods/DSC00910.jpg
       coords: [37.892600, -122.572400]
@@ -257,6 +257,7 @@
       coords: [52.2053, 0.1218]
   description: Some photos I took during my research visit at University of Cambridge.
 - id: seven_sisters
+  trail: seven_sisters
   title: Seven Sisters Cliffs
   date: June 7, 2025
   location: England

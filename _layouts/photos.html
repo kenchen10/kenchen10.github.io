@@ -62,8 +62,10 @@
       <span class="trail-name">{{ trail.name }}</span>
       <span class="trail-stats">{{ trail.distance_km }} km · &uarr; {{ trail.ascent_m }} m · &darr; {{ trail.descent_m }} m · {{ trail.min_ele_m }}–{{ trail.max_ele_m }} m</span>
     </div>
-    <div class="trail-map" id="trail-map" role="img" aria-label="Map of the {{ trail.name }} route"></div>
-    <svg class="trail-profile" id="trail-profile" role="img" aria-label="Elevation profile"></svg>
+    <div class="trail-body">
+      <div class="trail-map" id="trail-map" role="img" aria-label="Map of the {{ trail.name }} route"></div>
+      <svg class="trail-profile" id="trail-profile" role="img" aria-label="Elevation profile"></svg>
+    </div>
     <script type="application/json" id="trail-data">{{ trail | jsonify }}</script>
   </section>
   {%- endif %}

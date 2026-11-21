@@ -1,4 +1,5 @@
-// Photography page: switch between the album grid and a map of where each photo was taken.
+// Photography page: switch between the album grid, a grid of every photo, and a map of where
+// each photo was taken.
 // Photos come from the JSON block #photo-map-data (every photo with `coords` in
 // _data/images.yml). Nearby photos are grouped into one pin showing the newest photo and
 // a count; clicking a pin zooms in, or lists its photos once they can't be split further.
@@ -12,21 +13,21 @@
   const LIB = 'https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl';
   let map = null, started = false, popup = null;
 
-  // ---- Albums | Map switch ----
+  // ---- Albums | All photos | Map switch ----
+  const views = { albums: albumsEl, all: document.getElementById('photo-all'), map: mapEl };
+  const viewFromHash = () => (location.hash === '#map' ? 'map' : location.hash === '#all' ? 'all' : 'albums');
   function setView(view, push) {
-    const isMap = view === 'map';
-    albumsEl.hidden = isMap;
-    mapEl.hidden = !isMap;
+    Object.entries(views).forEach(([name, el]) => { if (el) el.hidden = name !== view; });
     buttons.forEach(b => {
       const on = b.dataset.view === view;
       b.classList.toggle('active', on);
       b.setAttribute('aria-pressed', on);
     });
-    if (push) history.replaceState(null, '', isMap ? '#map' : location.pathname + location.search);
-    if (isMap) { start(); if (map) map.resize(); }
+    if (push) history.replaceState(null, '', view === 'albums' ? location.pathname + location.search : '#' + view);
+    if (view === 'map') { start(); if (map) map.resize(); }
   }
   buttons.forEach(b => b.addEventListener('click', () => setView(b.dataset.view, true)));
-  window.addEventListener('hashchange', () => setView(location.hash === '#map' ? 'map' : 'albums', false));
+  window.addEventListener('hashchange', () => setView(viewFromHash(), false));
 
   // ---- Map ----
   const load = (tag, attrs) => new Promise((ok, fail) => {
@@ -157,5 +158,5 @@
     });
   }
 
-  if (location.hash === '#map') setView('map', false);  // e.g. coming back from an album
+  if (location.hash === '#map' || location.hash === '#all') setView(viewFromHash(), false);  // e.g. coming back from an album
 })();

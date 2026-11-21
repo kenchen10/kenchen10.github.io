@@ -663,7 +663,62 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
   background: #efe7ea;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 6px 18px rgba(80, 40, 55, 0.1);
 }
-.photo-map[hidden], #photo-albums[hidden] { display: none; }
+.photo-map[hidden], #photo-albums[hidden], .photo-grid[hidden] { display: none; }
+
+/* Photography page: All photos. Every row is --row-h tall and each photo is about as wide as
+   its shape (--ar = width/height), cropped slightly so the row fills the width exactly.
+   assets/photo-grid.js sets each photo's width; without it, photos grow to fill their row.
+   The ::after spacer keeps the last row from stretching. */
+/* As wide as the window (less a 16px margin each side), centred on the page */
+.photo-grid {
+  --row-h: 300px;
+  --grid-w: calc(100vw - 32px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: var(--grid-w);
+  margin-left: calc(50% - var(--grid-w) / 2);
+}
+.photo-grid::after { content: ""; flex: 1000 1 0; }
+.grid-photo {
+  position: relative;
+  flex: var(--ar) 1 calc(var(--ar) * var(--row-h));
+  height: var(--row-h);
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: var(--rose);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.grid-photo img, .grid-photo img[width][height] { display: block; width: 100%; height: 100%; object-fit: cover; }
+.grid-photo:hover, .grid-photo:focus-visible {
+  z-index: 1;
+  transform: translateY(-4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 12px 26px rgba(80, 40, 55, 0.22);
+}
+.grid-caption {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 10px 8px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.35;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(transparent, rgba(30, 12, 20, 0.62));
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+.grid-place { font-weight: 700; }
+.grid-date { opacity: 0.85; }
+.grid-photo:hover .grid-caption, .grid-photo:focus-visible .grid-caption { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .grid-photo, .grid-caption { transition: none; }
+  .grid-photo:hover, .grid-photo:focus-visible { transform: none; }
+}
 .photo-map-failed { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; }
 .photo-map .maplibregl-ctrl-attrib { font-size: 10px; }
 .photo-pin {
@@ -746,6 +801,33 @@ body.lightbox-open { overflow: hidden; }
 .lightbox-prev { left: 18px; top: 50%; transform: translateY(-50%); }
 .lightbox-next { right: 18px; top: 50%; transform: translateY(-50%); }
 .lightbox-close { top: 16px; right: 18px; font-size: 30px; }
+/* All photos viewer: where/when on the left and a link to the album on the right, in a row
+   just above the photo and exactly as wide as it (the row never widens the figure) */
+.lightbox-figure { display: flex; flex-direction: column; gap: 10px; margin: 0; }
+.lightbox-figure .lightbox-img { max-height: calc(100vh - 150px); }
+.lightbox-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px 16px;
+  width: 0;
+  min-width: 100%;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #fff;
+}
+.lightbox-caption { display: flex; flex-direction: column; }
+.lightbox-place { font-weight: 700; }
+.lightbox-date { color: rgba(255, 255, 255, 0.7); }
+.lightbox-album {
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  transition: background-color 0.15s ease;
+}
+.lightbox-album:hover, .lightbox-album:focus-visible { color: #fff; background: rgba(255, 255, 255, 0.25); outline: none; }
 .lightbox-count { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); font-size: 13px; color: rgba(255, 255, 255, 0.7); letter-spacing: 0.05em; }
 
 /* Trail map + elevation profile (assets/trail-map.js) */
@@ -763,9 +845,18 @@ body.lightbox-open { overflow: hidden; }
 .trail-map[hidden] { display: none; }
 .trail-map .maplibregl-ctrl-attrib { font-size: 10px; }
 .trail-profile { display: block; width: 100%; height: 96px; margin-top: 8px; cursor: crosshair; touch-action: pan-y; }
+/* Wide screens: map and elevation profile side by side, the same height */
+@media (min-width: 700px) {
+  .trail-body { display: grid; grid-template-columns: 3fr 2fr; gap: 18px; height: 320px; }
+  .trail-body .trail-map { height: 100%; }
+  .trail-body .trail-profile { height: 100%; margin-top: 0; }
+  .trail-map[hidden] + .trail-profile { grid-column: 1 / -1; }  /* map couldn't load: profile takes the row */
+}
 .trail-area { fill: rgba(140, 47, 90, 0.12); }
 .trail-line { fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linejoin: round; }
 .trail-axis { font-size: 11px; fill: var(--muted); }
+.trail-axis-line { fill: none; stroke: rgba(80, 40, 55, 0.22); stroke-width: 1; }
+.trail-grid { stroke: rgba(80, 40, 55, 0.12); stroke-width: 1; stroke-dasharray: 3 3; }
 .trail-cursor line { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 2 3; }
 .trail-cursor circle { fill: #fff; stroke: var(--accent); stroke-width: 2.5; }
 .trail-cursor-label { font-size: 12px; font-weight: 700; fill: var(--accent); }
@@ -1006,6 +1097,7 @@ body.paper-page { background-color: white; }
   .album-photos { gap: 12px; }
   .trail-map { height: 260px; }
   .photo-map { height: 62vh; min-height: 360px; }
+  .photo-grid { --row-h: 160px; gap: 6px; width: auto; margin-left: 0; }
   .photo-pin { width: 44px; height: 44px; }
   .lightbox-prev, .lightbox-next { top: auto; bottom: 10px; transform: none; }
 

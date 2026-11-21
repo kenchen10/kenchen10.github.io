@@ -6,9 +6,9 @@
 # Run it from the repo root after adding photos to _data/images.yml,
 # _data/birds.yml or _data/mural.yml, or an `image:` to _data/publications.yml,
 # _data/otherpubs.yml or _data/news.yml. It:
-#   1. writes a 640px JPEG preview of each album's cover (first image) to
-#      images/thumbs/<album path>.jpg, used by the Photography grid and the
-#      home page sidebar;
+#   1. writes a 640px JPEG preview of every album photo to
+#      images/thumbs/<album path>.jpg, used by the album covers and the
+#      "All photos" grid on the Photography page, and the home page sidebar;
 #   2. writes a 240px JPEG preview of every album photo to
 #      images/thumbs/map/<album path>.jpg, used by the map on the Photography page;
 #   3. writes _data/image_sizes.yml with the width/height of every photo and
@@ -76,14 +76,10 @@ albums.each do |album|
     record.call(src)
     next unless File.exist?(src)
     made += 1 if make_preview(src, thumb_path(img, 'images/thumbs/map'), MAP_THUMB_SIZE)
+    dest = thumb_path(img)
+    made += 1 if make_preview(src, dest, THUMB_SIZE)
+    record.call(dest)
   end
-  next if imgs.empty?
-
-  src = "images/#{imgs.first}"
-  next unless File.exist?(src)
-  dest = thumb_path(imgs.first)
-  made += 1 if make_preview(src, dest, THUMB_SIZE)
-  record.call(dest)
 end
 
 (birds + mural).each { |item| record.call(item['img']) if item['img'] }
