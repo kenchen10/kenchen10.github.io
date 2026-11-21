@@ -55,8 +55,9 @@ icons: true
         {%- unless album.imgs -%}{%- continue -%}{%- endunless -%}
         {%- assign i = i | plus: 1 -%}
         {%- if i < 1 or i > 10 -%}{%- continue -%}{%- endif -%}
-        {%- assign cover = "images/" | append: album.imgs.first -%}
-        {%- assign base = album.imgs.first | split: "." | pop | join: "." -%}
+        {%- assign first = album.imgs.first.src | default: album.imgs.first -%}
+        {%- assign cover = "images/" | append: first -%}
+        {%- assign base = first | split: "." | pop | join: "." -%}
         {%- assign thumb = "images/thumbs/" | append: base | append: ".jpg" -%}
         {%- assign size = site.data.image_sizes[thumb] | default: site.data.image_sizes[cover] -%}
         {%- if size -%}{%- assign r = size[0] | times: 1.0 | divided_by: size[1] -%}{%- else -%}{%- assign r = 1.5 -%}{%- endif -%}

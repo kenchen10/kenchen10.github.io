@@ -69,6 +69,7 @@ wavefront formation offers a promising bridge for grounding depth foundation mod
   project_page: "projects/tmometric/index.html"
   github: NYU-ICL/TM-metric-adaptation
   dataset: https://www.repository.cam.ac.uk/items/2f7c9a2a-ffe5-4d61-92b2-f6cb4928f119
+  ff: images/2026-06-06_SIGGRAPH26_FF_Audio.mp4
   pdf: assets/papers/2026_siggraph_chen_main.pdf 
   supp: assets/papers/2026_siggraph_chen_supplement.pdf 
   poster: assets/posters/sig26-poster.pdf

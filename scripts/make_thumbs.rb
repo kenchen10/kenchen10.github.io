@@ -9,7 +9,9 @@
 #   1. writes a 640px JPEG preview of each album's cover (first image) to
 #      images/thumbs/<album path>.jpg, used by the Photography grid and the
 #      home page sidebar;
-#   2. writes _data/image_sizes.yml with the width/height of every photo and
+#   2. writes a 240px JPEG preview of every album photo to
+#      images/thumbs/map/<album path>.jpg, used by the map on the Photography page;
+#   3. writes _data/image_sizes.yml with the width/height of every photo and
 #      paper thumbnail, so pages can reserve the right space and don't jump
 #      while images load.
 # Existing previews are only regenerated when the original is newer.
@@ -22,6 +24,7 @@ ROOT = File.expand_path('..', __dir__)
 Dir.chdir(ROOT)
 
 THUMB_SIZE = 640
+MAP_THUMB_SIZE = 240
 
 def sips_info(path)
   out = `sips -g pixelWidth -g pixelHeight -g orientation "#{path}" 2>/dev/null`
@@ -33,8 +36,18 @@ def sips_info(path)
   o && o >= 5 ? [h, w] : [w, h]
 end
 
-def thumb_path(img)
-  "images/thumbs/#{img.sub(/\.[^.\/]+\z/, '')}.jpg"
+def thumb_path(img, dir = 'images/thumbs')
+  "#{dir}/#{img.sub(/\.[^.\/]+\z/, '')}.jpg"
+end
+
+# Writes a JPEG preview of src at dest, at most `size` px on its longest side,
+# unless dest is already newer than src. Returns true if it wrote one.
+def make_preview(src, dest, size)
+  return false if File.exist?(dest) && File.mtime(dest) >= File.mtime(src)
+  FileUtils.mkdir_p(File.dirname(dest))
+  system('sips', '-Z', size.to_s, '-s', 'format', 'jpeg', '-s', 'formatOptions', '80',
+         src, '--out', dest, out: File::NULL, err: File::NULL) or warn("failed: #{src}")
+  true
 end
 
 albums = YAML.load_file('_data/images.yml') || []
@@ -56,19 +69,20 @@ end
 
 made = 0
 albums.each do |album|
-  imgs = album['imgs'] || []
-  imgs.each { |img| record.call("images/#{img}") }
+  # A photo is either a plain path or { src: path, coords: [lat, lon] }
+  imgs = (album['imgs'] || []).map { |img| img.is_a?(Hash) ? img['src'] : img }.compact
+  imgs.each do |img|
+    src = "images/#{img}"
+    record.call(src)
+    next unless File.exist?(src)
+    made += 1 if make_preview(src, thumb_path(img, 'images/thumbs/map'), MAP_THUMB_SIZE)
+  end
   next if imgs.empty?
 
   src = "images/#{imgs.first}"
-  dest = thumb_path(imgs.first)
   next unless File.exist?(src)
-  if !File.exist?(dest) || File.mtime(src) > File.mtime(dest)
-    FileUtils.mkdir_p(File.dirname(dest))
-    system('sips', '-Z', THUMB_SIZE.to_s, '-s', 'format', 'jpeg', '-s', 'formatOptions', '80',
-           src, '--out', dest, out: File::NULL, err: File::NULL) or warn("failed: #{src}")
-    made += 1
-  end
+  dest = thumb_path(imgs.first)
+  made += 1 if make_preview(src, dest, THUMB_SIZE)
   record.call(dest)
 end
 

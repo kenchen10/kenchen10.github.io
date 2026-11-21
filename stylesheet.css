@@ -653,6 +653,57 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
 .album-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
 .album-card:hover .album-title { color: var(--accent); }
 
+/* Photography page: Albums | Map switch and the photo map (assets/photo-map.js) */
+.photo-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 16px; }
+.photo-map {
+  height: 70vh;
+  min-height: 420px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #efe7ea;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 6px 18px rgba(80, 40, 55, 0.1);
+}
+.photo-map[hidden], #photo-albums[hidden] { display: none; }
+.photo-map-failed { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; }
+.photo-map .maplibregl-ctrl-attrib { font-size: 10px; }
+.photo-pin {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 3px solid #fff;
+  border-radius: 8px;
+  background: var(--rose) center / cover no-repeat;
+  box-shadow: 0 2px 6px rgba(60, 25, 40, 0.35);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.photo-pin:hover, .photo-pin:focus-visible { transform: scale(1.12); z-index: 2; outline: none; box-shadow: 0 0 0 2px var(--accent), 0 3px 10px rgba(60, 25, 40, 0.4); }
+.photo-pin-count {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 20px;
+  color: #fff;
+  background: var(--accent);
+  border: 2px solid #fff;
+  border-radius: 999px;
+}
+.photo-pop .maplibregl-popup-content { padding: 10px 12px 12px; border-radius: 8px; font-family: 'Fontin', Georgia, serif; }
+.photo-pop-body { max-height: 300px; overflow-y: auto; }
+.photo-pop-album { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 6px 0; }
+.photo-pop-album:first-child { margin-top: 0; }
+.photo-pop-title { font-size: 14px; font-weight: 700; color: var(--accent); }
+.photo-pop-date { flex-shrink: 0; font-size: 12px; color: var(--muted); }
+.photo-pop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.photo-pop-grid img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; transition: opacity 0.15s ease; }
+.photo-pop-grid a:hover img { opacity: 0.8; }
+
 /* Album page: every photo the same width, in two masonry columns on wide screens (assets/album.js) */
 .album-head { padding: 10px 0 18px; }
 .album-description { margin: 12px 0 0; }
@@ -954,6 +1005,8 @@ body.paper-page { background-color: white; }
   .album-title { font-size: 14px; }
   .album-photos { gap: 12px; }
   .trail-map { height: 260px; }
+  .photo-map { height: 62vh; min-height: 360px; }
+  .photo-pin { width: 44px; height: 44px; }
   .lightbox-prev, .lightbox-next { top: auto; bottom: 10px; transform: none; }
 
   /* Only the first and last date labels fit under the slider */

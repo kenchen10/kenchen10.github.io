@@ -109,4 +109,7 @@
     if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
   });
   if (photos.length < 2) viewer.querySelectorAll('.lightbox-prev, .lightbox-next').forEach(b => { b.hidden = true; });
+  // A link ending in #photo-3 (from the map on the Photography page) opens that photo
+  const deep = location.hash.match(/^#photo-(\d+)$/);
+  if (deep && photos[deep[1] - 1]) open(deep[1] - 1);
 })();

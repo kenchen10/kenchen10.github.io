@@ -45,7 +45,7 @@
   {%- endcomment %}
   <div class="album-photos" id="album-photos">
     {%- for item in album.imgs %}
-    {%- assign src = "images/" | append: item %}
+    {%- assign src = item.src | default: item | prepend: "images/" %}
     <a class="album-item" href="{{ '/' | append: src | relative_url }}">{% include photo.html src=src alt=album.title %}</a>
     {%- endfor %}
     {%- for item in album.vids %}

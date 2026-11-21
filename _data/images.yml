@@ -1,175 +1,288 @@
+# Photo albums, newest first. Each becomes /photos/<id>/ (see _plugins/data_pages.rb).
+# Each photo in `imgs` has:
+#   src:    path under images/
+#   coords: [latitude, longitude] where it was taken, for the map on the Photography page.
+#           Leave it out to keep a photo off the map. A plain path (`- album/photo.jpg`) also works.
+# After adding photos, run `ruby scripts/make_thumbs.rb`.
 - id: saxerlucke
   title: Saxer Lücke
   date: November 15, 2026
   location: Switzerland
   imgs: 
-    - saxerlucke/DSC01567.jpg
-    - saxerlucke/DSC01572.jpg
-    - saxerlucke/DSC01594.jpg
-    - saxerlucke/DSC01602.jpg
-    - saxerlucke/DSC01625-2.jpg
+    - src: saxerlucke/DSC01567.jpg
+      coords: [47.2464, 9.4535]
+    - src: saxerlucke/DSC01572.jpg
+      coords: [47.2464, 9.4535]
+    - src: saxerlucke/DSC01594.jpg
+      coords: [47.2464, 9.4535]
+    - src: saxerlucke/DSC01602.jpg
+      coords: [47.2464, 9.4535]
+    - src: saxerlucke/DSC01625-2.jpg
+      coords: [47.2464, 9.4535]
 - id: zermatt
   trail: zermatt  # draws trails/zermatt.gpx on the album page (run scripts/make_trails.rb after adding a GPX)
   title: Zermatt
   date: November 8, 2026
   location: Switzerland
   imgs: 
-    - zermatt/DSC01473.jpg
-    - zermatt/DSC01500.jpg
-    - zermatt/DSC01529.jpg
+    - src: zermatt/DSC01473.jpg
+      coords: [46.0207, 7.7491]
+    - src: zermatt/DSC01500.jpg
+      coords: [46.0207, 7.7491]
+    - src: zermatt/DSC01529.jpg
+      coords: [46.0207, 7.7491]
 - id: oeschinensee
   title: Lake Oeschinensee
   date: October 31, 2026
   location: Switzerland
   imgs: 
-    - oeschinensee/DSC01353.jpg
-    - oeschinensee/DSC01376.jpg
-    - oeschinensee/DSC01392.jpg
-    - oeschinensee/DSC01402.jpg
+    - src: oeschinensee/DSC01353.jpg
+      coords: [46.4986, 7.7271]
+    - src: oeschinensee/DSC01376.jpg
+      coords: [46.4986, 7.7271]
+    - src: oeschinensee/DSC01392.jpg
+      coords: [46.4986, 7.7271]
+    - src: oeschinensee/DSC01402.jpg
+      coords: [46.4986, 7.7271]
 - id: lauterbrunnen
   title: Lauterbrunnen, Mürren, Gimmelwald
   date: October 17, 2026
   location: Switzerland
   imgs: 
-    - lauterbrunnen/DSC01163-2.png
-    - lauterbrunnen/DSC01230.png
-    - lauterbrunnen/DSC01237.png
-    - lauterbrunnen/DSC01259.avif
-    - lauterbrunnen/DSC01276.png
+    - src: lauterbrunnen/DSC01163-2.png
+      coords: [46.5935, 7.9091]
+    - src: lauterbrunnen/DSC01230.png
+      coords: [46.5935, 7.9091]
+    - src: lauterbrunnen/DSC01237.png
+      coords: [46.5935, 7.9091]
+    - src: lauterbrunnen/DSC01259.avif
+      coords: [46.5935, 7.9091]
+    - src: lauterbrunnen/DSC01276.png
+      coords: [46.5935, 7.9091]
 - id: bern
   title: Bern
   date: October 4, 2026
   location: Switzerland
   imgs: 
-    - bern/DSC01082.png
-    - bern/DSC01083.png
+    - src: bern/DSC01082.png
+      coords: [46.948, 7.4474]
+    - src: bern/DSC01083.png
+      coords: [46.948, 7.4474]
 - id: lucerne
   title: Lausanne and Mt. Pilatus
   date: October 2, 2026
   location: Switzerland
   imgs: 
-    - lucerne/DSC00968.png
-    - lucerne/DSC00982.avif
-    - lucerne/DSC01049.png
+    - src: lucerne/DSC00968.png
+      coords: [47.0502, 8.3093]
+    - src: lucerne/DSC00982.avif
+      coords: [47.0502, 8.3093]
+    - src: lucerne/DSC01049.png
+      coords: [47.0502, 8.3093]
 - id: centralparksept26
   title: The Pool, Central Park
   date: September 4, 2026
   location: New York City
   imgs: 
-    - centralparksept26/DSC_2711.png
-    - centralparksept26/DSC_2739.png
-    - centralparksept26/DSC_2746.png
+    - src: centralparksept26/DSC_2711.png
+      coords: [40.7962, -73.959]
+    - src: centralparksept26/DSC_2739.png
+      coords: [40.7962, -73.959]
+    - src: centralparksept26/DSC_2746.png
+      coords: [40.7962, -73.959]
+- id: pinnacles
+  title: Pinnacles National Park
+  date: July 26, 2026
+  location: California
+  imgs: 
+    - src: pinnacles/DSC00765.jpg
+      coords: [36.491703, -121.209603]
+    - src: pinnacles/DSC00771.jpg
+      coords: [36.485231, -121.204475]
+    - src: pinnacles/DSC00794.jpg
+      coords: [36.485144, -121.203017]
+    - src: pinnacles/DSC00803.jpg
+      coords: [36.485144, -121.203017]
+- id: ptlobos
+  title: Point Lobos State Natural Preserve
+  date: July 25, 2026
+  location: California
+  imgs: 
+    - src: ptlobos/DSC00734.jpg
+      coords: [36.520958, -121.951524]
+    - src: ptlobos/DSC00741.jpg
+      coords: [36.520958, -121.951524]
+    - src: ptlobos/DSC00746.jpg
+      coords: [36.520958, -121.951524]
+- id: morro
+  title: Morro Bay, Elephant Seal Vista Point, McWay Falls
+  date: July 25, 2026
+  location: California
+  imgs: 
+    - src: morro/DSC00573.jpg
+      coords: [35.375039, -120.862973]
+    - src: morro/DSC00614.jpg
+      coords: [35.661735, -121.255003]
+    - src: morro/DSC00692.jpg
+      coords: [36.159657, -121.672053]
+    - src: morro/DSC00723.jpg
+      coords: [36.160604, -121.668145]
+- id: blufftrail
+  title: Bluff Trail
+  date: July 24, 2026
+  location: Montaña de Oro State Park, California
+  imgs: 
+    - src: blufftrail/DSC00504.jpg
+      coords: [35.263200, -120.893467]
+    - src: blufftrail/DSC00538.jpg
+      coords: [35.263200, -120.893467]
 - id: nycsnow26
   title: NYC Snow
   date: January 26, 2026
   location: New York City
   imgs: 
-    - nycsnow26/DSC00166.avif
+    - src: nycsnow26/DSC00166.avif
+      coords: [40.7831, -73.9712]
 - id: tryon
   title: Tryon Park
   date: November 8, 2025
   location: New York City
   imgs: 
-    - tryon/DSC00159.avif
+    - src: tryon/DSC00159.avif
+      coords: [40.8621, -73.9318]
 - id: niagara
   title: Niagara Falls
   date: October 26, 2025
   location: Canada
   imgs: 
-    - niagara/DSC00118.jpg
+    - src: niagara/DSC00118.jpg
+      coords: [43.0828, -79.0742]
 - id: minnewaska
   title: Minnewaska State Park
   date: October 24, 2025
   location: New York
   imgs: 
-    - minnewaska/DSC00021.jpg
-    - minnewaska/DSC00062.jpg
+    - src: minnewaska/DSC00021.jpg
+      coords: [41.7298, -74.2382]
+    - src: minnewaska/DSC00062.jpg
+      coords: [41.7298, -74.2382]
   description: Along the way to Toronto, my labmates and I went to upstate New York and spent some time hiking Minnewaska State Park. Only later did I learn that an episode of Severance (S2E4, the retreat scene) was shot here!
 - id: venice
   title: Venice
   date: August 23 - 24, 2025
   location: Italy
   imgs: 
-    - venice/DSC_2591.jpg
-    - venice/DSC_2572.jpg
-    - venice/DSC_2539.jpg
-    - venice/DSC_2565.jpg
+    - src: venice/DSC_2591.jpg
+      coords: [45.4408, 12.3155]
+    - src: venice/DSC_2572.jpg
+      coords: [45.4408, 12.3155]
+    - src: venice/DSC_2539.jpg
+      coords: [45.4408, 12.3155]
+    - src: venice/DSC_2565.jpg
+      coords: [45.4408, 12.3155]
 - id: vancouver
   title: Vancouver
   date: August 10, 2025
   location: Canada
   imgs: 
-    - vancouver/DSC_2498.jpg
-    - vancouver/DSC_2499.jpg
+    - src: vancouver/DSC_2498.jpg
+      coords: [49.2827, -123.1207]
+    - src: vancouver/DSC_2499.jpg
+      coords: [49.2827, -123.1207]
   description: I was in Vancouver for SIGGRAPH 2025, where I presented our "What is HDR?" paper!
 - id: SF
   title: San Francisco
   date: August 7, 2025
   location: California
   imgs: 
-    - SF/DSC_2492.jpg
+    - src: SF/DSC_2492.jpg
+      coords: [37.7749, -122.4194]
 - id: edinburgh
   title: Edinburgh
   date: July 12 - 13, 2025
   location: Scotland
   imgs: 
-    - edinburgh/DSC_2485.jpg
-    - edinburgh/DSC_2394.jpg
-    - edinburgh/DSC_2407.jpg
-    - edinburgh/DSC_2425.jpg
-    - edinburgh/DSC_2433.jpg
-    - edinburgh/DSC_2435.jpg
+    - src: edinburgh/DSC_2485.jpg
+      coords: [55.9533, -3.1883]
+    - src: edinburgh/DSC_2394.jpg
+      coords: [55.9533, -3.1883]
+    - src: edinburgh/DSC_2407.jpg
+      coords: [55.9533, -3.1883]
+    - src: edinburgh/DSC_2425.jpg
+      coords: [55.9533, -3.1883]
+    - src: edinburgh/DSC_2433.jpg
+      coords: [55.9533, -3.1883]
+    - src: edinburgh/DSC_2435.jpg
+      coords: [55.9533, -3.1883]
 - id: barcelona
   title: Barcelona
   date: July 3 - 6, 2025
   location: Spain
   imgs: 
-    - barcelona/DSC_2337.jpg
+    - src: barcelona/DSC_2337.jpg
+      coords: [41.3874, 2.1686]
 - id: amsterdam
   title: Amsterdam
   date: June 20, 2025
   location: Netherlands
   imgs: 
-    - amsterdam/DSC_2162.jpg
-    - amsterdam/DSC_2145.avif
-    - amsterdam/DSC_2203.jpg
+    - src: amsterdam/DSC_2162.jpg
+      coords: [52.3676, 4.9041]
+    - src: amsterdam/DSC_2145.avif
+      coords: [52.3676, 4.9041]
+    - src: amsterdam/DSC_2203.jpg
+      coords: [52.3676, 4.9041]
 - id: cambridge
   title: Cambridge
   date: June 13, 2025
   location: UK
   imgs: 
-    - cambridge/DSC_2129.jpg
-    - cambridge/DSC_2131.jpg
-    - cambridge/DSC_2134.jpg
+    - src: cambridge/DSC_2129.jpg
+      coords: [52.2053, 0.1218]
+    - src: cambridge/DSC_2131.jpg
+      coords: [52.2053, 0.1218]
+    - src: cambridge/DSC_2134.jpg
+      coords: [52.2053, 0.1218]
   description: Some photos I took during my research visit at University of Cambridge.
 - id: seven_sisters
   title: Seven Sisters Cliffs
   date: June 7, 2025
   location: England
   imgs: 
-    - seven_sisters/DSC_2071.jpg
-    - seven_sisters/DSC_2078.jpg
-    - seven_sisters/DSC_2104.jpg
-    - seven_sisters/DSC_2107.jpg
-    - seven_sisters/DSC_2122.jpg
-    - seven_sisters/DSC_2123.jpg
+    - src: seven_sisters/DSC_2071.jpg
+      coords: [50.7462, 0.152]
+    - src: seven_sisters/DSC_2078.jpg
+      coords: [50.7462, 0.152]
+    - src: seven_sisters/DSC_2104.jpg
+      coords: [50.7462, 0.152]
+    - src: seven_sisters/DSC_2107.jpg
+      coords: [50.7462, 0.152]
+    - src: seven_sisters/DSC_2122.jpg
+      coords: [50.7462, 0.152]
+    - src: seven_sisters/DSC_2123.jpg
+      coords: [50.7462, 0.152]
   description: I hiked from Seaford to Eastbourne, along the south coast of England. The complete hike was around 13 miles long.
 - id: london_june2025
   title: London
   date: June 5 - 6, 2025
   location: England
   imgs: 
-    - london_june2025/DSC_1903.jpg
-    - london_june2025/DSC_1891.jpg
-    - london_june2025/DSC_2039.jpg
-    - london_june2025/DSC_2007.jpg
+    - src: london_june2025/DSC_1903.jpg
+      coords: [51.5074, -0.1278]
+    - src: london_june2025/DSC_1891.jpg
+      coords: [51.5074, -0.1278]
+    - src: london_june2025/DSC_2039.jpg
+      coords: [51.5074, -0.1278]
+    - src: london_june2025/DSC_2007.jpg
+      coords: [51.5074, -0.1278]
 - id: woodcock
   title: North American Woodcock in Bryant Park
   date: April 13, 2025
   location: New York City
   description: This bird is called a North American Woodcock (or timberdoodle) and it migrates to Bryant Park in March/April. It does a funny dance to coax worms and insects to the surface.
   imgs: 
-    - woodcock/DSC_1822.jpg
+    - src: woodcock/DSC_1822.jpg
+      coords: [40.7536, -73.9832]
   vids:
     - woodcock/DSC_1817.mp4
 - id: nyc_feb_25
@@ -177,42 +290,58 @@
   date: February 8, 2025
   location: New York
   imgs: 
-    - nyc_feb_25/DSC_1737.jpg
+    - src: nyc_feb_25/DSC_1737.jpg
+      coords: [40.7831, -73.9712]
 - id: prague
   title: Prague
   date: December 1 - 3, 2024
   location: Czech Republic
   imgs: 
-    - prague/DSC_1474.jpg
-    - prague/DSC_1493.jpg
-    - prague/DSC_1537.jpg
-    - prague/DSC_1574.jpg
+    - src: prague/DSC_1474.jpg
+      coords: [50.0755, 14.4378]
+    - src: prague/DSC_1493.jpg
+      coords: [50.0755, 14.4378]
+    - src: prague/DSC_1537.jpg
+      coords: [50.0755, 14.4378]
+    - src: prague/DSC_1574.jpg
+      coords: [50.0755, 14.4378]
 - id: budapest
   title: Budapest
   date: November 29 - 30, 2024
   location: Hungary
   imgs: 
-    - budapest/DSC_1194.jpg
-    - budapest/DSC_1304.jpg
-    - budapest/DSC_1339.jpg
-    - budapest/DSC_1345.jpg
+    - src: budapest/DSC_1194.jpg
+      coords: [47.4979, 19.0402]
+    - src: budapest/DSC_1304.jpg
+      coords: [47.4979, 19.0402]
+    - src: budapest/DSC_1339.jpg
+      coords: [47.4979, 19.0402]
+    - src: budapest/DSC_1345.jpg
+      coords: [47.4979, 19.0402]
 - id: baylands
   title: Baylands Nature Preserve
   date: July 17 - 19, 2024
   location: California
   imgs: 
-    - baylands/DSC_0300.jpg
-    - baylands/DSC_0432-Enhanced-NR.jpg
-    - baylands/DSC_0408.avif
-    - baylands/DSC_0441.jpg
-    - baylands/DSC_0477.jpg
+    - src: baylands/DSC_0300.jpg
+      coords: [37.458, -122.105]
+    - src: baylands/DSC_0432-Enhanced-NR.jpg
+      coords: [37.458, -122.105]
+    - src: baylands/DSC_0408.avif
+      coords: [37.458, -122.105]
+    - src: baylands/DSC_0441.jpg
+      coords: [37.458, -122.105]
+    - src: baylands/DSC_0477.jpg
+      coords: [37.458, -122.105]
 - id: smokys
   title: Great Smoky Mountains
   date: May 29, 2024
   location: Tennessee
   imgs: 
-    - smokys/IMG_5317.jpg
-    - smokys/IMG_5327.jpg
+    - src: smokys/IMG_5317.jpg
+      coords: [35.6118, -83.4895]
+    - src: smokys/IMG_5327.jpg
+      coords: [35.6118, -83.4895]
 # - id: marrakesh
 #   title: Marrakesh
 #   date: December 25, 2023
@@ -224,75 +353,101 @@
   date: December 23, 2023
   location: Morocco
   imgs: 
-    - fez/IMG_1251.jpg
+    - src: fez/IMG_1251.jpg
+      coords: [34.0181, -5.0078]
 - id: rabat
   title: Rabat
   date: December 21, 2023
   location: Morocco
   imgs: 
-    - rabat/IMG_0981.jpg
+    - src: rabat/IMG_0981.jpg
+      coords: [34.0209, -6.8416]
 - id: byxbee
   title: Byxbee Park
   date: July 15, 2023
   location: California
   imgs: 
-    - byxbee/DSC_0139.jpg
-    - byxbee/DSC_0146.jpg
-    - byxbee/DSC_0148.jpg
-    - byxbee/DSC_0153.jpg
+    - src: byxbee/DSC_0139.jpg
+      coords: [37.45, -122.101]
+    - src: byxbee/DSC_0146.jpg
+      coords: [37.45, -122.101]
+    - src: byxbee/DSC_0148.jpg
+      coords: [37.45, -122.101]
+    - src: byxbee/DSC_0153.jpg
+      coords: [37.45, -122.101]
 - id: alviso
   title: Alviso Marina County Park
   date: July 3, 2023
   location: California
   imgs: 
-    - alviso/DSC_0118.jpg
-    - alviso/DSC_0124.jpg
-    - alviso/DSC_0130.jpg
-    - alviso/DSC_0131.jpg
-    - alviso/DSC_0133.jpg
+    - src: alviso/DSC_0118.jpg
+      coords: [37.4294, -121.9779]
+    - src: alviso/DSC_0124.jpg
+      coords: [37.4294, -121.9779]
+    - src: alviso/DSC_0130.jpg
+      coords: [37.4294, -121.9779]
+    - src: alviso/DSC_0131.jpg
+      coords: [37.4294, -121.9779]
+    - src: alviso/DSC_0133.jpg
+      coords: [37.4294, -121.9779]
 
 - id: paloaltoduckpond
   title: Palo Alto Duck Pond
   date: June 29, 2023
   location: California
   imgs: 
-    - paloaltoduckpond/DSC_0095.jpg
-    - paloaltoduckpond/DSC_0097.jpg
-    - paloaltoduckpond/DSC_0106.jpg
-    - paloaltoduckpond/DSC_0110.jpg
-    - paloaltoduckpond/DSC_0113.jpg
+    - src: paloaltoduckpond/DSC_0095.jpg
+      coords: [37.4578, -122.1069]
+    - src: paloaltoduckpond/DSC_0097.jpg
+      coords: [37.4578, -122.1069]
+    - src: paloaltoduckpond/DSC_0106.jpg
+      coords: [37.4578, -122.1069]
+    - src: paloaltoduckpond/DSC_0110.jpg
+      coords: [37.4578, -122.1069]
+    - src: paloaltoduckpond/DSC_0113.jpg
+      coords: [37.4578, -122.1069]
 - id: cyprustreetunnel
   title: Cyprus Tree Tunnel
   date: June 18, 2023
   location: California
   imgs: 
-    - DSC_0079.jpg
+    - src: DSC_0079.jpg
+      coords: [38.0718, -122.9706]
 - id: sierra
   title: Sierra Vista Open Space Reserve
   date: June 12, 2023
   location: California
   imgs: 
-    - sierra/DSC_0068.jpg
-    - sierra/DSC_0071.jpg
-    - sierra/DSC_0074.jpg
-    - sierra/DSC_0076.jpg
+    - src: sierra/DSC_0068.jpg
+      coords: [37.412, -121.815]
+    - src: sierra/DSC_0071.jpg
+      coords: [37.412, -121.815]
+    - src: sierra/DSC_0074.jpg
+      coords: [37.412, -121.815]
+    - src: sierra/DSC_0076.jpg
+      coords: [37.412, -121.815]
 - id: nycrain
   title: New York City Rain
   date: April 22, 2023
   location: New York
   imgs: 
-    - nyc-rain.jpg
+    - src: nyc-rain.jpg
+      coords: [40.7831, -73.9712]
 - id: sierra2
   title: Sierra Vista Open Space Reserve
   date: July 8, 2019
   location: California
   imgs: 
-    - sierra/hills.jpg
+    - src: sierra/hills.jpg
+      coords: [37.412, -121.815]
 - id: berkeley
   title: Berkeley
   location: California
   date: 2017 - 2021
   imgs:
-    - campanile.jpg
-    - berkeleyhills2.jpg
-    - berkeleyhills.jpg
+    - src: campanile.jpg
+      coords: [37.8719, -122.2585]
+    - src: berkeleyhills2.jpg
+      coords: [37.8719, -122.2585]
+    - src: berkeleyhills.jpg
+      coords: [37.8719, -122.2585]

@@ -1,11 +1,19 @@
 ---
 layout: default
 title: Photography
+icons: true
 ---
 <main class="page">
-  <div class="page-header">
+  <div class="page-header photo-header">
     <h1 class="heading">Photography</h1>
+    {%- comment -%} Albums | Map. The map view is assets/photo-map.js; /images.html#map opens it directly. {%- endcomment %}
+    <div class="section-toggles photo-views" role="group" aria-label="View">
+      <button type="button" class="section-toggle active" data-view="albums" aria-pressed="true"><i class="fas fa-images"></i> Albums</button>
+      <button type="button" class="section-toggle" data-view="map" aria-pressed="false"><i class="fas fa-map-location-dot"></i> Map</button>
+    </div>
   </div>
+
+  <div id="photo-albums">
   {%- assign current_year = "" -%}
   {%- for album in site.data.images -%}
     {%- comment -%} A pure year range ("2017 - 2021") gets its own heading; anything else is grouped by its year. {%- endcomment -%}
@@ -25,7 +33,7 @@ title: Photography
     {%- endif %}
     <a class="album-card" href="photos/{{ album.id }}/">
       <div class="album-cover">
-        {%- if album.imgs %}{% assign cover = "images/" | append: album.imgs.first %}{% include photo.html src=cover thumb=true alt=album.title %}{% endif -%}
+        {%- if album.imgs %}{% assign first = album.imgs.first.src | default: album.imgs.first %}{% assign cover = "images/" | append: first %}{% include photo.html src=cover thumb=true alt=album.title %}{% endif -%}
       </div>
       <div class="album-title">{{ album.title }}</div>
       <div class="album-meta">{% if album.location %}{{ album.location }} · {% endif %}{{ album.date }}</div>
@@ -34,4 +42,25 @@ title: Photography
   </div>
     {%- endif -%}
   {%- endfor %}
+  </div>
+
+  <div id="photo-map" class="photo-map" hidden role="region" aria-label="Map of photos"></div>
+  {%- comment -%}
+    Every photo with `coords` in _data/images.yml. `href` opens the photo on its album page.
+    The previews in images/thumbs/map/ come from scripts/make_thumbs.rb.
+  {%- endcomment %}
+  <script type="application/json" id="photo-map-data">[
+  {%- assign sep = "" -%}
+  {%- for album in site.data.images -%}
+    {%- for item in album.imgs -%}
+      {%- unless item.coords -%}{%- continue -%}{%- endunless -%}
+      {%- assign base = item.src | split: "." | pop | join: "." -%}
+      {%- assign thumb = "/images/thumbs/map/" | append: base | append: ".jpg" | relative_url -%}
+      {%- assign href = "/photos/" | append: album.id | append: "/#photo-" | append: forloop.index | relative_url -%}
+      {{ sep }}{"lat":{{ item.coords[0] }},"lon":{{ item.coords[1] }},"album":{{ album.id | jsonify }},"title":{{ album.title | jsonify }},"date":{{ album.date | jsonify }},"thumb":{{ thumb | jsonify }},"href":{{ href | jsonify }}}
+      {%- assign sep = "," -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  ]</script>
 </main>
+<script src="{{ '/assets/photo-map.js' | relative_url }}" defer></script>
