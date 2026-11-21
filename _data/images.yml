@@ -90,7 +90,19 @@
       coords: [40.7962, -73.959]
     - src: centralparksept26/DSC_2746.png
       coords: [40.7962, -73.959]
+- id: muirwoods
+  title: Muir Woods National Monument
+  date: July 26, 2026
+  location: California
+  imgs: 
+    - src: muirwoods/DSC00890.jpg
+      coords: [37.893388, -122.573351]
+    - src: muirwoods/DSC00905.jpg
+      coords: [37.893388, -122.573351]
+    - src: muirwoods/DSC00910.jpg
+      coords: [37.892600, -122.572400]
 - id: pinnacles
+  trail: pinnacles
   title: Pinnacles National Park
   date: July 26, 2026
   location: California
