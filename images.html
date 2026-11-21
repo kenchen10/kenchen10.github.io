@@ -46,13 +46,13 @@ icons: true
   </div>
 
   {%- comment -%}
-    Every photo in rows of equal height (CSS: .photo-grid), each as wide as its shape needs.
+    Every photo in rows of equal height (CSS: .all-photos-grid), each as wide as its shape needs.
     --ar is the photo's width/height from _data/image_sizes.yml. assets/photo-grid.js shuffles
     them on every visit and picks the row breaks so photos are cropped as little as possible.
     Hovering shows where and when it was taken; clicking opens it full-screen, with a button to
     its album (href, which is also where it goes without the script).
   {%- endcomment %}
-  <div id="photo-all" class="photo-grid" hidden>
+  <div id="photo-all" class="all-photos-grid" hidden>
   {%- for album in site.data.images -%}
     {%- assign place = album.title -%}
     {%- if album.location and album.location != album.title %}{% assign place = place | append: ", " | append: album.location %}{% endif -%}

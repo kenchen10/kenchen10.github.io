@@ -601,22 +601,51 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
 /* ---------- CV ---------- */
 .cv-name { margin: 24px 0 10px; font-size: 25px; font-weight: 700; }
 .cv .links3 { font-size: small; }
-.cv section { margin-top: 20px; }
+.cv section { margin-top: 38px; }
+/* Section headings: plum with the brushstroke underline (shared with .album-year above) */
+.cv-heading { display: inline-block; margin-bottom: 12px; font-size: 21px; letter-spacing: 0.02em; }
+/* Each entry: a narrow date column on the left, then the details. Headings and entries
+   share the same left edge. */
 .cv-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 5px;
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  grid-template-areas: "years body";
+  gap: 0 18px;
+  padding: 6px 0;
   font-size: 14px;
 }
-.cv-row .sub { font-size: 13px; }
-.cv-row ul { margin: 0 0 2px; padding-left: 28px; }
+.cv-row > :not(.cv-years) { grid-area: body; }
+.cv-text { display: block; font-size: 15px; line-height: 1.55; }
+.cv em { font-style: normal; }
+.cv-row .sub { font-size: 13px; color: var(--muted); }
+.cv-row ul { margin: 2px 0 2px; padding-left: 18px; }
 .cv-row li { font-size: 13px; }
-.cv-years { flex-shrink: 0; text-align: right; white-space: nowrap; }
+.cv-years {
+  grid-area: years;
+  font-size: 13px;
+  line-height: 20px;  /* = a body line, so education years line up with their degrees */
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
 .cv-years.offset { padding-top: 20px; }
 .cv .authors a, .cv .authors .me { font-size: 13px; }
-.cv .pub-title-link { font-size: 14px; text-decoration: underline; }
-.cv .badge.award { font-size: 13px; }
+/* Publications: dark titles (underlined on hover) and the venue as a small tag */
+.cv-pub-title { font-size: 14px; font-weight: 700; color: #2a2226; }
+.cv-pub-title:hover, .cv-pub-title:focus { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.cv-pub-title b[style] { color: var(--accent) !important; }  /* titles with coloured letters (PEA-PODs) */
+.cv-venue {
+  display: inline-block;
+  margin: 3px 4px 0 0;
+  padding: 0 7px;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  background-color: var(--rose);
+  border-radius: 999px;
+}
+.cv .badge.award { margin-left: 4px; font-size: 12px; }
 
 /* ---------- Photography / birds / mural ---------- */
 /* Shared photo look: soft shadow and rounded corners instead of black borders */
@@ -641,7 +670,7 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
 }
 .page-header + .album-year { margin-top: 0; }
 /* Same brushstroke underline as the paper years */
-.album-year { width: fit-content; padding: 0 10px 5px 3px; color: var(--accent);
+.album-year, .cv-heading { width: fit-content; padding: 0 10px 5px 3px; color: var(--accent);
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9.5C18 6.5 38 8.5 60 7S102 6 117 7.5C118.5 8.3 117.5 10.2 115 10.4C96 10.8 74 11.6 52 11.2S14 12.4 5 12C2 11.8 1.5 10.2 3 9.5Z' fill='%238c2f5a' fill-opacity='.42'/%3E%3Cpath d='M7 8.4C30 6.6 72 7.4 113 6.2' stroke='%238c2f5a' stroke-opacity='.3' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3Cpath d='M12 10.6C42 9.8 80 9.6 108 9.3' stroke='%23fff' stroke-opacity='.45' stroke-width='.6' fill='none'/%3E%3C/svg%3E") left bottom / 100% 16px no-repeat;
 }
 .album-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 20px; }
@@ -663,14 +692,14 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
   background: #efe7ea;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 6px 18px rgba(80, 40, 55, 0.1);
 }
-.photo-map[hidden], #photo-albums[hidden], .photo-grid[hidden] { display: none; }
+.photo-map[hidden], #photo-albums[hidden], .all-photos-grid[hidden] { display: none; }
 
 /* Photography page: All photos. Every row is --row-h tall and each photo is about as wide as
    its shape (--ar = width/height), cropped slightly so the row fills the width exactly.
    assets/photo-grid.js sets each photo's width; without it, photos grow to fill their row.
    The ::after spacer keeps the last row from stretching. */
 /* As wide as the window (less a 16px margin each side), centred on the page */
-.photo-grid {
+.all-photos-grid {
   --row-h: 300px;
   --grid-w: calc(100vw - 32px);
   display: flex;
@@ -679,7 +708,7 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
   width: var(--grid-w);
   margin-left: calc(50% - var(--grid-w) / 2);
 }
-.photo-grid::after { content: ""; flex: 1000 1 0; }
+.all-photos-grid::after { content: ""; flex: 1000 1 0; }
 .grid-photo {
   position: relative;
   flex: var(--ar) 1 calc(var(--ar) * var(--row-h));
@@ -1089,7 +1118,9 @@ body.paper-page { background-color: white; }
   .image-row { margin-left: 0; gap: 12px; }
   .image-item { width: calc(50% - 6px); }
 
-  .cv-row { padding: 5px 0; }
+  /* Dates go above each entry on phones */
+  .cv-row { grid-template-columns: minmax(0, 1fr); grid-template-areas: "years" "body"; }
+  .cv-years:empty { display: none; }
   .cv-years.offset { padding-top: 0; }
 
   .album-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; }
@@ -1097,7 +1128,7 @@ body.paper-page { background-color: white; }
   .album-photos { gap: 12px; }
   .trail-map { height: 260px; }
   .photo-map { height: 62vh; min-height: 360px; }
-  .photo-grid { --row-h: 160px; gap: 6px; width: auto; margin-left: 0; }
+  .all-photos-grid { --row-h: 160px; gap: 6px; width: auto; margin-left: 0; }
   .photo-pin { width: 44px; height: 44px; }
   .lightbox-prev, .lightbox-next { top: auto; bottom: 10px; transform: none; }
 
