@@ -23,7 +23,7 @@
   tag: "#CFD8DC"
 
 - id: hvmv
-  image: hvmv.png
+  image: hvmvflyer.png
   title: 'We will be holding a <a class="links" style="font-size: 14px;" href="https://fromhv2mv.github.io" target="_blank">workshop</a> on the last day of SIGGRAPH 2026, stop by!'
   date: 2026-06
   month: "06"
