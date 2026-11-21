@@ -53,19 +53,23 @@ icons: true
     its album (href, which is also where it goes without the script).
   {%- endcomment %}
   <div id="photo-all" class="all-photos-grid" hidden>
+  {%- capture album_srcs -%}{%- for album in site.data.images -%}{%- for item in album.imgs -%}|images/{{ item.src | default: item }}|{%- endfor -%}{%- endfor -%}{%- endcapture -%}
   {%- for album in site.data.images -%}
     {%- assign place = album.title -%}
     {%- if album.location and album.location != album.title %}{% assign place = place | append: ", " | append: album.location %}{% endif -%}
     {%- for item in album.imgs -%}
       {%- assign src = item.src | default: item | prepend: "images/" -%}
-      {%- assign size = site.data.image_sizes[src] -%}
-      {%- if size %}{% assign ar = size[0] | times: 1.0 | divided_by: size[1] | round: 3 %}{% else %}{% assign ar = 1.5 %}{% endif -%}
-      {%- assign href = "/photos/" | append: album.id | append: "/#photo-" | append: forloop.index | relative_url %}
-    <a class="grid-photo" href="{{ href }}" data-full="{{ '/' | append: src | relative_url }}" data-place="{{ place | escape }}" data-date="{{ album.date | escape }}" style="--ar: {{ ar }}" aria-label="{{ place | escape }}, {{ album.date | escape }}">
-      {%- include photo.html src=src thumb=true alt="" -%}
-      <span class="grid-caption" aria-hidden="true"><span class="grid-place">{{ place }}</span><span class="grid-date">{{ album.date }}</span></span>
-    </a>
+      {%- assign href = "/photos/" | append: album.id | append: "/#photo-" | append: forloop.index | relative_url -%}
+      {%- include all-photos-item.html src=src href=href place=place date=album.date link_label="View album" -%}
     {%- endfor -%}
+  {%- endfor -%}
+  {%- comment -%} Bird photos (_data/birds.yml) that aren't already in an album; they link to the Birding Journal {%- endcomment -%}
+  {%- assign birds_href = "/birds.html" | relative_url -%}
+  {%- for bird in site.data.birds -%}
+    {%- capture key -%}|{{ bird.img }}|{%- endcapture -%}
+    {%- if album_srcs contains key %}{% continue %}{% endif -%}
+    {%- assign place = bird.name | append: " · " | append: bird.location -%}
+    {%- include all-photos-item.html src=bird.img href=birds_href place=place date=bird.date link_label="Birding journal" -%}
   {%- endfor %}
   </div>
 

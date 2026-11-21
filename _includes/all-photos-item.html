@@ -1,0 +1,12 @@
+{%- comment -%}
+  One photo in the "All photos" grid on the Photography page (images.html).
+  Params: src (path from the site root), href (where "View album" goes), place, date,
+  link_label (text of the viewer's button to href, e.g. "View album").
+  --ar is the photo's width/height, from _data/image_sizes.yml.
+{%- endcomment -%}
+{%- assign size = site.data.image_sizes[include.src] -%}
+{%- if size %}{% assign ar = size[0] | times: 1.0 | divided_by: size[1] | round: 3 %}{% else %}{% assign ar = 1.5 %}{% endif %}
+    <a class="grid-photo" href="{{ include.href }}" data-full="{{ '/' | append: include.src | relative_url }}" data-place="{{ include.place | escape }}" data-date="{{ include.date | escape }}" data-link-label="{{ include.link_label | escape }}" style="--ar: {{ ar }}" aria-label="{{ include.place | escape }}, {{ include.date | escape }}">
+      {%- include photo.html src=include.src thumb=true alt="" -%}
+      <span class="grid-caption" aria-hidden="true"><span class="grid-place">{{ include.place }}</span><span class="grid-date">{{ include.date }}</span></span>
+    </a>

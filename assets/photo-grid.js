@@ -4,7 +4,7 @@
 // squeezed or stretched together to fill the width exactly, which crops them a little.
 // Row breaks are chosen to keep that squeeze/stretch as small as possible.
 // Clicking a photo opens it full-screen here (closing it stays on All photos); the
-// viewer's "View album" button goes to its album page.
+// viewer's "View album" button goes to its album page (or the Birding Journal, for birds).
 (function () {
   const grid = document.getElementById('photo-all');
   if (!grid) return;
@@ -91,6 +91,7 @@
     place.textContent = a.dataset.place;
     date.textContent = a.dataset.date;
     albumLink.href = a.href.split('#')[0];  // the album page itself (#photo-N would open the photo there)
+    albumLink.textContent = (a.dataset.linkLabel || 'View album') + ' →';
     count.textContent = `${current + 1} / ${items.length}`;
     // Preload the neighbours so arrowing through feels instant
     [current - 1, current + 1].forEach(j => { new Image().src = items[(j + items.length) % items.length].dataset.full; });
