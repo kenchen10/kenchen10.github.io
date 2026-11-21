@@ -4,7 +4,7 @@
 // squeezed or stretched together to fill the width exactly, which crops them a little.
 // Row breaks are chosen to keep that squeeze/stretch as small as possible.
 // Clicking a photo opens it full-screen here (closing it stays on All photos); the
-// viewer's "View album" button goes to the photo on its album page.
+// viewer's "View album" button goes to its album page.
 (function () {
   const grid = document.getElementById('photo-all');
   if (!grid) return;
@@ -90,7 +90,7 @@
     img.alt = a.dataset.place;
     place.textContent = a.dataset.place;
     date.textContent = a.dataset.date;
-    albumLink.href = a.href;
+    albumLink.href = a.href.split('#')[0];  // the album page itself (#photo-N would open the photo there)
     count.textContent = `${current + 1} / ${items.length}`;
     // Preload the neighbours so arrowing through feels instant
     [current - 1, current + 1].forEach(j => { new Image().src = items[(j + items.length) % items.length].dataset.full; });
@@ -116,6 +116,8 @@
   viewer.querySelector('.lightbox-prev').addEventListener('click', () => show(current - 1));
   viewer.querySelector('.lightbox-next').addEventListener('click', () => show(current + 1));
   viewer.querySelector('.lightbox-close').addEventListener('click', close);
+  // Close before leaving, so coming back (browser back) shows All photos, not the viewer
+  albumLink.addEventListener('click', e => { if (!(e.metaKey || e.ctrlKey || e.shiftKey || e.button)) close(); });
   viewer.addEventListener('click', e => { if (e.target === viewer) close(); });  // click the dark background
   document.addEventListener('keydown', e => {
     if (viewer.hidden) return;
