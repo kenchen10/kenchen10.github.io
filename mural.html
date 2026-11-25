@@ -13,7 +13,8 @@ title: 2nd Ave F Stop Murals
   </div>
 
   {%- comment -%}
-    Time scrubber: one large photo, a slider with a tick per date, and a strip of thumbnails.
+    Time scrubber: one large photo, a slider with a tick per date, and a thumbnail under each tick.
+    A map of the station (assets/mural-map.js) sits to the right of the photo, or last on phones.
     Photos are listed oldest to newest in _data/mural.yml; the page opens on the newest.
   {%- endcomment %}
   <div class="scrubber" id="scrubber">
@@ -28,18 +29,22 @@ title: 2nd Ave F Stop Murals
       <strong id="scrubber-date">{{ murals.last.date }}</strong> <span id="scrubber-gap"></span>
     </div>
 
-    <input class="scrubber-range" id="scrubber-range" type="range" min="0" max="{{ last_i }}" step="1" value="{{ last_i }}" aria-label="Move through the dates">
-    <div class="scrubber-ticks" aria-hidden="true">
-      {%- for item in murals %}
-      <span>{{ item.date | date: "%b ’%y" }}</span>
-      {%- endfor %}
+    <div class="scrubber-timeline" style="--n: {{ murals.size }}">
+      <input class="scrubber-range" id="scrubber-range" type="range" min="0" max="{{ last_i }}" step="1" value="{{ last_i }}" aria-label="Move through the dates">
+      <div class="scrubber-ticks" aria-hidden="true">
+        {%- for item in murals %}
+        <span>{{ item.date | date: "%b ’%y" }}</span>
+        {%- endfor %}
+      </div>
+
+      <div class="scrubber-strip">
+        {%- for item in murals %}
+        <button class="scrubber-thumb{% if forloop.last %} active{% endif %}" type="button" aria-label="Show {{ item.date }}"><img src="{{ '/' | append: item.img | relative_url }}" alt=""></button>
+        {%- endfor %}
+      </div>
     </div>
 
-    <div class="scrubber-strip" id="scrubber-strip">
-      {%- for item in murals %}
-      <button class="scrubber-thumb{% if forloop.last %} active{% endif %}" type="button" aria-label="Show {{ item.date }}"><img src="{{ '/' | append: item.img | relative_url }}" alt=""></button>
-      {%- endfor %}
-    </div>
+    <div class="mural-map" id="mural-map" role="region" aria-label="Map of the 2nd Ave F stop, at East Houston Street and 2nd Avenue" data-lon="-73.9910315" data-lat="40.7237271"></div>
   </div>
 </main>
 
@@ -49,7 +54,6 @@ title: 2nd Ave F Stop Murals
     const frames = [...root.querySelectorAll('.scrubber-frame')];
     const thumbs = [...root.querySelectorAll('.scrubber-thumb')];
     const range = document.getElementById('scrubber-range');
-    const strip = document.getElementById('scrubber-strip');
     const dateEl = document.getElementById('scrubber-date');
     const gapEl = document.getElementById('scrubber-gap');
 
@@ -64,7 +68,7 @@ title: 2nd Ave F Stop Murals
       return y + ' years' + (m ? ' ' + m + (m === 1 ? ' month' : ' months') : '') + ' later';
     }
 
-    function show(i, scrollStrip) {
+    function show(i) {
       frames.forEach((f, k) => f.classList.toggle('active', k === i));
       thumbs.forEach((t, k) => {
         t.classList.toggle('active', k === i);
@@ -74,22 +78,18 @@ title: 2nd Ave F Stop Murals
       dateEl.textContent = frames[i].dataset.label;
       gapEl.textContent = i === 0 ? '· first photo'
         : '· ' + timeSince(new Date(frames[i - 1].dataset.date), new Date(frames[i].dataset.date));
-      if (scrollStrip !== false) {
-        const t = thumbs[i];
-        strip.scrollTo({ left: t.offsetLeft - strip.clientWidth / 2 + t.clientWidth / 2, behavior: 'smooth' });
-      }
     }
 
     range.addEventListener('input', () => show(+range.value));
     thumbs.forEach((t, k) => t.addEventListener('click', () => show(k)));
     document.addEventListener('keydown', (e) => {
-      if (e.target.matches('input, textarea, select') || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
+      if (e.target.closest('input, textarea, select, .mural-map') || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
       const i = Math.max(0, Math.min(frames.length - 1, +range.value + (e.key === 'ArrowRight' ? 1 : -1)));
       show(i);
       e.preventDefault();
     });
 
-    show(+range.value, false);
-    strip.scrollLeft = strip.scrollWidth;
+    show(+range.value);
   })();
 </script>
+<script src="{{ '/assets/mural-map.js' | relative_url }}" defer></script>

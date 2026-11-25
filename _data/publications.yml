@@ -585,10 +585,12 @@ and helps standardize the understanding of HDR."
   media:
     - id: twominpapers
       link: https://www.youtube.com/watch?v=_WjU5d26Cc4
-      img: twominpapersbanner.jpg
+      name: Two Minute Papers
+      icon: fab fa-youtube
     - id: learnopencv
       link: https://learnopencv.com/image-gs-image-reconstruction-using-2d-gaussians/
-      img: learnOpenCV.png
+      name: LearnOpenCV
+      icon: fas fa-newspaper
   doi: 10.1145/3721238.3730596
   teaser_image: imggs_teaser.png
   bibtex: |

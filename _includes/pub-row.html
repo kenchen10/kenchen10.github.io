@@ -25,16 +25,20 @@
     <div><img loading="lazy" decoding="async" class="pub-banner" src="images/{{ pub.banner_venue }}" alt=""></div>
     {%- endif %}
     {%- if pub.venue2 %}
-    <div class="pub"><span class="badge" style="background-color: {{ pub.tag2 }}">{{ pub.venue2 }} {{ pub.year2 }}</span>{% if pub.venue_long2 %} | <em>{{ pub.venue_long2 }}</em>{% endif %}</div>
+    <div class="pub"><span class="venue-pill">{{ pub.venue2 }} {{ pub.year2 }}</span>{% if pub.venue_long2 %} | <em>{{ pub.venue_long2 }}</em>{% endif %}</div>
     {%- endif %}
     <div>
-      <span class="pub"><span class="badge" style="background-color: {{ pub.tag }}">{{ pub.venue }} {{ pub.year }}</span>{% if pub.venue_long %} | <em>{{ pub.venue_long }}</em>{% endif %}</span>
+      <span class="pub"><span class="venue-pill">{{ pub.venue }} {{ pub.year }}</span>{% if pub.venue_long %} | <em>{{ pub.venue_long }}</em>{% endif %}</span>
       {%- if pub.award %}
-      <span class="pub"><span class="badge award"><i class="fas fa-award"></i> {{ pub.award }}</span></span>
+      {% include award.html text=pub.award %}
       {%- endif %}
-      {%- for media in pub.media %}
-      <a href="{{ media.link }}" target="_blank" rel="noopener"><img loading="lazy" decoding="async" class="pub-media" src="images/{{ media.img }}" alt=""></a>
-      {%- endfor %}
+      {%- if pub.media %}
+      <span class="pub-media"><span class="pub-media-label">Featured on</span>
+        {%- for media in pub.media %}
+        <a href="{{ media.link }}" target="_blank" rel="noopener"><i class="{{ media.icon }}" aria-hidden="true"></i>{{ media.name }}</a>
+        {%- endfor %}
+      </span>
+      {%- endif %}
     </div>
     {%- if pub.description %}
     <div class="pub-desc">{{ pub.description }}</div>

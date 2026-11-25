@@ -45,9 +45,9 @@ icons: true
       <div>
         <a class="cv-pub-title" href="{{ pub.project_page }}">{{ pub.title }}</a><br>
         {% include authors.html pub=pub short=true %}<br>
-        <span class="cv-venue">{{ pub.venue }} {{ pub.year }}</span>{% if pub.venue_long %} <span class="sub">{{ pub.venue_long }}</span>{% endif %}
+        <span class="venue-pill">{{ pub.venue }} {{ pub.year }}</span>{% if pub.venue_long %} <span class="sub">{{ pub.venue_long }}</span>{% endif %}
         {%- if pub.award %}
-        <span class="badge award"><i class="fas fa-award"></i> {{ pub.award }}</span>
+        {% include award.html text=pub.award %}
         {%- endif %}
       </div>
       <div class="cv-years">{% if pub.showyear %}{{ pub.year }}{% endif %}</div>

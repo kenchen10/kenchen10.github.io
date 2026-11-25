@@ -215,7 +215,7 @@ a.links3:hover { color: var(--accent-hover); }
 .pub { font-size: small; }
 .venue { border-radius: 0.25rem; }
 
-/* Bordered, coloured label ("SIGGRAPH 2026", "2026", awards, ...) */
+/* Bordered, coloured label ("SIGGRAPH 2026", "2026", ...) */
 .badge {
   display: inline;
   padding: 1px 5px;
@@ -224,7 +224,6 @@ a.links3:hover { color: var(--accent-hover); }
   border: 1px solid var(--badge-border);
   border-radius: 0.25rem;
 }
-.badge.award { padding: 2px 5px; background-color: rgb(255, 245, 178); }
 
 /* Every page shares the home page's width; nav and footer line up with it */
 .page, .home-main, .site-nav, .site-footer { max-width: var(--page-width); margin-left: auto; margin-right: auto; padding-left: var(--page-pad); padding-right: var(--page-pad); }
@@ -553,7 +552,26 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
 .pub-desc { font-size: small; font-style: italic; }
 .pub-links { margin: 3px 0 10px; }
 .pub-banner { height: 20px; }
-.pub-media { height: 22px; border: 2px solid white; }
+/* "Featured on" chips for press coverage (media: in _data/publications.yml), beside the venue pill */
+.pub-media { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 5px; margin-top: 3px; vertical-align: top; font-size: 11.5px; line-height: 1.6; }
+.pub-media-label { font-style: italic; color: var(--muted); }
+.pub-media a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+  font-size: inherit;
+  font-weight: 500;
+  color: #444;
+  white-space: nowrap;
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(140, 47, 90, 0.22);
+  transition: color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.pub-media a i { color: var(--accent); }
+.pub-media a i.fa-youtube { color: #e02f2f; }
+.pub-media a:hover, .pub-media a:focus-visible { color: var(--accent); background-color: var(--rose); box-shadow: 0 0 0 1px var(--accent); }
 /* The video is as tall as the row's thumbnail (set by a script on the home page via --thumb-h) */
 .pub-video { flex: none; max-width: 30%; margin: 6px 10px 6px 0; }
 .pub-video video {
@@ -629,11 +647,12 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
 }
 .cv-years.offset { padding-top: 20px; }
 .cv .authors a, .cv .authors .me { font-size: 13px; }
-/* Publications: dark titles (underlined on hover) and the venue as a small tag */
+/* Publications: dark titles (underlined on hover) and the venue as a small pill (.venue-pill) */
 .cv-pub-title { font-size: 14px; font-weight: 700; color: #2a2226; }
 .cv-pub-title:hover, .cv-pub-title:focus { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 .cv-pub-title b[style] { color: var(--accent) !important; }  /* titles with coloured letters (PEA-PODs) */
-.cv-venue {
+/* Venue pill ("ACM SIGGRAPH 2025") on the CV and the home page's publication list */
+.venue-pill {
   display: inline-block;
   margin: 3px 4px 0 0;
   padding: 0 7px;
@@ -645,7 +664,37 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
   background-color: var(--rose);
   border-radius: 999px;
 }
-.cv .badge.award { margin-left: 4px; font-size: 12px; }
+/* Award pill (_includes/award.html): a gold medal and the award's name, the same height as the venue
+   pill. Sized in em, so paper pages enlarge it by setting the font size. */
+.award-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  margin-top: 3px;
+  padding-right: 0.75em;
+  vertical-align: top;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: #6a4708;
+  background: linear-gradient(100deg, #f6dd94, #fdf3d0 60%, #f9e8b4);
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(176, 124, 20, 0.35);
+}
+.award-pill i {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.6em;
+  height: 1.6em;
+  color: #fff;
+  background: radial-gradient(circle at 35% 28%, #f0c65a, #c78a16 75%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #b27a12 inset;
+}
+.award-pill i::before { font-size: 0.85em; line-height: 1; }
+.pub-row.highlighted .venue-pill { background-color: rgba(140, 47, 90, 0.13); }  /* stays visible on the shaded cards */
 
 /* ---------- Photography / birds / mural ---------- */
 /* Shared photo look: soft shadow and rounded corners instead of black borders */
@@ -904,8 +953,14 @@ body.lightbox-open { overflow: hidden; }
 .bird-name { font-size: 16px; font-weight: 700; }
 
 /* Mural page: time scrubber */
-.scrubber { margin-top: 4px; }
-.scrubber-stage { position: relative; height: min(680px, 78vh, 120vw); }
+.scrubber {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34%;
+  grid-template-areas: "stage map" "caption ." "timeline timeline";
+  column-gap: 24px;
+  margin-top: 4px;
+}
+.scrubber-stage { grid-area: stage; position: relative; height: min(680px, 78vh, 80vw); }
 .scrubber-stage img[width][height] { height: 100%; }
 .scrubber-stage img {
   position: absolute;
@@ -918,22 +973,23 @@ body.lightbox-open { overflow: hidden; }
   filter: drop-shadow(0 6px 14px rgba(80, 40, 55, 0.18));
 }
 .scrubber-stage img.active { opacity: 1; }
-.scrubber-caption { margin: 14px 0 6px; text-align: center; font-size: 15px; }
+.scrubber-caption { grid-area: caption; margin: 14px 0 6px; text-align: center; font-size: 15px; }
 .scrubber-caption span { color: var(--muted); }
-.scrubber-range { display: block; width: 100%; margin: 0; accent-color: var(--accent); cursor: pointer; }
-.scrubber-ticks { display: flex; justify-content: space-between; padding: 0 8px; }
-.scrubber-ticks span { width: 0; display: flex; justify-content: center; white-space: nowrap; font-size: 11px; color: var(--muted); }
-.scrubber-strip {
-  position: relative;
-  display: flex;
-  gap: 8px;
-  margin-top: 18px;
-  padding: 4px 2px 8px;
-  overflow-x: auto;
-  scrollbar-width: thin;
+/* One equal column per photo (--n): the date and thumbnail are centred in each, and the slider is
+   inset so that its handle (16px wide) stops over the centre of every column */
+.scrubber-timeline { grid-area: timeline; min-width: 0; }
+.scrubber-range {
+  display: block;
+  width: calc(100% - 100% / var(--n) + 16px);
+  margin: 0 calc(50% / var(--n) - 8px);
+  accent-color: var(--accent);
+  cursor: pointer;
 }
+.scrubber-ticks, .scrubber-strip { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+.scrubber-ticks span { display: flex; justify-content: center; white-space: nowrap; font-size: 11px; color: var(--muted); }
+.scrubber-strip { justify-items: center; align-items: start; margin-top: 8px; }
 .scrubber-thumb {
-  flex: none;
+  max-width: 100%;
   padding: 0;
   background: none;
   border: 2px solid transparent;
@@ -941,12 +997,19 @@ body.lightbox-open { overflow: hidden; }
   opacity: 0.6;
   transition: opacity 0.15s ease, border-color 0.15s ease;
 }
-/* auto margins centre the strip, but still let it scroll from the first thumbnail when it overflows */
-.scrubber-thumb:first-child { margin-left: auto; }
-.scrubber-thumb:last-child { margin-right: auto; }
-.scrubber-thumb img { display: block; height: 64px; width: auto; border-radius: 4px; }
+.scrubber-thumb img { display: block; height: 64px; width: auto; max-width: 100%; object-fit: cover; border-radius: 4px; }
 .scrubber-thumb:hover { opacity: 1; }
 .scrubber-thumb.active { opacity: 1; border-color: var(--accent); }
+.mural-map {
+  grid-area: map;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #efe7ea;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 6px 18px rgba(80, 40, 55, 0.1);
+}
+.mural-map-failed { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; }
+.mural-map .maplibregl-ctrl-attrib { font-size: 10px; }
+.mural-pin svg { display: block; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)); }
 
 /* ---------- Paper (project) pages ---------- */
 body.paper-page { background-color: white; }
@@ -961,7 +1024,8 @@ body.paper-page { background-color: white; }
 .paper-side { padding-top: 4px; }
 .paper-venue { font-size: 20px; font-style: italic; }
 .paper-venue .badge { font-size: 20px; font-weight: 700; padding: 1px 5px; border-radius: 4px; }
-.paper-award { margin-top: 4px; font-size: 18px; color: coral; }
+.paper-award { margin-top: 6px; }
+.paper-award .award-pill { font-size: 15px; }
 .paper-authors { margin-top: 14px; font-size: 16px; line-height: 1.6; }
 .paper-author { white-space: nowrap; }
 .paper-author a { font-size: 16px; }
@@ -1135,14 +1199,15 @@ body.paper-page { background-color: white; }
   /* Only the first and last date labels fit under the slider */
   .scrubber-ticks span { visibility: hidden; }
   .scrubber-ticks span:first-child, .scrubber-ticks span:last-child { visibility: visible; }
-  .scrubber-ticks span:first-child { justify-content: flex-start; }
-  .scrubber-ticks span:last-child { justify-content: flex-end; }
-
+  .scrubber { grid-template-columns: minmax(0, 1fr); grid-template-areas: "stage" "caption" "timeline" "map"; }
+  .scrubber-stage { height: min(680px, 78vh, 120vw); }
+  .scrubber-thumb img { width: 100%; height: auto; aspect-ratio: 3 / 4; }
+  .mural-map { height: 300px; margin-top: 20px; }
 
   .paper-main, .paper-side { padding: 0 14px; }
   .paper-main h2 { font-size: 24px; }
   .paper-venue, .paper-venue .badge { font-size: 16px; }
-  .paper-award { font-size: 16px; }
+  .paper-award .award-pill { font-size: 13px; }
   .affiliation-logos img { height: 30px; }
   .paper-authors, .paper-author a { font-size: 15px; }
   .paper-btn { padding: 5px 12px; font-size: 13px; }

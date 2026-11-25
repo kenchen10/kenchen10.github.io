@@ -24,7 +24,7 @@
     <h2>{{ publication.title }}</h2>
     <div class="paper-venue"><span class="badge" style="background-color: {{ publication.tag }}">{{ publication.venue }} {{ publication.year }}</span>{% if publication.venue_long %} | {{ publication.venue_long }}{% endif %}</div>
     {%- if publication.award %}
-    <p class="paper-award">&#127942; {{ publication.award }}</p>
+    <p class="paper-award">{% include award.html text=publication.award %}</p>
     {%- endif %}
 
     {%- comment -%}

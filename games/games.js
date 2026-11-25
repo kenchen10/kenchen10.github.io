@@ -58,6 +58,18 @@
     { max: Infinity, name: 'One in a krillion', line: 'Trench dweller. Absurd.' },
   ];
 
+  // Eraly: points per answer by how close the year was (taken from the game's own code), and the eras
+  // the explorer walks through (a sixth of the 700 points each).
+  const ERALY_TIER = {
+    '🟨': { name: 'Timekeeper (exact)', pts: 100 },
+    '🟦': { name: 'Chronicler (close)', pts: 85 },
+    '🟩': { name: 'Historian (near)', pts: 60 },
+    '🟧': { name: 'Explorer (rough)', pts: 30 },
+    '🟥': { name: 'Tourist (far off)', pts: 10 },
+    '💤': { name: 'Lost in time (no answer)', pts: 0 },
+  };
+  const ERALY_ERAS = ['🏛️ Ancient', '🏰 Medieval', '🎨 Renaissance', '⚙️ Industrial', '🚗 Modern', '💾 Digital'];
+
   // How good an opening guess was, 0..1 (1 = best), from a row of share-grid emoji. `points` maps an
   // emoji to its value; anything else counts 0. Returns null when there's no row to read.
   const openingScore = (row, points) => {
@@ -509,6 +521,37 @@
       formatValue: (v) => Math.round(v).toString(),
       normalize: (v) => Math.min(1, v / 1000), // assumes a 1000 max; adjust if scores go higher
       date: fromYmd,
+    },
+    {
+      id: 'eraly',
+      name: 'Eraly',
+      emoji: '⏳',
+      url: 'https://eraly.io/',
+      header: /\bEraly\s*#\s*\d/gi,
+      // "Eraly #41 · I travelled to 1700 AD\n▰▰▰▰▰▱▱▱▱▱ 350/700\n🟦🟩🟧🟧🟦🟧🟧\nhttps://eraly.io"
+      //   Guess the year of 7 events, up to 100 points each. Each square is one answer (see ERALY_TIER):
+      //   🟦85 + 🟩60 + 🟧30 + 🟧30 + 🟦85 + 🟧30 + 🟧30 = 350. "Close" allows more years for older events.
+      //   The year travelled to and the ▰▱ bar (tenths of 700) only restate the score, so they aren't scored.
+      //   Past days are shared as "Eraly #12 (Archive) · …", and Halloween adds 🎃 after the number.
+      parse(s) {
+        const m = s.match(/^Eraly\s*#\s*(\d+)\s*(\(Archive\))?/i);
+        const sc = s.match(/(?:^|\D)(\d{1,3})\s*\/\s*700\b/);
+        if (!m || !sc || Number(sc[1]) > 700) return null;
+        const pts = Number(sc[1]);
+        const rows = (s.match(/[🟨🟦🟩🟧🟥💤]/gu) || [])
+          .map((ch, i) => ({ label: 'Answer ' + (i + 1), mark: ch, value: `${ERALY_TIER[ch].name} · ${ERALY_TIER[ch].pts}` }));
+        const year = s.match(/travell?ed to\s+(\d{1,4})\s*AD/i);
+        const era = ERALY_ERAS[Math.min(ERALY_ERAS.length - 1, Math.floor((pts / 700) * ERALY_ERAS.length))];
+        return {
+          puzzle: Number(m[1]), value: pts, display: pts + '/700',
+          detail: { rows, note: `Travelled to ${year ? year[1] + ' AD: ' : ''}${era} era.${m[2] ? ' Played from the archive.' : ''}` },
+        };
+      },
+      better: 'higher',
+      unit: 'points',
+      formatValue: (v) => Math.round(v).toString(),
+      normalize: (v) => v / 700, // max possible is 700
+      date: fromEpoch('2026-10-15'), // #1 = 2026-10-16 (the game's launch date); #41 = 2026-11-25
     },
   ];
 
