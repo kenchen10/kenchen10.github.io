@@ -210,7 +210,7 @@ a.links3:hover { color: var(--accent-hover); }
 
 /* ---------- Shared typography ---------- */
 .heading { display: inline; margin: 0; font-size: 22px; font-weight: 700; line-height: 1.42857143; }
-.highlight, span.highlight { background: linear-gradient(to right, var(--bg), var(--rose)); }
+.highlight, span.highlight { padding: 1px 0 1px 5px; background: linear-gradient(to right, var(--rose), var(--bg)); border-left: 4px solid var(--accent); }
 
 .pub { font-size: small; }
 .venue { border-radius: 0.25rem; }
@@ -428,6 +428,8 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
 .research-map { margin-bottom: 26px; }
 .threads-key { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
 .threads-key-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+.threads-key-dot.selected { width: 15px; height: 15px; border: 1.5px solid var(--accent); background: radial-gradient(circle, var(--muted) 4px, var(--rose) 4.5px); }
+.threads-key-dot.selected + .threads-key-dot { margin-left: 8px; }
 .threads-key-dot.poster { margin-left: 8px; background: transparent; border: 2px solid var(--muted); }
 .threads { position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr); margin-top: 10px; }
 .threads-labels { position: relative; height: 124px; }
@@ -470,6 +472,7 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
 .threads-year { font-size: 12px; font-weight: 700; fill: var(--muted); letter-spacing: 0.04em; }
 .threads-hit { fill: transparent; }
 .threads-link { stroke: #b9a3aa; stroke-width: 2; transition: stroke 0.15s ease; }
+.threads-selected { fill: var(--rose); fill-opacity: 0.75; stroke: var(--accent); stroke-width: 1.5; }
 .threads-strand { cursor: pointer; outline: none; }
 .threads-strand circle { stroke-width: 2; transition: r 0.15s ease, opacity 0.15s ease; }
 .threads-strand:not(.poster) circle { stroke: #fff; }
@@ -542,10 +545,9 @@ body.single-section-mode .content-section + .content-section { padding-top: 0; }
 .pub-row + .pub-row { padding-top: 8px; }
 .pub-row { position: relative; }
 .pub-row::before { content: ""; position: absolute; top: 0; bottom: 0; left: 22%; border-left: 1px solid var(--line); }
-.pub-row.highlighted .pub-body {
-  background: linear-gradient(to right, var(--bg), var(--rose));
-  border-radius: 0 10px 10px 0;
-}
+/* Highlighted papers: shading behind the text, and a 5px colored edge centered on the 1px divider line */
+.pub-row.highlighted .pub-body { position: relative; background: linear-gradient(to right, var(--rose), var(--bg)); }
+.pub-row.highlighted .pub-body::before { content: ""; position: absolute; top: 0; bottom: 0; left: -2px; width: 5px; background: var(--accent); }
 .pub-title { font-size: 14px; font-weight: 700; }
 .authors a, .authors .me { font-size: small; }
 .authors .me { font-style: italic; }
@@ -1169,6 +1171,7 @@ body.paper-page { background-color: white; }
   .pub-row { grid-template-columns: minmax(0, 1fr); margin-top: 6px; }
   .pub-row::before { display: none; }
   .pub-body { border-left: 1px solid var(--line); }
+  .pub-row.highlighted .pub-body::before { left: -3px; }  /* here the line is the text's own border */
   .pub-thumb { padding: 6px 0 8px; }
   .pub-thumb img, .pub-thumb video { max-width: 360px; }
   .pub-body { flex-direction: column; align-items: stretch; gap: 0; }

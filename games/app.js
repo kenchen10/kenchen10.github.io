@@ -135,11 +135,9 @@
     }
     entries = [...seen.values()];
     assignSeasons();
-    puzzleBest = {};
+    puzzleBest = bestsOf(entries);
     dateIdx = {};
     for (const e of entries) {
-      const g = GAME_BY_ID[e.game], k = e.game + '|' + e.puzzle;
-      if (g.relative && (puzzleBest[k] === undefined || (g.better === 'higher' ? e.value > puzzleBest[k] : e.value < puzzleBest[k]))) puzzleBest[k] = e.value;
       const m = (dateIdx[e.player] = dateIdx[e.player] || {});
       for (const k of [e.game, '*']) (m[k] = m[k] || new Set()).add(e.date);
     }
@@ -288,9 +286,18 @@
     return { score: Math.round(z * 50), n: list.length, diff: list.reduce((t, e) => t + e.vs.diff, 0) / list.length };
   }
 
+  // Best result on each puzzle of the games scored relative to it: game|puzzle -> value.
+  function bestsOf(es) {
+    const bests = {};
+    for (const e of es) {
+      const g = GAME_BY_ID[e.game], k = e.game + '|' + e.puzzle;
+      if (g.relative && (bests[k] === undefined || (g.better === 'higher' ? e.value > bests[k] : e.value < bests[k]))) bests[k] = e.value;
+    }
+    return bests;
+  }
   // 0..1 score of one result for the Average board and trend charts (1 = perfect).
-  function norm(e, g) {
-    const best = g.relative ? puzzleBest[e.game + '|' + e.puzzle] : undefined;
+  function norm(e, g, bests = puzzleBest) {
+    const best = g.relative ? bests[e.game + '|' + e.puzzle] : undefined;
     let v;
     if (best === undefined) v = g.normalize(e.value, e);
     else if (g.better === 'higher') v = e.value / Math.max(best, g.relative.floor); // best of the day = 100
@@ -580,34 +587,137 @@
   // The season the time menu is showing, or null for Today / 7 days / 30 days / All time.
   const rangeSeason = () => (state.range === 'current' ? currentSeason() : state.range.startsWith('s:') ? state.range.slice(2) : null);
 
-  // Standings, ratings, game champions and awards for one season.
+  // Standings, ratings, game champions and badges for one season.
   function seasonData(id) {
     if (seasonCache[id]) return seasonCache[id];
     const es = entries.filter((e) => e.season === id);
     const list = overall(es, id);
-    const elo = runElo(es).ratings;
+    const { ratings: elo, upsets } = runElo(es);
     const wr = new Map(winRates(es, 'all').map((s) => [s.player, s]));
-    const tops = (items, key) => {
-      if (!items.length) return null;
-      const best = Math.max(...items.map(key));
-      return { best, items: items.filter((x) => key(x) === best) };
-    };
     const games = GAMES.map((g) => {
       const l = overall(es.filter((e) => e.game === g.id), id).filter((s) => s.rank === 1);
       return l.length ? { g, players: l.map((s) => s.player), points: l[0].points, wins: l[0].wins } : null;
     }).filter(Boolean);
-    const awards = [];
-    const w = tops([...wr.values()].filter((s) => s.contested >= SEASON.minForAwards), (s) => s.ratio);
-    if (w) awards.push({ emoji: '🎯', title: 'Best win %', players: w.items.map((s) => s.player), sub: `${Math.round(w.best * 100)}% (${w.items[0].wins} of ${w.items[0].contested} puzzles a friend also played)` });
-    const rt = tops(Object.entries(elo).filter(([, x]) => x.n >= SEASON.minForAwards).map(([p, x]) => ({ p, r: Math.round(x.r) })), (x) => x.r);
-    if (rt) awards.push({ emoji: '📈', title: 'Highest rating', players: rt.items.map((x) => x.p), sub: `${rt.best} over ${elo[rt.items[0].p].n} matches` });
-    const imp = tops(seasonImprovement(id, es).filter((x) => x.diff > 0), (x) => x.diff);
-    if (imp) awards.push({ emoji: '🚀', title: 'Most improved', players: imp.items.map((x) => x.p), sub: `+${imp.best} on the 0–100 scale vs ${seasonName(monthId(monthIdx(id) - 1))}, in the games played in both` });
-    const gc = new Map();
-    for (const x of games) for (const p of x.players) gc.set(p, (gc.get(p) || 0) + 1);
-    const g = tops([...gc.entries()].map(([p, n]) => ({ p, n })).filter((x) => x.n > 1), (x) => x.n);
-    if (g) awards.push({ emoji: '🎮', title: 'Most game titles', players: g.items.map((x) => x.p), sub: `Top in ${g.best} of ${games.length} games` });
-    return (seasonCache[id] = { id, es, list, elo, wr, games, awards });
+    const badges = seasonBadges({ id, es, list, elo, upsets, wr, games });
+    return (seasonCache[id] = { id, es, list, elo, wr, games, badges });
+  }
+
+  // Season badges. `desc` is the rule (N = minForAwards); seasonBadges() works out who holds each one.
+  // Everything comes from that season's own results, so a finished season's badges never change.
+  const SEASON_GROUPS = [['honour', 'Honours'], ['spoon', 'Wooden spoons'], ['quirk', 'Luck and quirks']];
+  const needN = SEASON ? `with ${SEASON.minForAwards}+ puzzles a friend also played` : '';
+  const SEASON_BADGES = [
+    { id: 'champion', group: 'honour', emoji: '🏆', name: 'Champion', desc: 'Most season points.' },
+    { id: 'best', group: 'honour', emoji: '🌟', name: 'Best performer', desc: `Beats the biggest share of the friends on each puzzle, ties counting half, ${needN}.` },
+    { id: 'winpct', group: 'honour', emoji: '🎯', name: 'Best win %', desc: `Highest share of puzzles won, ${needN}.` },
+    { id: 'rating', group: 'honour', emoji: '📈', name: 'Highest rating', desc: `Highest season rating, ${needN}.` },
+    { id: 'improved', group: 'honour', emoji: '🚀', name: 'Most improved', desc: 'Biggest rise on the 0–100 scale vs the season before, in the games played in both.' },
+    { id: 'titles', group: 'honour', emoji: '🎮', name: 'Most game titles', desc: 'Top of the most games (2 or more).' },
+    { id: 'run', group: 'honour', emoji: '⚡', name: 'Longest win run', desc: `Most wins in a row in one game (${CFG.hotStreakWins} or more).` },
+    { id: 'slayer', group: 'honour', emoji: '🗡️', name: 'Giant slayer', desc: 'Beat the friend rated furthest above them (50 or more) at the time.' },
+    { id: 'days', group: 'honour', emoji: '🔥', name: 'Most days played', desc: 'Played on the most days (10 or more).' },
+    { id: 'worst', group: 'spoon', emoji: '🥄', name: 'Worst performer', desc: `Beats the smallest share of the friends on each puzzle, ties counting half, ${needN}.` },
+    { id: 'last', group: 'spoon', emoji: '🐢', name: 'Most last places', desc: `Finishes last most often, ${SEASON ? `with ${SEASON.minForAwards}+ puzzles that 3 or more friends played` : ''}.` },
+    { id: 'drought', group: 'spoon', emoji: '🏜️', name: 'Longest drought', desc: 'Most puzzles in a row without a win in one game (8 or more).' },
+    { id: 'fails', group: 'spoon', emoji: '💀', name: 'Most fails', desc: 'Most puzzles failed outright, such as X/6 in Wordle (3 or more).' },
+    { id: 'slide', group: 'spoon', emoji: '🛝', name: 'Biggest slide', desc: 'Biggest drop on the 0–100 scale vs the season before, in the games played in both.' },
+    { id: 'second', group: 'quirk', emoji: '🥈', name: 'Always the runner-up', desc: 'Most 2nd places on puzzles 3 or more friends played (5 or more).' },
+    { id: 'lucky', group: 'quirk', emoji: '✨', name: 'Luckiest starts', desc: 'Best opening guesses on average, with 10+ of them.' },
+    { id: 'unlucky', group: 'quirk', emoji: '🌧️', name: 'Unluckiest starts', desc: 'Worst opening guesses on average, with 10+ of them.' },
+  ];
+  function seasonBadges({ id, es, list, elo, upsets, wr, games }) {
+    const held = {}; // badge id -> { players, sub }
+    // The highest `v` gets the badge (shared on a tie). It isn't given out if fewer than `min` players are in
+    // the running, if they're all level, or if the best is below `floor`.
+    const give = (badge, items, sub, { min = 2, floor = -Infinity } = {}) => {
+      if (items.length < min) return;
+      const best = Math.max(...items.map((x) => x.v));
+      const top = items.filter((x) => x.v === best);
+      if (best < floor || (items.length > 1 && top.length === items.length)) return;
+      held[badge] = { players: [...new Set(top.map((x) => x.p))], sub: sub(top[0]) };
+    };
+    const N = SEASON.minForAwards;
+    const pct = (v) => Math.round(100 * v) + '%';
+    const title = (gid) => `${GAME_BY_ID[gid].emoji} ${GAME_BY_ID[gid].name}`;
+    const flip = (items) => items.map((x) => ({ ...x, v: -x.v })); // lowest wins
+
+    // Every result of the season with its place on that puzzle.
+    const results = [];
+    for (const l of groupBy(es, (e) => e.game + '|' + e.puzzle).values()) {
+      const placed = rankPuzzle(l, GAME_BY_ID[l[0].game]);
+      const lastRank = placed[placed.length - 1].rank;
+      for (const e of placed) {
+        const below = placed.filter((o) => o.rank > e.rank).length, level = placed.filter((o) => o.rank === e.rank).length - 1;
+        results.push({ ...e, n: l.length, beat: l.length > 1 ? (below + level / 2) / (l.length - 1) : null, last: l.length > 2 && e.rank === lastRank && e.rank > 1 });
+      }
+    }
+    const players = [...groupBy(results, (e) => e.player).entries()].map(([p, l]) => {
+      const shared = l.filter((e) => e.n > 1), trio = l.filter((e) => e.n > 2);
+      return {
+        p, shared, trio,
+        beat: shared.length ? Math.round(1e6 * mean(shared.map((e) => e.beat))) / 1e6 : 0,
+        days: new Set(l.map((e) => e.date)).size,
+        lasts: trio.filter((e) => e.last).length,
+        seconds: trio.filter((e) => e.rank === 2).length,
+        fails: l.filter((e) => GAME_BY_ID[e.game].failValue && e.value >= GAME_BY_ID[e.game].failValue).length,
+      };
+    });
+    const regulars = players.filter((x) => x.shared.length >= N);
+    const by = (items, key) => items.map((x) => ({ ...x, v: key(x) }));
+
+    const champs = list.filter((s) => s.rank === 1);
+    if (champs.length) held.champion = { players: champs.map((s) => s.player), sub: `${plural(champs[0].points, 'point')}, ${plural(champs[0].wins, 'win')}` };
+    const beats = (x) => `Beat ${pct(x.beat)} of friends, over ${x.shared.length} puzzles`;
+    give('best', by(regulars, (x) => x.beat), beats);
+    give('worst', flip(by(regulars, (x) => x.beat)), beats, { min: 3 });
+    give('winpct', [...wr.values()].filter((s) => s.contested >= N).map((s) => ({ ...s, p: s.player, v: s.ratio })), (s) => `${pct(s.ratio)} (${s.wins} of ${s.contested} shared puzzles)`);
+    give('rating', Object.entries(elo).filter(([, x]) => x.n >= N).map(([p, x]) => ({ p, v: Math.round(x.r), n: x.n })), (x) => `${x.v} over ${x.n} matches`);
+    const titles = new Map();
+    for (const x of games) for (const p of x.players) titles.set(p, (titles.get(p) || 0) + 1);
+    give('titles', [...titles].map(([p, v]) => ({ p, v })), (x) => `Top in ${x.v} of ${games.length} games`, { min: 1, floor: 2 });
+    const vsBefore = `on the 0–100 scale vs ${seasonName(monthId(monthIdx(id) - 1))}`;
+    const change = by(seasonImprovement(id, es), (x) => x.diff);
+    give('improved', change, (x) => `+${x.v} ${vsBefore}`, { floor: 1 });
+    give('slide', flip(change), (x) => `−${x.v} ${vsBefore}`, { floor: 1 });
+
+    // Longest runs of wins, and of shared puzzles without one, in a single game.
+    const runs = [], dry = [];
+    for (const l of groupBy(results.filter((e) => e.n > 1), (e) => e.player + '|' + e.game).values()) {
+      l.sort((a, b) => (a.puzzleDate !== b.puzzleDate ? (a.puzzleDate < b.puzzleDate ? -1 : 1) : a.puzzle < b.puzzle ? -1 : 1));
+      let w = 0, d = 0, bestW = 0, bestD = 0;
+      for (const e of l) {
+        w = e.rank === 1 ? w + 1 : 0;
+        d = e.rank === 1 ? 0 : d + 1;
+        bestW = Math.max(bestW, w);
+        bestD = Math.max(bestD, d);
+      }
+      runs.push({ p: l[0].player, game: l[0].game, v: bestW });
+      dry.push({ p: l[0].player, game: l[0].game, v: bestD });
+    }
+    give('run', runs, (x) => `${x.v} in a row in ${title(x.game)}`, { floor: CFG.hotStreakWins });
+    give('drought', dry, (x) => `${x.v} in a row without a win in ${title(x.game)}`, { floor: 8 });
+    give('slayer', upsets.map((u) => ({ p: u.e.player, v: Math.round(u.gap), u })), ({ v, u }) => `Beat ${displayName[u.loser.player] || u.loser.player}, rated ${v} higher, in ${title(u.e.game)}`, { min: 1, floor: 50 });
+    give('days', by(players, (x) => x.days), (x) => plural(x.v, 'day'), { floor: 10 });
+    give('last', by(players.filter((x) => x.trio.length >= N), (x) => x.lasts / x.trio.length), (x) => `Last on ${x.lasts} of ${x.trio.length} puzzles (${pct(x.v)})`, { min: 3, floor: 0.01 });
+    give('fails', by(players, (x) => x.fails), (x) => `${x.v} failed puzzles`, { floor: 3 });
+    give('second', by(players, (x) => x.seconds), (x) => `${x.v} second places`, { floor: 5 });
+
+    // Opening guesses, ranked against the openings shared in that game this season.
+    const opens = groupBy(es.filter((e) => e.q != null), (e) => e.game);
+    const ranks = new Map();
+    for (const l of opens.values()) {
+      if (l.length < CFG.minForStartRank) continue;
+      for (const e of l) {
+        const below = l.filter((o) => o.q < e.q - 1e-9).length, same = l.filter((o) => Math.abs(o.q - e.q) <= 1e-9).length;
+        if (!ranks.has(e.player)) ranks.set(e.player, []);
+        ranks.get(e.player).push((100 * (below + same / 2)) / l.length);
+      }
+    }
+    const starts = [...ranks].filter(([, l]) => l.length >= 10).map(([p, l]) => ({ p, v: Math.round(10 * mean(l)) / 10, n: l.length }));
+    const opened = (x) => `Better than ${Math.round(Math.abs(x.v))}% of openings, over ${x.n}`;
+    give('lucky', starts, opened, { min: 3 });
+    give('unlucky', flip(starts), opened, { min: 3 });
+    return SEASON_BADGES.filter((b) => held[b.id]).map((b) => ({ ...b, ...held[b.id] }));
   }
   // Average change per result vs the season before, comparing like with like: only games a player has
   // 3+ results of in both seasons, weighted by this season's plays, with 10+ such results.
@@ -615,7 +725,8 @@
     const prev = entries.filter((e) => e.season === monthId(monthIdx(id) - 1));
     if (!prev.length) return [];
     const before = groupBy(prev, (e) => e.player + '|' + e.game);
-    const avg = (l) => 100 * mean(l.map((e) => norm(e, GAME_BY_ID[e.game])));
+    const bests = bestsOf([...prev, ...es]);
+    const avg = (l) => 100 * mean(l.map((e) => norm(e, GAME_BY_ID[e.game], bests)));
     const acc = {};
     for (const [k, l] of groupBy(es, (e) => e.player + '|' + e.game)) {
       const b = before.get(k);
@@ -1032,8 +1143,6 @@
     }).join('');
     const podium = steps ? `<div class="podium">${steps}</div>` : '';
 
-    const awards = d.awards.map((a) => `<div class="wk-card"><div class="wk-emoji">${a.emoji}</div><div class="wk-body"><div class="wk-title">${esc(a.title)}</div>
-      <div class="wk-who">${a.players.map((p) => `<button class="plink" data-player="${esc(p)}">${pname(p)}</button>`).join(', ')}</div><div class="wk-sub">${esc(a.sub)}</div></div></div>`).join('');
     const body = d.list.map((s) => {
       const w = d.wr.get(s.player), x = d.elo[s.player];
       return `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player, undefined, true)}<td class="num strong">${s.points}</td><td class="num">${s.wins}</td>
@@ -1049,24 +1158,57 @@
     const nm = (p) => displayName[p] || p;
     lastSeasonText = `👑 ${CFG.title} — ${seasonName(id)} (${seasonMonth(id, true)})${done ? '' : st === 'provisional' ? ', not final yet' : ', so far'}\n` +
       d.list.filter((s) => s.rank && s.rank <= 3).map((s) => `${medal(s.rank)} ${nm(s.player)}: ${s.points} pts, ${plural(s.wins, 'win')}`).join('\n') +
-      (d.awards.length ? '\n' + d.awards.map((a) => `${a.emoji} ${a.title}: ${a.players.map(nm).join(', ')} — ${a.sub}`).join('\n') : '');
-    return `${nav}${podium}${awards ? `<div class="wk-grid">${awards}</div>` : ''}${table}${games}
+      (d.badges.length ? '\n' + d.badges.filter((b) => b.id !== 'champion').map((b) => `${b.emoji} ${b.name}: ${b.players.map(nm).join(', ')} — ${b.sub}`).join('\n') : '');
+    return `${nav}${podium}${table}${seasonBadgesHtml(d, done)}${games}
       <button class="big wk-copy" data-copy-season="1">📋 Copy this season</button>${hall}`;
+  }
+
+  // The season's badges on the Seasons tab, grouped, then the ones nobody holds.
+  function seasonBadgesHtml(d, done) {
+    const tile = (b) => `<div class="sb ${b.group}"><div class="sb-medal" aria-hidden="true">${b.emoji}</div><div class="sb-name">${esc(b.name)}</div>
+      <div class="sb-who">${b.players.map((p) => `<button class="plink" data-player="${esc(p)}">${pname(p)}</button>`).join(', ')}</div><div class="sb-sub">${esc(b.sub)}</div></div>`;
+    const groups = SEASON_GROUPS.map(([k, label]) => {
+      const l = d.badges.filter((b) => b.group === k);
+      return l.length ? `<h4 class="sb-h">${label}</h4><div class="sb-grid">${l.map(tile).join('')}</div>` : '';
+    }).join('');
+    const held = new Set(d.badges.map((b) => b.id));
+    const none = SEASON_BADGES.length - held.size;
+    const rules = SEASON_BADGES.map((b) => `<li>${b.emoji} <b>${esc(b.name)}</b> <span class="muted">${esc(b.desc)}${held.has(b.id) ? '' : ` <i>Not awarded${done ? '' : ' yet'}.</i>`}</span></li>`).join('');
+    return `<h3 class="game-h">Badges${done ? '' : ' so far'} ${info(`${done ? '' : 'Whoever holds a badge when the season is final keeps it on their profile. '}Ties share a badge. It is skipped when there isn’t enough data, or when everyone is level.`)}</h3>${groups}
+      <details class="more"><summary>How each badge is won${none ? ` · ${none} not awarded${done ? '' : ' yet'}` : ''}</summary><ul class="sb-open">${rules}</ul></details>`;
+  }
+  // Season badges on a profile: the ones won in finished seasons (×n), then those held in seasons not final yet.
+  function profileSeasonBadges(p) {
+    const won = new Map();
+    let live = '';
+    for (const id of seasonIds()) {
+      const mine = seasonData(id).badges.filter((b) => b.players.includes(p));
+      if (seasonStatus(id) === 'final') for (const b of mine) won.set(b.id, { ...b, ids: [...((won.get(b.id) || {}).ids || []), id] });
+      else if (mine.length) live += `<p class="sb-live">Holding in ${seasonName(id)} so far</p><div class="badges">${mine.map((b) => `<button class="sb-chip ${b.group} open" data-season="${id}" title="${esc(b.sub)}">${b.emoji} ${esc(b.name)}</button>`).join('')}</div>`;
+    }
+    if (!won.size && !live) return '';
+    const chips = SEASON_BADGES.filter((b) => won.has(b.id)).map((b) => {
+      const { ids, sub } = won.get(b.id);
+      return `<button class="sb-chip ${b.group}" data-season="${ids[ids.length - 1]}" title="${esc(`${ids.map(seasonName).join(', ')}. ${ids.length > 1 ? 'Latest: ' : ''}${sub}`)}">${b.emoji} ${esc(b.name)}${ids.length > 1 ? ` <small>×${ids.length}</small>` : ''}</button>`;
+    }).join('');
+    return `<h3>Season badges</h3>${chips ? `<div class="badges">${chips}</div>` : ''}${live}`;
   }
 
   // Every finished season's podium, newest first, and who has won the most.
   function hallOfFame() {
     const ids = finalSeasons().reverse();
-    const cell = (id, rank) => seasonData(id).list.filter((s) => s.rank === rank).map((s) => `<button class="plink" data-player="${esc(s.player)}">${pname(s.player)}</button>`).join(', ') || '<span class="muted">–</span>';
+    const links = (ps) => ps.map((p) => `<button class="plink" data-player="${esc(p)}">${pname(p)}</button>`).join(', ') || '<span class="muted">–</span>';
+    const cell = (id, rank) => links(seasonData(id).list.filter((s) => s.rank === rank).map((s) => s.player));
+    const worst = (id) => (seasonData(id).badges.find((b) => b.id === 'worst') || { players: [] }).players;
     if (!ids.length) {
       const first = seasonIds()[0];
       return `<h3 class="game-h">🏛️ Hall of fame</h3><p class="muted empty">The first champion is crowned after ${shortDate(graceDay(first))}.</p>`;
     }
-    const rows = ids.map((id) => `<tr><td><button class="plink" data-season="${id}"><b>${seasonName(id)}</b></button><div class="muted rec-date">${esc(seasonMonth(id, true))}</div></td><td>${cell(id, 1)}</td><td>${cell(id, 2)}</td><td>${cell(id, 3)}</td></tr>`).join('');
+    const rows = ids.map((id) => `<tr><td><button class="plink" data-season="${id}"><b>${seasonName(id)}</b></button><div class="muted rec-date">${esc(seasonMonth(id, true))}</div></td><td>${cell(id, 1)}</td><td>${cell(id, 2)}</td><td>${cell(id, 3)}</td><td>${links(worst(id))}</td></tr>`).join('');
     const wins = new Map();
     for (const id of ids) for (const p of championsOf(id)) wins.set(p, (wins.get(p) || 0) + 1);
     const tally = [...wins.entries()].sort((a, b) => b[1] - a[1]).map(([p, n]) => `<span class="hchip">🏆 ${pname(p)} <b>×${n}</b></span>`).join('');
-    return `<h3 class="game-h">🏛️ Hall of fame</h3>${tally ? `<div class="hchips">${tally}</div>` : ''}<div class="scroll-x"><table class="pg-table hall"><tr><th>Season</th><th>🥇</th><th>🥈</th><th>🥉</th></tr>${rows}</table></div>`;
+    return `<h3 class="game-h">🏛️ Hall of fame</h3>${tally ? `<div class="hchips">${tally}</div>` : ''}<div class="scroll-x"><table class="pg-table hall"><tr><th>Season</th><th>🥇</th><th>🥈</th><th>🥉</th><th title="Worst performer">🥄</th></tr>${rows}</table></div>`;
   }
 
   function copySeason() {
@@ -1964,7 +2106,7 @@
       .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`)
       .join('');
 
-    const seasonHtml = SEASON ? profileSeasons(p) : '';
+    const seasonHtml = SEASON ? profileSeasons(p) + profileSeasonBadges(p) : '';
     const form = formOf(p);
     const label = !form ? '' : form.score >= 40 ? 'Way above usual' : form.score >= 15 ? 'Above usual' : form.score > -15 ? 'Right at usual' : form.score > -40 ? 'Below usual' : 'Way below usual';
     const formHtml = form

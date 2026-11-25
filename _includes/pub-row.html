@@ -7,7 +7,7 @@
 <div class="year-bar{% if include.first %} first{% endif %}">{{ pub.year }}</div>
 {%- endif %}
 {%- comment -%} Papers with `bgcolor` are shaded; a highlight video sits inside the card either way. {%- endcomment %}
-<div class="pub-row{% if pub.bgcolor %} highlighted{% endif %}" data-selected="{{ pub.is_selected | default: false }}" data-areas="{{ pub.areas | join: ' ' }}">
+<div class="pub-row{% if pub.bgcolor %} highlighted{% endif %}" data-areas="{{ pub.areas | join: ' ' }}">
   <div class="pub-thumb">
     {%- if pub.teaser_vid %}
     <video playsinline autoplay loop muted><source src="images/{{ pub.teaser_vid }}" type="video/mp4"></video>

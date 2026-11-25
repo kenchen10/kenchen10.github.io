@@ -1,6 +1,7 @@
 // Research Threads: papers over time across three research areas (home page).
 // One lane per area, years left to right. Each paper is a vertical "strand" with a
-// dot in every lane it belongs to. Data comes from the JSON block #research-map-data,
+// dot in every lane it belongs to; papers marked `is_selected` get an outline around
+// their dots. Data comes from the JSON block #research-map-data,
 // built from the `areas` field in _data/publications.yml and _data/otherpubs.yml.
 (function () {
   const root = document.getElementById('research-map');
@@ -60,9 +61,13 @@
       list.forEach(p => {
         const lanes = KEYS.filter(k => p.areas.includes(k));
         const ys = lanes.map(k => LANE_Y[k]);
-        const g = el('a', { href: p.url || '#', class: 'threads-strand' + (p.poster ? ' poster' : ''),
-                            'aria-label': `${p.title} (${p.venue})` }, svg);
+        const g = el('a', { href: p.url || '#', class: 'threads-strand' + (p.poster ? ' poster' : '') + (p.selected ? ' selected' : ''),
+                            'aria-label': `${p.title} (${p.venue})${p.selected ? ', selected paper' : ''}` }, svg);
         el('rect', { x: x - step / 2, y: 4, width: step, height: YEAR_Y - 16, class: 'threads-hit' }, g);
+        if (p.selected) {
+          const r = Math.min(11, step / 2 - 1);
+          el('rect', { x: x - r, y: Math.min(...ys) - r, width: 2 * r, height: Math.max(...ys) - Math.min(...ys) + 2 * r, rx: r, class: 'threads-selected' }, g);
+        }
         if (ys.length > 1) el('line', { x1: x, x2: x, y1: Math.min(...ys), y2: Math.max(...ys), class: 'threads-link' }, g);
         lanes.forEach(k =>
           el('circle', { cx: x, cy: LANE_Y[k], r: 6, fill: p.poster ? '#fff' : AREAS[k].color, stroke: AREAS[k].color }, g));
@@ -142,6 +147,7 @@
   // Clicking a lane name filters the paper lists below to that area (click again to clear)
   let laneFilter = null;
   const status = root.querySelector('.threads-filter');
+  const toggles = document.getElementById('section-toggles');
   const rows = document.querySelectorAll('.pub-row[data-areas]');
   const lists = [...document.querySelectorAll('.content-section[data-section="publications"], .content-section[data-section="posters"]')];
   function setLane(area) {
@@ -164,11 +170,14 @@
   }
   labels.addEventListener('click', e => {
     const t = e.target.closest('[data-area]');
-    if (t) setLane(laneFilter === t.dataset.area ? null : t.dataset.area);
+    if (!t) return;
+    const area = laneFilter === t.dataset.area ? null : t.dataset.area;
+    // No paper list on screen (Experience, Teaching): show them all, so there's something to filter
+    if (area && toggles && lists.every(s => s.classList.contains('hidden'))) toggles.querySelector('[data-target="all"]').click();
+    setLane(area);
   });
   status.querySelector('button').addEventListener('click', () => setLane(null));
   // The section buttons (All, Publications, ...) replace this filter
-  const toggles = document.getElementById('section-toggles');
   if (toggles) toggles.addEventListener('click', e => { if (e.target.closest('.section-toggle')) setLane(null); });
 
   draw();

@@ -89,10 +89,10 @@ icons: true
   {%- assign map_papers = site.data.publications | where_exp: "p", "p.hide == nil" | where_exp: "p", "p.workshop == nil" -%}
   {%- assign map_posters = site.data.otherpubs | where_exp: "p", "p.hide" -%}
   {%- assign map_all = map_papers | concat: map_posters %}
-  <section class="research-map" id="research-map" data-all-only>
+  <section class="research-map" id="research-map">
     <div class="section-header-row">
       <h2 class="heading">Research Threads</h2>
-      <span class="threads-key"><span class="threads-key-dot"></span> paper <span class="threads-key-dot poster"></span> poster / demo</span>
+      <span class="threads-key"><span class="threads-key-dot selected"></span> selected <span class="threads-key-dot"></span> paper <span class="threads-key-dot poster"></span> poster / demo</span>
     </div>
     <hr class="rule">
     <div class="threads">
@@ -100,10 +100,10 @@ icons: true
       <div class="threads-scroll"><svg class="threads-svg" role="group" aria-label="Papers by year and research area"></svg></div>
       <div class="threads-tip" hidden></div>
     </div>
-    <p class="threads-filter" hidden>Showing papers in <strong></strong> · <button type="button">show all</button></p>
+    <p class="threads-filter" hidden>Showing papers in <strong></strong> · <button type="button">clear</button></p>
     <script type="application/json" id="research-map-data">[
       {%- for pub in map_all %}
-      {"title": {{ pub.title | strip_html | jsonify }}, "venue": {{ pub.venue | append: " " | append: pub.year | jsonify }}, "year": {{ pub.year | jsonify }}, "tag": {{ pub.tag | jsonify }}, "areas": {{ pub.areas | jsonify }}, "url": {{ pub.project_page | jsonify }}, "image": {{ pub.image | jsonify }}, "poster": {% if forloop.index > map_papers.size %}true{% else %}false{% endif %}}{% unless forloop.last %},{% endunless %}
+      {"title": {{ pub.title | strip_html | jsonify }}, "venue": {{ pub.venue | append: " " | append: pub.year | jsonify }}, "year": {{ pub.year | jsonify }}, "tag": {{ pub.tag | jsonify }}, "areas": {{ pub.areas | jsonify }}, "url": {{ pub.project_page | jsonify }}, "image": {{ pub.image | jsonify }}, "selected": {{ pub.is_selected | default: false }}, "poster": {% if forloop.index > map_papers.size %}true{% else %}false{% endif %}}{% unless forloop.last %},{% endunless %}
       {%- endfor %}
     ]</script>
   </section>
@@ -112,14 +112,11 @@ icons: true
     <div class="section-header-row">
       <h2 class="heading">Publications</h2>
       <div class="section-toggles" id="section-toggles">
-        <button class="section-toggle active" data-target="all"><i class="fas fa-layer-group"></i> All</button>
-        {%- comment -%} Hidden for now; delete this comment wrapper to bring the filter back (the script below still supports it).
-        <button class="section-toggle active" data-target="selected"><i class="fas fa-star"></i> Selected</button>
-        {%- endcomment %}
-        <button class="section-toggle active" data-target="publications"><i class="fas fa-file-alt"></i> Publications</button>
-        <button class="section-toggle active" data-target="posters"><i class="fas fa-image"></i> Posters/Demos</button>
-        <button class="section-toggle active" data-target="experience"><i class="fas fa-briefcase"></i> Experience</button>
-        <button class="section-toggle active" data-target="teaching"><i class="fas fa-chalkboard-teacher"></i> Teaching</button>
+        <button class="section-toggle active" data-target="all" aria-pressed="true"><i class="fas fa-layer-group"></i> All</button>
+        <button class="section-toggle" data-target="publications" aria-pressed="false"><i class="fas fa-file-alt"></i> Publications</button>
+        <button class="section-toggle" data-target="posters" aria-pressed="false"><i class="fas fa-image"></i> Posters/Demos</button>
+        <button class="section-toggle" data-target="experience" aria-pressed="false"><i class="fas fa-briefcase"></i> Experience</button>
+        <button class="section-toggle" data-target="teaching" aria-pressed="false"><i class="fas fa-chalkboard-teacher"></i> Teaching</button>
       </div>
     </div>
     <hr class="rule">
@@ -135,7 +132,7 @@ icons: true
 
   <section class="content-section" data-section="posters">
     <div class="section-header-row">
-      <h2 class="heading">Short Papers, Posters, Demos, etc.</h2>
+      <h2 class="heading">Short Papers</h2>
     </div>
     <hr class="rule">
     {%- assign first = true -%}
@@ -198,46 +195,33 @@ icons: true
 </main>
 
 <script>
-  // Section filter: "All" shows every section; "Selected" shows only papers marked
-  // `is_selected` in the data; any other button shows only that section.
+  // Section filter. The page starts on "All", which shows everything; any other button
+  // shows only that section. Research Threads stays on every one.
   (function () {
     const toggles = document.getElementById('section-toggles');
     const buttons = toggles.querySelectorAll('.section-toggle');
     const sections = [...document.querySelectorAll('.content-section')];
-    const rows = document.querySelectorAll('.pub-row');
-    const yearBars = document.querySelectorAll('.year-bar');
     const misc = document.querySelector('.misc-section');
 
-    toggles.addEventListener('click', function (e) {
-      const button = e.target.closest('.section-toggle');
-      if (!button) return;
-      const target = button.dataset.target;
+    function show(target) {
       const showAll = target === 'all';
-      const selectedOnly = target === 'selected';
 
-      rows.forEach(r => r.classList.toggle('hidden', selectedOnly && r.dataset.selected !== 'true'));
-      sections.forEach(s => s.classList.toggle('hidden', selectedOnly
-        ? !s.querySelector('.pub-row:not(.hidden)')
-        : !showAll && s.dataset.section !== target));
-
-      // Hide a year label when none of the papers under it are showing
-      yearBars.forEach(bar => {
-        let el = bar.nextElementSibling, any = false;
-        while (el && !el.classList.contains('year-bar')) {
-          if (el.classList.contains('pub-row') && !el.classList.contains('hidden')) any = true;
-          el = el.nextElementSibling;
-        }
-        bar.classList.toggle('hidden', !any);
-      });
+      sections.forEach(s => s.classList.toggle('hidden', !showAll && s.dataset.section !== target));
 
       misc.classList.toggle('hidden', !showAll);
-      document.querySelectorAll('[data-all-only]').forEach(el => el.classList.toggle('hidden', !showAll));
-      buttons.forEach(b => b.classList.toggle('active', showAll || b === button));
+      buttons.forEach(b => {
+        b.classList.toggle('active', b.dataset.target === target);
+        b.setAttribute('aria-pressed', b.dataset.target === target);
+      });
       document.body.classList.toggle('single-section-mode', !showAll);
 
       // Keep the buttons next to the heading of the first visible section
       const first = sections.find(s => !s.classList.contains('hidden'));
       first.querySelector('.section-header-row').appendChild(toggles);
+    }
+    toggles.addEventListener('click', e => {
+      const button = e.target.closest('.section-toggle');
+      if (button) show(button.dataset.target);
     });
   })();
 

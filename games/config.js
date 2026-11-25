@@ -18,7 +18,7 @@ window.LEADERBOARD_CONFIG = {
   seasons: {
     first: '2026-11',   // the month that is Season 1
     graceDays: 2,       // late results for a month's puzzles count for this many days of the next month
-    minForAwards: 20,   // puzzles a friend also played needed for the Best win % and Highest rating awards
+    minForAwards: 20,   // puzzles a friend also played needed for the performance badges (best, worst, win %, rating)
     // Placement points by season. To change them, ADD an entry starting this month or later instead of
     // editing an old one, so finished seasons keep the points they were played under.
     rules: [{ from: '2026-11', placementPoints: [3, 2, 1] }],
