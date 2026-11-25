@@ -14,6 +14,16 @@ window.LEADERBOARD_CONFIG = {
   // Overall board, "Points" mode: points for 1st, 2nd, 3rd ... on each puzzle.
   placementPoints: [3, 2, 1],
 
+  // Monthly seasons (see "Seasons" in README.md). Remove this block to go back to all-time boards only.
+  seasons: {
+    first: '2026-11',   // the month that is Season 1
+    graceDays: 2,       // late results for a month's puzzles count for this many days of the next month
+    minForAwards: 20,   // puzzles a friend also played needed for the Best win % and Highest rating awards
+    // Placement points by season. To change them, ADD an entry starting this month or later instead of
+    // editing an old one, so finished seasons keep the points they were played under.
+    rules: [{ from: '2026-11', placementPoints: [3, 2, 1] }],
+  },
+
   // Profile "form" and the 🍀/☁️ marks compare a result with that player's own earlier results in the
   // same game. A game needs this many earlier results before a new one can be compared.
   minForUsual: 4,

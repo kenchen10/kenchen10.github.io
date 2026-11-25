@@ -11,6 +11,8 @@
 //   normalize(v, entry) – map value to 0..1 (1 = perfect) for the overall board
 //   relative – optional { floor, cap }: instead of normalize(), score a result against the best that day
 //                (higher-better: value / max(best, floor); lower-better: clamp(best, floor, cap) / value)
+//   since – optional 'YYYY-MM': first season the game counts in. Set it to the current month when adding
+//                  a game, so results pasted before it was supported can't change finished seasons.
 //   date(puzzle) – optional; puzzle number -> 'YYYY-MM-DD'. Without it, the
 //                  submission date is used.
 

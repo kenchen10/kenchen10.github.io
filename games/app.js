@@ -53,7 +53,7 @@
   let loaded = false; // false until the first load() finishes: the board shows a skeleton instead of "no results"
   let entries = []; // parsed + de-duplicated results
   let displayName = {}; // normalized name -> name as first written
-  const state = { tab: 'overall', range: 'all', mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null, histDay: null, calMode: 'count', ptab: 'overview' };
+  const state = { tab: 'overall', range: CFG.seasons ? 'current' : 'all', season: null, mode: 'points', day: null, profile: null, h2h: '', wrGame: 'all', week: null, histDay: null, calMode: 'count', ptab: 'overview' };
   let puzzleBest = {}; // game|puzzle -> best value (for games scored relative to the day's best)
   let winRun = {}; // player|game -> { n: current run of consecutive wins, date: date of their latest result }
   let dateIdx = {}; // player -> (gameId | '*') -> Set of dates played, for streaks
@@ -130,10 +130,11 @@
         const puzzle = r.puzzle != null ? r.puzzle : date;
         const key = `${p}|${g.id}|${puzzle}`;
         if (seen.has(key)) continue; // first submission for a puzzle counts
-        seen.set(key, { player: p, game: g.id, puzzle, date, puzzleDate: puzzleDate || date, moved: !!puzzleDate && date !== puzzleDate, value: r.value, par: r.par, display: r.display, detail: r.detail, ts: row.ts, local: row.local || '', tz: row.tz || (CFG.playerTimezones || {})[p] || '' });
+        seen.set(key, { player: p, game: g.id, puzzle, date, puzzleDate: puzzleDate || date, playedDate: playedDate || String(row.ts).slice(0, 10), moved: !!puzzleDate && date !== puzzleDate, value: r.value, par: r.par, display: r.display, detail: r.detail, ts: row.ts, local: row.local || '', tz: row.tz || (CFG.playerTimezones || {})[p] || '' });
       }
     }
     entries = [...seen.values()];
+    assignSeasons();
     puzzleBest = {};
     dateIdx = {};
     for (const e of entries) {
@@ -204,18 +205,22 @@
   // Beating someone rated higher earns more than beating someone rated lower.
   const ELO_START = 1000, ELO_K = 32;
   function computeRatings() {
-    ratings = {};
-    upsets = [];
+    ({ ratings, upsets } = runElo(entries, true));
+  }
+  // Ratings over any set of results (all time, or one season). `annotate` also notes each result's rating change on it.
+  function runElo(es, annotate) {
+    const ratings = {}, upsets = [];
     const R = (p) => (ratings[p] = ratings[p] || { r: ELO_START, n: 0, peak: ELO_START, peakDate: null, hist: [] });
     const lastTs = (l) => l.reduce((m, e) => (e.ts > m ? e.ts : m), '');
     const lastDate = (l) => l.reduce((m, e) => (e.date > m ? e.date : m), '');
-    const matches = [...groupBy(entries, (e) => e.game + '|' + e.puzzle).values()]
+    const matches = [...groupBy(es, (e) => e.game + '|' + e.puzzle).values()]
       .filter((l) => l.length > 1)
       .map((l) => ({ l, date: lastDate(l), ts: lastTs(l) }))
       .sort((a, b) => (a.date !== b.date ? (a.date < b.date ? -1 : 1) : a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0));
     for (const { l, date } of matches) {
       const g = GAME_BY_ID[l[0].game];
       const before = new Map(l.map((e) => [e.player, R(e.player).r]));
+      const delta = new Map();
       const score = (a, b) => { const d = g.better === 'higher' ? a.value - b.value : b.value - a.value; return d > 0 ? 1 : d < 0 ? 0 : 0.5; };
       for (const e of l) {
         let S = 0, E = 0;
@@ -226,22 +231,24 @@
           E += 1 / (1 + 10 ** ((before.get(o.player) - before.get(e.player)) / 400));
           if (sc === 1 && before.get(o.player) > before.get(e.player)) upsets.push({ e, loser: o, gap: before.get(o.player) - before.get(e.player) });
         }
-        e.eloBefore = before.get(e.player);
-        e.eloDelta = (ELO_K * (S - E)) / (l.length - 1);
+        delta.set(e.player, (ELO_K * (S - E)) / (l.length - 1));
+        if (annotate) { e.eloBefore = before.get(e.player); e.eloDelta = delta.get(e.player); }
       }
       for (const e of l) {
         const x = R(e.player);
-        x.r += e.eloDelta;
+        x.r += delta.get(e.player);
         x.n++;
         if (x.r > x.peak) { x.peak = x.r; x.peakDate = date; }
         const h = x.hist;
         if (h.length && h[h.length - 1].date === date) h[h.length - 1].r = x.r; else h.push({ date, r: x.r });
       }
     }
+    return { ratings, upsets };
   }
+  const allRatings = () => ratings;
   // A player's rating at the end of a given day (ELO_START before their first match).
-  const ratingOn = (p, date) => {
-    const h = (ratings[p] || {}).hist || [];
+  const ratingOn = (p, date, from = ratings) => {
+    const h = (from[p] || {}).hist || [];
     let v = ELO_START;
     for (const x of h) { if (x.date > date) break; v = x.r; }
     return v;
@@ -372,6 +379,11 @@
         msg = `🥇 You're 1st in ${won.map((e) => GAME_BY_ID[e.game].name).join(', ')} so far! ` + msg;
         celebrate();
       }
+      const cur = currentSeason();
+      const mineNow = entries.filter((e) => e.player === p && e.ts === mineTs);
+      const ahead = [...new Set(mineNow.filter((e) => cur && e.season > cur).map((e) => e.season))];
+      if (ahead.length) msg += ` · counts for ${ahead.map(seasonName).join(', ')}`;
+      if (mineNow.some((e) => e.seasonLate)) msg += ' · too late for its season, so it counts for all time only';
       if (dupes.length) msg += ` (already had ${dupes.join(', ')})`;
       if (unreadable.length) msg += ` — couldn't read ${unreadable.join(', ')}`;
       toast(msg);
@@ -435,7 +447,9 @@
 
   // ---------- scoring ----------
   function inRange(e) {
-    if (state.range === 'all') return true;
+    const season = rangeSeason();
+    if (season) return e.season === season;
+    if (state.range === 'all' || state.range === 'current') return true;
     const today = localDate(new Date());
     if (state.range === 'today') return e.date === today;
     return e.date > addDays(today, -Number(state.range));
@@ -471,22 +485,25 @@
   }
 
   // Overall points: on every puzzle, 1st/2nd/3rd among the friends who played it score placementPoints.
-  function overall(es) {
+  // With a season id, that season's rules apply: its own placement points, nothing for a puzzle nobody else
+  // played, and ties on points go to the player with more wins (then the place is shared).
+  function overall(es, season) {
     const stats = {};
+    const pts = season ? seasonPoints(season) : CFG.placementPoints;
     const S = (p) => (stats[p] = stats[p] || { player: p, points: 0, wins: 0, played: 0 });
     for (const list of groupBy(es, (e) => e.game + '|' + e.puzzle).values()) {
       const g = GAME_BY_ID[list[0].game];
       for (const e of rankPuzzle(list, g)) {
         const s = S(e.player);
         s.played++;
-        s.points += CFG.placementPoints[e.rank - 1] || 0;
+        if (!season || list.length > 1) s.points += pts[e.rank - 1] || 0;
         if (e.rank === 1 && list.length > 1) s.wins++;
       }
     }
     const list = Object.values(stats);
-    list.forEach((s) => (s.score = s.points));
+    list.forEach((s) => (s.score = season ? `${s.points}|${s.wins}` : s.points));
     list.sort((a, b) => b.points - a.points || b.wins - a.wins || a.played - b.played);
-    return ranked(list);
+    return ranked(list).map((s) => (season && !s.points ? { ...s, rank: null } : s));
   }
 
   function perGame(es, g) {
@@ -508,6 +525,118 @@
     return ranked(list);
   }
 
+
+  // ---------- seasons ----------
+  // A season is a calendar month, worked out from the raw results (nothing is stored or deleted).
+  // A result belongs to the month of its puzzle's own date, which is the same for everyone, so friends in
+  // different time zones always compete on a puzzle in the same season. Settings: `seasons` in config.js.
+  const SEASON = CFG.seasons ? { graceDays: 2, minForAwards: 20, rules: [], ...CFG.seasons } : null;
+  const monthIdx = (id) => Number(id.slice(0, 4)) * 12 + Number(id.slice(5, 7)) - 1;
+  const monthId = (i) => `${Math.floor(i / 12)}-${pad((i % 12) + 1)}`;
+  const seasonName = (id) => 'Season ' + (monthIdx(id) - monthIdx(SEASON.first) + 1);
+  const seasonMonth = (id, year) => new Date(id + '-15T12:00:00').toLocaleDateString(undefined, year ? { month: 'long', year: 'numeric' } : { month: 'long' });
+  const seasonEnd = (id) => addDays(monthId(monthIdx(id) + 1) + '-01', -1);
+  // Late results for the month's puzzles still count through this day (on the player's own clock)…
+  const graceDay = (id) => addDays(seasonEnd(id), SEASON.graceDays);
+  // …and the season is final once that day is over everywhere on Earth (UTC−12).
+  const finalAt = (id) => Date.parse(addDays(graceDay(id), 1) + 'T12:00:00Z');
+  function currentSeason() {
+    const id = localDate(new Date()).slice(0, 7);
+    return SEASON && id >= SEASON.first ? id : null;
+  }
+  // 'next' (its first puzzles can be played early in some time zones), 'live', 'provisional' (grace days) or 'final'.
+  function seasonStatus(id) {
+    const cur = localDate(new Date()).slice(0, 7);
+    return id > cur ? 'next' : id === cur ? 'live' : Date.now() < finalAt(id) ? 'provisional' : 'final';
+  }
+  // Placement points in force that month: the latest entry of `rules` that started by then.
+  function seasonPoints(id) {
+    const rule = SEASON.rules.filter((x) => x.from <= id).sort((a, b) => (a.from < b.from ? 1 : -1))[0];
+    return (rule && rule.placementPoints) || CFG.placementPoints;
+  }
+  let seasonCache = {}; // id -> seasonData(id)
+  function assignSeasons() {
+    seasonCache = {};
+    reignCache = null;
+    for (const e of entries) {
+      const id = e.puzzleDate.slice(0, 7), since = GAME_BY_ID[e.game].since;
+      e.season = null;
+      e.seasonLate = null;
+      if (!SEASON || id < SEASON.first || (since && id < since)) continue;
+      if (e.playedDate > graceDay(id) || Date.parse(e.ts) >= finalAt(id)) e.seasonLate = id; // too late: all-time only
+      else e.season = id;
+    }
+  }
+  // Every season so far, oldest first (plus next month's once someone has played a puzzle from it).
+  function seasonIds() {
+    const cur = currentSeason();
+    if (!cur) return [];
+    const out = [];
+    for (let i = monthIdx(SEASON.first); i <= monthIdx(cur); i++) out.push(monthId(i));
+    const next = monthId(monthIdx(cur) + 1);
+    if (entries.some((e) => e.season === next)) out.push(next);
+    return out;
+  }
+  // The season the time menu is showing, or null for Today / 7 days / 30 days / All time.
+  const rangeSeason = () => (state.range === 'current' ? currentSeason() : state.range.startsWith('s:') ? state.range.slice(2) : null);
+
+  // Standings, ratings, game champions and awards for one season.
+  function seasonData(id) {
+    if (seasonCache[id]) return seasonCache[id];
+    const es = entries.filter((e) => e.season === id);
+    const list = overall(es, id);
+    const elo = runElo(es).ratings;
+    const wr = new Map(winRates(es, 'all').map((s) => [s.player, s]));
+    const tops = (items, key) => {
+      if (!items.length) return null;
+      const best = Math.max(...items.map(key));
+      return { best, items: items.filter((x) => key(x) === best) };
+    };
+    const games = GAMES.map((g) => {
+      const l = overall(es.filter((e) => e.game === g.id), id).filter((s) => s.rank === 1);
+      return l.length ? { g, players: l.map((s) => s.player), points: l[0].points, wins: l[0].wins } : null;
+    }).filter(Boolean);
+    const awards = [];
+    const w = tops([...wr.values()].filter((s) => s.contested >= SEASON.minForAwards), (s) => s.ratio);
+    if (w) awards.push({ emoji: '🎯', title: 'Best win %', players: w.items.map((s) => s.player), sub: `${Math.round(w.best * 100)}% (${w.items[0].wins} of ${w.items[0].contested} puzzles a friend also played)` });
+    const rt = tops(Object.entries(elo).filter(([, x]) => x.n >= SEASON.minForAwards).map(([p, x]) => ({ p, r: Math.round(x.r) })), (x) => x.r);
+    if (rt) awards.push({ emoji: '📈', title: 'Highest rating', players: rt.items.map((x) => x.p), sub: `${rt.best} over ${elo[rt.items[0].p].n} matches` });
+    const imp = tops(seasonImprovement(id, es).filter((x) => x.diff > 0), (x) => x.diff);
+    if (imp) awards.push({ emoji: '🚀', title: 'Most improved', players: imp.items.map((x) => x.p), sub: `+${imp.best} on the 0–100 scale vs ${seasonName(monthId(monthIdx(id) - 1))}, in the games played in both` });
+    const gc = new Map();
+    for (const x of games) for (const p of x.players) gc.set(p, (gc.get(p) || 0) + 1);
+    const g = tops([...gc.entries()].map(([p, n]) => ({ p, n })).filter((x) => x.n > 1), (x) => x.n);
+    if (g) awards.push({ emoji: '🎮', title: 'Most game titles', players: g.items.map((x) => x.p), sub: `Top in ${g.best} of ${games.length} games` });
+    return (seasonCache[id] = { id, es, list, elo, wr, games, awards });
+  }
+  // Average change per result vs the season before, comparing like with like: only games a player has
+  // 3+ results of in both seasons, weighted by this season's plays, with 10+ such results.
+  function seasonImprovement(id, es) {
+    const prev = entries.filter((e) => e.season === monthId(monthIdx(id) - 1));
+    if (!prev.length) return [];
+    const before = groupBy(prev, (e) => e.player + '|' + e.game);
+    const avg = (l) => 100 * mean(l.map((e) => norm(e, GAME_BY_ID[e.game])));
+    const acc = {};
+    for (const [k, l] of groupBy(es, (e) => e.player + '|' + e.game)) {
+      const b = before.get(k);
+      if (!b || b.length < 3 || l.length < 3) continue;
+      const a = (acc[l[0].player] = acc[l[0].player] || { p: l[0].player, sum: 0, n: 0 });
+      a.sum += (avg(l) - avg(b)) * l.length;
+      a.n += l.length;
+    }
+    return Object.values(acc).filter((a) => a.n >= 10).map((a) => ({ p: a.p, n: a.n, diff: Math.round(a.sum / a.n) }));
+  }
+  const championsOf = (id) => seasonData(id).list.filter((s) => s.rank === 1).map((s) => s.player);
+  const finalSeasons = () => seasonIds().filter((id) => seasonStatus(id) === 'final');
+  // Holder(s) of the latest finished season's title: 👑 next to their name until the next season is final.
+  let reignCache = null; // cleared on every render (a season can become final while the page is open)
+  function reigning() {
+    if (reignCache) return reignCache;
+    const id = finalSeasons().pop();
+    return (reignCache = id ? { id, players: championsOf(id) } : { id: null, players: [] });
+  }
+  // A player's podium finishes in finished seasons, oldest first.
+  const titlesOf = (p) => finalSeasons().map((id) => ({ id, s: seasonData(id).list.find((x) => x.player === p) })).filter((x) => x.s && x.s.rank && x.s.rank <= 3);
 
   // ---------- first-guess luck, badges, rivalries ----------
   const mean = (arr) => arr.reduce((t, v) => t + v, 0) / arr.length;
@@ -540,6 +669,7 @@
     { id: 'regular', emoji: '📅', name: 'Regular', desc: 'Play 25 puzzles.' },
     { id: 'veteran', emoji: '🎖️', name: 'Veteran', desc: 'Play 100 puzzles.' },
     { id: 'lucky', times: true, emoji: '✨', name: 'Lucky start', desc: 'Open with a guess better than 95% of all openings.' },
+    ...(CFG.seasons ? [{ id: 'season', times: true, emoji: '🏆', name: 'Season champion', desc: 'Win a monthly season.' }] : []),
     { id: 'crown', emoji: '👑', name: 'On top', desc: 'Currently #1 on the Overall board (Points, all time).' },
   ];
 
@@ -575,6 +705,7 @@
     n.regular = mine.length >= 25 ? mine.length : 0;
     n.veteran = mine.length >= 100 ? mine.length : 0;
     const top = overall(entries)[0];
+    if (SEASON) n.season = titlesOf(p).filter((t) => t.s.rank === 1).length;
     n.crown = top && top.player === p && top.rank === 1 ? 1 : 0;
     return BADGES.map((b) => ({ ...b, count: n[b.id], got: n[b.id] > 0 }));
   }
@@ -594,7 +725,7 @@
 
   // ---------- rendering ----------
   const medal = (r) => (r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : r ? r : '–');
-  const nameCell = (p, gameId) => {
+  const nameCell = (p, gameId, plain) => { // plain: no current-streak marks (season standings)
     const me = normName(getName()) === p;
     const cur = streakInfo(p, gameId).cur;
     const flame = cur >= 2 ? `<span class="streak" title="${cur} days in a row">🔥${cur}</span>` : '';
@@ -604,7 +735,10 @@
     const bolt = hot.length
       ? `<span class="hotb" title="Hot streak: ${esc(hot.map(([g, n]) => `${g.name} ×${n}`).join(', '))}">⚡${Math.max(...hot.map(([, n]) => n))}</span>`
       : '';
-    const marks = flame || bolt ? `<span class="marks">${flame}${bolt}</span>` : '';
+    const champ = SEASON ? reigning() : null;
+    const crown = champ && champ.players.includes(p) ? `<span class="crown" title="${seasonName(champ.id)} champion">👑</span>` : '';
+    const inner = plain ? crown : crown + flame + bolt;
+    const marks = inner ? `<span class="marks">${inner}</span>` : '';
     return `<td class="name${me ? ' is-me' : ''}"><div class="name-wrap"><button class="plink" data-player="${esc(p)}"${me ? ' title="You"' : ''}>${esc(displayName[p] || p)}</button>${marks}</div></td>`;
   };
 
@@ -622,11 +756,11 @@
   function renderTabs() {
     const btn = (t) => `<button data-tab="${t.id}" class="${t.id === state.tab ? 'on' : ''}">${esc(t.label)}</button>`;
     const gbtn = (g) => `<button data-tab="${g.id}" class="gtab${g.id === state.tab ? ' on' : ''}">${g.emoji} ${esc(g.name)}</button>`;
-    const stats = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, { id: 'recent', label: '🗓️ Recent' }, { id: 'weekly', label: '📰 Weekly' }, { id: 'charts', label: '📊 Charts' }, { id: 'records', label: '🏅 Records' }];
+    const stats = [{ id: 'overall', label: '🏆 Overall' }, { id: 'daily', label: '📅 Daily' }, { id: 'recent', label: '🗓️ Recent' }, { id: 'weekly', label: '📰 Weekly' }, ...(SEASON ? [{ id: 'seasons', label: '👑 Seasons' }] : []), { id: 'charts', label: '📊 Charts' }, { id: 'records', label: '🏅 Records' }];
     const group = (label, inner, cls = '') => `<div class="tab-group"><span class="tab-label">${label}</span><div class="tab-row${cls}">${inner}</div></div>`;
     $('#tabs').innerHTML = group('Stats', stats.map(btn).join('')) + group('Games', GAMES.map(gbtn).join(''), ' games');
     $('#mode').style.display = state.tab === 'overall' ? '' : 'none';
-    const plain = state.tab === 'daily' || state.tab === 'weekly' || state.tab === 'profile' || state.tab === 'records'; // these ignore the time range
+    const plain = state.tab === 'daily' || state.tab === 'weekly' || state.tab === 'profile' || state.tab === 'records' || state.tab === 'seasons'; // these ignore the time range
     document.querySelector('.controls').hidden = plain;
   }
 
@@ -713,15 +847,19 @@
     return `${picker}${withInfo(table, note)}${renderRollingWin(es, sel)}${byGame}`;
   }
 
-  // Elo leaderboard. Ratings always use every result; the time range picks the window for "Change".
+  // Elo leaderboard. A season has its own ratings (everyone starts again); otherwise ratings use every
+  // result and the time range picks the window for "Change".
   function renderElo() {
+    const season = rangeSeason();
+    const ratings = season ? seasonData(season).elo : allRatings();
     const players = Object.keys(ratings).filter((p) => ratings[p].n > 0);
-    if (!players.length) return empty('Ratings start once two friends have done the same puzzle.');
-    const today = localDate(new Date());
-    const since = state.range === 'all' ? null : state.range === 'today' ? addDays(today, -1) : addDays(today, -Number(state.range));
+    if (!players.length) return empty(season ? `${seasonName(season)} ratings start once two friends have done the same puzzle.` : 'Ratings start once two friends have done the same puzzle.');
+    const now = localDate(new Date());
+    const today = season && seasonEnd(season) < now ? seasonEnd(season) : now;
+    const since = season || state.range === 'all' || state.range === 'current' ? null : state.range === 'today' ? addDays(today, -1) : addDays(today, -Number(state.range));
     const MIN = 5;
     const all = players
-      .map((p) => ({ p, ...ratings[p], ch: since ? ratings[p].r - ratingOn(p, since) : null }))
+      .map((p) => ({ p, ...ratings[p], ch: since ? ratings[p].r - ratingOn(p, since, ratings) : null }))
       .sort((a, b) => b.r - a.r);
     const ok = all.filter((x) => x.n >= MIN), few = all.filter((x) => x.n < MIN);
     const arrow = (v) => (v == null ? '' : Math.round(v) === 0 ? '<span class="muted">±0</span>' : `<span class="${v > 0 ? 'up' : 'down'}">${v > 0 ? '▲' : '▼'}${Math.abs(Math.round(v))}</span>`);
@@ -736,7 +874,7 @@
     const xs = datesBetween(since && addDays(since, 1) > first ? addDays(since, 1) : first, today);
     const series = players.map((p) => {
       const start = ratings[p].hist[0].date;
-      return { p, ys: xs.map((d) => (d < start ? null : ratingOn(p, d))) };
+      return { p, ys: xs.map((d) => (d < start ? null : ratingOn(p, d, ratings))) };
     }).filter((s) => s.ys.some((v) => v != null));
     const vals = series.flatMap((s) => s.ys.filter((v) => v != null));
     let chart = '';
@@ -748,14 +886,15 @@
       for (let t = yMin; t <= yMax + 1e-9; t += step) yTicks.push(t);
       chart = `<h3 class="game-h">📈 Rating over time</h3>${legendHtml(series.map((s) => s.p))}<div class="chart-wrap">${lineChart({ xs, series, yMin, yMax, yTicks, id: 'elo', label: 'Rating per player over time' })}</div>`;
     }
-    const note = `Elo rating: everyone starts at ${ELO_START}. Each puzzle two or more friends did counts as a match against everyone else on it; beating a higher-rated player earns more than beating a lower-rated one, and losing to a lower-rated player costs more. Ratings use every result ever; the time range only changes the Change column and the chart. Fewer than ${MIN} matches are listed at the bottom.`;
+    const note = `Elo rating: everyone starts at ${ELO_START}. Each puzzle two or more friends did counts as a match against everyone else on it; beating a higher-rated player earns more than beating a lower-rated one, and losing to a lower-rated player costs more. ${season ? `${seasonName(season)} ratings use only that season's results, so everyone starts again at ${ELO_START}; pick All time for career ratings.` : 'Ratings use every result ever; the time range only changes the Change column and the chart.'} Fewer than ${MIN} matches are listed at the bottom.`;
     return `${withInfo(table, note)}${chart}`;
   }
 
   function renderOverall(es) {
     if (state.mode === 'winrate') return renderWinRate(es);
     if (state.mode === 'elo') return renderElo();
-    const list = overall(es);
+    const season = rangeSeason();
+    const list = overall(es, season);
     if (!list.length) return empty();
     const head = '<tr><th></th><th>Player</th><th class="num">Points</th><th class="num">Wins</th><th class="num">Played</th></tr>';
     const body = list
@@ -764,7 +903,9 @@
           <td class="num strong">${s.points}</td><td class="num">${s.wins}</td><td class="num">${s.played}</td></tr>`
       )
       .join('');
-    const note = `Each puzzle: ${CFG.placementPoints.map((p, i) => `${ordinal(i + 1)} = ${p}`).join(', ')} pts among friends who played it. Wins = outright or tied 1st with 2+ players.`;
+    const pts = season ? seasonPoints(season) : CFG.placementPoints;
+    const note = `Each puzzle: ${pts.map((p, i) => `${ordinal(i + 1)} = ${p}`).join(', ')} pts among friends who played it. Wins = outright or tied 1st with 2+ players.${
+      season ? ` ${seasonName(season)} rules: a puzzle nobody else played earns no points, and ties on points go to the player with more wins. Late results count until ${shortDate(graceDay(season))}.` : ''}`;
     return withInfo(`<table>${head}${body}</table>`, note);
   }
 
@@ -785,7 +926,7 @@
   }
 
   function renderRecent(es) {
-    const byDate = [...groupBy(es, (e) => e.date).entries()].sort((a, b) => (a[0] < b[0] ? 1 : -1)).slice(0, 21);
+    const byDate = [...groupBy(es, (e) => e.date).entries()].sort((a, b) => (a[0] < b[0] ? 1 : -1)).slice(0, rangeSeason() ? 40 : 21);
     if (!byDate.length) return empty();
     return byDate
       .map(([date, list]) => {
@@ -807,6 +948,149 @@
   }
 
 
+
+  // ---------- seasons: time menu, header card, tab, profile ----------
+  // The time menu: this season first, then rolling windows, earlier seasons and all time.
+  let rangeHtml = '';
+  function renderRange() {
+    if (!SEASON) return;
+    const cur = currentSeason();
+    const label = (id) => `${seasonName(id)} · ${seasonMonth(id, id.slice(0, 4) !== localDate(new Date()).slice(0, 4))}`;
+    const ids = seasonIds();
+    const opt = (v, t) => `<option value="${v}">${esc(t)}</option>`;
+    const past = ids.filter((id) => id < cur).reverse(), next = ids.filter((id) => id > cur);
+    const html = (cur ? opt('current', label(cur)) : '') + next.map((id) => opt('s:' + id, label(id))).join('') +
+      opt('today', 'Today') + opt('7', 'Last 7 days') + opt('30', 'Last 30 days') + opt('all', 'All time') +
+      (past.length ? `<optgroup label="Past seasons">${past.map((id) => opt('s:' + id, label(id))).join('')}</optgroup>` : '');
+    const el = $('#range');
+    if (html !== rangeHtml) { rangeHtml = html; el.innerHTML = html; } // only when it changed, so an open menu isn't closed
+    if (!cur && state.range === 'current') state.range = 'all';
+    if (cur && state.range === 's:' + cur) state.range = 'current';
+    el.value = state.range;
+  }
+
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+  const daysBetween = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / 86400000);
+  const andNames = (ps) => { const n = ps.map((p) => displayName[p] || p); return n.length < 2 ? n.join('') : n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1]; };
+
+  // Card under the submit box: which season it is, how long is left, who leads and where you stand.
+  function renderSeasonCard() {
+    const el = $('#season');
+    const id = currentSeason();
+    el.hidden = !id || !loaded;
+    if (el.hidden) return;
+    const today = localDate(new Date());
+    const total = Number(seasonEnd(id).slice(8)), day = Number(today.slice(8));
+    const left = total - day;
+    const list = seasonData(id).list;
+    const top = list.filter((s) => s.rank === 1);
+    const me = list.find((s) => s.player === normName(getName()));
+    const bits = [];
+    if (top.length) bits.push(`🥇 <b>${esc(andNames(top.map((s) => s.player)))}</b> ${plural(top[0].points, 'pt')}`);
+    else bits.push('No points yet. Be the first!');
+    if (me && me.rank && me.rank > 1) bits.push(`You: ${ordinalOf(me.rank)}, ${me.points === top[0].points ? 'level on points' : `${top[0].points - me.points} behind`}`);
+    else if (me && !me.rank && top.length) bits.push('You: no points yet');
+    const prev = monthId(monthIdx(id) - 1);
+    let extra = '';
+    if (seasonIds().includes(prev)) {
+      const st = seasonStatus(prev), champs = championsOf(prev);
+      if (st === 'provisional') extra = `⏳ ${seasonName(prev)} isn't final yet: late results count until ${shortDate(graceDay(prev))}.${champs.length ? ` ${esc(andNames(champs))} ${champs.length > 1 ? 'lead' : 'leads'}.` : ''}`;
+      else if (champs.length && day <= 7) extra = `👑 ${esc(andNames(champs))} won ${seasonName(prev)}!`;
+    }
+    el.innerHTML = `<button class="sc" data-season="${id}" aria-label="${esc(`${seasonName(id)}, ${seasonMonth(id)}: open the Seasons tab`)}">
+      <span class="sc-top"><span><b>${seasonName(id)}</b> <span class="muted">· ${esc(seasonMonth(id))}</span></span><span class="muted">${left ? `${plural(left, 'day')} left` : 'Last day!'}</span></span>
+      <span class="sc-bar"><i style="width:${Math.round((100 * day) / total)}%"></i></span>
+      <span class="sc-lead">${bits.map((b) => `<span>${b}</span>`).join('')}</span>${extra ? `<span class="sc-extra">${extra}</span>` : ''}</button>`;
+  }
+  const ordinalOf = (n) => { const t = n % 100; return n + (t > 10 && t < 14 ? 'th' : { 1: 'st', 2: 'nd', 3: 'rd' }[n % 10] || 'th'); };
+
+  const statusText = (id) => {
+    const st = seasonStatus(id);
+    if (st === 'next') return `Starts ${shortDate(id + '-01')}`;
+    if (st === 'live') { const n = daysBetween(localDate(new Date()), seasonEnd(id)); return `In progress · ${n ? `${plural(n, 'day')} left` : 'last day'}`; }
+    return st === 'provisional' ? `Not final yet · late results count until ${shortDate(graceDay(id))}` : 'Final';
+  };
+
+  let lastSeasonText = '';
+  function renderSeasons() {
+    const ids = seasonIds();
+    if (!ids.length) return empty('Seasons haven’t started yet.');
+    const id = ids.includes(state.season) ? state.season : currentSeason();
+    const i = ids.indexOf(id);
+    const st = seasonStatus(id), done = st === 'final';
+    const nav = `<div class="daynav"><button data-season="${i > 0 ? ids[i - 1] : ''}" aria-label="Previous season" ${i === 0 ? 'disabled' : ''}>‹</button>
+      <strong>${seasonName(id)} <span class="muted">· ${esc(seasonMonth(id, true))}</span></strong>
+      <button data-season="${i < ids.length - 1 ? ids[i + 1] : ''}" aria-label="Next season" ${i === ids.length - 1 ? 'disabled' : ''}>›</button></div>
+      <p class="s-status ${st}"><span>${statusText(id)}</span> ${info(`A season is a calendar month. A puzzle belongs to the month of its own date, the same for everyone. Points: ${seasonPoints(id).map((v, k) => `${ordinal(k + 1)} = ${v}`).join(', ')} on every puzzle that two or more friends played. Ties go to the player with more wins, then the place is shared. Late results for the month count until ${shortDate(graceDay(id))}; after that they count for all time only.`)}</p>`;
+    const d = seasonData(id);
+    const hall = hallOfFame();
+    if (!d.list.length) { lastSeasonText = ''; return nav + empty(`No results in ${seasonName(id)} yet.`) + hall; }
+
+    const steps = [2, 1, 3].map((rank) => {
+      const l = d.list.filter((s) => s.rank === rank);
+      return l.length ? `<div class="pod r${rank}"><div class="pod-m">${medal(rank)}</div><div class="pod-n">${l.map((s) => `<button class="plink" data-player="${esc(s.player)}">${pname(s.player)}</button>`).join('<br>')}</div><div class="pod-p">${l[0].points}<small> pts</small></div></div>` : '';
+    }).join('');
+    const podium = steps ? `<div class="podium">${steps}</div>` : '';
+
+    const awards = d.awards.map((a) => `<div class="wk-card"><div class="wk-emoji">${a.emoji}</div><div class="wk-body"><div class="wk-title">${esc(a.title)}</div>
+      <div class="wk-who">${a.players.map((p) => `<button class="plink" data-player="${esc(p)}">${pname(p)}</button>`).join(', ')}</div><div class="wk-sub">${esc(a.sub)}</div></div></div>`).join('');
+    const body = d.list.map((s) => {
+      const w = d.wr.get(s.player), x = d.elo[s.player];
+      return `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player, undefined, true)}<td class="num strong">${s.points}</td><td class="num">${s.wins}</td>
+        <td class="num">${w ? Math.round(w.ratio * 100) + '%' : '–'}</td><td class="num">${x ? Math.round(x.r) : '–'}</td><td class="num">${s.played}</td></tr>`;
+    }).join('');
+    const table = `<h3 class="game-h">${done ? 'Final standings' : 'Standings'} <button class="link s-boards" data-boards="${id}">Open its boards and charts</button></h3>
+      <div class="scroll-x"><table class="s-table"><tr><th></th><th>Player</th><th class="num">Points</th><th class="num">Wins</th><th class="num">Win %</th><th class="num">Rating</th><th class="num">Played</th></tr>${body}</table></div>`;
+    const games = d.games.length
+      ? `<h3 class="game-h">${done ? 'Game champions' : 'Leading each game'} ${info('Most season points in that game; ties go to more wins, then it is shared.')}</h3><table class="pg-table"><tr><th>Game</th><th>${done ? 'Champion' : 'Leader'}</th><th class="num">Points</th><th class="num">Wins</th></tr>${d.games
+          .map((x) => `<tr><td>${x.g.emoji} ${esc(x.g.name)}</td><td>${x.players.map(pname).join(', ')}</td><td class="num strong">${x.points}</td><td class="num">${x.wins}</td></tr>`).join('')}</table>`
+      : '';
+
+    const nm = (p) => displayName[p] || p;
+    lastSeasonText = `👑 ${CFG.title} — ${seasonName(id)} (${seasonMonth(id, true)})${done ? '' : st === 'provisional' ? ', not final yet' : ', so far'}\n` +
+      d.list.filter((s) => s.rank && s.rank <= 3).map((s) => `${medal(s.rank)} ${nm(s.player)}: ${s.points} pts, ${plural(s.wins, 'win')}`).join('\n') +
+      (d.awards.length ? '\n' + d.awards.map((a) => `${a.emoji} ${a.title}: ${a.players.map(nm).join(', ')} — ${a.sub}`).join('\n') : '');
+    return `${nav}${podium}${awards ? `<div class="wk-grid">${awards}</div>` : ''}${table}${games}
+      <button class="big wk-copy" data-copy-season="1">📋 Copy this season</button>${hall}`;
+  }
+
+  // Every finished season's podium, newest first, and who has won the most.
+  function hallOfFame() {
+    const ids = finalSeasons().reverse();
+    const cell = (id, rank) => seasonData(id).list.filter((s) => s.rank === rank).map((s) => `<button class="plink" data-player="${esc(s.player)}">${pname(s.player)}</button>`).join(', ') || '<span class="muted">–</span>';
+    if (!ids.length) {
+      const first = seasonIds()[0];
+      return `<h3 class="game-h">🏛️ Hall of fame</h3><p class="muted empty">The first champion is crowned after ${shortDate(graceDay(first))}.</p>`;
+    }
+    const rows = ids.map((id) => `<tr><td><button class="plink" data-season="${id}"><b>${seasonName(id)}</b></button><div class="muted rec-date">${esc(seasonMonth(id, true))}</div></td><td>${cell(id, 1)}</td><td>${cell(id, 2)}</td><td>${cell(id, 3)}</td></tr>`).join('');
+    const wins = new Map();
+    for (const id of ids) for (const p of championsOf(id)) wins.set(p, (wins.get(p) || 0) + 1);
+    const tally = [...wins.entries()].sort((a, b) => b[1] - a[1]).map(([p, n]) => `<span class="hchip">🏆 ${pname(p)} <b>×${n}</b></span>`).join('');
+    return `<h3 class="game-h">🏛️ Hall of fame</h3>${tally ? `<div class="hchips">${tally}</div>` : ''}<div class="scroll-x"><table class="pg-table hall"><tr><th>Season</th><th>🥇</th><th>🥈</th><th>🥉</th></tr>${rows}</table></div>`;
+  }
+
+  function copySeason() {
+    if (!lastSeasonText) return;
+    navigator.clipboard.writeText(lastSeasonText).then(() => toast('Season copied. Paste it in your group chat.'), () => toast("Couldn't copy. Select the standings and copy by hand.", true));
+  }
+
+  // Medals from finished seasons, under the profile's headline numbers.
+  function titleRow(p) {
+    if (!SEASON) return '';
+    const t = titlesOf(p).reverse();
+    return t.length ? `<div class="title-row">${t.map((x) => `<button class="title-chip${x.s.rank === 1 ? ' gold' : ''}" data-season="${x.id}">${medal(x.s.rank)} ${seasonName(x.id)}</button>`).join('')}</div>` : '';
+  }
+  // Season-by-season history on a profile.
+  function profileSeasons(p) {
+    const rows = seasonIds().reverse().map((id) => {
+      const d = seasonData(id), s = d.list.find((x) => x.player === p);
+      if (!s) return '';
+      const x = d.elo[p], st = seasonStatus(id);
+      return `<tr><td><button class="plink" data-season="${id}"><b>${seasonName(id)}</b></button><div class="muted rec-date">${esc(seasonMonth(id, true))}${st === 'final' ? '' : st === 'live' ? ' · now' : st === 'next' ? ' · next' : ' · not final'}</div></td>
+        <td class="num">${medal(s.rank)}</td><td class="num strong">${s.points}</td><td class="num">${s.wins}</td><td class="num">${x ? Math.round(x.r) : '–'}</td><td class="num">${s.played}</td></tr>`;
+    }).join('');
+    return rows ? `<h3>Seasons</h3><table class="pg-table"><tr><th>Season</th><th class="num">Rank</th><th class="num">Points</th><th class="num">Wins</th><th class="num">Rating</th><th class="num">Played</th></tr>${rows}</table>` : '';
+  }
 
   // ---------- weekly recap ----------
   let lastRecapText = '';
@@ -925,6 +1209,7 @@
     const moved = e.moved
       ? `<div class="tip-note">📍 Counted for ${dayWord(e.date)}: they played it in the evening in their own time zone. The puzzle itself is ${dayWord(e.puzzleDate)}'s.</div>`
       : '';
+    const late = e.seasonLate ? `<div class="tip-note">⏰ Sent after ${seasonName(e.seasonLate)} closed, so it only counts for all time.</div>` : '';
     const start = e.start
       ? `<div class="tip-vs ${e.start.pct >= 50 ? 'up' : 'down'}">${e.start.pct >= 85 ? '✨' : e.start.pct <= 15 ? '🌧️' : '🎲'} Opening guess better than ${e.start.pct}% of ${e.start.n} openings</div>`
       : '';
@@ -938,7 +1223,7 @@
     const legend = g.legend
       ? `<div class="tip-legend">${Object.entries(g.legend).map(([k, v]) => `${esc(k)} ${esc(v)}`).join(' · ')}</div>`
       : '';
-    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>${vs}${start}${moved}${elo}
+    return `<div class="tip-head">${g.emoji} ${esc(g.name)} · <b>${esc(e.display)}</b></div>${vs}${start}${moved}${late}${elo}
       ${rowsHtml ? `<table>${rowsHtml}</table>` : ''}${grid ? `<div class="tip-grid">${grid}</div>` : ''}${d.note ? `<div class="tip-note">${esc(d.note)}</div>` : ''}${legend}`;
   }
 
@@ -971,7 +1256,7 @@
     const board = overall(es)
       .map((s) => `<tr><td class="rank">${medal(s.rank)}</td>${nameCell(s.player)}<td class="num strong">${s.points}</td><td class="num">${s.played}</td></tr>`)
       .join('');
-    const top = `<h3>Day standings ${info("Points per puzzle: 3 for 1st, 2 for 2nd, 1 for 3rd. Hover (or tap) a result for the round-by-round details. 🔥 Hard / 🍰 Easy compares the group's average on that puzzle with the game's other puzzles.")}</h3><table><tr><th></th><th>Player</th><th class="num">Points</th><th class="num">Games</th></tr>${board}</table>`;
+    const top = `<h3>Day standings ${info("Points per puzzle: 3 for 1st, 2 for 2nd, 1 for 3rd (season points skip puzzles only one person played). Hover (or tap) a result for the round-by-round details. 🔥 Hard / 🍰 Easy compares the group's average on that puzzle with the game's other puzzles.")}</h3><table><tr><th></th><th>Player</th><th class="num">Points</th><th class="num">Games</th></tr>${board}</table>`;
     const headline = dailyHeadline(es);
 
     const cards = GAMES.filter((g) => es.some((e) => e.game === g.id))
@@ -1283,13 +1568,17 @@
   // Points race: cumulative points (same scoring as Points mode) per player over the selected range.
   function renderRace(es) {
     if (!es.length) return '';
-    const dates = [...new Set(es.map((e) => e.date))].sort();
+    const season = rangeSeason();
+    const pts = season ? seasonPoints(season) : CFG.placementPoints;
+    const dayOf = (e) => (season ? e.puzzleDate : e.date); // a season runs on puzzle dates, so it starts on the 1st for everyone
+    const dates = [...new Set(es.map(dayOf))].sort();
     const xs = datesBetween(dates[0], dates[dates.length - 1]);
     const daily = {};
     for (const list of groupBy(es, (e) => e.game + '|' + e.puzzle).values()) {
       for (const e of rankPuzzle(list, GAME_BY_ID[list[0].game])) {
         const m = (daily[e.player] = daily[e.player] || {});
-        m[e.date] = (m[e.date] || 0) + (CFG.placementPoints[e.rank - 1] || 0);
+        if (season && list.length < 2) continue;
+        m[dayOf(e)] = (m[dayOf(e)] || 0) + (pts[e.rank - 1] || 0);
       }
     }
     const players = Object.keys(displayName).filter((p) => daily[p]);
@@ -1300,7 +1589,7 @@
     const yTicks = [];
     for (let t = 0; t <= yMax; t += step) yTicks.push(t);
     const chart = lineChart({ xs, series, yMax, yTicks, id: 'race', replay: true, label: 'Cumulative points per player over time' });
-    return `<div class="chart-head"><h3>🏁 Points race ${info(`Running total of points (${CFG.placementPoints.join('/')} for 1st/2nd/3rd on each puzzle) over the selected time range. Hover or tap a day for the standings then.`)}</h3>${xs.length > 1 ? '<button class="link" data-replay="race">▶ Replay</button>' : ''}</div>
+    return `<div class="chart-head"><h3>🏁 Points race ${info(`Running total of points (${pts.join('/')} for 1st/2nd/3rd on each puzzle) over ${season ? seasonName(season) : 'the selected time range'}. Hover or tap a day for the standings then.`)}</h3>${xs.length > 1 ? '<button class="link" data-replay="race">▶ Replay</button>' : ''}</div>
       ${legendHtml(players)}<div class="chart-wrap">${chart}</div>`;
   }
 
@@ -1337,7 +1626,9 @@
     const today = localDate(new Date());
     const first = es.reduce((m, e) => (e.date < m ? e.date : m), today);
     const last = es.reduce((m, e) => (e.date > m ? e.date : m), first);
-    const end = last > today ? last : today;
+    const season = rangeSeason();
+    const past = season && seasonEnd(season) < today; // a finished month: end there, and don't compare recent weeks
+    const end = past ? seasonEnd(season) : last > today ? last : today;
     const start = first > addDays(end, -29) ? first : addDays(end, -29);
     const days = datesBetween(start, end);
     const byGame = groupBy(es, (e) => e.game);
@@ -1362,7 +1653,7 @@
           .join('');
         const recent = list.filter((e) => e.date > addDays(end, -7)).length;
         const before = list.filter((e) => e.date > addDays(end, -14) && e.date <= addDays(end, -7)).length;
-        const trendTxt = before >= 3 && recent <= before / 2 ? '<span class="pop-trend down" title="Played less than half as much this week as last week">↘ fading</span>'
+        const trendTxt = past ? '' : before >= 3 && recent <= before / 2 ? '<span class="pop-trend down" title="Played less than half as much this week as last week">↘ fading</span>'
           : recent >= 3 && recent >= before * 1.5 && before > 0 ? '<span class="pop-trend up" title="Played 50% more this week than last week">↗ rising</span>' : '';
         return `<div class="pop-row"><span class="pop-name">${g.emoji} ${esc(g.name)}${trendTxt}</span>
           <svg viewBox="0 0 ${W.toFixed(0)} ${H}" width="${W.toFixed(0)}" height="${H}" role="img" aria-label="${esc(g.name)} plays per day">${bars}</svg>
@@ -1663,7 +1954,7 @@
     const ov = all.find((s) => s.player === p);
     const st = streakInfo(p, null);
     const stats = [
-      ['Overall rank', ov.rank ? '#' + ov.rank : '–'],
+      ['All-time rank', ov.rank ? '#' + ov.rank : '–'],
       ['Points', ov.points],
       ['Wins', ov.wins],
       ['Played', ov.played],
@@ -1673,6 +1964,7 @@
       .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`)
       .join('');
 
+    const seasonHtml = SEASON ? profileSeasons(p) : '';
     const form = formOf(p);
     const label = !form ? '' : form.score >= 40 ? 'Way above usual' : form.score >= 15 ? 'Above usual' : form.score > -15 ? 'Right at usual' : form.score > -40 ? 'Below usual' : 'Way below usual';
     const formHtml = form
@@ -1796,12 +2088,13 @@
     if (pt === 'charts') body = renderCalendar(p) + renderRatingChart(p) + renderRadar(p) + renderDistributions(p);
     else if (pt === 'h2h') body = `<h3>Head to head</h3><select id="h2h" aria-label="Compare with">${opts}</select>${h2h}`;
     else if (pt === 'history') body = renderHistory(p) || empty('No results yet.');
-    else body = formHtml + luckHtml + badgeHtml + rivalHtml + perGameTable;
-    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${hotHtml}${nav}<div class="psec">${body}</div>`;
+    else body = seasonHtml + formHtml + luckHtml + badgeHtml + rivalHtml + perGameTable;
+    return `${back}<h2 class="ptitle">${name}</h2><div class="stats">${stats}</div>${titleRow(p)}${hotHtml}${nav}<div class="psec">${body}</div>`;
   }
 
   function render() {
     tips = [];
+    reignCache = null;
     // Emoji grids: one row on wide screens, two even rows on phones.
     document.documentElement.style.setProperty('--icons', GAMES.length);
     document.documentElement.style.setProperty('--icons-half', Math.ceil(GAMES.length / 2));
@@ -1811,7 +2104,9 @@
     $('#me-name').textContent = getName() || '—';
     renderAvatar();
     renderTabs();
+    renderRange();
     renderToday();
+    renderSeasonCard();
     if (!loaded) { $('#board').innerHTML = skeletonHtml(); return; }
     const es = entries.filter(inRange);
     let html;
@@ -1821,6 +2116,7 @@
     else if (state.tab === 'weekly') html = renderWeekly();
     else if (state.tab === 'charts') html = renderCharts(es);
     else if (state.tab === 'records') html = renderRecords();
+    else if (state.tab === 'seasons') html = renderSeasons();
     else if (state.tab === 'profile') html = renderProfile();
     else html = renderGame(es, GAME_BY_ID[state.tab]);
     $('#board').innerHTML = html;
@@ -1834,7 +2130,7 @@
   // Re-renders of the same view (resizing, toggling a chart option) don't animate.
   let lastView = '';
   function animateView() {
-    const key = [state.tab, state.mode, state.range, state.profile, state.ptab, state.wrGame, state.day, state.week, state.h2h, state.histDay].join('|');
+    const key = [state.tab, state.mode, state.range, state.profile, state.ptab, state.season, state.wrGame, state.day, state.week, state.h2h, state.histDay].join('|');
     if (key === lastView) return;
     lastView = key;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -1869,7 +2165,11 @@
     requestAnimationFrame(step);
   }
 
-  const empty = (msg) => `<p class="muted empty">${msg || 'No results in this range yet.'}</p>`;
+  const empty = (msg) => {
+    const season = rangeSeason();
+    const noneYet = season ? `No results in ${seasonName(season)} (${seasonMonth(season)}) yet.` : 'No results in this range yet.';
+    return `<p class="muted empty">${msg || noneYet}</p>`;
+  };
   const ordinal = (n) => n + ({ 1: 'st', 2: 'nd', 3: 'rd' }[n] || 'th');
   // "yesterday" / "today" / "Thu, Nov 12", for use inside a sentence.
   const dayWord = (iso) => { const w = prettyDate(iso); return w === 'Today' || w === 'Yesterday' ? w.toLowerCase() : w; };
@@ -1926,6 +2226,7 @@
     state.tab = b.dataset.tab;
     if (state.tab === 'daily') state.day = null; // jump back to today
     if (state.tab === 'weekly') state.week = null;
+    if (state.tab === 'seasons') state.season = null; // jump back to the current season
     render();
   });
   const canHover = window.matchMedia('(hover: hover)').matches;
@@ -1950,6 +2251,16 @@
       if (w !== lastBoardW) { lastBoardW = w; render(); }
     }, 200);
   });
+  function openSeason(id) {
+    state.season = id;
+    state.tab = 'seasons';
+    render();
+    window.scrollTo(0, 0);
+  }
+  $('#season').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-season]');
+    if (b) openSeason(b.dataset.season);
+  });
   $('#today').addEventListener('click', (e) => { if (e.target.closest('#undo')) undoLast(); });
   $('#board').addEventListener('click', (e) => {
     const pl = e.target.closest('button[data-player]');
@@ -1957,6 +2268,11 @@
     const riv = e.target.closest('button[data-rival]');
     const wk = e.target.closest('button[data-week]');
     if (e.target.closest('[data-copy-week]')) return copyWeek();
+    if (e.target.closest('[data-copy-season]')) return copySeason();
+    const sn = e.target.closest('button[data-season]');
+    if (sn) { if (sn.dataset.season) openSeason(sn.dataset.season); return; }
+    const bo = e.target.closest('button[data-boards]');
+    if (bo) { state.range = bo.dataset.boards === currentSeason() ? 'current' : 's:' + bo.dataset.boards; state.tab = 'overall'; render(); window.scrollTo(0, 0); return; }
     const rp = e.target.closest('[data-replay]');
     if (rp) { const a = document.querySelector(`#${rp.dataset.replay} animate`); if (a && a.beginElement) a.beginElement(); return; }
     const ptab = e.target.closest('button[data-ptab]');

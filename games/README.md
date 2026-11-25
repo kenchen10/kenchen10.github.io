@@ -27,11 +27,22 @@ If you later change `Code.gs`, use *Deploy → Manage deployments → Edit → N
 - **Duplicates:** only the first submission per player, game and puzzle counts, so re-pasting does nothing.
 - **Per-game boards:** average result (Wordle guesses with X = 7, Krillion points, Poople steps), best result, wins (outright or tied 1st with 2+ players) and games played.
 - **Overall, Points mode** (default): on every puzzle, 1st/2nd/3rd among friends who played it get 3/2/1 points (configurable in `config.js`). This rewards both playing and doing well.
-- **Time ranges:** all time, last 30 days, last 7 days or today. Dates come from the puzzle number (Wordle, Krillion), otherwise from the submission date.
+- **Time ranges:** this season (the default), today, last 7 days, last 30 days, all time or any past season. Dates come from the puzzle number (Wordle, Krillion), otherwise from the submission date.
+
+## Seasons
+
+Each calendar month is a season, and the boards start over on the 1st. Nothing is stored or deleted: a season is worked out from the same raw results, so every past season, and all time, stays available. Settings are in `seasons` in `config.js`; remove that block to turn seasons off.
+
+- **Which season a result counts in:** the month of the puzzle's own date, which is the same for everyone. Friends in different time zones always meet on a puzzle in the same season, even when one of them plays December 1's puzzle on the evening of November 30.
+- **Season points:** like Points mode, except that a puzzle only one person played earns nothing. Ties on points go to the player with more wins, then the place is shared. Today, 7 days, 30 days, all time, Daily and Weekly keep the normal points.
+- **Late results** for a month's puzzles count for `graceDays` (2) days of the next month, by the player's own clock. The season becomes final at 12:00 UTC on the 3rd, when the 2nd is over everywhere on Earth. Anything later counts for all time only.
+- **Resets:** points, wins, win %, each game's board, the charts, and the season rating (everyone starts again at 1000). **Doesn't reset:** all-time rating, streaks, hot streaks, records, badges, form, luck and rivalries.
+- **👑 Seasons tab:** podium, standings, awards (best win %, highest rating, most improved, most game titles), game champions and the hall of fame. The champion wears a 👑 until the next season is final, and profiles show medals from finished seasons.
+- **Keeping finished seasons unchanged:** to change the placement points, add an entry to `seasons.rules` starting that month instead of editing an old one. When adding a game, set `since` (see below). Changing how an existing game is read or ranked, or deleting rows in the sheet, does change past seasons.
 
 ## Adding a game
 
-Add an entry to `GAMES` in [`games.js`](games.js). It needs a `header` regex that finds the game's share text and a `parse` function that pulls out the puzzle number and score. It also needs `better` (`'higher'`/`'lower'`) and a `normalize` function to 0–1. Old submissions are re-parsed automatically, so if someone pasted a game before you added it, their results show up once the parser exists.
+Add an entry to `GAMES` in [`games.js`](games.js). It needs a `header` regex that finds the game's share text and a `parse` function that pulls out the puzzle number and score. It also needs `better` (`'higher'`/`'lower'`), a `normalize` function to 0–1, and `since: 'YYYY-MM'` (the current month), so older pasted results can't change finished seasons. Old submissions are re-parsed automatically, so if someone pasted a game before you added it, their results show up once the parser exists.
 
 ## Removing a bad entry
 
@@ -47,7 +58,7 @@ Delete the row in the Google Sheet.
 
 - **First-guess luck (✨ / 🌧️):** for games whose share grid shows the first guess (Wordle, Tradle, Spotle, Globle, Poople), the opening guess is scored 0–1 and ranked against every opening ever shared for that game (needs `minForStartRank` openings, default 8). An opening in the top 15% gets ✨ on the Daily and Recent tabs, the bottom 15% gets 🌧️, and the hover says "better than N% of openings". A profile's **Luck** gauge averages their last 10 openings. To add a game, give its entry a `firstGuess(detail)` that returns 0–1 (see `games.js`).
 - **Weekly recap (📰):** the last 7 days (‹ › to go back), as cards: champion, most wins, biggest climber, best form, luckiest starts, best single result, longest win run, most days played and cold spell. A card only appears when there's enough data. **Copy this recap** puts the cards in your clipboard as text.
-- **Badges:** 13 badges on each profile (earned ones are lit, the rest are locked with a tooltip explaining how). They are computed from the results, so there is nothing to store.
+- **Badges:** 14 badges on each profile (earned ones are lit, the rest are locked with a tooltip explaining how). They are computed from the results, so there is nothing to store.
 - **Rivalries:** each profile shows the closest rival, nemesis and favourite opponent, from head-to-head records over at least `minForRival` shared puzzles (default 5). Tap a name to open the comparison.
 
 ## Time zones: which day a result counts for

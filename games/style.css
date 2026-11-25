@@ -440,3 +440,38 @@ tr.me-row td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 .skel-row .sk-num + .sk-num { margin-left: 0; }
 @keyframes shimmer { from { background-position: 100% 0; } to { background-position: -50% 0; } }
 @media (prefers-reduced-motion: reduce) { .skel-row i { animation: none; } }
+
+/* Seasons: header card, tab (podium, standings, hall of fame) and profile medals */
+#season { margin-bottom: 14px; }
+.sc { display: flex; flex-direction: column; gap: 7px; width: 100%; padding: 12px 14px; text-align: left; font-size: .88rem; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+.sc:hover { border-color: var(--muted); }
+.sc-top, .sc-lead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; }
+.sc-bar { display: block; height: 5px; border-radius: 99px; background: var(--seg); overflow: hidden; }
+.sc-bar i { display: block; height: 100%; border-radius: 99px; background: #eda100; }
+.sc-extra { padding-top: 7px; border-top: 1px solid var(--line); }
+.crown { font-size: .8rem; }
+.s-status { display: flex; align-items: center; justify-content: center; gap: 6px; margin: -4px 0 12px; font-size: .82rem; color: var(--muted); }
+.s-status.provisional span:first-child { color: #b45309; }
+.podium { display: flex; align-items: flex-end; justify-content: center; gap: 8px; margin-bottom: 14px; }
+.pod { flex: 1 1 0; min-width: 0; max-width: 170px; padding: 10px 8px 12px; text-align: center; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+.pod.r1 { padding-bottom: 30px; border-color: #eda100; }
+.pod.r2 { padding-bottom: 18px; }
+.pod-m { font-size: 1.5rem; line-height: 1.2; }
+.pod.r1 .pod-m { font-size: 2rem; }
+.pod-n { font-weight: 600; overflow-wrap: anywhere; }
+.pod-n .plink { text-align: center; }
+.pod-p { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pod-p small { font-size: .7rem; font-weight: 500; color: var(--muted); }
+.s-boards { float: right; font-size: .8rem; font-weight: 400; }
+.hall td { vertical-align: top; }
+.title-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 2px; }
+.title-chip { padding: 3px 10px; font-size: .82rem; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 999px; }
+.title-chip.gold { border-color: #eda100; font-weight: 600; }
+.title-row + .hot-row { margin-top: 6px; }
+.hchips + .scroll-x { margin-top: 8px; }
+.s-table th { white-space: nowrap; }
+@media (max-width: 520px) {
+  .s-table th, .s-table td { padding: 8px 5px; font-size: .86rem; }
+  .s-table th { font-size: .64rem; letter-spacing: 0; }
+  .s-table .marks { padding: 0 4px; }
+}
